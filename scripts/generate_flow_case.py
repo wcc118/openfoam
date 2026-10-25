@@ -105,7 +105,7 @@ def dictionaries(flow, iterations):
     ob = inlet_outlet(omega)
     ob['wing'] = f'type omegaWallFunction; blending binomial; n 2; value uniform {omega};'
     pb = {'inlet': 'type zeroGradient;', 'outlet': 'type fixedValue; value uniform 0;',
-          'farfield': 'type freestreamPressure; value uniform 0;', 'wing': 'type zeroGradient;'}
+          'farfield': 'type freestreamPressure; freestreamValue uniform 0; value uniform 0;', 'wing': 'type zeroGradient;'}
     nb = {p: 'type calculated; value uniform 0;' for p in PATCHES}
     nb['wing'] = 'type nutLowReWallFunction; value uniform 0;'
     result = {'0/U': field('U', '0 1 -1 0 0 0 0', u, ub, 'volVectorField'),

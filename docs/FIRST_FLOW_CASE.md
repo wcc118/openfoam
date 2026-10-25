@@ -61,6 +61,9 @@ This incompressible demonstration does not establish suitability at 250 knots.
 | omega | fixed freestream | inletOutlet | freestream | omegaWallFunction, binomial n=2 |
 | nut | calculated | calculated | calculated | nutLowReWallFunction |
 
+The v2412 freestreamPressure condition requires both freestreamValue and value;
+the generated kinematic-pressure reference supplies zero for both.
+
 Wall k=0 follows the [SST reference](https://tmbwg.github.io/turbmodels/sst.html).
 The pinned native kqRWallFunction is a zero-gradient wrapper described for high-Re
 wall-function cases; it is not used here. Native omegaWallFunction blends its

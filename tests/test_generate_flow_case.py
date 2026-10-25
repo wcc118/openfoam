@@ -104,7 +104,7 @@ class GeneratedCaseTests(unittest.TestCase):
         self.assertIn('nutLowReWallFunction',(self.out/'0/nut').read_text())
         pressure = (self.out/'0/p').read_text()
         self.assertRegex(pressure,r'outlet\s*\{ type fixedValue; value uniform 0;')
-        self.assertIn('type freestreamPressure;',pressure)
+        self.assertIn('type freestreamPressure; freestreamValue uniform 0; value uniform 0;',pressure)
         for name in ('fvSchemes','fvSolution','controlDict'):
             text=(self.out/'system'/name).read_text(); self.assertNotIn('{{',text)
         schemes=(self.out/'system/fvSchemes').read_text()
