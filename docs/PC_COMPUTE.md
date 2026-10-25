@@ -42,8 +42,8 @@ Pinned PC image:
 opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b
 ```
 
-This is linux/amd64, distinct from the Spark's ARM64 digest. The repository's
-original qualifier is still ARM-only. The retained
+This is linux/amd64, distinct from the Spark's ARM64 digest. At the time of that recorded run, the repository's
+original qualifier was ARM-only. The retained
 [one-off adapter](evidence/adapters/qualify-pc-20261025.py) documents the observed
 x86 run using its unchanged payload, container constraints and acceptance
 verifier. It is historical evidence with fixed paths and an exclusive output,

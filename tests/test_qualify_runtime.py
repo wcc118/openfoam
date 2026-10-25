@@ -122,13 +122,19 @@ class QualificationTests(unittest.TestCase):
         # Verify the mapping contains the expected ARM64 digest
         self.assertIn('aarch64', runtime.ARCH_IMAGE_MAP)
         self.assertEqual(runtime.ARCH_IMAGE_MAP['aarch64'], 'b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4')
-        # Verify the function returns the correct image for current host
-        self.assertIn('b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4', runtime.get_openfoam_image())
+        with patch.object(runtime.platform, 'machine', return_value='aarch64'):
+            expected = 'opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4'
+            self.assertEqual(runtime.get_openfoam_image(), expected)
+            self.assertIn(expected, runtime.container_command(self.root))
 
     def test_amd64_host_uses_pinned_digest(self):
         # Verify the mapping contains the expected AMD64 digest
         self.assertIn('amd64', runtime.ARCH_IMAGE_MAP)
         self.assertEqual(runtime.ARCH_IMAGE_MAP['amd64'], 'adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b')
+        with patch.object(runtime.platform, 'machine', return_value='amd64'):
+            expected = 'opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b'
+            self.assertEqual(runtime.get_openfoam_image(), expected)
+            self.assertIn(expected, runtime.container_command(self.root))
 
     def test_x86_64_alias_uses_pinned_digest(self):
         # Verify the mapping contains x86_64 alias
@@ -137,7 +143,8 @@ class QualificationTests(unittest.TestCase):
         # Verify get_openfoam_image returns correct digest for x86_64
         with patch.object(runtime.platform, 'machine', return_value='x86_64'):
             image = runtime.get_openfoam_image()
-            self.assertIn('adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b', image)
+            self.assertEqual('opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b', image)
+            self.assertIn(image, runtime.container_command(self.root))
 
     def test_arm64_alias_uses_pinned_digest(self):
         # Verify the mapping contains arm64 alias
@@ -146,7 +153,8 @@ class QualificationTests(unittest.TestCase):
         # Verify get_openfoam_image returns correct digest for arm64
         with patch.object(runtime.platform, 'machine', return_value='arm64'):
             image = runtime.get_openfoam_image()
-            self.assertIn('b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4', image)
+            self.assertEqual('opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4', image)
+            self.assertIn(image, runtime.container_command(self.root))
 
     def test_riscv64_unsupported_raises(self):
         # Verify riscv64 is rejected with ValueError before Docker calls
@@ -166,7 +174,7 @@ class QualificationTests(unittest.TestCase):
         self.assertEqual(report['status'], 'failed')
         self.assertIn('unsupported host architecture: riscv64', report['error'])
         self.assertIsNone(report['image_reference'])
-        # Verify Docker was never called (subprocess.run only called for platform.machine in qualify)
+        # Unsupported host must invoke no subprocess at all
         self.assertEqual(mock_run.call_count, 0)
         # Verify report file was written
         report_path = self.root/'unsupported/qualify_report.json'
