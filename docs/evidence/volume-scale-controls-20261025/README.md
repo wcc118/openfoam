@@ -5,6 +5,9 @@ validate a wing mesh or its flow. Native ARM64 and AMD64 OpenCFD v2412 give the
 same pass/fail results; commands, image pins and raw-report hashes are in
 `control-summary.json`. Full ARM64 numerical-quality logs are retained here.
 Raw extended logs and native PC logs remain in the referenced run directories.
+The grids were generated on the Spark; the PC checked copies of the same ASCII
+mesh inputs after verifying their hashes. No independent PC blockMesh generation
+is claimed.
 
 A rectangular cell with sides 100, 100 and20 micrometres has volume2e-13m³ and
 six equal face-pyramid volumes of3.333333e-14m³. A3×3×3 grid of these cells has

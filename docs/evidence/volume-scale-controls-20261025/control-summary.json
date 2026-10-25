@@ -5,11 +5,6 @@
   "chord_scaled_minVol_m3": 1.048772096e-16,
   "spark_image": "opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4",
   "pc_image": "opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b",
-  "commands": [
-    "blockMesh",
-    "checkMesh -allTopology -meshQuality",
-    "checkMesh -allGeometry -allTopology"
-  ],
   "raw_source_reports": {
     "/home/connellwc83/projects/openfoam/runs/pyramid-volume-controls-v4-20261025/execution.json": "17bf5bc95bfe7e41cb9198ea29e01396073ab0e9b3a28b912c58af371bf985b5",
     "/home/connellwc83/projects/openfoam/runs/pyramid-volume-controls-v4-20261025/inverted-chord-floor/execution.json": "5bfa36a9175df25c1fae8f21113538ad05646d40836a4ab2ac7b7bcd38d41da8",
@@ -69,5 +64,14 @@
   ],
   "analytic_regular_cell_volume_m3": 2e-13,
   "analytic_regular_face_pyramid_volume_m3": 3.3333333333333334e-14,
-  "precision_note": "Earlier v3 controls used foamDictionary, which wrote1.04877e-16 at default precision. This v4 archive writes exact1.048772096e-16 by replacing only the canonical minVol literal, and reruns both native hosts. Earlier evidence retained separately."
+  "precision_note": "Earlier v3 controls used foamDictionary, which wrote1.04877e-16 at default precision. This v4 archive writes exact1.048772096e-16 by replacing only the canonical minVol literal, and reruns both native hosts. Earlier evidence retained separately.",
+  "spark_generation_and_check_commands": [
+    "blockMesh",
+    "checkMesh -allTopology -meshQuality",
+    "checkMesh -allGeometry -allTopology"
+  ],
+  "pc_replication_commands": [
+    "checkMesh -allTopology -meshQuality",
+    "checkMesh -allGeometry -allTopology"
+  ]
 }
