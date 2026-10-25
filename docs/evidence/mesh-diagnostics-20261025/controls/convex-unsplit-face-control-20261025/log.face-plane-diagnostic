@@ -1,0 +1,34 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2412                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : _45e7c4a0-20241224 OPENFOAM=2412 version=2412
+Arch   : "LSB;label=32;scalar=64"
+Exec   : ./concavityDiagnostic -case /cases/convex-unsplit-face-control-20261025
+Date   : Oct 25 2026
+Time   : 06:12:25
+Host   : 841303a3fd48
+PID    : 580
+I/O    : uncollated
+Case   : /cases/convex-unsplit-face-control-20261025
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+DIAGNOSTIC cells=1 nativeCriterion=0 nearPlanar=0 positivePlaneCrossing=0 maxNormalizedDot=-0.707107
+DIAGNOSTIC above=1e-06 cells=0
+DIAGNOSTIC above=0.0001 cells=0
+DIAGNOSTIC above=0.001 cells=0
+DIAGNOSTIC above=0.01 cells=0
+DIAGNOSTIC above=0.1 cells=0
+DIAGNOSTIC above=0.5 cells=0
+Read-only face-centre/plane diagnostic; not mesh acceptance.

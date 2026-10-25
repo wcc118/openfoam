@@ -1,0 +1,32 @@
+{
+  "image": "opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b",
+  "commands": [
+    "docker",
+    "run",
+    "--name",
+    "openfoam-mesh-trial5-20261025",
+    "--rm",
+    "--pull",
+    "never",
+    "--network",
+    "none",
+    "--memory",
+    "4g",
+    "--cpus",
+    "2",
+    "--user",
+    "1000:1000",
+    "--mount",
+    "type=bind,src=/home/foam/projects/openfoam/runs/mesh-trial5-pc-20261025,dst=/work",
+    "--workdir",
+    "/work",
+    "--entrypoint",
+    "/bin/bash",
+    "opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b",
+    "/work/run.sh"
+  ],
+  "process_exit_code": 0,
+  "elapsed_wall_seconds": 164.37724780899998,
+  "requested_layers": 12,
+  "scope": "paired diagnostic meshing; process exit is not mesh acceptance"
+}
