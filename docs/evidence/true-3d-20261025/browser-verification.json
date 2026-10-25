@@ -1,0 +1,37 @@
+{
+  "status": "passed",
+  "loadMs": 1099,
+  "evidence": {
+    "points": 49240,
+    "surfaceTriangles": 692454,
+    "volumeNodes": 581625,
+    "visibility": {
+      "wing": true,
+      "paths": true,
+      "vortex": true,
+      "volume": false
+    },
+    "volumeDims": [
+      125,
+      141,
+      33
+    ],
+    "volumeRange": [
+      -1,
+      40.568214416503906
+    ],
+    "vortexScalarMode": 2,
+    "actors": 3
+  },
+  "scalarCheck": {
+    "paths": true,
+    "vortex": true,
+    "volume": true,
+    "maskOpacity": 0,
+    "nearest": true
+  },
+  "errors": [],
+  "consoleErrors": [],
+  "network": [],
+  "nativePackageEqual": true
+}

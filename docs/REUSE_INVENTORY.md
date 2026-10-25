@@ -82,3 +82,13 @@ boundary. Never commit absolute-path dependencies, credentials, or private sourc
 Do not modify upstream projects without a separately scoped issue. Only write genuinely
 new pieces where existing assets cannot meet the contract (notably OpenFOAM cases,
 volume meshing, force extraction and runtime qualification).
+
+## Native 3D presentation (2026-10-25, issue5)
+
+Reuse native v2412 streamLine in `simpleFoam -postProcess` for paths from saved
+volume U; native sampled Q surfaces preserve actual connected geometry.
+Reuse existing wing/provenance conventions. New offline presentation uses pinned
+vtk.js35.5.1 for connected surfaces and ray-cast volumes; slice canvas renderers
+cannot fulfill the requested volume presentation. Source, integrity, licenses,
+export bounds and display simplification are documented in TRUE_3D_VIEWER.md and
+scripts/flow_3d/CONTRACT.md. No sibling repository was modified.
