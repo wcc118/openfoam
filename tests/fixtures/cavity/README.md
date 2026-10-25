@@ -7,3 +7,6 @@ log. icoFoam is its original header plus final timestep, not a full history.
 The qualification runner uses complete live logs when checking maximum Courant.
 Raw run: runs/runtime-qualification-20261025/cavity-a on the Spark.
 These are solver-generated regression fixtures, not experimental validation data.
+
+Committed fixtures normalize trailing whitespace only; unmodified original files remain
+in the raw run. Byte-identity acceptance uses fresh live outputs, not these fixtures.

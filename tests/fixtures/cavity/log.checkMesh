@@ -28,7 +28,7 @@ Check mesh...
 
 Time = 0
 
-Mesh stats 
+Mesh stats
     points:           882
     internal points:  0
     faces:            1640
@@ -59,10 +59,10 @@ Checking topology...
 
 Checking patch topology for multiply connected surfaces...
     Patch               Faces    Points     Surface topology
-    movingWall          20       42       ok (non-closed singly connected)  
-    fixedWalls          60       122      ok (non-closed singly connected)  
-    frontAndBack        800      882      ok (non-closed singly connected)  
-    ".*"                880      882      ok (closed singly connected)      
+    movingWall          20       42       ok (non-closed singly connected)
+    fixedWalls          60       122      ok (non-closed singly connected)
+    frontAndBack        800      882      ok (non-closed singly connected)
+    ".*"                880      882      ok (closed singly connected)
 
 
 Checking faceZone topology for multiply connected surfaces...
@@ -93,4 +93,3 @@ Checking geometry...
 Mesh OK.
 
 End
-
