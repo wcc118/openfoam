@@ -1,0 +1,151 @@
+{
+  "runtime_image": "opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4",
+  "command": "surfaceCheck -checkSelfIntersection wing.stl",
+  "cases": [
+    {
+      "path": "/home/connellwc83/projects/openfoam/runs/wing-baseline-20261025",
+      "geometry": {
+        "schema_version": 1,
+        "created_utc": "2026-10-25T04:43:28.976988+00:00",
+        "demonstration_only": true,
+        "airfoil": "4412",
+        "span_m": 1.2192,
+        "chord_m": 0.1016,
+        "reference_area_m2": 0.12387072,
+        "moment_origin_m": [
+          0.0254,
+          0,
+          0
+        ],
+        "points": 129,
+        "span_sections": 2,
+        "axes": {
+          "x": "downstream",
+          "y": "span",
+          "z": "up"
+        },
+        "trailing_edge": "finite: coefficient -0.1015",
+        "cross_section_area_m2": 0.0008514983647743668,
+        "bounds_m": [
+          [
+            -2.801532033668733e-05,
+            0.10161691907079118
+          ],
+          [
+            -0.6096,
+            0.6096
+          ],
+          [
+            -0.0029463060244965195,
+            0.010043956290606148
+          ]
+        ],
+        "checks": {
+          "watertight": true,
+          "oriented": true,
+          "connected": true,
+          "vertex_count": 514,
+          "triangle_count": 1024,
+          "edge_count": 1536,
+          "min_triangle_area_m2": 1.976523146991107e-09,
+          "volume_m3": 0.001038146806332908,
+          "expected_volume_m3": 0.001038146806332908
+        },
+        "source": {
+          "revision": "5cfb79c06009be0a8002e36eed9e9f18c2ba090b",
+          "dirty": true,
+          "generator_sha256": "c03055778f55002351f6b652c9eccee73903ab4e62111691d1debe36e82d1de1",
+          "adapted_from": "wcc118/aero panel_solver/geometry.py@79c1236252fe12e0518384a33cd45c181e2df740",
+          "correction": "normal-offset x coordinates; half-thickness polynomial used without further halving",
+          "reference": "https://www.pdas.com/sections45.html"
+        },
+        "sha256": {
+          "preview.html": "0ef552686f57460ef0d8570271ce60499b726e869e8d9507860f79a3bea4bdaa",
+          "section.csv": "b202d324e9bb76eb072084a9cf4ead463ed21dd1f297331523fba89f6907fca0",
+          "wing.stl": "653c7cf8d32752202db22ba42dfb81c04fe6e82dc5ae669a93c81ddc74822845"
+        }
+      },
+      "observed_findings": [
+        "Surface has no illegal triangles.",
+        "Surface is closed.",
+        "Number of unconnected parts : 1",
+        "Number of zones (connected area with consistent normal) : 1",
+        "Surface is not self-intersecting"
+      ],
+      "log_sha256": "83aece59c9804f6560a9f72a73deb57a1140ae2cbc4a1c6ce64df4d71a860f04"
+    },
+    {
+      "path": "/home/connellwc83/projects/openfoam/runs/wing-symmetric-baseline-20261025",
+      "geometry": {
+        "schema_version": 1,
+        "created_utc": "2026-10-25T04:43:29.031852+00:00",
+        "demonstration_only": true,
+        "airfoil": "0012",
+        "span_m": 1.2192,
+        "chord_m": 0.1016,
+        "reference_area_m2": 0.12387072,
+        "moment_origin_m": [
+          0.0254,
+          0,
+          0
+        ],
+        "points": 129,
+        "span_sections": 2,
+        "axes": {
+          "x": "downstream",
+          "y": "span",
+          "z": "up"
+        },
+        "trailing_edge": "finite: coefficient -0.1015",
+        "cross_section_area_m2": 0.000848533766260498,
+        "bounds_m": [
+          [
+            0.0,
+            0.1016
+          ],
+          [
+            -0.6096,
+            0.6096
+          ],
+          [
+            -0.006097616794613508,
+            0.006097616794613508
+          ]
+        ],
+        "checks": {
+          "watertight": true,
+          "oriented": true,
+          "connected": true,
+          "vertex_count": 514,
+          "triangle_count": 1024,
+          "edge_count": 1536,
+          "min_triangle_area_m2": 1.9586461099652066e-09,
+          "volume_m3": 0.0010345323678247992,
+          "expected_volume_m3": 0.0010345323678247992
+        },
+        "source": {
+          "revision": "5cfb79c06009be0a8002e36eed9e9f18c2ba090b",
+          "dirty": true,
+          "generator_sha256": "c03055778f55002351f6b652c9eccee73903ab4e62111691d1debe36e82d1de1",
+          "adapted_from": "wcc118/aero panel_solver/geometry.py@79c1236252fe12e0518384a33cd45c181e2df740",
+          "correction": "normal-offset x coordinates; half-thickness polynomial used without further halving",
+          "reference": "https://www.pdas.com/sections45.html"
+        },
+        "sha256": {
+          "preview.html": "724c637fec41719b83f8039a4ed204cff05a026ecbe02f16fedd69dde0615d2f",
+          "section.csv": "6d3145b7a86d6466c9dc688425b67526f46b5d35651a1eee3b9a786eee38ea3d",
+          "wing.stl": "4f62ccdd3a1e82e867db8bcace129cc07975f5bdbea30218bfd6b09eff4dbe46"
+        }
+      },
+      "observed_findings": [
+        "Surface has no illegal triangles.",
+        "Surface is closed.",
+        "Number of unconnected parts : 1",
+        "Number of zones (connected area with consistent normal) : 1",
+        "Surface is not self-intersecting"
+      ],
+      "log_sha256": "569985481b06f1aa4b09c3aa72311ca33a471dec649faeb7f96ff9a48add16f5"
+    }
+  ],
+  "limitation": "Geometry only; no CFD volume mesh or physical validation. See WING_GEOMETRY.md for retained 17-station checker false-positive diagnostic."
+}

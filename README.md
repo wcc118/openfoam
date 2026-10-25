@@ -28,10 +28,18 @@ This module verifies the Docker-based OpenFOAM runtime with the cavity tutorial.
 Passing acceptance criteria confirms the runtime is operational but does not
 validate physical accuracy or flight capability.
 
+## Wing surface
+
+```bash
+python3 scripts/generate_wing.py --output runs/wing-unique
+```
+
+Open the resulting `preview.html` in a browser. See [geometry checks and native evidence](docs/WING_GEOMETRY.md) and [PC compute integration](docs/PC_COMPUTE.md).
+
 ## Status
 
-The pinned ARM64 runtime has completed repeatable cavity tutorial runs. Wing
-geometry/flow qualification is next; no flutter prediction or flight capability
+The pinned ARM64 runtime has completed repeatable cavity tutorial runs. Generated 4412/0012 wing surfaces pass the documented geometry checks.
+Volume meshing and flow qualification are next; no flutter prediction or flight capability
 has been demonstrated. See GitHub for independent review and acceptance state.
 
 GitHub issues are authoritative for work status. Plans describe intended behavior,
