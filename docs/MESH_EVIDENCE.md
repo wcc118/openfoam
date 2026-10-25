@@ -1,158 +1,54 @@
 # Mesh evidence reader
 
-Bounded VTK surface file parser and checkMesh log interpreter for OpenFOAM wall-layer coverage gates.
-
-## Purpose
-
-Parse OpenFOAM legacy ASCII VTK POLYDATA files with `nSurfaceLayers` CELL_DATA field,
-compute face/area coverage metrics, and combine with checkMesh log parsing for a
-limited gate evaluation. This is an **engineering analysis tool**, not a solver,
-physical validation, or flight clearance tool.
-
-## CLI usage
+`scripts/summarize_mesh.py` reads retained OpenFOAM wall-surface VTK and checkMesh
+logs. Its limited gate requires explicit completed mesh-log success and sufficient
+area with at least one layer. Passing does not establish yPlus, adequate layer
+thickness, flow convergence, physical validity, or flight capability.
 
 ```bash
 python3 scripts/summarize_mesh.py \
-  --wall-surface FILE \
-  --mesh-log FILE \
-  --requested-layers INT \
-  --minimum-coverage FLOAT \
-  --output JSON
+  --wall-surface runs/CASE/postProcessing/slices/0/wingSurface.vtk \
+  --mesh-log runs/CASE/log.checkMesh \
+  --requested-layers 18 --minimum-coverage 0.9 \
+  --output runs/CASE/mesh-evidence.json
 ```
 
-### Required arguments
+Supported input is legacy VTK **2.0 ASCII POLYDATA**: POINTS float/double,
+POLYGONS, CELL_DATA and one FIELD named nSurfaceLayers with one component and
+exactly one tuple per polygon. Optional top-level FIELD TimeValue is accepted.
+Numeric arrays are whitespace-delimited, regardless of line wrapping. Other
+formats/fields, missing arrays, invalid indices/counts, zero-area facets, nonfinite
+values, and noninteger/negative/overrequested layer counts are rejected.
+Each input is bounded to 64 MiB; points and polygons to one million each;
+polygon size to 1024 vertices. These bounds limit accepted input, not peak Python
+memory to 64 MiB.
 
-- `--wall-surface FILE`: OpenFOAM VTK POLYDATA surface file (legacy ASCII)
-- `--mesh-log FILE`: checkMesh log file
-- `--output JSON`: Output JSON file (exclusive creation, fails if exists)
+Requested layers must be an integer in [1,1000]; minimum coverage must be finite
+in [0,1]. Polygon area is the magnitude of its area vector, appropriate for these
+surface facets, not a general reconstruction of curved or self-intersecting faces.
+Metrics distinguish face coverage, area coverage (layers > 0), area-weighted
+layer count, and area with the full requested layer count (`full_area` in square
+metres, `full_area_coverage` as a fraction). Input coordinates must be metres.
 
-### Optional arguments
+An independent example has adjacent rectangles of widths 1 and 3, height 1.
+Layer counts 0 and 18 give area coverage 0.75, face coverage 0.5, weighted layers
+13.5, and full area 3. Swapping the counts gives area coverage 0.25 and weighted
+layers 4.5. This catches accidental face-count weighting.
 
-- `--requested-layers INT`: Requested wall layers (default: 18)
-- `--minimum-coverage FLOAT`: Minimum area coverage threshold (default: 0.9)
+The JSON records absolute input paths, SHA-256 of original bytes (including line
+endings), parameters, metrics, separate coverage and mesh-log outcomes, and the
+limited overall result. `Failed N mesh checks.` or FOAM FATAL fails even if the
+process exited zero. `Mesh OK.` requires a subsequent `End` marker; absent or
+unfinished results remain unknown and cannot pass.
 
-## Input format
+Exit codes: 0 limited gate pass, 1 observed gate failure, 2 input/output error.
+Malformed surface evidence retains an input-error JSON when both inputs were
+read successfully. Missing/unreadable/oversized inputs or invalid CLI parameters
+fail before report creation. Output creation is exclusive; existing files are
+never overwritten. Inputs are never modified.
 
-### VTK surface file
-
-OpenFOAM legacy ASCII VTK POLYDATA with:
-- `POINTS N float`: Vertex coordinates
-- `POLYGONS N INDICES`: Polygon definitions
-- `CELL_DATA N` + `FIELD FieldData 1` + `nSurfaceLayers 1 1 float`: Layer counts per face
-
-Example:
-
-```vtk
-# vtk DataFile Version 2.0
-Surface evidence
-ASCII
-DATASET POLYDATA
-POINTS 6 float
-0 0 0
-1 0 0
-1 1 0
-0 1 0
-4 0 0
-4 1 0
-POLYGONS 2 10
-4 0 1 2 3
-4 1 4 5 2
-CELL_DATA 2
-FIELD FieldData 1
-nSurfaceLayers 1 1 float
-0
-18
-```
-
-### checkMesh log
-
-Expected patterns:
-- `Failed N mesh checks.` → failure regardless of exit code
-- `Mesh OK.` → pass only if no failures detected
-- Missing explicit result → unknown/fail
-
-## Output JSON schema
-
-```json
-{
-  "input": {
-    "wall_surface": "path",
-    "wall_surface_hash": "sha256",
-    "mesh_log": "path",
-    "mesh_log_hash": "sha256"
-  },
-  "parameters": {
-    "requested_layers": 18,
-    "minimum_coverage": 0.9
-  },
-  "metrics": {
-    "total_faces": 100,
-    "total_area": 1.234,
-    "faces_with_layers": 90,
-    "area_with_layers": 1.111,
-    "face_coverage": 0.9,
-    "area_coverage": 0.9,
-    "weighted_layer_count": 15.5,
-    "max_layer": 18,
-    "full_area": 1.234
-  },
-  "mesh_check": {
-    "result": {
-      "mesh_ok": true,
-      "failed_checks": 0,
-      "raw_status": "ok"
-    }
-  },
-  "coverage": {
-    "gate_passed": true,
-    "minimum_coverage": 0.9,
-    "actual_coverage": 0.95
-  },
-  "overall": {
-    "status": "pass" | "gate_failure" | "input_error",
-    "gate_passed": true
-  }
-}
-```
-
-## Exit codes
-
-- `0`: Limited gate passed (mesh check passed AND coverage >= threshold)
-- `1`: Gate failure (mesh check failed OR coverage below threshold OR malformed input)
-- `2`: Input error (malformed VTK, truncated data, nonfinite values, size exceeded)
-
-## Scope and limitations
-
-- **Input**: Only OpenFOAM legacy ASCII VTK POLYDATA format
-- **Output**: Bounded metrics for gate evaluation, no yPlus/flow/physical validity claim
-- **Constraints**: Input ≤64 MiB, points/polygons ≤1,000,000
-- **Rejection**: Malformed/truncated/nonfinite/binary/unsupported files rejected with error
-- **Coverage**: Area-weighted, not face-count-weighted
-- **No promises**: Passing this gate does NOT indicate physical validity, flight capability, or solver acceptance
-
-## Tests
-
-Run tests with:
-
-```bash
-python3 -m unittest tests.test_summarize_mesh -v
-```
-
-Tests include:
-- Polygon area oracle (3D cross-sum method)
-- VTK parsing (basic, with layers, TimeValue ignored)
-- Malformed input detection (truncated, invalid indices, nonfinite, binary)
-- Coverage metrics (unequal areas, swapped layers, max tracking)
-- checkMesh log parsing (Mesh OK, failed checks, missing result)
-- Full workflow integration (pass, coverage failure, mesh failure)
-- Output file protection (refuse overwrite)
-- Input error handling (exit code 2)
-
-## Evidence
-
-Source: wcc118/openfoam issue #10, parent #4.
-
-Memory references:
-- solver exit0 is NOT evidence of pass (memory:9fd63745cf5d5342a23379a28a3d9d12)
-- Never weaken or skip failed facets/tests (from engineering workflow)
-- Tests must assert known independent expected values
+Run all tests with `python3 -m unittest discover -s tests -v`. Tests cover unequal
+area oracles, wrapping/metadata, finite values/counts/indices, bounds, completed
+logs and failure precedence, raw-byte hashes, error reports, and no overwrite.
+Source: issue #10, parent #4. Native rejected cases remain engineering evidence;
+this reader cannot waive their mesh or layer deficiencies.

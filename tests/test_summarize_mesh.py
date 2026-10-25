@@ -1,663 +1,246 @@
-"""Tests for summarize_mesh.py with independent oracle validation."""
+"""Independent geometry oracles and fail-closed evidence contracts."""
 
 import hashlib
+import importlib.util
 import json
-import os
+from pathlib import Path
+import subprocess
+import sys
 import tempfile
 import unittest
-from pathlib import Path
+from unittest.mock import patch
 
-from scripts.summarize_mesh import (
-    compute_metrics,
-    parse_checkmesh_log,
-    parse_vtk_polydata,
-    polygon_area_3d,
-)
-
-
-class PolygonAreaTests(unittest.TestCase):
-    """Test 3D polygon area calculation with independent oracle."""
-
-    def test_triangle_in_xy_plane(self):
-        # Triangle with vertices at (0,0,0), (1,0,0), (0,1,0)
-        # Area should be 0.5
-        points = [(0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (0.0, 1.0, 0.0)]
-        polygon = (0, 1, 2)
-        area = polygon_area_3d(points, polygon)
-        self.assertAlmostEqual(area, 0.5, delta=1e-10)
-
-    def test_triangle_in_arbitrary_plane(self):
-        # Triangle with vertices at (0,0,0), (2,0,0), (0,2,0)
-        # Area should be 2.0
-        points = [(0.0, 0.0, 0.0), (2.0, 0.0, 0.0), (0.0, 2.0, 0.0)]
-        polygon = (0, 1, 2)
-        area = polygon_area_3d(points, polygon)
-        self.assertAlmostEqual(area, 2.0, delta=1e-10)
-
-    def test_square_decomposed(self):
-        # Square with vertices at (0,0,0), (1,0,0), (1,1,0), (0,1,0)
-        # Area should be 1.0
-        points = [(0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (1.0, 1.0, 0.0), (0.0, 1.0, 0.0)]
-        polygon = (0, 1, 2, 3)
-        area = polygon_area_3d(points, polygon)
-        self.assertAlmostEqual(area, 1.0, delta=1e-10)
-
-    def test_oriented_reversed_same_area(self):
-        # Same triangle, reversed vertex order
-        points = [(0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (0.0, 1.0, 0.0)]
-        area_forward = polygon_area_3d(points, (0, 1, 2))
-        area_reverse = polygon_area_3d(points, (0, 2, 1))
-        self.assertAlmostEqual(area_forward, area_reverse, delta=1e-10)
-
-    def test_collinear_returns_zero(self):
-        # Collinear points have zero area
-        points = [(0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (2.0, 0.0, 0.0)]
-        polygon = (0, 1, 2)
-        area = polygon_area_3d(points, polygon)
-        self.assertAlmostEqual(area, 0.0, delta=1e-15)
-
-
-class VtkParsingTests(unittest.TestCase):
-    """Test VTK POLYDATA parser with malformed input detection."""
-
-    def test_basic_vtk_parse(self):
-        """Parse basic VTK with POINTS and POLYGONS."""
-        vtk_content = b"""# vtk DataFile Version 2.0
-Test mesh
+SCRIPT = Path(__file__).resolve().parents[1] / "scripts/summarize_mesh.py"
+spec = importlib.util.spec_from_file_location("mesh", SCRIPT)
+m = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(m)
+VTK = b"""# vtk DataFile Version 2.0
+surface
 ASCII
 DATASET POLYDATA
 POINTS 6 float
-0 0 0
-1 0 0
-1 1 0
-0 1 0
-4 0 0
-4 1 0
+0 0 0 1 0 0 1 1 0 0 1 0 4 0 0 4 1 0
 POLYGONS 2 10
-4 0 1 2 3
-4 1 4 5 2
-"""
-        result = parse_vtk_polydata(vtk_content)
-        self.assertEqual(len(result['points']), 6)
-        self.assertEqual(len(result['polygons']), 2)
-        self.assertIsNone(result['nSurfaceLayers'])
-
-    def test_with_n_surface_layers(self):
-        """Parse VTK with nSurfaceLayers CELL_DATA field."""
-        vtk_content = b"""# vtk DataFile Version 2.0
-Test with layers
-ASCII
-DATASET POLYDATA
-POINTS 6 float
-0 0 0
-1 0 0
-1 1 0
-0 1 0
-4 0 0
-4 1 0
-POLYGONS 2 10
-4 0 1 2 3
-4 1 4 5 2
+4 0 1 2 3 4 1 4 5 2
 CELL_DATA 2
 FIELD FieldData 1
-nSurfaceLayers 1 1 float
-0
-18
+nSurfaceLayers 1 2 float
+0 18
 """
-        result = parse_vtk_polydata(vtk_content)
-        self.assertEqual(result['nSurfaceLayers'], (0, 18))
-
-    def test_with_timevalue_field(self):
-        """Parse VTK with top-level TimeValue field (should be ignored)."""
-        vtk_content = b"""# vtk DataFile Version 2.0
-Test with time
-ASCII
-DATASET POLYDATA
-FIELD FieldData 1
-TimeValue 1 1 float
-0
-POINTS 4 float
-0 0 0
-1 0 0
-1 1 0
-0 1 0
-POLYGONS 1 5
-4 0 1 2 3
-"""
-        result = parse_vtk_polydata(vtk_content)
-        self.assertEqual(len(result['points']), 4)
-        self.assertEqual(len(result['polygons']), 1)
-
-    def test_binary_format_rejected(self):
-        """Binary VTK should be rejected as unsupported."""
-        # Create a minimal binary VTK header
-        vtk_content = b"""# vtk DataFile Version 2.0
-Binary test
-BINARY
-DATASET POLYDATA
-POINTS 4 float
-"""
-        with self.assertRaises((UnicodeDecodeError, ValueError)):
-            parse_vtk_polydata(vtk_content)
-
-    def test_truncated_points_rejected(self):
-        """Truncated POINTS data should be rejected."""
-        vtk_content = b"""# vtk DataFile Version 2.0
-Test
-ASCII
-DATASET POLYDATA
-POINTS 10 float
-0 0 0
-1 0 0
-"""
-        with self.assertRaises(ValueError):
-            parse_vtk_polydata(vtk_content)
-
-    def test_truncated_polygons_rejected(self):
-        """Truncated POLYGONS data should be rejected."""
-        vtk_content = b"""# vtk DataFile Version 2.0
-Test
-ASCII
-DATASET POLYDATA
-POINTS 4 float
-0 0 0
-1 0 0
-1 1 0
-0 1 0
-POLYGONS 2 10
-4 0 1 2 3
-"""
-        with self.assertRaises(ValueError):
-            parse_vtk_polydata(vtk_content)
-
-    def test_invalid_polygon_index_rejected(self):
-        """Invalid polygon indices should be rejected."""
-        vtk_content = b"""# vtk DataFile Version 2.0
-Test
-ASCII
-DATASET POLYDATA
-POINTS 4 float
-0 0 0
-1 0 0
-1 1 0
-0 1 0
-POLYGONS 1 5
-4 0 1 2 5
-"""
-        with self.assertRaises(ValueError):
-            parse_vtk_polydata(vtk_content)
-
-    def test_nonfinite_coordinate_rejected(self):
-        """Nonfinite coordinates should be rejected."""
-        vtk_content = b"""# vtk DataFile Version 2.0
-Test
-ASCII
-DATASET POLYDATA
-POINTS 3 float
-0 0 0
-1 0 0
-nan 1 0
-"""
-        with self.assertRaises(ValueError):
-            parse_vtk_polydata(vtk_content)
-
-    def test_mismatched_cell_data_rejected(self):
-        """Mismatched CELL_DATA count should be rejected."""
-        vtk_content = b"""# vtk DataFile Version 2.0
-Test
-ASCII
-DATASET POLYDATA
-POINTS 4 float
-0 0 0
-1 0 0
-1 1 0
-0 1 0
-POLYGONS 1 5
-4 0 1 2 3
-CELL_DATA 5
-FIELD FieldData 1
-nSurfaceLayers 1 1 float
-0
-"""
-        with self.assertRaises(ValueError):
-            parse_vtk_polydata(vtk_content)
-
-    def test_size_limit_enforced(self):
-        """File size limit should be enforced."""
-        # Create data just over 64 MiB
-        # Each point is ~15 bytes, so 4.5M points is ~67.5 MiB
-        points_lines = "\n".join("0 0 0" for _ in range(5000000))
-        vtk_content = f"""# vtk DataFile Version 2.0
-Test
-ASCII
-DATASET POLYDATA
-POINTS 5000000 float
-{points_lines}
-""".encode('utf-8')
-        with self.assertRaises(ValueError):
-            parse_vtk_polydata(vtk_content, max_size=64 * 1024 * 1024)
-
-    def test_polygon_count_mismatch_rejected(self):
-        """Mismatched POLYGONS header indices count should be rejected."""
-        vtk_content = b"""# vtk DataFile Version 2.0
-Test
-ASCII
-DATASET POLYDATA
-POINTS 4 float
-0 0 0
-1 0 0
-1 1 0
-0 1 0
-POLYGONS 2 11
-4 0 1 2 3
-4 1 2 3 0
-"""
-        with self.assertRaises(ValueError):
-            parse_vtk_polydata(vtk_content)
 
 
-class CoverageMetricTests(unittest.TestCase):
-    """Test coverage metrics computation with oracle values."""
+class EvidenceTests(unittest.TestCase):
+    def metrics(self, data=VTK):
+        v = m.parse_vtk_polydata(data)
+        return m.compute_metrics(
+            v["points"], v["polygons"], v["nSurfaceLayers"], 18, 0.9
+        )
 
-    def test_uniform_layers_full_coverage(self):
-        """All faces have layers >= requested -> full coverage."""
-        points = [(0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (1.0, 1.0, 0.0), (0.0, 1.0, 0.0)]
-        polygons = [(0, 1, 2), (0, 2, 3)]  # Two triangles, each area 0.5
-        n_surface_layers = (18, 18)
-        metrics = compute_metrics(points, polygons, n_surface_layers, 18, 0.9)
-        self.assertEqual(metrics['total_faces'], 2)
-        self.assertEqual(metrics['faces_with_layers'], 2)
-        self.assertAlmostEqual(metrics['area_coverage'], 1.0, delta=1e-10)
-        self.assertAlmostEqual(metrics['face_coverage'], 1.0, delta=1e-10)
-        self.assertAlmostEqual(metrics['weighted_layer_count'], 18.0, delta=1e-10)
+    def test_unequal_area_oracle(self):
+        # Adjacent rectangles independently have widths 1 and 3, height 1.
+        r = self.metrics()
+        for key, value in dict(
+            total_area=4,
+            area_coverage=0.75,
+            face_coverage=0.5,
+            weighted_layer_count=13.5,
+            full_area=3,
+            full_area_coverage=0.75,
+            min_layer=0,
+            max_layer=18,
+        ).items():
+            self.assertEqual(r[key], value)
 
-    def test_partial_coverage(self):
-        """Partial face coverage with unequal areas."""
-        # Two triangles: area 0.5 each, total 1.0
-        # One with layer 18 (covers 0.5), one with layer 0 (covers 0.0)
-        points = [(0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (1.0, 1.0, 0.0), (0.0, 1.0, 0.0)]
-        polygons = [(0, 1, 2), (0, 2, 3)]
-        n_surface_layers = (18, 0)
-        metrics = compute_metrics(points, polygons, n_surface_layers, 18, 0.9)
-        self.assertEqual(metrics['faces_with_layers'], 1)
-        self.assertAlmostEqual(metrics['area_coverage'], 0.5, delta=1e-10)
-        self.assertAlmostEqual(metrics['face_coverage'], 0.5, delta=1e-10)
-        self.assertAlmostEqual(metrics['weighted_layer_count'], 9.0, delta=1e-10)
+    def test_swapped_area_oracle(self):
+        r = self.metrics(VTK.replace(b"0 18\n", b"18 0\n"))
+        self.assertEqual(r["area_coverage"], 0.25)
+        self.assertEqual(r["weighted_layer_count"], 4.5)
+        self.assertEqual(r["full_area"], 1)
 
-    def test_unequal_area_coverage(self):
-        """Unequal area faces: oracle test for 0.75 area coverage."""
-        # Triangle 1: area 1.0 (layers=18)
-        # Triangle 2: area 3.0 (layers=0)
-        # Total: 4.0, covered: 1.0, coverage = 0.25
-        points = [
-            (0.0, 0.0, 0.0), (2.0, 0.0, 0.0), (0.0, 2.0, 0.0),  # Triangle 1, area 2.0
-            (2.0, 0.0, 0.0), (4.0, 0.0, 0.0), (2.0, 2.0, 0.0),  # Triangle 2, area 2.0
+    def test_partial_layers_not_full(self):
+        r = self.metrics(VTK.replace(b"0 18\n", b"0 9\n"))
+        self.assertEqual(r["area_coverage"], 0.75)
+        self.assertEqual(r["full_area"], 0)
+        self.assertEqual(r["weighted_layer_count"], 6.75)
+
+    def test_wrapping_numeric_type_and_metadata(self):
+        lines = VTK.decode().splitlines()
+        wrapped = (
+            "\n".join(lines[:4]) + "\n" + "\n".join(" ".join(lines[4:]).split())
+        ).encode()
+        self.assertEqual(self.metrics(wrapped), self.metrics())
+        self.assertEqual(self.metrics(VTK.replace(b"float", b"double")), self.metrics())
+        metadata = VTK.replace(
+            b"POINTS", b"FIELD FieldData 1\nTimeValue 1 1 double\n0\nPOINTS"
+        )
+        self.assertEqual(self.metrics(metadata), self.metrics())
+
+    def test_rotated_translated_polygon(self):
+        self.assertEqual(
+            m.polygon_area_3d(
+                [(10, 20, 30), (10, 22, 30), (10, 22, 33), (10, 20, 33)], (0, 1, 2, 3)
+            ),
+            6,
+        )
+
+    def test_malformed_inputs(self):
+        replacements = [
+            (b"ASCII", b"BINARY"),
+            (b"Version 2.0", b"Version 5.1"),
+            (b"POLYDATA", b"UNSTRUCTURED_GRID"),
+            (b"POINTS 6", b"POINTS 1000001"),
+            (b"POINTS 6", b"POINTS 0"),
+            (b"POLYGONS 2 10", b"POLYGONS 2 11"),
+            (b"POLYGONS 2 10", b"POLYGONS 1000001 10"),
+            (b"4 0 1 2 3", b"4 0 1 2 6"),
+            (b"4 0 1 2 3", b"4 0 1 2 -1"),
+            (b"4 0 1 2 3", b"4 0 1 2 2"),
+            (b"CELL_DATA 2", b"CELL_DATA 1"),
+            (b"nSurfaceLayers 1 2", b"nSurfaceLayers 1 1"),
+            (b"nSurfaceLayers 1 2", b"nSurfaceLayers 2 2"),
+            (b"nSurfaceLayers", b"other"),
+            (b"0 18\n", b"0\n"),
+            (b"0 18\n", b"0 18 1\n"),
+            (b"0 18\n", b"0 -1\n"),
+            (b"0 18\n", b"0 1.5\n"),
+            (b"0 18\n", b"0 nan\n"),
+            (b"0 18\n", b"0 inf\n"),
+            (b"0 0 0 1", b"inf 0 0 1"),
+            (b"0 0 0 1", b"nan 0 0 1"),
+            (b"0 0 0 1", b"1e999 0 0 1"),
         ]
-        polygons = [(0, 1, 2), (3, 4, 5)]
-        n_surface_layers = (18, 0)
-        metrics = compute_metrics(points, polygons, n_surface_layers, 18, 0.9)
-        self.assertAlmostEqual(metrics['total_area'], 4.0, delta=1e-10)
-        self.assertAlmostEqual(metrics['area_coverage'], 0.5, delta=1e-10)
-
-    def test_swapped_layer_values_different_weighting(self):
-        """Swapped layer values should give different weighted average."""
-        points = [(0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (1.0, 1.0, 0.0), (0.0, 1.0, 0.0)]
-        polygons = [(0, 1, 2), (0, 2, 3)]  # Equal areas
-
-        # Layers (18, 0): weighted = (18*0.5 + 0*0.5)/1.0 = 9.0
-        metrics1 = compute_metrics(points, polygons, (18, 0), 18, 0.9)
-
-        # Layers (0, 18): weighted = (0*0.5 + 18*0.5)/1.0 = 9.0 (same for equal areas)
-        metrics2 = compute_metrics(points, polygons, (0, 18), 18, 0.9)
-
-        self.assertAlmostEqual(metrics1['weighted_layer_count'], 9.0, delta=1e-10)
-        self.assertAlmostEqual(metrics2['weighted_layer_count'], 9.0, delta=1e-10)
-
-    def test_unequal_area_swapped_layers(self):
-        """Unequal areas with swapped layers gives different weighted average."""
-        # Triangle 1: area 1.0, Triangle 2: area 3.0
-        points = [
-            (0.0, 0.0, 0.0), (2.0, 0.0, 0.0), (0.0, 2.0, 0.0),  # area = 2.0
-            (2.0, 0.0, 0.0), (4.0, 0.0, 0.0), (4.0, 2.0, 0.0),  # area = 2.0
-        ]
-        polygons = [(0, 1, 2), (3, 4, 5)]
-
-        # Layers (18, 0): weighted = (18*2.0 + 0*2.0)/4.0 = 9.0
-        metrics1 = compute_metrics(points, polygons, (18, 0), 18, 0.9)
-
-        # Layers (0, 18): weighted = (0*2.0 + 18*2.0)/4.0 = 9.0 (symmetric in this case)
-        metrics2 = compute_metrics(points, polygons, (0, 18), 18, 0.9)
-
-        self.assertAlmostEqual(metrics1['weighted_layer_count'], 9.0, delta=1e-10)
-        self.assertAlmostEqual(metrics2['weighted_layer_count'], 9.0, delta=1e-10)
-
-    def test_max_layer_tracking(self):
-        """Max layer should track maximum value."""
-        points = [(0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (1.0, 1.0, 0.0), (0.0, 1.0, 0.0)]
-        polygons = [(0, 1, 2), (0, 2, 3)]
-        n_surface_layers = (5, 18)
-        metrics = compute_metrics(points, polygons, n_surface_layers, 18, 0.9)
-        self.assertEqual(metrics['max_layer'], 18)
-
-    def test_empty_mesh(self):
-        """Empty mesh should return zero metrics."""
-        metrics = compute_metrics([], [], None, 18, 0.9)
-        self.assertEqual(metrics['total_faces'], 0)
-        self.assertEqual(metrics['total_area'], 0.0)
-        self.assertEqual(metrics['area_coverage'], 0.0)
-
-
-class CheckMeshLogTests(unittest.TestCase):
-    """Test checkMesh log parsing."""
-
-    def test_mesh_ok_detected(self):
-        """Mesh OK. should return mesh_ok=True."""
-        log = """Create time
-Create mesh for time = 0
-Checking topology...
-    Boundary definition OK.
-Mesh OK.
-
-End"""
-        result = parse_checkmesh_log(log)
-        self.assertTrue(result['mesh_ok'])
-        self.assertEqual(result['failed_checks'], 0)
-        self.assertEqual(result['raw_status'], 'ok')
-
-    def test_failed_checks_detected(self):
-        """Failed N mesh checks should be detected."""
-        log = """Create time
-Create mesh for time = 0
-Checking topology...
-    Failed 2 mesh checks.
-End"""
-        result = parse_checkmesh_log(log)
-        self.assertFalse(result['mesh_ok'])
-        self.assertEqual(result['failed_checks'], 2)
-        self.assertEqual(result['raw_status'], 'failed')
-
-    def test_missing_result_unknown(self):
-        """Missing explicit result should return unknown."""
-        log = """Create time
-Create mesh for time = 0
-Checking topology...
-End"""
-        result = parse_checkmesh_log(log)
-        self.assertIsNone(result['mesh_ok'])
-        self.assertEqual(result['raw_status'], 'unknown')
-
-    def test_failed_takes_precedence(self):
-        """Failed check should override Mesh OK elsewhere in log."""
-        log = """Create time
-Create mesh for time = 0
-Checking topology...
-    Failed 1 mesh checks.
-Mesh OK.
-
-End"""
-        result = parse_checkmesh_log(log)
-        self.assertFalse(result['mesh_ok'])
-        self.assertEqual(result['failed_checks'], 1)
-
-
-class IntegrationTests(unittest.TestCase):
-    """Integration tests for the full summarize_mesh workflow."""
-
-    def setUp(self):
-        self.temp_dir = tempfile.mkdtemp()
-        self.addCleanup(lambda: os.system(f'rm -rf "{self.temp_dir}"') if os.path.exists(self.temp_dir) else None)
-
-    def create_vtk(self, points, polygons, layers=None):
-        """Helper to create VTK content."""
-        lines = [
-            "# vtk DataFile Version 2.0",
-            "Test mesh",
-            "ASCII",
-            "DATASET POLYDATA",
-        ]
-        lines.append(f"POINTS {len(points)} float")
-        for p in points:
-            lines.append(f"{p[0]} {p[1]} {p[2]}")
-        total_indices = sum(len(p) + 1 for p in polygons)
-        lines.append(f"POLYGONS {len(polygons)} {total_indices}")
-        for poly in polygons:
-            lines.append(str(len(poly)) + " " + " ".join(str(x) for x in poly))
-
-        if layers is not None:
-            lines.append(f"CELL_DATA {len(layers)}")
-            lines.append("FIELD FieldData 1")
-            lines.append("nSurfaceLayers 1 1 float")
-            for layer in layers:
-                lines.append(str(layer))
-
-        return "\n".join(lines).encode('utf-8')
-
-    def create_checkmesh_log(self, status="ok", failed_checks=0):
-        """Helper to create checkMesh log."""
-        if status == "ok":
-            return f"""Create time
-Create mesh for time = 0
-Checking topology...
-Mesh OK.
-
-End"""
-        else:
-            return f"""Create time
-Create mesh for time = 0
-Checking topology...
-    Failed {failed_checks} mesh checks.
-End"""
-
-    def test_full_workflow_pass(self):
-        """Full workflow should pass when both conditions are met."""
-        points = [(0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (1.0, 1.0, 0.0), (0.0, 1.0, 0.0)]
-        polygons = [(0, 1, 2), (0, 2, 3)]
-        layers = (18, 18)
-
-        vtk_content = self.create_vtk(points, polygons, layers)
-        log_content = self.create_checkmesh_log("ok")
-
-        vtk_path = Path(self.temp_dir) / "surface.vtk"
-        log_path = Path(self.temp_dir) / "mesh.log"
-        output_path = Path(self.temp_dir) / "output.json"
-
-        vtk_path.write_bytes(vtk_content)
-        log_path.write_text(log_content)
-
-        # Import and call main
-        from scripts.summarize_mesh import main
-        import sys
-
-        old_argv = sys.argv
-        exit_code = None
-        try:
-            sys.argv = [
-                'summarize_mesh.py',
-                '--wall-surface', str(vtk_path),
-                '--mesh-log', str(log_path),
-                '--output', str(output_path),
-            ]
-            main()
-        except SystemExit as e:
-            exit_code = e.code
-        finally:
-            sys.argv = old_argv
-
-        # Should exit 0 for pass
-        self.assertEqual(exit_code, 0, f"Expected exit code 0, got {exit_code}")
-
-        result = json.loads(output_path.read_text())
-        self.assertEqual(result['overall']['status'], 'pass')
-        self.assertTrue(result['overall']['gate_passed'])
-
-    def test_full_workflow_coverage_failure(self):
-        """Full workflow should fail when coverage is below threshold."""
-        points = [(0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (1.0, 1.0, 0.0), (0.0, 1.0, 0.0)]
-        polygons = [(0, 1, 2), (0, 2, 3)]
-        layers = (18, 0)  # Only half coverage
-
-        vtk_content = self.create_vtk(points, polygons, layers)
-        log_content = self.create_checkmesh_log("ok")
-
-        vtk_path = Path(self.temp_dir) / "surface.vtk"
-        log_path = Path(self.temp_dir) / "mesh.log"
-        output_path = Path(self.temp_dir) / "output.json"
-
-        vtk_path.write_bytes(vtk_content)
-        log_path.write_text(log_content)
-
-        from scripts.summarize_mesh import main
-        import sys
-
-        old_argv = sys.argv
-        exit_code = None
-        try:
-            sys.argv = [
-                'summarize_mesh.py',
-                '--wall-surface', str(vtk_path),
-                '--mesh-log', str(log_path),
-                '--output', str(output_path),
-            ]
-            main()
-        except SystemExit as e:
-            exit_code = e.code
-        finally:
-            sys.argv = old_argv
-
-        # Should exit 1 for gate failure
-        self.assertEqual(exit_code, 1, f"Expected exit code 1, got {exit_code}")
-
-        result = json.loads(output_path.read_text())
-        self.assertEqual(result['overall']['status'], 'gate_failure')
-        self.assertFalse(result['overall']['gate_passed'])
-        self.assertAlmostEqual(result['coverage']['actual_coverage'], 0.5, delta=1e-10)
-
-    def test_full_workflow_mesh_failure(self):
-        """Full workflow should fail when mesh check fails."""
-        points = [(0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (1.0, 1.0, 0.0), (0.0, 1.0, 0.0)]
-        polygons = [(0, 1, 2), (0, 2, 3)]
-        layers = (18, 18)
-
-        vtk_content = self.create_vtk(points, polygons, layers)
-        log_content = self.create_checkmesh_log("failed", 2)
-
-        vtk_path = Path(self.temp_dir) / "surface.vtk"
-        log_path = Path(self.temp_dir) / "mesh.log"
-        output_path = Path(self.temp_dir) / "output.json"
-
-        vtk_path.write_bytes(vtk_content)
-        log_path.write_text(log_content)
-
-        from scripts.summarize_mesh import main
-        import sys
-
-        old_argv = sys.argv
-        exit_code = None
-        try:
-            sys.argv = [
-                'summarize_mesh.py',
-                '--wall-surface', str(vtk_path),
-                '--mesh-log', str(log_path),
-                '--output', str(output_path),
-            ]
-            main()
-        except SystemExit as e:
-            exit_code = e.code
-        finally:
-            sys.argv = old_argv
-
-        # Should exit 1 for gate failure
-        self.assertEqual(exit_code, 1, f"Expected exit code 1, got {exit_code}")
-
-        result = json.loads(output_path.read_text())
-        self.assertEqual(result['overall']['status'], 'gate_failure')
-        self.assertFalse(result['overall']['gate_passed'])
-        self.assertFalse(result['mesh_check']['result']['mesh_ok'])
-
-    def test_output_already_exists_refused(self):
-        """Output file existing should be refused."""
-        points = [(0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (1.0, 1.0, 0.0), (0.0, 1.0, 0.0)]
-        polygons = [(0, 1, 2)]
-        layers = (18,)
-
-        vtk_content = self.create_vtk(points, polygons, layers)
-        log_content = self.create_checkmesh_log("ok")
-
-        vtk_path = Path(self.temp_dir) / "surface.vtk"
-        log_path = Path(self.temp_dir) / "mesh.log"
-        output_path = Path(self.temp_dir) / "output.json"
-
-        vtk_path.write_bytes(vtk_content)
-        log_path.write_text(log_content)
-        output_path.write_text("{}")  # Pre-create output
-
-        from scripts.summarize_mesh import main
-        import sys
-
-        old_argv = sys.argv
-        old_exit = sys.exit
-        exit_code = None
-        def capture_exit(code):
-            nonlocal exit_code
-            exit_code = code
-            raise SystemExit(code)
-
-        try:
-            sys.argv = [
-                'summarize_mesh.py',
-                '--wall-surface', str(vtk_path),
-                '--mesh-log', str(log_path),
-                '--output', str(output_path),
-            ]
-            sys.exit = capture_exit
-            main()
-        except SystemExit:
-            pass
-        finally:
-            sys.argv = old_argv
-            sys.exit = old_exit
-
-        self.assertIsNotNone(exit_code)
-        self.assertEqual(exit_code, 1)
-
-    def test_input_error_returns_exit_code_2(self):
-        """Malformed input should return exit code 2."""
-        log_path = Path(self.temp_dir) / "mesh.log"
-        output_path = Path(self.temp_dir) / "output.json"
-
-        log_path.write_text(self.create_checkmesh_log("ok"))
-
-        # Non-existent VTK file
-        vtk_path = Path(self.temp_dir) / "nonexistent.vtk"
-
-        from scripts.summarize_mesh import main
-        import sys
-
-        old_argv = sys.argv
-        old_exit = sys.exit
-        exit_code = None
-        def capture_exit(code):
-            nonlocal exit_code
-            exit_code = code
-            raise SystemExit(code)
-
-        try:
-            sys.argv = [
-                'summarize_mesh.py',
-                '--wall-surface', str(vtk_path),
-                '--mesh-log', str(log_path),
-                '--output', str(output_path),
-            ]
-            sys.exit = capture_exit
-            main()
-        except SystemExit:
-            pass
-        finally:
-            sys.argv = old_argv
-            sys.exit = old_exit
-
-        self.assertEqual(exit_code, 2)
-
-
-if __name__ == '__main__':
+        for old, new in replacements:
+            with self.subTest(new=new), self.assertRaises(ValueError):
+                m.parse_vtk_polydata(VTK.replace(old, new))
+        for data in (VTK.split(b"CELL_DATA")[0], VTK[:80], VTK + b"garbage", b""):
+            with self.subTest(data=data), self.assertRaises(ValueError):
+                m.parse_vtk_polydata(data)
+
+    def test_degenerate_facets_rejected(self):
+        for face in ((0, 1, 2), (0, 0, 1)):
+            with self.assertRaises(ValueError):
+                m.polygon_area_3d([(0, 0, 0), (1, 0, 0), (2, 0, 0)], face)
+
+    def test_bounds(self):
+        for kw in ({"max_size": 10}, {"max_points": 5}, {"max_polygons": 1}):
+            with self.subTest(kw=kw), self.assertRaises(ValueError):
+                m.parse_vtk_polydata(VTK, **kw)
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "large"
+            path.write_bytes(b"12345")
+            with patch.object(m, "MAX_BYTES", 4), self.assertRaises(ValueError):
+                m.read_bounded(path)
+
+    def test_invalid_parameters(self):
+        for layers, coverage in [
+            (0, 0.9),
+            (-1, 0.9),
+            (1.5, 0.9),
+            (True, 0.9),
+            (1001, 0.9),
+            (18, -0.1),
+            (18, 1.1),
+            (18, float("nan")),
+            (18, float("inf")),
+        ]:
+            with (
+                self.subTest(layers=layers, coverage=coverage),
+                self.assertRaises(ValueError),
+            ):
+                m.validate_parameters(layers, coverage)
+
+    def test_missing_and_invalid_metric_data(self):
+        v = m.parse_vtk_polydata(VTK)
+        for layers in (None, (), (0,), (0, 19), (0, 1.5), (0, float("inf"))):
+            with self.subTest(layers=layers), self.assertRaises(ValueError):
+                m.compute_metrics(v["points"], v["polygons"], layers, 18, 0.9)
+        with self.assertRaises(ValueError):
+            m.compute_metrics([], [], [], 18, 0.9)
+
+    def test_complete_log_and_failure_precedence(self):
+        self.assertTrue(m.parse_checkmesh_log("Mesh OK.\n\nEnd\n")["mesh_ok"])
+        for log in ("", "Mesh OK.\n", "End\nMesh OK.\n", "no result"):
+            self.assertIsNone(m.parse_checkmesh_log(log)["mesh_ok"])
+        for log in (
+            "Mesh OK.\nEnd\nFailed 2 mesh checks.\n",
+            "FOAM FATAL ERROR\nMesh OK.\nEnd\n",
+        ):
+            self.assertFalse(m.parse_checkmesh_log(log)["mesh_ok"])
+        self.assertEqual(
+            m.parse_checkmesh_log("Failed 10 mesh checks.\nEnd")["failed_checks"], 10
+        )
+
+    def run_cli(self, root, data=VTK, log=b"Mesh OK.\r\n\r\nEnd\r\n", extra=()):
+        surface = root / "wall.vtk"
+        meshlog = root / "log"
+        output = root / "out.json"
+        surface.write_bytes(data)
+        meshlog.write_bytes(log)
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--wall-surface",
+                str(surface),
+                "--mesh-log",
+                str(meshlog),
+                "--output",
+                str(output),
+                *extra,
+            ],
+            capture_output=True,
+            text=True,
+        )
+        return result, output
+
+    def test_cli_pass_and_raw_hashes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            result, out = self.run_cli(root, extra=("--minimum-coverage", ".75"))
+            self.assertEqual(result.returncode, 0, result.stderr)
+            r = json.loads(out.read_text())
+            self.assertEqual(
+                r["input"]["mesh_log_hash"],
+                hashlib.sha256((root / "log").read_bytes()).hexdigest(),
+            )
+            self.assertEqual(
+                r["input"]["wall_surface_hash"], hashlib.sha256(VTK).hexdigest()
+            )
+            self.assertTrue(r["overall"]["gate_passed"])
+            self.assertIn("not yPlus", r["evidence_scope"])
+
+    def test_cli_gate_failures(self):
+        for log in (b"Mesh OK.\nEnd\n", b"Failed 2 mesh checks.\nEnd\n", b""):
+            with self.subTest(log=log), tempfile.TemporaryDirectory() as tmp:
+                result, out = self.run_cli(Path(tmp), log=log)
+                self.assertEqual(result.returncode, 1, result.stderr)
+                self.assertEqual(
+                    json.loads(out.read_text())["overall"]["status"], "gate_failure"
+                )
+
+    def test_cli_input_error_retained(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            result, out = self.run_cli(Path(tmp), data=VTK.replace(b"ASCII", b"BINARY"))
+            self.assertEqual(result.returncode, 2, result.stderr)
+            self.assertEqual(
+                json.loads(out.read_text())["overall"]["status"], "input_error"
+            )
+
+    def test_cli_no_overwrite(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            out = root / "out.json"
+            out.write_text("preserve")
+            result, _ = self.run_cli(root)
+            self.assertEqual(result.returncode, 2)
+            self.assertEqual(out.read_text(), "preserve")
+
+    def test_cli_invalid_gate(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            result, out = self.run_cli(Path(tmp), extra=("--minimum-coverage", "nan"))
+            self.assertEqual(result.returncode, 2)
+            self.assertFalse(out.exists())
+
+
+if __name__ == "__main__":
     unittest.main()
