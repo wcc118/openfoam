@@ -38,10 +38,10 @@ def validate(data):
             raise ValueError('reference.speed_m_s must be positive')
         if number(ref['chord_m'], 'chord_m') <= 0:
             raise ValueError('reference.chord_m must be positive')
-        if number(ref['reference_pressure_kinematic'], 'reference_pressure_kinematic') <= 0:
-            raise ValueError('reference.reference_pressure_kinematic must be positive')
-        if number(ref['dynamic_pressure_kinematic'], 'dynamic_pressure_kinematic') <= 0:
-            raise ValueError('reference.dynamic_pressure_kinematic must be positive')
+        number(ref['reference_pressure_kinematic'], 'reference.reference_pressure_kinematic')
+        number(ref['dynamic_pressure_kinematic'], 'reference.dynamic_pressure_kinematic')
+        if ref['dynamic_pressure_kinematic'] == 0:
+            raise ValueError('reference.dynamic_pressure_kinematic must be nonzero')
         wing = data['wing']
         vectors(wing['points'], 'wing.points')
         for tri in sequence(wing['triangles'], 'triangles'):
@@ -74,29 +74,33 @@ def validate(data):
             for k in ['solver', 'source_revision']:
                 if not isinstance(c[k], str) or not c[k]:
                     raise ValueError(f"case '{c['id']}': {k} must be a nonempty string")
-            if len(c['mesh_sha256']) != 64 or not all(ch in '0123456789abcdef' for ch in c['mesh_sha256']):
-                raise ValueError(f"case '{c['id']}': mesh_sha256 must be 64 hex characters")
-            if len(c['field_sha256']) != 64 or not all(ch in '0123456789abcdef' for ch in c['field_sha256']):
-                raise ValueError(f"case '{c['id']}': field_sha256 must be 64 hex characters")
+            if not isinstance(c['mesh_sha256'], str) or len(c['mesh_sha256']) != 64 or not all(ch in '0123456789abcdef' for ch in c['mesh_sha256']):
+                raise ValueError(f"case '{c['id']}': mesh_sha256 must be a 64-hex string")
+            if not isinstance(c['field_sha256'], str) or len(c['field_sha256']) != 64 or not all(ch in '0123456789abcdef' for ch in c['field_sha256']):
+                raise ValueError(f"case '{c['id']}': field_sha256 must be a 64-hex string")
             if c['status'] != 'diagnostic_only':
                 raise ValueError("case.status must be 'diagnostic_only'")
             if not isinstance(c['limitations'], list) or not c['limitations'] or any(not isinstance(v, str) or not v.strip() for v in c['limitations']):
                 raise ValueError("case.limitations must be a nonempty array of nonempty strings")
-            if len(c['freestream_velocity_m_s']) != 3:
-                raise ValueError(f"case '{c['id']}': freestream_velocity_m_s must have length 3")
+            if not isinstance(c['freestream_velocity_m_s'], list) or len(c['freestream_velocity_m_s']) != 3:
+                raise ValueError(f"case '{c['id']}': freestream_velocity_m_s must be a length-3 array")
             v_inf = c['freestream_velocity_m_s']
             alpha_rad = math.radians(alpha)
             expected = [ref['speed_m_s'] * math.cos(alpha_rad), 0, ref['speed_m_s'] * math.sin(alpha_rad)]
             for i, (actual, exp) in enumerate(zip(v_inf, expected)):
+                if isinstance(actual, bool) or not isinstance(actual, (int, float)) or not math.isfinite(actual):
+                    raise ValueError(f"case '{c['id']}': freestream_velocity_m_s[{i}] must be a finite number")
                 if abs(actual - exp) > 1e-8:
                     raise ValueError(f"case '{c['id']}': freestream_velocity_m_s[{i}] mismatch")
             u_vecs = c['U']
             if not isinstance(u_vecs, list) or len(u_vecs) != n:
-                raise ValueError(f"case '{c['id']}': U must have length {n}")
+                raise ValueError(f"case '{c['id']}': U must be a length-{n} array")
             for u in u_vecs:
-                vectors([u], 'case.U')
-                if len(u) != 3:
-                    raise ValueError(f"case '{c['id']}': U vector must have length 3")
+                if not isinstance(u, list) or len(u) != 3:
+                    raise ValueError(f"case '{c['id']}': U vector must be a length-3 array")
+                for x in u:
+                    if isinstance(x, bool) or not isinstance(x, (int, float)) or not math.isfinite(x):
+                        raise ValueError(f"case '{c['id']}': U vector components must be finite numbers")
                 number(math.hypot(*u), f"case '{c['id']}': derived speed")
             p_vals = c['p']
             if not isinstance(p_vals, list) or len(p_vals) != n:

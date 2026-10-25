@@ -18,7 +18,21 @@ angles.forEach((alpha, i) => {
   angleSelect.appendChild(opt);
 });
 angleSelect.value = 0;
-angleSelect.onchange = () => { currentIndex = Number(angleSelect.value); draw(); preserveCamera(); };
+
+// Add onchange handlers for field, group, and arrows controls
+function fieldChanged() { draw(); }
+function groupChanged() { draw(); }
+function arrowsChanged() { draw(); }
+
+$('field').onchange = fieldChanged;
+$('group').onchange = groupChanged;
+$('arrows').onchange = arrowsChanged;
+
+// Arrow length scale: 0.0007× velocity magnitude for illustrative visualization
+const ARROW_SCALE = 0.0007;
+
+// Camera bounds cache to avoid NaN on empty group selection
+let cameraBounds = null;
 
 function dimensions(canvas) {
   const box = canvas.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
@@ -43,7 +57,32 @@ function color(v, range) {
 function camera(w, h) {
   const g = $('group').value;
   const selected = points.filter((p, i) => g === 'all' || groups[i] === g);
-  const fit = (g === 'all' ? selected.concat(data.wing.points) : selected).map(rotated);
+
+  // If no points match the group, use wing points to avoid NaN
+  const pointsToCheck = (g === 'all' ? selected.concat(data.wing.points) : selected);
+  if (pointsToCheck.length === 0) {
+    // Fallback: use wing points
+    return wingCamera(w, h);
+  }
+
+  const fit = pointsToCheck.map(rotated);
+  const lo = [Infinity, Infinity], hi = [-Infinity, -Infinity];
+  for (const p of fit) {
+    for (let k = 0; k < 2; k++) {
+      lo[k] = Math.min(lo[k], p[k]); hi[k] = Math.max(hi[k], p[k]);
+    }
+  }
+  const scale = Math.min((w - 70) / Math.max(hi[0] - lo[0], 0.03), (h - 70) / Math.max(hi[1] - lo[1], 0.03)) * zoom;
+  cameraBounds = { lo, hi };
+  return { scale, project(p) {
+    const r = rotated(p);
+    return [(r[0] - (lo[0] + hi[0]) / 2) * scale + w / 2 + pan[0], (r[1] - (lo[1] + hi[1]) / 2) * scale + h / 2 + pan[1], r[2]];
+  }};
+}
+
+function wingCamera(w, h) {
+  // Fallback camera based on wing geometry only
+  const fit = data.wing.points.map(rotated);
   const lo = [Infinity, Infinity], hi = [-Infinity, -Infinity];
   for (const p of fit) {
     for (let k = 0; k < 2; k++) {
@@ -59,18 +98,26 @@ function camera(w, h) {
 
 function drawScene() {
   const [ctx, w, h] = dimensions(scene); ctx.clearRect(0, 0, w, h);
-  const cam = camera(w, h), f = cases[currentIndex], field = $('field').value, range = data.color_ranges[field], g = $('group').value;
+  const cam = camera(w, h);
+  const f = cases[currentIndex];
+  const field = $('field').value;
+  const range = data.color_ranges[field];
+  const g = $('group').value;
+
   const wp = data.wing.points.map(cam.project), items = [];
   for (const tri of data.wing.triangles) {
     const p = tri.map(i => wp[i]);
     items.push({ depth: p.reduce((a, v) => a + v[2], 0) / 3, tri: p });
   }
+
   const stride = Math.max(1, Math.ceil(points.length / 180));
+  const showArrows = $('arrows').checked;
+
   for (let i = 0; i < points.length; i++) {
     if (g !== 'all' && groups[i] !== g) continue;
     const q = cam.project(points[i]); if (q[0] < -30 || q[0] > w + 30 || q[1] < -30 || q[1] > h + 30) continue;
     const val = field === 'speed' ? Math.hypot(...f.U[i]) : (f.p[i] - data.reference.reference_pressure_kinematic) / data.reference.dynamic_pressure_kinematic;
-    items.push({ depth: q[2], q, i, col: color(val, range), arrow: $('arrows').checked && i % stride === 0 });
+    items.push({ depth: q[2], q, i, col: color(val, range), arrow: showArrows && i % stride === 0 });
   }
   items.sort((a, b) => a.depth - b.depth);
   for (const item of items) {
@@ -80,7 +127,7 @@ function drawScene() {
     } else {
       const [x, y] = item.q; ctx.fillStyle = item.col; ctx.beginPath(); ctx.arc(x, y, g === 'all' ? 2.0 : 2.7, 0, Math.PI * 2); ctx.fill();
       if (item.arrow) {
-        const p = points[item.i], u = f.U[item.i], end = cam.project(p.map((v, k) => v + u[k] * 0.0007));
+        const p = points[item.i], u = f.U[item.i], end = cam.project(p.map((v, k) => v + u[k] * ARROW_SCALE));
         const dx = end[0] - x, dy = end[1] - y, L = Math.hypot(dx, dy);
         if (L > 2) {
           ctx.strokeStyle = item.col; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(end[0], end[1]);
@@ -103,16 +150,25 @@ function drawScene() {
 }
 
 function draw() {
+  // Clear limitations before repopulating
+  $('limitations').innerHTML = '';
+
   drawScene();
   const c = cases[currentIndex];
   const alpha = c.alpha_deg;
   $('meta').textContent = `${c.id} · ${c.solver} · source ${c.source_revision}`;
   $('scope').textContent = `Case ${currentIndex + 1}/${cases.length}; ${points.length.toLocaleString()} fixed sample points. Read the limitations before interpreting these steady results.`;
   for (const text of c.limitations) {
-    const li = document.createElement('li'); li.textContent = text; $('limitations').append(li);
+    const li = document.createElement('li'); li.textContent = text; $('limitations').appendChild(li);
   }
   const f = c;
-  $('caseInfo').innerHTML = `<span class="stat">Alpha: ${alpha.toFixed(3)}°</span> <span class="stat">Steady iteration: ${c.steady_iteration}</span> <span class="stat">U∞: [${f.freestream_velocity_m_s.map(v => v.toFixed(3)).join(', ')}] m/s</span>`;
+  // Show mesh/field provenance hashes and steady iteration count
+  $('caseInfo').innerHTML =
+    `<span class="stat">Alpha: ${alpha.toFixed(3)}°</span> ` +
+    `<span class="stat">Steady iteration: ${c.steady_iteration}</span> ` +
+    `<span class="stat">U∞: [${f.freestream_velocity_m_s.map(v => v.toFixed(3)).join(', ')}] m/s</span> ` +
+    `<span class="stat">Mesh: ${c.mesh_sha256}</span> ` +
+    `<span class="stat">Field: ${c.field_sha256}</span>`;
 }
 
 function preset() {
@@ -132,11 +188,11 @@ scene.onpointermove = e => {
 scene.onpointerup = scene.onpointercancel = () => { drag = null; };
 scene.addEventListener('wheel', e => { e.preventDefault(); zoom = Math.max(0.2, Math.min(15, zoom * Math.exp(-e.deltaY * 0.001))); draw(); }, { passive: false });
 
-function preserveCamera() {
-  // Preserve yaw, pitch, zoom, pan when switching cases
-  draw();
-}
+// Angle change: preserve camera, do not redraw twice
+angleSelect.onchange = () => { currentIndex = Number(angleSelect.value); draw(); };
 
 window.addEventListener('resize', draw);
+// Enable velocity arrows by default
+$('arrows').checked = true;
 draw();
 })();

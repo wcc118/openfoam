@@ -8,6 +8,8 @@ or manufacture particle trajectories. Opening the file needs no server or extern
 python3 scripts/build_angle_comparison.py --input angle-data.json --output angle-comparison.html
 ```
 
+See [ENGINEERING_PLAN.md](./ENGINEERING_PLAN.md) for the staged approach to rigid-wing validation.
+
 The output must not already exist. The builder rejects non-finite fields, duplicate
 case IDs or angles, inconsistent array lengths, invalid triangles, invalid derived
 speed/Cp, and mismatched freestream velocity vectors. All cases must share the same

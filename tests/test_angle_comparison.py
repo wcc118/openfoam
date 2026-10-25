@@ -96,6 +96,22 @@ class AngleComparisonTests(unittest.TestCase):
         # Cp: (110-10)/100=1.0, (-90-10)/100=-1.0
         self.assertEqual(ranges['cp'], [-1.0, 1.0])
 
+    def test_zero_reference_pressure_accepted(self):
+        data = fixture()
+        data['reference']['reference_pressure_kinematic'] = 0.0
+        module.validate(data)
+        ranges = module.derived_ranges(data)
+        # Cp: (110-0)/100=1.1, (-90-0)/100=-0.9
+        self.assertEqual(ranges['cp'], [-0.9, 1.12])
+
+    def test_negative_reference_pressure_accepted(self):
+        data = fixture()
+        data['reference']['reference_pressure_kinematic'] = -50.0
+        module.validate(data)
+        ranges = module.derived_ranges(data)
+        # Cp: (110-(-50))/100=1.6, (-90-(-50))/100=-0.4
+        self.assertEqual(ranges['cp'], [-0.4, 1.62])
+
     def test_metadata_cannot_end_data_script(self):
         data = fixture()
         bad = '</script><script>window.PWNED=true</script>&\u2028'
