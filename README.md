@@ -65,3 +65,5 @@ has been demonstrated. See GitHub for independent review and acceptance state.
 GitHub issues are authoritative for work status. Plans describe intended behavior,
 not completed capability. Private aircraft evidence stays private; a later public
 demonstration must use separately selected shareable inputs.
+
+Physical-time diagnostic data can be viewed with the offline [flow playback builder](docs/FLOW_PLAYBACK.md). This is visualization, not flow qualification.
