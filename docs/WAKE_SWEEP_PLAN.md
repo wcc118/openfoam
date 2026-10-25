@@ -1,6 +1,6 @@
 # Wake envelope sweep plan
 
-Planning baseline: 2026-10-25. Issue #5. Status: accepted plan; trial29/trial30 parameters documented, outcome pending.
+Planning baseline: 2026-10-25. Issue #5. Status: experimental parameters documented; trial29 REJECTED (refinement incomplete, reached cap6M), trial30 RUNNING/pending.
 
 ## Objective
 
@@ -12,26 +12,27 @@ Focus on resolved wake volume and structure for angle-of-attack sensitivity stud
 Existing 34-frame transient ends at 0.226ms (0.067 chord transits); this is initial adjustment from unconverged
 baseline, not a developed wake. Longer transients require frequent full-restart checkpoints before timeout.
 
-## Accepted mesh parameters: trial29
+## Experimental mesh parameters: trial29
 
-- **Outer domain**: fixed isolation domain (same as trial12 baseline).
+- **Outer domain**: x [-0.508, 1.524], y [-1.1176, 1.1176], z [-0.508, 0.508] m (same as medium trial21, not trial12 baseline).
 - **Snappy octree levels** with 2:1 size jumps; more buffer cells to space transitions, not continuously graded cells.
 - **Distance envelope**: 20/60/120 mm → levels 4/3/2 respectively.
-- **Surface feature**: level 7; first layers 12 → 15, first layer 20 μm, adaptive final fraction 0.1.
+- **Wing SURFACE**: levels 5/6; FEATURE level 7; exactly 12 layers, first layer 20 μm, thicknessModel firstAndRelativeFinal, finalLayerThickness 0.15.
 - **nCellsBetweenLevels**: 5 (buffer cells to space level transitions).
-- **Target cell count**: ~6 million cap; trial29 intentionally stopped at exit 137 (resource limit), not OOM.
-- **No OOM-proof guarantee**: this is an exploratory parameter set, not a resolved configuration.
+- **Refinement threshold**: 6 million cap; trial29 pre-subset actual 6,731,101 cells, refinement incomplete, exit 137 (resource limit), not OOM.
+- **Native execution**: PC AMD64 OpenCFD v2412; 2 CPU / 12 GiB / 1100 s mesh bound.
+- **NOT accepted/qualified mesh**: trial29 parameters did not meet quality gates; do not call accepted mesh.
 
-## Accepted mesh parameters: trial30 (proposed revision)
+## Experimental mesh parameters: trial30 (narrowing trial29 proposal)
 
-Narrows level-4 tip corridors and extends wake regions to improve containment per angle:
+Narrows level-4 tip corridors from trial29; wider wake domains unchanged from trial29 domain bounds:
 
-- **Level-4 tip corridor**: x 0.03..0.6, |y| 0.56..0.67, z -0.07..0.16 m.
+- **Level-4 tip corridor**: x 0.03..0.8, |y| 0.53..0.72, z -0.12..0.24 m.
 - **Level-3 wake**: x 0.08..0.8, y ±0.75, z -0.12..0.24 m.
 - **Level-2 outer wake**: x 0.1..1.2, y ±0.8, z -0.18..0.35 m.
-- **All other parameters**: identical to trial29.
+- **All other parameters**: identical to trial29 (12 layers, first 20 μm, finalLayerThickness 0.15, thicknessModel firstAndRelativeFinal).
 
-Trial30 outcome is PENDING; see issue #5 for status.
+Trial30 is RUNNING/pending; see issue #5 for status.
 
 ## Angle-of-attack study sequence
 
@@ -39,6 +40,8 @@ Trial30 outcome is PENDING; see issue #5 for status.
 2. **Baseline**: settled 4° case with meaningful transient duration (chord/wake-transit times).
 3. **Matched angles**: run -4, 0, 4, 8, 12 degrees at current provisional 30 m/s.
 4. **Sensitivity**: mesh/domain/time-step variation on selected cases.
+
+**Important**: Each angle is independently simulated; NO interpolation across angles. Stationary angle cases are NOT actual pitching trajectories. 12° is exploratory only. Separate unsteady/separated cases; do not force steady convergence.
 
 All cases use:
 
@@ -53,6 +56,9 @@ All cases use:
 - Capacity for wake volume prioritized over fine wall-drag accuracy.
 - Native yPlus failures remain recorded; don't conflate diagnostic visualization with qualification.
 - RANS models produce turbulence; no claim of resolved eddies from visualization.
+- **Quality gate**: >= 90% wall AREA coverage required.
+- **Visual diagnostic**: distinct from aerodynamic qualification; RANS effects of turbulent fluctuations; does not resolve all turbulent eddies.
+- Surface flow influences wake even when wall-drag accuracy is not priority.
 
 ## Tools and reuse
 
@@ -66,22 +72,23 @@ No new solver or dashboard framework; lightweight per-case scripts appropriate.
 
 ## Acceptance criteria
 
-This plan is accepted when:
+This plan is accepted when engineering milestones are reached:
 
-- `docs/WAKE_SWEEP_PLAN.md` created with clear prospective vs observed.
-- `docs/ENGINEERING_PLAN.md` updated with one link to this document.
-- Trial29/trial30 parameters accurately documented as experiment configurations, not outcomes.
-- Units, limits, and reference frames explicit.
-- Issue #5 and primary sources linked.
+- Inspect achieved mesh quality and wall-area coverage (>= 90% gate).
+- Settled baseline with meaningful transient duration and checkpoints.
+- Actual per-case velocity vectors visualized.
+- Mesh/domain/timestep sensitivity verified.
 
-No CFD execution, code changes, or dependency additions required for this documentation delivery.
+**Not acceptance**: claim of completed study, converged solution, or validated results. Document evidence and uncertainty.
 
 ## Evidence and provenance
 
-- Trial29: experiment parameter set, stopped at 6M cell cap (exit 137), outcome PENDING.
-- Trial30: proposed refinement to trial29 tip/wake corridors, outcome PENDING.
-- All trials use pinned OpenCFD v2412 native ARM64; same outer domain for isolation.
+- Trial29: experimental parameter set, pre-subset 6,731,101 cells, refinement incomplete, exit 137 (resource limit, cap6M overshoot), REJECTED; not OOM.
+- Trial30: proposed refinement to trial29 tip/wake corridors, RUNNING/pending.
+- All trials use pinned OpenCFD v2412 native AMD64; domain x [-0.508, 1.524], y [-1.1176, 1.1176], z [-0.508, 0.508] m.
 - Boundary-distance sensitivity remains outstanding; wakepath containment must be checked per angle.
+
+**GitHub issue and comments**: [wcc118/openfoam#5](https://github.com/wcc118/openfoam/issues/5); primary comments: [#6400333629](https://github.com/wcc118/openfoam/issues/5#issuecomment-6400333629), [#6400372310](https://github.com/wcc118/openfoam/issues/5#issuecomment-6400372310), [#6400409920](https://github.com/wcc118/openfoam/issues/5#issuecomment-6400409920).
 
 ## Limitations
 

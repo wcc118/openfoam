@@ -48,10 +48,10 @@ every aerodynamic condition. Each stage must expose its own evidence and uncerta
 
 ## Mesh refinement and wake envelope
 
-See [WAKE_SWEEP_PLAN.md](./WAKE_SWEEP_PLAN.md) for the accepted plan for mesh refinement
+See [WAKE_SWEEP_PLAN.md](./WAKE_SWEEP_PLAN.md) for the experimental plan for mesh refinement
 extending away from wing, gradual transition to far field, and 3D tip/wake visualization
-for angle-of-attack sensitivity studies. This document records trial29/trial30 experiment
-parameters as proposals, not outcomes.
+for angle-of-attack sensitivity studies. Trial29 REJECTED (refinement incomplete, reached cap6M, exit 137);
+trial30 RUNNING/pending. See issue #5 for status and primary comments.
 
 ## Technical direction
 
