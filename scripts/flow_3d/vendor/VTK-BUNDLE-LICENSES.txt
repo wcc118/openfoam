@@ -1,0 +1,17 @@
+/*!
+ * @project        vtk.js
+ * @build          Fri, Mar 27, 2026 6:46 AM ET
+ * @copyright      Copyright (c) 2026 Kitware, Inc.
+ *
+ */
+
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <http://feross.org>
+ * @license  MIT
+ */
+
+/*! https://mths.be/punycode v1.4.1 by @mathias */
+
+/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */
