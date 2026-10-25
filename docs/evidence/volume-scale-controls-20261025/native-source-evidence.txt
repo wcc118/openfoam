@@ -1,0 +1,105 @@
+Pinned OpenCFD v2412 polyMeshGeometry.C
+SHA256 acf2096d311739450a82d37cc9b955eae0f9c35b72abef03f3c9d0729a3f56a2
+Local retained source: /tmp/openfoam-planning/native-mesh-source/polyMeshGeometry.C
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |
+    \\  /    A nd           | www.openfoam.com
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+    Copyright (C) 2011-2017 OpenFOAM Foundation
+    Copyright (C) 2015-2022 OpenCFD Ltd.
+-------------------------------------------------------------------------------
+License
+    This file is part of OpenFOAM.
+
+    OpenFOAM is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+
+\*---------------------------------------------------------------------------*/
+
+#include "polyMeshGeometry.H"
+#include "polyMeshTetDecomposition.H"
+Excerpt from the same source:
+
+bool Foam::polyMeshGeometry::checkFacePyramids
+(
+    const bool report,
+    const scalar minPyrVol,
+    const polyMesh& mesh,
+    const vectorField& cellCentres,
+    const pointField& p,
+    const labelList& checkFaces,
+    const List<labelPair>& baffles,
+    labelHashSet* setPtr
+)
+{
+    // check whether face area vector points to the cell with higher label
+    const labelList& own = mesh.faceOwner();
+    const labelList& nei = mesh.faceNeighbour();
+
+    const faceList& f = mesh.faces();
+
+    label nErrorPyrs = 0;
+
+    for (const label facei : checkFaces)
+    {
+        // Create the owner pyramid - it will have negative volume
+        scalar pyrVol = pyramidPointFaceRef
+        (
+            f[facei],
+            cellCentres[own[facei]]
+        ).mag(p);
+
+        if (pyrVol > -minPyrVol)
+        {
+            ++nErrorPyrs;
+
+            if (report)
+            {
+                Pout<< "bool polyMeshGeometry::checkFacePyramids("
+                    << "const bool, const scalar, const pointField&"
+                    << ", const labelList&, labelHashSet*): "
+                    << "face " << facei << " points the wrong way. " << endl
+                    << "Pyramid volume: " << -pyrVol
+                    << " Face " << f[facei] << " area: " << f[facei].mag(p)
+                    << " Owner cell: " << own[facei] << endl
+                    << "Owner cell vertex labels: "
+                    << mesh.cells()[own[facei]].labels(f)
+                    << endl;
+            }
+            if (setPtr)
+            {
+                setPtr->insert(facei);
+            }
+        }
+
+        if (mesh.isInternalFace(facei))
+        {
+            // Create the neighbour pyramid - it will have positive volume
+            scalar pyrVol =
+                pyramidPointFaceRef(f[facei], cellCentres[nei[facei]]).mag(p);
+
+            if (pyrVol < minPyrVol)
+            {
+                ++nErrorPyrs;
+
+                if (report)
+                {
+                    Pout<< "bool polyMeshGeometry::checkFacePyramids("
+                        << "const bool, const scalar, const pointField&"
+                        << ", const labelList&, labelHashSet*): "
+                        << "face " << facei << " points the wrong way. " << endl
+                        << "Pyramid volume: " << -pyrVol
+                        << " Face " << f[facei] << " area: " << f[facei].mag(p)

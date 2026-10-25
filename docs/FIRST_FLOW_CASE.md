@@ -96,8 +96,10 @@ checkMesh -allGeometry -allTopology
 simpleFoam
 ```
 
-Supply the unchanged canonical meshQualityDict and retain both full logs before
-using the first command as an acceptance gate. Parallel execution additionally
+Retain the canonical meshQualityDict baseline and the separately declared
+chord-scaled dictionary and logs required by MESH_ACCEPTANCE.md. Only the
+reviewed dimensional minVol convention may differ; other numerical limits remain
+unchanged. Parallel execution additionally
 requires a declared decomposition, MPI run and reconstruction; retain those
 commands and outputs. A process exit of zero is never a mesh/flow pass.
 
