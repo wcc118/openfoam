@@ -1,0 +1,13 @@
+type surfaces;
+libs ("libsampling.so");
+writeControl writeTime;
+surfaceFormat vtk;
+formatOptions { vtk { format ascii; legacy true; } }
+interpolationScheme cell;
+fields (nSurfaceLayers);
+surfaces
+(
+ midspan {type cuttingPlane; planeType pointAndNormal; pointAndNormalDict {basePoint (0 .001 0); normalVector (0 1 0);} interpolate false;}
+ tip {type cuttingPlane; planeType pointAndNormal; pointAndNormalDict {basePoint (0 .605 0); normalVector (0 1 0);} interpolate false;}
+ wingSurface {type patch; patches (wing); interpolate false;}
+);

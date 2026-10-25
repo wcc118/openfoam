@@ -1,0 +1,14 @@
+{
+  "status": "timeout",
+  "timeout_seconds": 1100,
+  "completed_final_mesh": false,
+  "container_exit_code": null,
+  "source": "Observed TimeoutExpired from retained run-refined-mesh.py; runner invoked docker stop on its named container",
+  "last_layer_iteration": [
+    "49"
+  ],
+  "snappy_log_sha256": "fa19ec6c49fbd1c1c8693e585bf38cb1393d9f04e7799334c8d0b1a38904eed8",
+  "final_completion_marker_present": false,
+  "layer_field_present": true,
+  "matching_container_after_timeout": ""
+}
