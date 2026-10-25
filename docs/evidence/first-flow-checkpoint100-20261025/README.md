@@ -1,164 +1,77 @@
-# First-flow checkpoint100 evidence archive
+# First wing-flow checkpoints
 
-This directory contains immutable diagnostic evidence extracted from iteration100
-of an unconverged steady-flow case. The original solve continues beyond this
-checkpoint; this archive is a snapshot for analysis and reproduction.
+These are diagnostic snapshots of the provisional NACA4412 rigid wing at 30 m/s
+and 4° incidence, using the trial9 mesh with 2,850,441 cells. They do not establish
+convergence, physical validity, flutter behavior or flight performance. SIMPLE
+iteration labels are not physical seconds.
 
-## Reconstruction scope
+The first run requested 500 iterations but reached its 1,800-second execution
+limit after 333 complete iterations, with iteration334 partially executed.
+The container was stopped successfully; no final500 fields exist. The isolated
+iteration100 and iteration300 reconstructions are retained separately. Their
+successful execution is not successful completion of the original solve.
 
-**This is not convergence or physical validation.** The evidence is extracted from
-a native OpenFOAM run that will continue to iteration500 (not completed at
-archive time). SIMPLE iteration count is **not physical time**.
+## Provenance
 
-- Primary input commit: `9d3b6c4`
-- Evidence directory: `docs/evidence/first-flow-checkpoint100-20261025`
-- Source case (external, immutable): `/home/foam/projects/openfoam/runs/wing-flow-alpha4-pc-20261025`
+The six original JSON/Python inputs are unchanged from primary input commit
+`9d3b6c4`. Source setup revision is `48a6f9b47e6c66b271c90a4bd6fa64a14ff82c08`.
+`source-manifest.json` records mesh hashes, atmospheric inputs, reference values,
+axes and field setup. `execution.json` records the successful iteration100
+reconstruction, exit0 in24.5s. These native results were executed by primary
+Codex; the documentation worker did not execute the CFD case.
+
+Raw cases remain outside Git:
+
+- PC source: `/home/foam/projects/openfoam/runs/wing-flow-alpha4-pc-20261025`
+- Spark checkpoint: `runs/wing-flow-alpha4-checkpoint100-pc-20261025`
+- Spark later checkpoint: `runs/wing-flow-alpha4-checkpoint300-pc-20261025`
 - PC preview: `G:\projects\openfoam\runs\wing-baseline-pc-20261025\flow-preview.html`
 
-## Source configuration (source-manifest.json)
+The preview can advance to later checkpoints; the JSON records fix each snapshot.
+The archived scripts retain their original absolute paths and are one-off
+analysis records, not supported general-purpose tools. Full fields and native
+mesh files are required to reproduce their calculations.
 
-| Parameter | Value |
-|-----------|-------|
-| Generator | `scripts/generate_flow_case.py` |
-| Revision | `48a6f9b47e6c66b271c90a4bd6fa64a14ff82c08` |
-| Mesh trial | `trial9` |
-| Cells | 2,850,441 |
-| Boundary patches | inlet, outlet, farfield, wing |
-| Iterations requested | 500 |
+## Independent extraction
 
-Flow conditions:
-- Speed: 30 m/s
-- Angle of attack: 4°
-- Density: 1.2250532683653954 kg/m³
-- Kinematic viscosity: 1.4605775310347254e-5 m²/s
-- Dynamic pressure: 551.273970764428 Pa
+Mesh hashes were compared with the source manifest. Polygon geometry was
+independently integrated in native face order; triangle and translated-square
+geometry oracles are in `prepare-wing-integration.py`. Force agreement below
+checks the resulting integration, not a separate comparison of every native
+face centre or normal.
 
-Geometry:
-- Span: 1.2192 m
-- Chord: 0.1016 m
-- Reference area: 0.12387072 m²
-- Moment origin: (0.0254, 0, 0) m
+The pressure boundary is zeroGradient with no stored boundary value; wall p is
+read from each face's owner cell. Kinematic pressure and wallShearStress give
+force `rho * (p * Sf - wallShearStress * area)`, with fluid-domain outward Sf.
+Moments use quarter-chord origin `(0.0254, 0, 0)` m. Drag/lift directions and
+reference normalization follow the source manifest.
 
-## Extraction command (execution.json)
+| Diagnostic | Iteration100 | Iteration300 |
+| --- | ---: | ---: |
+| Maximum force-component discrepancy, N | 1.77e-12 | 2.23e-12 |
+| Maximum moment-component discrepancy, N m | 3.49e-14 | 7.94e-14 |
+| Relative net boundary mass imbalance | 3.124e-8 | 5.985e-9 |
+| Area-weighted yPlus median | 0.9523 | 0.9547 |
+| Area-weighted yPlus 95th percentile | 4.1787 | 4.4918 |
+| Wall area above yPlus2 | 10.196% | 9.829% |
 
-```bash
-docker run \
-  --name openfoam-wing-checkpoint100-20261025 \
-  --rm --pull never --network none --memory 6g --cpus 2 \
-  --user 1000:1000 \
-  --mount type=bind,src=/home/foam/projects/openfoam/runs/wing-flow-alpha4-checkpoint100-pc-20261025,dst=/work \
-  --workdir /work \
-  --entrypoint /bin/bash \
-  opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b \
-  -lc "source /usr/lib/openfoam/openfoam2412/etc/bashrc && reconstructPar -time 100 -fields '(p phi yPlus wallShearStress)' > log.reconstructPar 2>&1"
-```
+Force agreement is consistent with written field precision and verifies
+extraction, not physical accuracy. The yPlus95 target is <=2: both checkpoints
+miss it. No final500 window or repeatability assessment is available.
 
-Exit code: 0, elapsed: 24.5 seconds.
+At iteration100, trailing10%chord contains53.77% of the failing area and outer
+5%span contains31.01%. These regions can overlap. `yplus-regions.json` preserves
+the region definitions and denominators; face-count weighting is not used.
 
-## Key results (independent-checkpoint-analysis.json)
+## Later execution records
 
-### Geometry verification
+`later/iteration300-analysis.json` and `later/initial-run-execution.json` retain
+the later checkpoint and timeout. The first iteration300 reconstruction failed
+because a primary script substitution changed Docker UID/GID1000 to3000.
+`later/reconstruction300-failed.json` preserves that failure; the corrected
+1000:1000 retry succeeded and is recorded separately. The original flow case
+was unaffected. This was an orchestration error, not a CFD-model failure.
 
-Geometry hashes verified against source mesh. Triangle polygon integration used
-for area vectors and triangle-area-weighted centres. Independent calculation
-confirms face normals and centres match native extraction.
-
-### Force/moment agreement
-
-Independent pressure-plus-viscous traction calculation using formula:
-`rho * (p * Sf - wallShearStress * area)` with p=zeroGradient owner values.
-
-| Metric | Independent | Native | Max difference |
-|--------|-------------|--------|----------------|
-| Force (N) | [-0.413, -2.38e-5, 34.75] | [-0.413, -2.38e-5, 34.75] | 1.77e-12 |
-| Moment (Nm) | [0.000652, -0.349, 7.66e-5] | [0.000652, -0.349, 7.66e-5] | 3.48e-14 |
-
-Coefficient agreement (Cd, Cl, CmPitch):
-- Independent: [0.02946, 0.5080, -0.05037]
-- Native: [0.02946, 0.5080, -0.05037]
-- Absolute difference: [2.7e-15, 2.2e-14, 3.5e-15]
-
-**Note:** Agreement is at machine precision. This verifies extraction, not
-physical accuracy.
-
-### Mass conservation
-
-Boundary volume flux (m³/s):
-- Inlet: -67.963
-- Outlet: 68.010
-- Farfield: -0.0470
-- Wing: 0.0
-
-Relative mass imbalance: 3.12e-08
-
-### yPlus statistics (area-weighted)
-
-| Metric | Value |
-|--------|-------|
-| Median | 0.952 |
-| 95th percentile | 4.18 |
-| 99th percentile | 11.9 |
-| Maximum | 51.2 |
-| Fraction above 2.0 | 10.2% |
-
-### Spatial yPlus distribution (yplus-regions.json)
-
-| Region | Area fraction | Share of failing area | Within region fraction > 2 |
-|--------|--------------|----------------------|---------------------------|
-| Tip 5% | 5.58% | 31.0% | 56.6% |
-| Interior 95% | 94.4% | 69.0% | 7.45% |
-| Leading 10% | 10.8% | 23.0% | 21.8% |
-| Trailing 10% | 10.2% | 53.8% | 53.8% |
-
-## Field hashes (independent-checkpoint-analysis.json)
-
-```
-p:            6f12bda14711b7fc7ae8d73c4e18faa4877167562af884d9ff2c10ac134d029a
-phi:          bde40250e58403e50e86b62ec0c7b501f793d0cae37110d1a038f4257d15c797
-yPlus:        ef21f0609e2f2f75f9b50a8407597c50cd196e19f80b46b1852c689b047d2023
-wallShearStress: 24b877ef891d5c1789d10adc48dee50234dc1f2e6a988ab5e1da7eca834ea4ed
-```
-
-## Diagnostic scripts (archived one-off use only)
-
-- `analyze-flow100.py`: Independent force/moment extraction from OpenFOAM fields
-- `prepare-wing-integration.py`: Native-order polygon integration for wing surface
-
-These scripts use absolute paths and are archived for reproducibility verification
-only. They are not supported CLI tools.
-
-## Limitations
-
-1. **No convergence claim**: Iteration100 is early in a 500-iteration solve.
-   Residual control, coefficient stability, and mesh convergence remain unverified.
-
-2. **No physical validation**: Agreement at machine precision verifies numerical
-   extraction, not correct physics or boundary conditions.
-
-3. **No flutter or performance acceptance**: This is a single-point steady-state
-   snapshot. Dynamic stability and flight-envelope qualification are separate work.
-
-4. **External source case**: Raw multi-million-cell fields reside outside Git.
-   This archive contains extracted statistics and verification scripts.
-
-5. **Local PC preview**: PC preview HTML at `G:\projects\openfoam\runs\wing-baseline-pc-20261025\flow-preview.html`
-   is not committed; use the archived JSON for analysis.
-
-## Verification commands
-
-```bash
-# Verify evidence files unchanged from input commit
-cd /home/connellwc83/.local/share/opencode-orchestration/isolated-checkouts/tmp.5ApW5HMo5l/checkout
-git show 9d3b6c4:docs/evidence/first-flow-checkpoint100-20261025/ | grep -E '^100644'
-sha256sum docs/evidence/first-flow-checkpoint100-20261025/*
-
-# Check whitespace errors
-git diff --check
-
-# Verify git tree matches
-git ls-tree 9d3b6c4 docs/evidence/first-flow-checkpoint100-20261025/
-```
-
-## Referencing
-
-Link from `docs/FIRST_FLOW_CASE.md` using this directory path and commit reference.
+Validation of this archive includes byte comparison of the original six files
+against commit9d3b6c4 and `git diff --check`. It does not rerun the CFD analysis.
+Mesh/domain sensitivity and physical reference validation remain outstanding.
