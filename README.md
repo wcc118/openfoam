@@ -20,7 +20,10 @@ Run the OpenFOAM runtime qualification launcher:
 python3 scripts/qualify_runtime.py --output runs/unique-name
 ```
 
-**Pinned runtime:** `opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4` (v2412, native linux/arm64)
+**Pinned runtime (multi-arch):** `opencfd/openfoam-default@sha256:<digest>` (v2412, native Linux)
+
+- **Linux/arm64**: `b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4`
+- **Linux/amd64**: `adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b`
 
 - [Runtime qualification documentation](docs/RUNTIME_QUALIFICATION.md): usage, acceptance criteria, and output artifacts.
 

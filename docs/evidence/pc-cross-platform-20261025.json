@@ -1,0 +1,21 @@
+{
+  "scope": "cross-architecture cavity regression at written precision, not physical validation",
+  "absolute_tolerance": 1e-10,
+  "relative_tolerance": 1e-06,
+  "fields": {
+    "U": {
+      "components": 1200,
+      "max_absolute_difference": 0.0,
+      "passed": true,
+      "spark_sha256": "14f983bc5221ebbb991eeb52abce5774eaf3e5f34d4162e3e7b54286bcabcf6a",
+      "pc_sha256": "14f983bc5221ebbb991eeb52abce5774eaf3e5f34d4162e3e7b54286bcabcf6a"
+    },
+    "p": {
+      "components": 400,
+      "max_absolute_difference": 0.0,
+      "passed": true,
+      "spark_sha256": "adcfe9c1500a803baba1910c954842e34f7227db227deb03a1c1e1633791c217",
+      "pc_sha256": "adcfe9c1500a803baba1910c954842e34f7227db227deb03a1c1e1633791c217"
+    }
+  }
+}
