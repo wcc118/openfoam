@@ -1,98 +1,38 @@
 # Environment and runtime qualification
 
-Observed 2026-10-24 in /home/connellwc83/projects/openfoam:
+Initial observations (2026-10-24): Ubuntu 24.04.4 LTS, aarch64 DGX Spark,
+Docker available, no host OpenFOAM installation. Ubuntu's package candidate was
+1912.200626-2build3; it was not installed. PC CPU/RAM/OS and remote execution
+remain uninspected; owner reports an RTX 3090.
 
-- Directory initially empty, not a Git repository; private wcc118/openfoam created.
-- Ubuntu 24.04.4 LTS, aarch64 (DGX Spark environment).
-- Docker executable/daemon available; daemon reports aarch64.
-- foamVersion not on PATH; dpkg query showed no installed OpenFOAM package.
-- Ubuntu configured archive candidate: openfoam 1912.200626-2build3 (arm64).
-- No runtime installed or solver executed by planning issue #1.
-- PC CPU/RAM/OS and remote execution details have not been inspected in this project.
-  Owner reports an RTX 3090; do not infer benchmark performance from that alone.
+## Selected runtime (issue #2)
 
-## OpenFOAM Runtime Qualification (issue #2)
+Official OpenCFD v2412, native linux/arm64:
+`opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4`.
+The primary inspected the multi-platform manifest and pulled this exact ARM64 digest.
+Image size: 1,292,001,858 bytes. Solver build: `_45e7c4a0-20241224`, scalar64/label32.
+This selection avoids host package/global-shell changes and supports the required
+meshing and steady/transient executables. It predates v2606 mesh-motion changes;
+future preCICE compatibility still needs its own qualification.
 
-**Selected runtime:** `opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4` (v2412)
+[Runtime instructions](RUNTIME_QUALIFICATION.md) describe explicit installation,
+per-command activation, removal, limits, tests, and evidence. The launcher runs as
+host UID/GID with no network, two CPU equivalents and a 2 GB memory limit.
+The cavity tutorial is copied twice and run independently through t=0.5.
+There are 400 field values/cells, NOT 400 time directories.
 
-**Architecture:** native linux/arm64
+Primary native exploratory and corrected-launcher runs on 2026-10-25 completed:
+checkMesh reported Mesh OK; final U/p were byte-identical; max Courant 0.852134,
+final local continuity 9.66354e-09, cumulative -4.19231e-18. These are runtime
+sanity/repeatability observations, not experimental CFD validation.
+Reviewed run summaries will be retained in docs/evidence with hashes and raw artifact
+locations; GitHub #2/PR #7 determine acceptance state.
 
-**Verification method:** Docker-based headless runtime qualification launcher.
+## Next gates
 
-### Implementation
+Generated wing geometry (#3), one flow case (#4), and mesh/domain/AoA evidence (#5).
+No wing flow, compressible-flow, structural or flutter capability follows from
+successfully running the cavity. GPU acceleration, MPI and FSI remain deferred.
 
-- **Launcher:** `scripts/qualify_runtime.py`
-- **Tests:** `tests/test_qualify_runtime.py` (unit tests, no Docker required)
-- **Documentation:** `docs/RUNTIME_QUALIFICATION.md`
-
-### Usage
-
-```bash
-python3 scripts/qualify_runtime.py --output runs/unique-name
-```
-
-### Acceptance criteria
-
-Both cavity tutorial runs must satisfy:
-
-- Mesh OK (checkMesh validation)
-- Solver ends successfully (Exit marker)
-- Final time = 0.5
-- 400 time steps for U and p fields
-- Speed bounded 0..1.1 m/s
-- Recirculation present (both Ux signs)
-- Max Courant <= 1
-- Final local continuity <= 1e-6
-- Final cumulative abs continuity <= 1e-10
-- Byte-identical U and p between runs
-
-### Container execution
-
-- Image: `opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4`
-- Flags: `--rm --network none --memory 2g --cpus 2 --user UID:GID`
-- Shell payload: sources `/usr/lib/openfoam/openfoam2412/etc/bashrc`, runs blockMesh/checkMesh/icoFoam
-
-### Uninstall
-
-Remove only the selected image:
-
-```bash
-docker rmi opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4
-```
-
-### Observed results (primary exploratory run)
-
-The following observations were recorded during primary exploratory execution
-(outside this isolated worker):
-
-- **Max Courant:** 0.852134
-- **Final local continuity:** 9.66354e-09
-- **Final cumulative continuity:** -4.19231e-18
-- **Final fields:** byte-identical between runs
-- **Solver banner:** _45e7c4a0-20241224 / scalar64 label32
-
-These observations are context only; do not fabricate a committed run result.
-Primary will populate observed evidence.
-
-### Next detailed task
-
-Select and pin one OpenFOAM distribution/version with a reproducible native ARM64
-installation or isolated source/container build. Investigate current OpenCFD releases
-first because of intended future preCICE use, but verify actual ARM64 availability,
-solver support, licensing and resource cost before selecting. The old Ubuntu package
-is an available fallback, not the automatic choice. Do not confuse Foundation 14
-with OpenCFD v2606 or assume matching case files.
-
-Record exact source/image checksum, dependencies/build options, environment activation,
-memory/disk budget, and uninstall/rebuild instructions. Avoid mutable latest tags,
-system-wide shell changes, and remote scripts piped to privileged shells. Use explicit
-per-command activation. Run an official reference case appropriate to that release,
-check observed outputs, and reproduce it from a fresh case directory.
-
-Gate: version and native architecture evidence plus a complete successful reference
-run with numerical sanity checks. An installed executable alone does not pass.
-GPU acceleration, multi-machine MPI, preCICE and structural solvers are deferred.
-
-Source: https://precice.org/adapter-openfoam-support (consulted 2026-10-24).
-It describes distribution/version differences and notes mesh-motion result changes
-for v2606; this is a reason to qualify the chosen version, not assume compatibility.
+Reference consulted 2026-10-24: https://precice.org/adapter-openfoam-support
+(distribution/version differences and v2606 mesh-motion changes).

@@ -30,8 +30,9 @@ validate physical accuracy or flight capability.
 
 ## Status
 
-This repository is being initialized. No solver installation, CFD result, flutter
-prediction, or flight capability has yet been demonstrated here.
+The pinned ARM64 runtime has completed repeatable cavity tutorial runs. Wing
+geometry/flow qualification is next; no flutter prediction or flight capability
+has been demonstrated. See GitHub for independent review and acceptance state.
 
 GitHub issues are authoritative for work status. Plans describe intended behavior,
 not completed capability. Private aircraft evidence stays private; a later public
