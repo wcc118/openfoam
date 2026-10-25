@@ -148,12 +148,12 @@ def inspect_docker_image():
     )
     if result.returncode != 0:
         raise RuntimeError(f"Docker inspect failed: {result.stderr}")
-    
+
     image_id = parse_docker_inspect_field(result.stdout, "Id")
     created = parse_docker_inspect_field(result.stdout, "Created")
     arch = parse_docker_inspect_field(result.stdout, "Architecture")
     os_version = parse_docker_inspect_field(result.stdout, "Os")
-    
+
     return {
         "id": image_id,
         "created": created,
@@ -187,43 +187,43 @@ def create_container_run_command(output_path, script_path, uid, gid):
         "--user",
         f"{uid}:{gid}",
     ]
-    
+
     # Volume mounts: output directory writable, script readonly
     script_src = str(script_path.resolve())
     output_src = str(output_path.resolve())
-    
+
     volume_flags = [
         "-v",
         f"{script_src}:/opt/run.sh:ro",
         "-v",
         f"{output_src}:/opt/output:rw",
     ]
-    
+
     # Working directory and image
     workdir_flags = ["-w", "/opt"]
-    
+
     # Image and command
     image_and_cmd = [OPENFOAM_IMAGE, "/bin/bash", "/opt/run.sh"]
-    
+
     return base_flags + volume_flags + workdir_flags + [OPENFOAM_IMAGE] + ["/bin/bash", "/opt/run.sh"]
 
 
 def run_container(output_path, script_path, uid, gid):
     """Run the container and capture output."""
     cmd = create_container_run_command(output_path, script_path, uid, gid)
-    
+
     print(f"Running container with command: {' '.join(cmd)}")
-    
+
     result = subprocess.run(
         cmd,
         capture_output=True,
         text=True,
     )
-    
+
     # Save container stdout/stderr
     (output_path / "container_stdout.log").write_text(result.stdout)
     (output_path / "container_stderr.log").write_text(result.stderr)
-    
+
     return result
 
 
@@ -236,14 +236,14 @@ def parse_openfoam_mesh_log(log_content):
         "boundary_patches": None,
         "mesh_check_passed": False,
     }
-    
+
     lines = log_content.split("\n")
-    
+
     for line in lines:
         # Check for Mesh check result
         if "Mesh check OK" in line or "Mesh OK" in line:
             result["mesh_check_passed"] = True
-        
+
         # Parse cells
         if "cells:" in line:
             parts = line.split()
@@ -253,7 +253,7 @@ def parse_openfoam_mesh_log(log_content):
                         result["cells"] = int(parts[i + 1].rstrip(","))
                     except ValueError:
                         pass
-        
+
         # Parse faces
         if "faces:" in line:
             parts = line.split()
@@ -263,7 +263,7 @@ def parse_openfoam_mesh_log(log_content):
                         result["faces"] = int(parts[i + 1].rstrip(","))
                     except ValueError:
                         pass
-        
+
         # Parse boundary patches
         if "boundary patches:" in line:
             parts = line.split()
@@ -273,10 +273,10 @@ def parse_openfoam_mesh_log(log_content):
                         result["boundary_patches"] = int(parts[i + 1].rstrip(","))
                     except ValueError:
                         pass
-    
+
     # Overall OK if mesh check passed
     result["ok"] = result["mesh_check_passed"]
-    
+
     return result
 
 
@@ -293,9 +293,9 @@ def parse_openfoam_icofoam_log(log_content):
         "local_continuity_final": None,
         "cumulative_continuity_abs_final": None,
     }
-    
+
     lines = log_content.split("\n")
-    
+
     for line in lines:
         # Check for "End" marker
         if line.strip() == "End":
@@ -338,7 +338,7 @@ def count_field_files(output_path, field_name):
     """Count number of time directories containing a field file."""
     count = 0
     output_dir = Path(output_path)
-    
+
     # Find time directories in cavity-a
     cavity_a = output_dir / "cavity-a"
     if cavity_a.exists():
@@ -352,18 +352,18 @@ def count_field_files(output_path, field_name):
                         count += 1
                 except ValueError:
                     pass
-    
+
     return count
 
 
 def read_field_values(output_path, field_name):
     """Read field values from the final time directory."""
     output_dir = Path(output_path)
-    
+
     # Find the latest time directory in cavity-a
     cavity_a = output_dir / "cavity-a"
     latest_time = None
-    
+
     if cavity_a.exists():
         times = []
         for item in cavity_a.iterdir():
@@ -372,33 +372,33 @@ def read_field_values(output_path, field_name):
                     times.append((float(item.name), item))
                 except ValueError:
                     pass
-        
+
         if times:
             latest_time = max(times, key=lambda x: x[0])[1]
-    
+
     if latest_time is None:
         return None
-    
+
     field_file = latest_time / field_name
     if not field_file.exists():
         return None
-    
+
     values = []
     with open(field_file, "r") as f:
         content = f.read()
-    
+
     # Parse ASCII field file
     # Look for the data section after "internalField" or "boundaryField"
     lines = content.split("\n")
-    
+
     in_internal_field = False
     for line in lines:
         line = line.strip()
-        
+
         if line.startswith("internalField"):
             in_internal_field = True
             continue
-        
+
         if in_internal_field:
             if line == ";":
                 break
@@ -429,20 +429,20 @@ def read_field_values(output_path, field_name):
                         values.append(float(vals[0]))
                 except (ValueError, IndexError):
                     pass
-    
+
     return values
 
 
 def verify_acceptance(output_path):
     """Verify acceptance criteria from run artifacts."""
     issues = []
-    
+
     output_dir = Path(output_path)
-    
+
     # Read container logs
     container_stdout = (output_dir / "container_stdout.log").read_text()
     container_stderr = (output_dir / "container_stderr.log").read_text()
-    
+
     # Check for blockMesh, checkMesh, icoFoam in stdout
     if "blockMesh" not in container_stdout:
         issues.append("blockMesh not found in output")
@@ -450,88 +450,88 @@ def verify_acceptance(output_path):
         issues.append("checkMesh not found in output")
     if "icoFoam" not in container_stdout:
         issues.append("icoFoam not found in output")
-    
+
     # Parse checkMesh output for cavity-a and cavity-b
     # Note: checkMesh output goes to stderr in OpenFOAM
     cavity_a_mesh = parse_openfoam_mesh_log(container_stderr)
     cavity_b_mesh = parse_openfoam_mesh_log(container_stderr)
-    
+
     if not cavity_a_mesh["ok"]:
         issues.append(f"cavity-a checkMesh failed: {container_stderr}")
     if not cavity_b_mesh["ok"]:
         issues.append(f"cavity-b checkMesh failed: {container_stderr}")
-    
+
     # Parse icoFoam output
     cavity_a_solver = parse_openfoam_icofoam_log(container_stdout)
     cavity_b_solver = parse_openfoam_icofoam_log(container_stdout)
-    
+
     # Check both runs completed
     if not cavity_a_solver["ended_successfully"]:
         issues.append("cavity-a icoFoam did not complete successfully")
     if not cavity_b_solver["ended_successfully"]:
         issues.append("cavity-b icoFoam did not complete successfully")
-    
+
     # Check final time = 0.5
     if cavity_a_solver["final_time"] != 0.5:
         issues.append(f"cavity-a final time = {cavity_a_solver['final_time']}, expected 0.5")
     if cavity_b_solver["final_time"] != 0.5:
         issues.append(f"cavity-b final time = {cavity_b_solver['final_time']}, expected 0.5")
-    
+
     # Count field files (should be 400 each for U and p)
     u_count_a = count_field_files(output_path, "U")
     p_count_a = count_field_files(output_path, "p")
-    
+
     if u_count_a != 400:
         issues.append(f"cavity-a U field count = {u_count_a}, expected 400")
     if p_count_a != 400:
         issues.append(f"cavity-a p field count = {p_count_a}, expected 400")
-    
+
     # Verify speed range (0..1.1 m/s)
     if cavity_a_solver["speed_range"][0] < 0:
         issues.append(f"cavity-a min speed = {cavity_a_solver['speed_range'][0]}, expected >= 0")
     if cavity_a_solver["speed_range"][1] > 1.1:
         issues.append(f"cavity-a max speed = {cavity_a_solver['speed_range'][1]}, expected <= 1.1")
-    
+
     # Check for recirculation (both signs of Ux present)
     if len(cavity_a_solver["ux_signs"]) < 2:
         issues.append(f"cavity-a Ux signs: {cavity_a_solver['ux_signs']}, expected both positive and negative")
-    
+
     # Check max Courant <= 1
     if cavity_a_solver["max_courant"] > 1.0:
         issues.append(f"cavity-a max Courant = {cavity_a_solver['max_courant']}, expected <= 1.0")
-    
+
     # Check continuity errors
     if cavity_a_solver["local_continuity_final"] is None:
         issues.append("cavity-a local continuity error not found")
     elif abs(cavity_a_solver["local_continuity_final"]) > 1e-6:
         issues.append(f"cavity-a final local continuity = {cavity_a_solver['local_continuity_final']}, expected <= 1e-6")
-    
+
     if cavity_a_solver["cumulative_continuity_abs_final"] is None:
         issues.append("cavity-a cumulative continuity error not found")
     elif abs(cavity_a_solver["cumulative_continuity_abs_final"]) > 1e-10:
         issues.append(f"cavity-a final cumulative abs continuity = {cavity_a_solver['cumulative_continuity_abs_final']}, expected <= 1e-10")
-    
+
     # Verify byte-identical U and p between runs
     u_values_a = read_field_values(output_path, "U")
     u_values_b = read_field_values(output_path, "U")
-    
+
     if u_values_a is None:
         issues.append("Could not read U values from cavity-a")
     elif u_values_b is None:
         issues.append("Could not read U values from cavity-b")
     elif u_values_a != u_values_b:
         issues.append("U fields differ between cavity-a and cavity-b (byte-identical required)")
-    
+
     p_values_a = read_field_values(output_path, "p")
     p_values_b = read_field_values(output_path, "p")
-    
+
     if p_values_a is None:
         issues.append("Could not read p values from cavity-a")
     elif p_values_b is None:
         issues.append("Could not read p values from cavity-b")
     elif p_values_a != p_values_b:
         issues.append("p fields differ between cavity-a and cavity-b (byte-identical required)")
-    
+
     return issues
 
 
@@ -545,31 +545,31 @@ def main():
         required=True,
         help="Output directory path (must not exist or be empty)",
     )
-    
+
     args = parser.parse_args()
-    
+
     # Convert to absolute path
     output_path = Path(args.output).resolve()
-    
+
     try:
         # 1. Check host architecture
         print("Checking host architecture...")
         arch = check_host_architecture()
         print(f"  Host architecture: {arch}")
-        
+
         # 2. Get host UID/GID
         uid, gid = get_host_uid_gid()
         print(f"  Host UID:GID = {uid}:{gid}")
-        
+
         # 3. Ensure output path is clean
         print(f"Checking output path: {output_path}")
         ensure_output_path_empty(output_path)
         output_path.mkdir(parents=True, exist_ok=True)
-        
+
         # 4. Pull Docker image
         print("Pulling Docker image...")
         pull_docker_image()
-        
+
         # 5. Inspect Docker image
         print("Inspecting Docker image...")
         image_info = inspect_docker_image()
@@ -577,31 +577,31 @@ def main():
         print(f"  Created: {image_info['created']}")
         print(f"  Architecture: {image_info['architecture']}")
         print(f"  OS: {image_info['os']}")
-        
+
         # 6. Create shell script
         print("Creating run script...")
         script_path = create_shell_script(output_path)
-        
+
         # 7. Run container
         print("Running container...")
         result = run_container(output_path, script_path, uid, gid)
-        
+
         # 8. Check container exit code
         if result.returncode != 0:
             print(f"Container failed with exit code {result.returncode}")
             print(f"STDOUT:\n{result.stdout}")
             print(f"STDERR:\n{result.stderr}")
             sys.exit(2)
-        
+
         # 9. Verify acceptance criteria
         print("Verifying acceptance criteria...")
         issues = verify_acceptance(output_path)
-        
+
         if issues:
             print("Acceptance criteria FAILED:")
             for issue in issues:
                 print(f"  - {issue}")
-            
+
             # Save failure report
             report = {
                 "status": "failed",
@@ -646,17 +646,17 @@ def main():
                     "shell_script": "run.sh",
                 },
             }
-            
+
             report_path = output_path / "qualify_report.json"
             with open(report_path, "w") as f:
                 json.dump(report, f, indent=2)
-            
+
             print(f"  Report saved to: {report_path}")
             sys.exit(3)
-        
+
         # 10. Success - save report
         print("Acceptance criteria PASSED")
-        
+
         report = {
             "status": "passed",
             "image": {
@@ -715,34 +715,34 @@ def main():
                 },
             },
         }
-        
+
         report_path = output_path / "qualify_report.json"
         with open(report_path, "w") as f:
             json.dump(report, f, indent=2)
-        
+
         # Compute SHA256 of key artifacts
         for artifact in ["qualify_report.json", "container_stdout.log", "container_stderr.log"]:
             artifact_path = output_path / artifact
             if artifact_path.exists():
                 report["artifacts_sha256"][artifact] = sha256_file(artifact_path)
-        
+
         report["artifacts_sha256"] = {}
         for artifact in ["qualify_report.json", "container_stdout.log", "container_stderr.log"]:
             artifact_path = output_path / artifact
             if artifact_path.exists():
                 report["artifacts_sha256"][artifact] = sha256_file(artifact_path)
-        
+
         # Save updated report
         with open(report_path, "w") as f:
             json.dump(report, f, indent=2)
-        
+
         print(f"Report saved to: {report_path}")
         print(f"Output artifacts:")
         for item in output_path.iterdir():
             print(f"  {item.name}")
-        
+
         sys.exit(0)
-        
+
     except subprocess.CalledProcessError as e:
         print(f"Command failed: {e.cmd}")
         print(f"Exit code: {e.returncode}")

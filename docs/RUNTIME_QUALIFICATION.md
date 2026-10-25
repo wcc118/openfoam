@@ -8,8 +8,8 @@ to verify numerical acceptance criteria.
 
 ## Pinned Runtime Identity
 
-**Image:** `opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4`  
-**Version:** v2412 (OpenFOAM 24.12)  
+**Image:** `opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4`
+**Version:** v2412 (OpenFOAM 24.12)
 **Architecture:** native linux/arm64
 
 ## Usage
