@@ -79,7 +79,7 @@ class QualificationTests(unittest.TestCase):
         with self.assertRaises(FileExistsError): runtime.qualify(self.root)
 
     def test_failed_container_preserves_report(self):
-        image=[dict(Architecture='arm64',Os='linux',Id='fixture',Size=1,RepoDigests=[runtime.OPENFOAM_IMAGE])]
+        image=[dict(Architecture='arm64',Os='linux',Id='fixture',Size=1,RepoDigests=[runtime.get_openfoam_image()])]
         returns=[subprocess.CompletedProcess([],0,'test-revision',''),subprocess.CompletedProcess([],0,'',''),
                  subprocess.CompletedProcess([],0,json.dumps(image),''),subprocess.CompletedProcess([],42,'started','failure')]
         with patch.object(runtime.platform,'machine',return_value='aarch64'), patch.object(runtime.platform,'platform',return_value='test-linux'), patch.object(runtime.subprocess,'run',side_effect=returns):
@@ -96,6 +96,40 @@ class QualificationTests(unittest.TestCase):
         self.assertIn('--entrypoint',cmd)
         self.assertNotIn('--privileged',cmd)
         self.assertEqual(cmd.count('--mount'),1)
+
+    def test_unsupported_host_architecture_rejected(self):
+        # Temporarily clear the mapping to simulate unsupported architecture
+        original_map = runtime.ARCH_IMAGE_MAP.copy()
+        runtime.ARCH_IMAGE_MAP.clear()
+        try:
+            with self.assertRaisesRegex(ValueError, 'unsupported host architecture'):
+                runtime.qualify(self.root/'unsupported-arch')
+        finally:
+            runtime.ARCH_IMAGE_MAP.update(original_map)
+
+    def test_platform_match_reported(self):
+        # Verify platform_match is reported in the output
+        image=[dict(Architecture='arm64',Os='linux',Id='fixture',Size=1,RepoDigests=[runtime.get_openfoam_image()])]
+        returns=[subprocess.CompletedProcess([],0,'test-revision',''),subprocess.CompletedProcess([],0,'',''),
+                 subprocess.CompletedProcess([],0,json.dumps(image),''),subprocess.CompletedProcess([],42,'started','failure')]
+        with patch.object(runtime.platform,'machine',return_value='aarch64'), patch.object(runtime.platform,'platform',return_value='test-linux'), patch.object(runtime.subprocess,'run',side_effect=returns):
+            report=runtime.qualify(self.root/'platform-check')
+        self.assertIn('platform_match', report)
+        self.assertEqual(report['platform_match']['host'], 'aarch64')
+        self.assertEqual(report['platform_match']['image'], 'arm64')
+        self.assertEqual(report['platform_match']['os'], 'linux')
+
+    def test_arm64_host_uses_pinned_digest(self):
+        # Verify the mapping contains the expected ARM64 digest
+        self.assertIn('aarch64', runtime.ARCH_IMAGE_MAP)
+        self.assertEqual(runtime.ARCH_IMAGE_MAP['aarch64'], 'b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4')
+        # Verify the function returns the correct image for current host
+        self.assertIn('b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4', runtime.get_openfoam_image())
+
+    def test_amd64_host_uses_pinned_digest(self):
+        # Verify the mapping contains the expected AMD64 digest
+        self.assertIn('amd64', runtime.ARCH_IMAGE_MAP)
+        self.assertEqual(runtime.ARCH_IMAGE_MAP['amd64'], 'adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b')
 
 
 if __name__=='__main__': unittest.main()

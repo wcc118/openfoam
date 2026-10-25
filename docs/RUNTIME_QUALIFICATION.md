@@ -1,20 +1,34 @@
 # OpenFOAM runtime qualification
 
-The runtime is official OpenCFD v2412 on native linux/arm64, isolated in Docker.
+The runtime is official OpenCFD v2412 on native Linux, isolated in Docker.
 The primary selected this dependency after inspecting the official multi-architecture
 manifest. No host package or global shell configuration changes are required.
 
+## Supported platforms
+
+This launcher supports native Linux/amd64 and Linux/arm64 hosts with exact image mapping:
+
+- **Linux/arm64**: Uses pinned image `opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4`
+- **Linux/amd64**: Uses pinned image `opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b`
+
+The launcher rejects unknown host architectures and image/OS architecture mismatches. No emulation or arbitrary image override is permitted.
+
 ## Install and run
 
-Prerequisites: an ARM64 Linux host, Docker daemon access, Python 3, Git, about 2 GB
+Prerequisites: a supported Linux host (amd64 or arm64), Docker daemon access, Python 3, Git, about 2 GB
 free disk for the image/artifacts and at least 2 GB available runtime memory.
-The image occupies 1,292,001,858 bytes locally. Other resident services need their
-own memory budget. This launcher currently rejects non-ARM64 hosts; PC support is later.
+The image occupies approximately 1.3 GB locally. Other resident services need their
+own memory budget.
 
-Explicitly download the pinned image once:
+Explicitly download the pinned image once for your platform:
 
 ```bash
+# For ARM64 hosts
 docker pull --platform linux/arm64 opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4
+
+# For AMD64 hosts
+docker pull --platform linux/amd64 opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b
+
 python3 scripts/qualify_runtime.py --output runs/runtime-001
 python3 -m unittest discover -s tests -v
 ```
@@ -26,6 +40,14 @@ UID/GID, with no network, a 2 GB memory limit and two CPU equivalents. The image
 entrypoint is explicitly bypassed, and its bashrc is sourced only inside the container.
 `foamVersion` is unavailable in this image; WM_PROJECT_VERSION and solver banners
 identify the release/build instead.
+
+## Architecture selection
+
+The launcher automatically selects the correct pinned image digest based on the host
+architecture reported by `platform.machine()`. For Linux/arm64 hosts (aarch64/arm64),
+the ARM64 image digest is used. For Linux/amd64 hosts (x86_64/amd64), the AMD64 image
+digest is used. The launcher rejects unknown host architectures and verifies the
+pulled image matches the expected platform.
 
 ## What runs and what passes
 

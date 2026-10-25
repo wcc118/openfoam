@@ -47,7 +47,20 @@ original qualifier is still ARM-only. The retained
 [one-off adapter](evidence/adapters/qualify-pc-20261025.py) documents the observed
 x86 run using its unchanged payload, container constraints and acceptance
 verifier. It is historical evidence with fixed paths and an exclusive output,
-not a general launcher. Reusable architecture selection remains follow-up work.
+not a general launcher.
+
+The `scripts/qualify_runtime.py` launcher now supports both ARM64 and AMD64
+platforms with automatic architecture detection. For PC qualification, pull the
+AMD64 image and run the standard launcher:
+
+```bash
+docker pull --platform linux/amd64 opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b
+python3 scripts/qualify_runtime.py --output runs/unique-name
+```
+
+The launcher rejects unsupported host architectures and verifies the image
+platform matches the host. No manual configuration is required beyond pulling
+the correct image for your platform.
 
 ## Observed qualification
 
