@@ -1,0 +1,65 @@
+{
+  "schema": "openfoam-runtime-qualification-v1",
+  "run_id": "runtime-qualified-20261025-0415",
+  "status": "passed",
+  "scope": "runtime qualification and repeatability; not physical validation",
+  "started_utc": "2026-10-25T04:12:13.602419+00:00",
+  "finished_utc": "2026-10-25T04:12:14.080955+00:00",
+  "source": {
+    "revision": "98afc511c8855344101be989e6aabb514f2d497f",
+    "dirty": false,
+    "launcher_sha256": "954aefbda925e16deab6f1673654962ab5db1ea2d4d00f1abd11b729e4310098"
+  },
+  "image_reference": "opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4",
+  "image": {
+    "Id": "sha256:5a31c6621b47c8eb7dc4ed238766e75c500d17911ee85735b78c5aa5f6d28ce1",
+    "Architecture": "arm64",
+    "Os": "linux",
+    "Size": 1292001858,
+    "RepoDigests": [
+      "opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4"
+    ]
+  },
+  "architecture": "aarch64",
+  "limits": {
+    "memory": "2g",
+    "cpus": 2
+  },
+  "checks": {
+    "cavity-a": {
+      "mesh_ok": true,
+      "cells": 400,
+      "velocity_vectors": 400,
+      "pressure_values": 400,
+      "max_speed_mps": 0.8526671462436952,
+      "final_time": 0.5,
+      "max_courant": 0.852134,
+      "final_local_continuity": 9.66354e-09,
+      "final_cumulative_continuity": -4.19231e-18,
+      "build": "_45e7c4a0-20241224 OPENFOAM=2412 version=2412"
+    },
+    "cavity-b": {
+      "mesh_ok": true,
+      "cells": 400,
+      "velocity_vectors": 400,
+      "pressure_values": 400,
+      "max_speed_mps": 0.8526671462436952,
+      "final_time": 0.5,
+      "max_courant": 0.852134,
+      "final_local_continuity": 9.66354e-09,
+      "final_cumulative_continuity": -4.19231e-18,
+      "build": "_45e7c4a0-20241224 OPENFOAM=2412 version=2412"
+    },
+    "byte_identical_fields": [
+      "U",
+      "p"
+    ]
+  },
+  "raw_artifact_directory": "/home/connellwc83/projects/openfoam/runs/runtime-qualified-20261025-0415",
+  "raw_report_sha256": "fe0ce042f849c8cc390ff864c81abcd799114df153f1d2c952f35a75e19cce0b",
+  "tests": "python3 -m unittest discover -s tests -v: 12 passed; captured real fields, deliberate corruption and mocked container failure",
+  "limitations": [
+    "Runtime sanity and repeatability only",
+    "No wing CFD, experimental validation, MPI, GPU or FSI evidence"
+  ]
+}

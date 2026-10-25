@@ -1,35 +1,38 @@
 # Environment and runtime qualification
 
-Observed 2026-10-24 in /home/connellwc83/projects/openfoam:
+Initial observations (2026-10-24): Ubuntu 24.04.4 LTS, aarch64 DGX Spark,
+Docker available, no host OpenFOAM installation. Ubuntu's package candidate was
+1912.200626-2build3; it was not installed. PC CPU/RAM/OS and remote execution
+remain uninspected; owner reports an RTX 3090.
 
-- Directory initially empty, not a Git repository; private wcc118/openfoam created.
-- Ubuntu 24.04.4 LTS, aarch64 (DGX Spark environment).
-- Docker executable/daemon available; daemon reports aarch64.
-- foamVersion not on PATH; dpkg query showed no installed OpenFOAM package.
-- Ubuntu configured archive candidate: openfoam 1912.200626-2build3 (arm64).
-- No runtime installed or solver executed by planning issue #1.
-- PC CPU/RAM/OS and remote execution details have not been inspected in this project.
-  Owner reports an RTX 3090; do not infer benchmark performance from that alone.
+## Selected runtime (issue #2)
 
-## Next detailed task
+Official OpenCFD v2412, native linux/arm64:
+`opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4`.
+The primary inspected the multi-platform manifest and pulled this exact ARM64 digest.
+Image size: 1,292,001,858 bytes. Solver build: `_45e7c4a0-20241224`, scalar64/label32.
+This selection avoids host package/global-shell changes and supports the required
+meshing and steady/transient executables. It predates v2606 mesh-motion changes;
+future preCICE compatibility still needs its own qualification.
 
-Select and pin one OpenFOAM distribution/version with a reproducible native ARM64
-installation or isolated source/container build. Investigate current OpenCFD releases
-first because of intended future preCICE use, but verify actual ARM64 availability,
-solver support, licensing and resource cost before selecting. The old Ubuntu package
-is an available fallback, not the automatic choice. Do not confuse Foundation 14
-with OpenCFD v2606 or assume matching case files.
+[Runtime instructions](RUNTIME_QUALIFICATION.md) describe explicit installation,
+per-command activation, removal, limits, tests, and evidence. The launcher runs as
+host UID/GID with no network, two CPU equivalents and a 2 GB memory limit.
+The cavity tutorial is copied twice and run independently through t=0.5.
+There are 400 field values/cells, NOT 400 time directories.
 
-Record exact source/image checksum, dependencies/build options, environment activation,
-memory/disk budget, and uninstall/rebuild instructions. Avoid mutable latest tags,
-system-wide shell changes, and remote scripts piped to privileged shells. Use explicit
-per-command activation. Run an official reference case appropriate to that release,
-check observed outputs, and reproduce it from a fresh case directory.
+Primary native exploratory and corrected-launcher runs on 2026-10-25 completed:
+checkMesh reported Mesh OK; final U/p were byte-identical; max Courant 0.852134,
+final local continuity 9.66354e-09, cumulative -4.19231e-18. These are runtime
+sanity/repeatability observations, not experimental CFD validation.
+Reviewed run summaries will be retained in docs/evidence with hashes and raw artifact
+locations; GitHub #2/PR #7 determine acceptance state.
 
-Gate: version and native architecture evidence plus a complete successful reference
-run with numerical sanity checks. An installed executable alone does not pass.
-GPU acceleration, multi-machine MPI, preCICE and structural solvers are deferred.
+## Next gates
 
-Source: https://precice.org/adapter-openfoam-support (consulted 2026-10-24).
-It describes distribution/version differences and notes mesh-motion result changes
-for v2606; this is a reason to qualify the chosen version, not assume compatibility.
+Generated wing geometry (#3), one flow case (#4), and mesh/domain/AoA evidence (#5).
+No wing flow, compressible-flow, structural or flutter capability follows from
+successfully running the cavity. GPU acceleration, MPI and FSI remain deferred.
+
+Reference consulted 2026-10-24: https://precice.org/adapter-openfoam-support
+(distribution/version differences and v2606 mesh-motion changes).
