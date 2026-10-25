@@ -2,17 +2,21 @@
 
 For issue#4's rigid-wing low-Mach investigation, use the checks below before a
 first flow solve. This revises the initial blanket requirement that extended
-checkMesh print “Mesh OK.” The change is based on native source and independent
-controls, not on relaxing numerical thresholds. Independent review of this
-contract and its retained evidence is required before applying it to a flow case.
+checkMesh print “Mesh OK.” The changes are based on native source and independent
+controls. The dimensional face-pyramid volume floor now follows the declared
+reference length; all dimensionless limits remain unchanged. Independent review
+of this contract and its retained evidence is required before applying it to a flow case.
 
 ## Required checks
 
 1. Record the exact case, geometry, runtime, resource limits and command hashes.
-2. Run `checkMesh -allTopology -meshQuality` with the **unchanged canonical
-   v2412 meshQualityDict** retained in the case. Require completed “Mesh OK.”,
-   no failed checks or fatal errors, valid topology, positive geometry and the
-   configured numerical-quality limits. Preserve the complete log and dictionary.
+2. Retain and run `checkMesh -allTopology -meshQuality` with the canonical
+   v2412 meshQualityDict as a diagnostic baseline. For the declared reference
+   chord below, also run the explicitly identified chord-scaled dictionary,
+   changing **only minVol**. Require completed “Mesh OK.” for that dictionary,
+   no failed checks or fatal errors, valid topology and positive geometry.
+   Preserve both full logs and dictionaries. Canonical failures in any other
+   criterion remain blocking; an absolute-volume-only difference must be explicit.
 3. Separately run `checkMesh -allGeometry -allTopology`. Preserve all findings,
    cell/face sets and statistics. Explain differences from the numerical-quality
    result using the documented metric definitions. An unexplained contradiction,
@@ -26,10 +30,10 @@ contract and its retained evidence is required before applying it to a flow case
    repeated results remain required by the rigid-wing contract. Mesh/domain
    sensitivity is required before accepting a polar or comparative design claim.
 
-Canonical numerical limits remain unchanged, including maximum non-orthogonality
+Canonical dimensionless limits remain unchanged, including maximum non-orthogonality
 65°, skewness4 internally/20 at boundaries, minimum face weight0.05, volume
-ratio0.01, tet quality1e-15 and numerical cell determinant0.001. The exact
-canonical dictionary is authoritative; these examples are not a substitute for it.
+ratio0.01, tet quality1e-15 and numerical cell determinant0.001. The canonical
+dictionary plus the single declared dimensional conversion below are authoritative; these examples are not a substitute for them.
 
 Extended concavity and connectivity-determinant flags remain prominently
 reported warnings with cell counts and locations. They are not automatically
@@ -37,6 +41,36 @@ reclassified as harmless: actual plane crossings occur in the wing meshes.
 They also are not interchangeable with negative volumes, invalid face pyramids,
 or failures of the numerical-quality dictionary. The initial investigation is
 limited to rigid-wing numerical verification, not deforming-mesh/FSI acceptance.
+
+## Declared dimensional volume floor
+
+For this provisional wing, the reference length is its previously declared
+0.1016m chord. Treat the canonical face-pyramid volume floor as1e-13 in
+chord-normalized coordinates. In SI coordinates use
+`minVol = 1e-13 * chord_m^3 = 1.048772096e-16 m³`.
+This is a numerical coordinate-scale convention, not a physical mesh-resolution
+criterion. It applies consistently to meshing and checking the resulting SI mesh.
+
+This is an explicit change from the earlier fixed SI1e-13m³ floor. It must not be
+reported as an unchanged canonical SI dictionary. Record the reference chord,
+formula, resulting value and dictionary hashes before generation. Do not tune
+minVol from a failed mesh or a desired outcome, choose it from the minimum
+observed cell size, disable the positive floor, or change any dimensionless
+criterion. Changes to the declared reference-length convention require a new
+engineering review. Failed earlier cases are not retrospectively relabeled.
+
+[Independent scale controls](evidence/volume-scale-controls-20261025/README.md)
+show that an orthogonal27-cell grid fails only the fixed SI floor, while the
+identical SI geometry with the chord-scaled floor and the normalized geometry
+with the original floor both pass. Native ARM64 and AMD64 agree. A deliberately
+inverted control still fails with four negative-volume cells. The formula follows
+cubic volume scaling; it was not fitted to a wing mesh's minimum volume.
+
+Acceptance of a particular wing mesh still requires the area coverage, actual
+spacing, geometry inspection and full flow checks above. This convention does
+not waive negative volumes, invalid topology, nonfinite geometry, unresolved
+extended diagnostics, poor shape metrics or failed yPlus/convergence checks.
+Independent review of this revision is required before using it for a flow case.
 
 ## Why the two determinant reports differ
 
