@@ -22,7 +22,7 @@ allowSystemOperations : Allowing user-supplied system call operations
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 Create time
 
---> FOAM Warning :
+--> FOAM Warning : 
     From static Foam::instantList Foam::timeSelector::select0(Foam::Time&, const Foam::argList&)
     in file db/Time/timeSelector.C at line 284
     No time specified or available, selecting 'constant'
@@ -34,7 +34,7 @@ Check mesh...
 
 Time = constant
 
-Mesh stats
+Mesh stats 
     points:           64
     faces:            108
     internal faces:   54
@@ -66,8 +66,8 @@ Checking topology...
 
 Checking patch topology for multiply connected surfaces...
     Patch               Faces    Points     Surface topology
-    walls               54       56       ok (closed singly connected)
-    ".*"                54       56       ok (closed singly connected)
+    walls               54       56       ok (closed singly connected)      
+    ".*"                54       56       ok (closed singly connected)      
 
 
 Checking faceZone topology for multiply connected surfaces...
@@ -107,3 +107,4 @@ Checking faces in error :
 Mesh OK.
 
 End
+

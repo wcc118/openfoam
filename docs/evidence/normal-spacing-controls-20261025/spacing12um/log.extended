@@ -22,7 +22,7 @@ allowSystemOperations : Allowing user-supplied system call operations
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 Create time
 
---> FOAM Warning :
+--> FOAM Warning : 
     From static Foam::instantList Foam::timeSelector::select0(Foam::Time&, const Foam::argList&)
     in file db/Time/timeSelector.C at line 284
     No time specified or available, selecting 'constant'
@@ -34,7 +34,7 @@ Check mesh...
 
 Time = constant
 
-Mesh stats
+Mesh stats 
     points:           64
     faces:            108
     internal faces:   54
@@ -110,3 +110,4 @@ Checking geometry...
 Failed 1 mesh checks.
 
 End
+

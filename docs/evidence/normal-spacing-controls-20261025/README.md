@@ -1,22 +1,22 @@
 # Ideal normal-spacing quality controls
 
 27-cell orthogonal-grid controls for issue#4, using the chord-normalized volume
-floor from `docs/MESH_ACCEPTANCE.md`. All dimensionless thresholds remain
-unchanged from the canonical v2412 v2412 meshQualityDict.
+floor from [MESH_ACCEPTANCE.md](../../MESH_ACCEPTANCE.md). All dimensionless thresholds remain
+unchanged from the canonical v2412 meshQualityDict.
 
 ## Experimental design
 
 Three coarse-surface-face configurations with fixed in-plane dimensions
 L=1.5875mm and out-of-plane thicknesses h=8/12/20μm:
 
-| Case | Cell dimensions (L, L, h) | h/L | Analytic volume (m³) |
+| Case | Cell dimensions (L, L, h), mm | h/L | Analytic volume (m³) |
 | --- | --- | --- | --- |
 | spacing8um | (1.5875, 1.5875, 0.008) | 0.005038 | 2.016125e-11 |
 | spacing12um | (1.5875, 1.5875, 0.012) | 0.007557 | 3.0241875e-11 |
 | spacing20um | (1.5875, 1.5875, 0.020) | 0.012594 | 5.0403125e-11 |
 
 The chord floor is `1e-13 * 0.1016³ = 1.048772096e-16 m³`, identical to
-`docs/MESH_ACCEPTANCE.md`.
+[MESH_ACCEPTANCE.md](../../MESH_ACCEPTANCE.md).
 
 ## Native topologyQuality checks
 
@@ -33,9 +33,12 @@ All 27 cells fail determinant checking for h=8μm; h=12μm and h=20μm pass.
 ## Extended determinant (allGeometry)
 
 `checkMesh -allGeometry -allTopology` uses the alternative determinant
-definition documented in `docs/MESH_ACCEPTANCE.md` ("Why the two determinant
-reports differ"). This includes all cell faces and forms area-weighted unit-normal
-outer products, normalizing by total area and by the cube value 1/27.
+definition documented in [MESH_ACCEPTANCE.md](../../MESH_ACCEPTANCE.md) ("Why the two determinant
+reports differ"). The extended metric uses internal/coupled faces only, forms a sum of
+squared face-area vectors normalized by average internal face area, and
+reports determinant magnitude divided by8. In contrast, the numerical-quality
+metric includes all faces and uses area-weighted unit-normal outer products,
+normalized by total area and the cube value1/27.
 
 | Case | Small-determinant cells | Status |
 | --- | ---: | --- |
@@ -45,11 +48,11 @@ outer products, normalizing by total area and by the cube value 1/27.
 
 **All 27 cells flag as underdetermined in all 3 cases.** This diagnostic is not
 interchangeable with topologyQuality; it flags thin cells even when topologyQuality
-passes. See `docs/MESH_ACCEPTANCE.md` for the two distinct determinant definitions.
+passes. See [MESH_ACCEPTANCE.md](../../MESH_ACCEPTANCE.md) for the two distinct determinant definitions.
 
 ## Analytic numerical determinant
 
-The ideal rectangular determinant formula from the canonical OpenFOAM source is:
+For an ideal rectangular cell, applying the numerical-quality definition gives:
 ```
 D = 27 * L * h² / (L + 2*h)³
 ```
@@ -62,18 +65,20 @@ D = 27 * L * h² / (L + 2*h)³
 
 The threshold 0.001 is unchanged from the canonical dimensionless limit.
 spacing8um fails (D < 0.001); spacing12um and spacing20um exceed the threshold.
-Native logs report **failed cell counts**, not these exact numerical values.
+Numerical-quality logs report **failing face counts**; extended logs report
+flagged cell counts. Neither supplies these exact analytic numerical-metric values.
 
 ## Process exit status
 
 All native processes exit 0 even when quality reports fail. Exit 0 does not
-indicate mesh acceptance; only `Mesh OK.` in topologyQuality indicates pass.
-See `docs/MESH_EVIDENCE.md` for gate definitions.
+indicate mesh acceptance; a completed `Mesh OK.` numerical-quality report is one gate, alongside
+coverage, spacing and the remaining checks.
+See [MESH_EVIDENCE.md](../../MESH_EVIDENCE.md) for gate definitions.
 
 ## Control script provenance
 
-`generate-controls.py` retains original absolute paths (Spark PC host) and is not
-a portable CLI. `archive-sha256.json` covers all existing inputs; do not modify
+`generate-controls.py` retains original absolute paths (Spark host) and is not
+a portable CLI. `archive-sha256.json` covers the archived input and output files; do not modify
 these hashes. The script is retained evidence, not a recommended workflow.
 
 ## Relationship to trial16
@@ -90,9 +95,9 @@ still fails layer-coverage requirements.
 - `spacing{8,12,20}um/log.extended` — extended determinant logs
 - `spacing{8,12,20}um/log.blockMesh` — blockMesh execution logs
 - `spacing{8,12,20}um/system/meshQualityDict` — canonical dictionary with chord floor
-- `archive-sha256.json` — all input file hashes
+- `archive-sha256.json` — archived input/output file hashes
 - `execution.json` — Docker execution parameters and outcomes
 - `generate-controls.py` — control generation script
-- `wing-trial16/` — related wing mesh evidence (not a completed trial18 claim)
+- `wing-trial16/` — related wing mesh evidence
 
-No completed-trial18 claims, yPlus guarantees, or flutter/flight inference.
+These controls do not establish wing yPlus, flow convergence, flutter or flight capability.
