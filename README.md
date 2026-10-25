@@ -45,6 +45,17 @@ near-wall resolution, flow convergence, or physical validity.
 See the [mesh acceptance contract](docs/MESH_ACCEPTANCE.md) for numerical checks,
 extended diagnostics and required coverage before a first flow run.
 
+## First-flow case setup
+
+Generate a complete OpenFOAM case for first-flow analysis:
+
+```bash
+python3 scripts/generate_flow_case.py --mesh-dir MESH_DIR --output CASE_DIR
+```
+
+See the [first-flow case documentation](docs/FIRST_FLOW_CASE.md) for usage,
+boundary conditions, solver settings, and reference values.
+
 ## Status
 
 The pinned ARM64 runtime has completed repeatable cavity tutorial runs. Generated 4412/0012 wing surfaces pass the documented geometry checks.

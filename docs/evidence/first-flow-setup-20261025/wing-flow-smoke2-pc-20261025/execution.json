@@ -1,0 +1,38 @@
+{
+  "scope": "ONE-ITERATION DIAGNOSTIC on full mesh; not500iteration acceptance or physical validation",
+  "source_revision": "48a6f9b47e6c66b271c90a4bd6fa64a14ff82c08",
+  "declared_override": {
+    "endTime": 1
+  },
+  "controlDict_original_sha256": "a410ea15a5c1b9c2250bd5d7cf044daf870e4b5af29eac7a203813b286fd64c2",
+  "command": [
+    "docker",
+    "run",
+    "--name",
+    "openfoam-wing-smoke2-20261025",
+    "--rm",
+    "--pull",
+    "never",
+    "--network",
+    "none",
+    "--memory",
+    "6g",
+    "--cpus",
+    "2",
+    "--user",
+    "1000:1000",
+    "--mount",
+    "type=bind,src=/home/foam/projects/openfoam/runs/wing-flow-smoke2-pc-20261025,dst=/work",
+    "--workdir",
+    "/work",
+    "--entrypoint",
+    "/bin/bash",
+    "opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b",
+    "-lc",
+    "source /usr/lib/openfoam/openfoam2412/etc/bashrc && foamDictionary system/controlDict -entry endTime -set 1 > log.override 2>&1 && simpleFoam > log.simpleFoam 2>&1"
+  ],
+  "exit_code": 0,
+  "status": "process_completed",
+  "elapsed_s": 22.689483053000004,
+  "controlDict_run_sha256": "7051e34bc1abb5ef34da516d6500c959edf71a9b9e0b52d7fbf77555a2eb9159"
+}

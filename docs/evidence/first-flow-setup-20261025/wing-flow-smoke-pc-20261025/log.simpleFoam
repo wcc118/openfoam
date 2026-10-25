@@ -1,0 +1,44 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2412                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : _45e7c4a0-20241224 OPENFOAM=2412 version=2412
+Arch   : "LSB;label=32;scalar=64"
+Exec   : simpleFoam
+Date   : Oct 25 2026
+Time   : 07:42:12
+Host   : 63a21fc2680b
+PID    : 484
+I/O    : uncollated
+Case   : /work
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+
+SIMPLE: no convergence criteria found. Calculations will run for 1 steps.
+
+Reading field p
+
+
+
+--> FOAM FATAL IO ERROR: (openfoam-2412)
+Required entry 'freestreamValue' missing in dictionary "0/p/boundaryField/farfield"
+
+
+file: 0/p/boundaryField/farfield at line 8.
+
+    From bool Foam::Field<Type>::assign(const Foam::word&, const Foam::dictionary&, Foam::label, Foam::IOobjectOption::readOption) [with Type = double; Foam::label = int]
+    in file ./src/OpenFOAM/lnInclude/Field.C at line 297.
+
+FOAM exiting
+
