@@ -36,6 +36,10 @@ python3 scripts/generate_wing.py --output runs/wing-unique
 
 Open the resulting `preview.html` in a browser. See [geometry checks and native evidence](docs/WING_GEOMETRY.md) and [PC compute integration](docs/PC_COMPUTE.md).
 
+For achieved wall-layer coverage and retained checkMesh results, use the
+[mesh evidence reader](docs/MESH_EVIDENCE.md). This limited gate does not establish
+near-wall resolution, flow convergence, or physical validity.
+
 ## Status
 
 The pinned ARM64 runtime has completed repeatable cavity tutorial runs. Generated 4412/0012 wing surfaces pass the documented geometry checks.
