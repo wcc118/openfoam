@@ -1,0 +1,31 @@
+{
+  "scope": "meshWave nearest-wall distance at each wing-face owner cell, not yPlus or geometric layer thickness",
+  "vtk_native_face_centroid_max_difference_m": 2.7239666484199016e-08,
+  "all_wall_faces": {
+    "faces": 86240,
+    "area_m2": 0.25539405724628983,
+    "min_m": 1.25577381173e-05,
+    "area_weighted_mean_m": 0.0002973181255493602,
+    "p50_m": 0.000170039823733,
+    "p95_m": 0.000963490833218,
+    "max_m": 0.00199585085563
+  },
+  "with_layers": {
+    "faces": 68000,
+    "area_m2": 0.21369684956114327,
+    "min_m": 1.25577381173e-05,
+    "area_weighted_mean_m": 0.00019062659849687345,
+    "p50_m": 0.000128031088393,
+    "p95_m": 0.00065006896167,
+    "max_m": 0.00121079083038
+  },
+  "without_layers": {
+    "faces": 18240,
+    "area_m2": 0.04169720768514654,
+    "min_m": 7.00376137548e-05,
+    "area_weighted_mean_m": 0.0008441087734541994,
+    "p50_m": 0.000808980008744,
+    "p95_m": 0.00173853127784,
+    "max_m": 0.00199585085563
+  }
+}

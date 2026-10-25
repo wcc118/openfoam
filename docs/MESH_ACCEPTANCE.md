@@ -86,5 +86,25 @@ lead to mesh changes, not removal of failed flow cases from reporting.
   supplies background; observed v2412 behavior and source govern these findings.
 
 No current case is accepted merely by this contract change. Trial3 and trial5
-still fail90% area coverage; trial6 deliberately has no layers. Trial7 is a
-separate refinement experiment awaiting completed results.
+still fail90% area coverage; trial6 deliberately has no layers. Trial7 timed out during final checks; a separate inspection of its saved checkpoint
+also fails the canonical numerical-quality gate. It is not a completed generation run.
+
+## Achieved wall spacing
+
+Trial3 native `checkMesh -writeFields '(wallDistance)' -time 0`, with
+`wallDist { method meshWave; }`, provides nearest-wall distance at cell centres.
+The native method defaults `correctWalls=true`. For each wing face, use its
+owner-cell distance and native face area. The area-weighted median is170μm
+overall and128μm on faces with layers; the overall95th percentile is963μm.
+These are not yPlus values or full geometric layer thicknesses. They show that
+the nominal20μm first-layer setting did not establish approximately10μm
+cell-centre wall distance across the surface. Native `nSurfaceLayers` source
+confirms it is an actual count, not a zero-based index.
+
+The mapping from exported VTK faces to native faces was verified by exact
+vertex-set equality after conversion to the VTK POINTS float32 precision.
+Comparing raw double coordinates at1e-10m would incorrectly reject this mapping;
+maximum native/exported face-centroid difference was2.72e-8m. Areas used for
+these distance statistics come from native full-precision geometry.
+See the retained wall-spacing summary, native log and source hashes in
+`evidence/mesh-diagnostics-20261025/numerical-quality-trial3/`.

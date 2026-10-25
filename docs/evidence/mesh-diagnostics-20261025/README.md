@@ -24,8 +24,10 @@ checkMesh logs are retained in each directory. Raw PC case directories are under
 
 Trial5 still fails90% wall-area coverage; face-count coverage would misleadingly
 pass. Package thickness alone is not an adequate fix. Trial6 demonstrates that
-many plane crossings exist before layers are added. A separate higher surface
-resolution experiment is underway, with no changed quality thresholds.
+many plane crossings exist before layers are added. The higher surface
+resolution trial7 timed out at1100s during final checking. Its saved3,023,087-cell
+checkpoint separately fails6 topology/numerical-quality checks and10 extended
+checks. It remains rejected; raw generation completion was not observed.
 
 PC18-layer control meshing took199.33s vs370.58s for the prior Spark run. Wall
 counts and quality failures match; coverage differs by about6.9e-12 and VTK bytes
