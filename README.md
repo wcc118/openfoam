@@ -42,8 +42,6 @@ Open the resulting `preview.html` in a browser. See [geometry checks and native 
 For achieved wall-layer coverage and retained checkMesh results, use the
 [mesh evidence reader](docs/MESH_EVIDENCE.md). This limited gate does not establish
 near-wall resolution, flow convergence, or physical validity.
-See the [mesh acceptance contract](docs/MESH_ACCEPTANCE.md) for numerical checks,
-extended diagnostics and required coverage before a first flow run.
 
 ## Status
 
