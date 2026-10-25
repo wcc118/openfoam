@@ -118,3 +118,11 @@ unconverged; do not relax gates to obtain a favorable result. Mesh/domain and
 model sensitivity, reference comparisons and independent physical validation
 remain separate work. No polar, flutter point or flight capability is established
 by creating this setup.
+
+## Archived evidence
+
+This repository includes archived diagnostic evidence from an early iteration of
+a first-flow case as documentation input (not a passed acceptance gate). See
+`docs/evidence/first-flow-checkpoint100-20261025/README.md` for reconstruction
+details, force/moment verification, yPlus statistics and spatial distribution.
+The evidence is immutable and referenced from commit `9d3b6c4`.
