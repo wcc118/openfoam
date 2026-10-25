@@ -14,20 +14,20 @@ baseline, not a developed wake. Longer transients require frequent full-restart 
 
 ## Experimental mesh parameters: trial29
 
-- **Outer domain**: x [-0.508, 1.524], y [-1.1176, 1.1176], z [-0.508, 0.508] m (same as medium trial21, not trial12 baseline).
+- **Outer domain**: x [-0.508, 1.524], y [-1.1176, 1.1176], z [-0.508, 0.508] m (same as medium trial21).
 - **Snappy octree levels** with 2:1 size jumps; more buffer cells to space transitions, not continuously graded cells.
 - **Distance envelope**: 20/60/120 mm → levels 4/3/2 respectively.
 - **Wing SURFACE**: levels 5/6; FEATURE level 7; exactly 12 layers, first layer 20 μm, thicknessModel firstAndRelativeFinal, finalLayerThickness 0.15.
 - **nCellsBetweenLevels**: 5 (buffer cells to space level transitions).
-- **Refinement threshold**: 6 million cap; trial29 pre-subset actual 6,731,101 cells, refinement incomplete, exit 137 (resource limit), not OOM.
+- **Refinement threshold**: 6 million cap; trial29 pre-subset actual 6,731,101 cells, refinement incomplete, primary intentionally stopped the container (exit 137). This exit is not evidence of OOM.
 - **Native execution**: PC AMD64 OpenCFD v2412; 2 CPU / 12 GiB / 1100 s mesh bound.
-- **NOT accepted/qualified mesh**: trial29 parameters did not meet quality gates; do not call accepted mesh.
+- **NOT accepted/qualified mesh**: trial29 was rejected for incomplete refinement before final mesh-quality evaluation.
 
 ## Experimental mesh parameters: trial30 (narrowing trial29 proposal)
 
 Narrows level-4 tip corridors from trial29; wider wake domains unchanged from trial29 domain bounds:
 
-- **Level-4 tip corridor**: x 0.03..0.8, |y| 0.53..0.72, z -0.12..0.24 m.
+- **Level-4 tip corridor**: x 0.03..0.6, |y| 0.56..0.67, z -0.07..0.16 m.
 - **Level-3 wake**: x 0.08..0.8, y ±0.75, z -0.12..0.24 m.
 - **Level-2 outer wake**: x 0.1..1.2, y ±0.8, z -0.18..0.35 m.
 - **All other parameters**: identical to trial29 (12 layers, first 20 μm, finalLayerThickness 0.15, thicknessModel firstAndRelativeFinal).
@@ -55,8 +55,7 @@ All cases use:
 
 - Capacity for wake volume prioritized over fine wall-drag accuracy.
 - Native yPlus failures remain recorded; don't conflate diagnostic visualization with qualification.
-- RANS models produce turbulence; no claim of resolved eddies from visualization.
-- **Quality gate**: >= 90% wall AREA coverage required.
+- **Quality gates**: existing numerical-quality limits unchanged; >= 90% wall AREA coverage required.
 - **Visual diagnostic**: distinct from aerodynamic qualification; RANS effects of turbulent fluctuations; does not resolve all turbulent eddies.
 - Surface flow influences wake even when wall-drag accuracy is not priority.
 
@@ -72,7 +71,7 @@ No new solver or dashboard framework; lightweight per-case scripts appropriate.
 
 ## Acceptance criteria
 
-This plan is accepted when engineering milestones are reached:
+Engineering milestones, still outstanding:
 
 - Inspect achieved mesh quality and wall-area coverage (>= 90% gate).
 - Settled baseline with meaningful transient duration and checkpoints.
@@ -83,7 +82,7 @@ This plan is accepted when engineering milestones are reached:
 
 ## Evidence and provenance
 
-- Trial29: experimental parameter set, pre-subset 6,731,101 cells, refinement incomplete, exit 137 (resource limit, cap6M overshoot), REJECTED; not OOM.
+- Trial29: experimental parameter set, pre-subset 6,731,101 cells, refinement incomplete, primary intentional stop with exit 137 after cap6M overshoot, REJECTED; no OOM inference.
 - Trial30: proposed refinement to trial29 tip/wake corridors, RUNNING/pending.
 - All trials use pinned OpenCFD v2412 native AMD64; domain x [-0.508, 1.524], y [-1.1176, 1.1176], z [-0.508, 0.508] m.
 - Boundary-distance sensitivity remains outstanding; wakepath containment must be checked per angle.
