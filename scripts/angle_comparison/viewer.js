@@ -5,7 +5,7 @@ const $ = id => document.getElementById(id);
 const cases = data.cases, points = data.samples.points, groups = data.samples.groups;
 const angles = cases.map(c => c.alpha_deg);
 let currentIndex = 0;
-let yaw = -0.7, pitch = 1.0, zoom = 1, pan = [0, 0], drag = null;
+let yaw = -0.7, pitch = -1.0, zoom = 1, pan = [0, 0], drag = null;
 const scene = $('scene');
 
 // Populate angle selector
@@ -121,7 +121,7 @@ function drawScene() {
       ctx.beginPath(); item.tri.forEach((v, j) => j ? ctx.lineTo(v[0], v[1]) : ctx.moveTo(v[0], v[1]));
       ctx.closePath(); ctx.fillStyle = '#566b82'; ctx.fill(); ctx.strokeStyle = '#899aaa'; ctx.lineWidth = 0.25; ctx.stroke();
     } else {
-      const [x, y] = item.q; ctx.fillStyle = item.col; ctx.beginPath(); ctx.arc(x, y, g === 'all' ? 2.0 : 2.7, 0, Math.PI * 2); ctx.fill();
+      const [x, y] = item.q; ctx.fillStyle = item.col; ctx.globalAlpha = 0.35; ctx.beginPath(); ctx.arc(x, y, g === 'all' ? 1.2 : 1.5, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1;
       if (item.arrow) {
         const p = points[item.i], u = f.U[item.i], end = cam.project(p.map((v, k) => v + u[k] * ARROW_SCALE));
         const dx = end[0] - x, dy = end[1] - y, L = Math.hypot(dx, dy);
@@ -169,7 +169,7 @@ function draw() {
 
 function preset() {
   const v = $('view').value;
-  [yaw, pitch] = ({ iso: [-0.7, 1.0], top: [0, 0], side: [0, Math.PI / 2], tip: [Math.PI / 2, Math.PI / 2] })[v];
+  [yaw, pitch] = ({ iso: [-0.7, -1.0], top: [0, 0], side: [0, -Math.PI / 2], tip: [Math.PI / 2, -Math.PI / 2] })[v];
   zoom = 1; pan = [0, 0]; draw();
 }
 
