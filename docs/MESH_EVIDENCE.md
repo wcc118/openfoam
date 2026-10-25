@@ -5,6 +5,13 @@ logs. Its limited gate requires explicit completed mesh-log success and sufficie
 area with at least one layer. Passing does not establish yPlus, adequate layer
 thickness, flow convergence, physical validity, or flight capability.
 
+## Normal-spacing controls
+
+27-cell orthogonal-grid controls for numerical determinant verification. Three
+configurations with L=1.5875mm and h=8/12/20μm: topologyQuality fail/pass/pass
+respectively, while extended determinant flags all 27 cells in all 3 cases.
+See `evidence/normal-spacing-controls-20261025/README.md` for detailed analysis.
+
 ```bash
 python3 scripts/summarize_mesh.py \
   --wall-surface runs/CASE/postProcessing/slices/0/wingSurface.vtk \
