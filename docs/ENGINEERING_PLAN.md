@@ -46,6 +46,13 @@ Immediate backlog:
 Stage E can start once its inputs/contracts are concrete; it does not require completing
 every aerodynamic condition. Each stage must expose its own evidence and uncertainty.
 
+## Mesh refinement and wake envelope
+
+See [WAKE_SWEEP_PLAN.md](./WAKE_SWEEP_PLAN.md) for the accepted plan for mesh refinement
+extending away from wing, gradual transition to far field, and 3D tip/wake visualization
+for angle-of-attack sensitivity studies. This document records trial29/trial30 experiment
+parameters as proposals, not outcomes.
+
 ## Technical direction
 
 - Use OpenFOAM for detailed flow. Select the exact distribution/version after native
