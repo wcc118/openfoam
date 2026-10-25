@@ -1,0 +1,22 @@
+{
+  "tip5percent": {
+    "area_fraction": 0.055812771480898665,
+    "share_of_total_failing_area": 0.3100773934541115,
+    "within_region_fraction_above2": 0.5664729915301356
+  },
+  "interior95percent": {
+    "area_fraction": 0.9441872285191012,
+    "share_of_total_failing_area": 0.6899226065458886,
+    "within_region_fraction_above2": 0.0745049188890908
+  },
+  "leading10percent": {
+    "area_fraction": 0.10785091266077523,
+    "share_of_total_failing_area": 0.23027825443245048,
+    "within_region_fraction_above2": 0.21770670084185945
+  },
+  "trailing10percent": {
+    "area_fraction": 0.10184916962362608,
+    "share_of_total_failing_area": 0.5377006446248229,
+    "within_region_fraction_above2": 0.5383017068781522
+  }
+}
