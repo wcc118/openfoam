@@ -162,7 +162,7 @@ def check_boundary_patches(mesh_dir, expected=None):
             if pending_patch is not None:
                 patches.append(pending_patch)
             pending_patch = None
-            
+
             # If line is just a patch name (no { or ;), it's the patch name
             if "{" not in line and ";" not in line:
                 pending_patch = line
