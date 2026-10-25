@@ -40,8 +40,8 @@ def validate(data):
             raise ValueError('reference.chord_m must be positive')
         number(ref['reference_pressure_kinematic'], 'reference.reference_pressure_kinematic')
         number(ref['dynamic_pressure_kinematic'], 'reference.dynamic_pressure_kinematic')
-        if ref['dynamic_pressure_kinematic'] == 0:
-            raise ValueError('reference.dynamic_pressure_kinematic must be nonzero')
+        if ref['dynamic_pressure_kinematic'] <= 0:
+            raise ValueError('reference.dynamic_pressure_kinematic must be positive')
         wing = data['wing']
         vectors(wing['points'], 'wing.points')
         for tri in sequence(wing['triangles'], 'triangles'):
@@ -57,7 +57,7 @@ def validate(data):
         cases = sequence(data['cases'], 'cases', nonempty=True)
         seen_ids, seen_alphas = set(), set()
         for c in cases:
-            if not isinstance(c['id'], str) or not c['id']:
+            if not isinstance(c['id'], str) or not c['id'].strip():
                 raise ValueError('case.id must be a nonempty string')
             if c['id'] in seen_ids:
                 raise ValueError(f'duplicate case.id: {c["id"]}')
@@ -72,11 +72,11 @@ def validate(data):
             if iter_count <= 0:
                 raise ValueError(f"case '{c['id']}': steady_iteration must be positive")
             for k in ['solver', 'source_revision']:
-                if not isinstance(c[k], str) or not c[k]:
+                if not isinstance(c[k], str) or not c[k].strip():
                     raise ValueError(f"case '{c['id']}': {k} must be a nonempty string")
-            if not isinstance(c['mesh_sha256'], str) or len(c['mesh_sha256']) != 64 or not all(ch in '0123456789abcdef' for ch in c['mesh_sha256']):
+            if not isinstance(c['mesh_sha256'], str) or len(c['mesh_sha256']) != 64 or not all(ch in '0123456789abcdefABCDEF' for ch in c['mesh_sha256']):
                 raise ValueError(f"case '{c['id']}': mesh_sha256 must be a 64-hex string")
-            if not isinstance(c['field_sha256'], str) or len(c['field_sha256']) != 64 or not all(ch in '0123456789abcdef' for ch in c['field_sha256']):
+            if not isinstance(c['field_sha256'], str) or len(c['field_sha256']) != 64 or not all(ch in '0123456789abcdefABCDEF' for ch in c['field_sha256']):
                 raise ValueError(f"case '{c['id']}': field_sha256 must be a 64-hex string")
             if c['status'] != 'diagnostic_only':
                 raise ValueError("case.status must be 'diagnostic_only'")
@@ -108,7 +108,7 @@ def validate(data):
             for p in p_vals:
                 number((number(p, f"case '{c['id']}': p") - ref['reference_pressure_kinematic']) / ref['dynamic_pressure_kinematic'], f"case '{c['id']}': derived Cp")
         # All mesh_sha256 must be identical
-        mesh_hashes = {c['mesh_sha256'] for c in cases}
+        mesh_hashes = {c['mesh_sha256'].lower() for c in cases}
         if len(mesh_hashes) != 1:
             raise ValueError('all cases must share the same mesh_sha256')
     except (KeyError, TypeError, OverflowError) as exc:

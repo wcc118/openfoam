@@ -16,10 +16,10 @@ speed/Cp, and mismatched freestream velocity vectors. All cases must share the s
 mesh_sha256. Only `kind: steady_angle_cases` and `status: diagnostic_only` are supported.
 
 Controls provide orbit/zoom, preset views, section filters, speed/Cp coloring,
-optional velocity arrows, and case selection by angle. Shift-drag pans the view.
+velocity arrows enabled by default, and case selection by angle. Shift-drag pans the view.
 Colors use fixed ranges computed from all cases. Section filters refit the camera;
 the source wing may extend outside the viewport when examining a local section.
-Arrows use an illustrative length scale (0.0007× velocity magnitude), not integrated
+Arrows use an illustrative length scale (velocity magnitude × 0.0007 s), not integrated
 particle paths. Case switching preserves camera pose.
 
 ## Input contract
@@ -27,8 +27,9 @@ particle paths. Case switching preserves camera pose.
 JSON schema version 1 contains:
 
 - `schema_version: 1`, `kind: "steady_angle_cases"`.
-- `reference`: positive `speed_m_s`, `chord_m`, `reference_pressure_kinematic`,
-  `dynamic_pressure_kinematic`; finite values in SI units.
+- `reference`: positive `speed_m_s`, `chord_m`, and `dynamic_pressure_kinematic`;
+  `reference_pressure_kinematic` may be any finite value, including zero or negative
+  gauge pressure. All quantities use SI units.
 - `wing`: `points` as metre coordinates `[x,y,z]`; `triangles` as three distinct,
   valid integer point indices. This can represent source geometry, not necessarily
   the final mesh surface; identify that distinction in case limitations.
@@ -85,3 +86,16 @@ This viewer is a static comparison tool. It does not:
 
 Results are diagnostic only and must not be interpreted as validated performance or
 flight clearance without independent engineering review and physical substantiation.
+
+## Browser verification
+
+The browser test builds its own explicitly synthetic two-case and single-case inputs
+in a temporary directory. It checks actual control effects, common analytic Cp ranges,
+and projected wing geometry across case changes after orbiting, zooming and panning:
+
+```bash
+node tests/browser_angle_comparison.cjs /path/to/playwright-core /path/to/chromium
+```
+
+An optional third argument saves a screenshot. No browser package installation or
+external requests are part of the test.

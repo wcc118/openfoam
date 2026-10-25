@@ -109,3 +109,7 @@ References consulted 2026-10-24:
 - https://precice.org/adapter-openfoam-support (version/adapter support must be checked)
 - https://precice.org/configuration-mapping (nonmatching interface data transfer)
 - https://www.nasa.gov/centers-and-facilities/armstrong/flight-and-ground-experimental-test-capabilities/ (ground modal testing and structural model correlation)
+
+For offline inspection of independently simulated steady angles, see
+[the angle-comparison viewer](ANGLE_COMPARISON.md). This viewer does not replace
+the CFD convergence and sensitivity gates.

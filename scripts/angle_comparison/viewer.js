@@ -4,7 +4,6 @@ const data = JSON.parse(document.getElementById('angle-data').textContent);
 const $ = id => document.getElementById(id);
 const cases = data.cases, points = data.samples.points, groups = data.samples.groups;
 const angles = cases.map(c => c.alpha_deg);
-const angleIndex = new Map(angles.map((a, i) => [a, i]));
 let currentIndex = 0;
 let yaw = -0.7, pitch = 1.0, zoom = 1, pan = [0, 0], drag = null;
 const scene = $('scene');
@@ -31,8 +30,6 @@ $('arrows').onchange = arrowsChanged;
 // Arrow length scale: 0.0007× velocity magnitude for illustrative visualization
 const ARROW_SCALE = 0.0007;
 
-// Camera bounds cache to avoid NaN on empty group selection
-let cameraBounds = null;
 
 function dimensions(canvas) {
   const box = canvas.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
@@ -73,7 +70,6 @@ function camera(w, h) {
     }
   }
   const scale = Math.min((w - 70) / Math.max(hi[0] - lo[0], 0.03), (h - 70) / Math.max(hi[1] - lo[1], 0.03)) * zoom;
-  cameraBounds = { lo, hi };
   return { scale, project(p) {
     const r = rotated(p);
     return [(r[0] - (lo[0] + hi[0]) / 2) * scale + w / 2 + pan[0], (r[1] - (lo[1] + hi[1]) / 2) * scale + h / 2 + pan[1], r[2]];
@@ -165,7 +161,7 @@ function draw() {
   // Show mesh/field provenance hashes and steady iteration count
   $('caseInfo').innerHTML =
     `<span class="stat">Alpha: ${alpha.toFixed(3)}°</span> ` +
-    `<span class="stat">Steady iteration: ${c.steady_iteration}</span> ` +
+    `<span class="stat">Steady iteration: ${c.steady_iteration} (not physical time)</span> ` +
     `<span class="stat">U∞: [${f.freestream_velocity_m_s.map(v => v.toFixed(3)).join(', ')}] m/s</span> ` +
     `<span class="stat">Mesh: ${c.mesh_sha256}</span> ` +
     `<span class="stat">Field: ${c.field_sha256}</span>`;

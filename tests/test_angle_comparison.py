@@ -124,6 +124,14 @@ class AngleComparisonTests(unittest.TestCase):
 
     def test_invalid_contracts(self):
         mutations = [
+            lambda d: d['reference'].update(dynamic_pressure_kinematic=-1),
+            lambda d: d['reference'].update(dynamic_pressure_kinematic=0),
+            lambda d: d['cases'][0].update(id='   '),
+            lambda d: d['cases'][0].update(solver='   '),
+            lambda d: d['cases'][0].update(source_revision='   '),
+            lambda d: d['cases'][0].update(field_sha256=['a']*64),
+            lambda d: d['cases'][0]['freestream_velocity_m_s'].__setitem__(1, float('nan')),
+            lambda d: d['cases'][0]['freestream_velocity_m_s'].__setitem__(1, False),
             lambda d: d.update(kind='physical_seconds'),
             lambda d: d['cases'][0].update(steady_iteration=True),
             lambda d: d['cases'][0].update(steady_iteration=-1),
@@ -149,9 +157,6 @@ class AngleComparisonTests(unittest.TestCase):
         for mutate in mutations:
             with self.subTest(mutation=mutate):
                 data = fixture()
-                # Apply duplicate check mutation last for duplicates tests
-                if 'duplicate' in str(mutate):
-                    data['cases'].append(copy.deepcopy(data['cases'][0]))
                 mutate(data)
                 with self.assertRaises(ValueError):
                     module.validate(data)
