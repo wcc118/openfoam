@@ -1,0 +1,4 @@
+# Preserve native OpenFOAM log bytes (including printed spaces and final blank lines).
+# Source and documentation retain normal whitespace checks.
+docs/evidence/mesh-diagnostics-20261025/**/log.* whitespace=-blank-at-eol,-blank-at-eof
+docs/evidence/mesh-trials-20261025/**/log.* whitespace=-blank-at-eol,-blank-at-eof
