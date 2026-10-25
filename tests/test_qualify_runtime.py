@@ -98,14 +98,13 @@ class QualificationTests(unittest.TestCase):
         self.assertEqual(cmd.count('--mount'),1)
 
     def test_unsupported_host_architecture_rejected(self):
-        # Temporarily clear the mapping to simulate unsupported architecture
-        original_map = runtime.ARCH_IMAGE_MAP.copy()
-        runtime.ARCH_IMAGE_MAP.clear()
-        try:
-            with self.assertRaisesRegex(ValueError, 'unsupported host architecture'):
-                runtime.qualify(self.root/'unsupported-arch')
-        finally:
-            runtime.ARCH_IMAGE_MAP.update(original_map)
+        # Verify unsupported architecture returns failed report without Docker calls
+        with patch.object(runtime.platform, 'machine', return_value='riscv64'), \
+             patch.object(runtime.platform, 'platform', return_value='test-linux'):
+            report = runtime.qualify(self.root/'unsupported-arch')
+        self.assertEqual(report['status'], 'failed')
+        self.assertIn('unsupported host architecture: riscv64', report['error'])
+        self.assertIsNone(report['image_reference'])
 
     def test_platform_match_reported(self):
         # Verify platform_match is reported in the output
@@ -130,6 +129,99 @@ class QualificationTests(unittest.TestCase):
         # Verify the mapping contains the expected AMD64 digest
         self.assertIn('amd64', runtime.ARCH_IMAGE_MAP)
         self.assertEqual(runtime.ARCH_IMAGE_MAP['amd64'], 'adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b')
+
+    def test_x86_64_alias_uses_pinned_digest(self):
+        # Verify the mapping contains x86_64 alias
+        self.assertIn('x86_64', runtime.ARCH_IMAGE_MAP)
+        self.assertEqual(runtime.ARCH_IMAGE_MAP['x86_64'], 'adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b')
+        # Verify get_openfoam_image returns correct digest for x86_64
+        with patch.object(runtime.platform, 'machine', return_value='x86_64'):
+            image = runtime.get_openfoam_image()
+            self.assertIn('adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b', image)
+
+    def test_arm64_alias_uses_pinned_digest(self):
+        # Verify the mapping contains arm64 alias
+        self.assertIn('arm64', runtime.ARCH_IMAGE_MAP)
+        self.assertEqual(runtime.ARCH_IMAGE_MAP['arm64'], 'b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4')
+        # Verify get_openfoam_image returns correct digest for arm64
+        with patch.object(runtime.platform, 'machine', return_value='arm64'):
+            image = runtime.get_openfoam_image()
+            self.assertIn('b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4', image)
+
+    def test_riscv64_unsupported_raises(self):
+        # Verify riscv64 is rejected with ValueError before Docker calls
+        with patch.object(runtime.platform, 'machine', return_value='riscv64'):
+            with self.assertRaisesRegex(ValueError, 'unsupported host architecture: riscv64'):
+                runtime.get_openfoam_image()
+
+    def test_unsupported_arch_returns_failed_report_no_docker(self):
+        # Verify unsupported architecture returns failed report without calling Docker
+        image = [dict(Architecture='arm64', Os='linux', Id='fixture', Size=1, RepoDigests=[runtime.get_openfoam_image()])]
+        returns = [subprocess.CompletedProcess([], 0, 'test-revision', ''), subprocess.CompletedProcess([], 0, '', ''),
+                   subprocess.CompletedProcess([], 0, json.dumps(image), '')]
+        with patch.object(runtime.platform, 'machine', return_value='riscv64'), \
+             patch.object(runtime.platform, 'platform', return_value='test-linux'), \
+             patch.object(runtime.subprocess, 'run', side_effect=returns) as mock_run:
+            report = runtime.qualify(self.root/'unsupported')
+        self.assertEqual(report['status'], 'failed')
+        self.assertIn('unsupported host architecture: riscv64', report['error'])
+        self.assertIsNone(report['image_reference'])
+        # Verify Docker was never called (subprocess.run only called for platform.machine in qualify)
+        self.assertEqual(mock_run.call_count, 0)
+        # Verify report file was written
+        report_path = self.root/'unsupported/qualify_report.json'
+        self.assertTrue(report_path.exists())
+        loaded_report = json.loads(report_path.read_text())
+        self.assertEqual(loaded_report['status'], 'failed')
+        self.assertEqual(loaded_report['architecture'], 'riscv64')
+
+    def test_x86_64_platform_match_and_inspection(self):
+        # Verify x86_64 host gets linux/amd64 image inspection and platform_match
+        # Need returns: git rev-parse, git status, docker image inspect, docker run
+        returns = [subprocess.CompletedProcess([], 0, 'test-revision', ''),  # git rev-parse
+                   subprocess.CompletedProcess([], 0, '', ''),  # git status
+                   subprocess.CompletedProcess([], 0, json.dumps([{'Architecture': 'amd64', 'Os': 'linux', 'Id': 'fixture', 'Size': 1, 'RepoDigests': ['opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b']}]), ''),  # docker image inspect
+                   subprocess.CompletedProcess([], 0, 'container stdout', 'container stderr')]  # docker run
+        with patch.object(runtime.platform, 'machine', return_value='x86_64'), \
+             patch.object(runtime.platform, 'platform', return_value='test-linux'), \
+             patch.object(runtime.subprocess, 'run', side_effect=returns) as mock_run:
+            report = runtime.qualify(self.root/'x86-qualify')
+        self.assertIn('platform_match', report)
+        self.assertEqual(report['platform_match']['host'], 'x86_64')
+        self.assertEqual(report['platform_match']['image'], 'amd64')
+        self.assertEqual(report['platform_match']['os'], 'linux')
+        # Verify both image inspect and container run commands were recorded
+        self.assertEqual(len(report['commands']), 2)
+        # Verify the image command uses x86_64 digest
+        expected_image = 'opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b'
+        self.assertEqual(report['commands'][0]['argv'], ['docker', 'image', 'inspect', expected_image])
+
+    def test_wrong_image_rejected_before_docker_run(self):
+        # Verify mismatched image (linux/arm64 on x86_64 host) is rejected before Docker run
+        # Image inspect says arm64 but host is x86_64
+        image = [dict(Architecture='arm64', Os='linux', Id='fixture', Size=1, RepoDigests=[runtime.get_openfoam_image()])]
+        returns = [subprocess.CompletedProcess([], 0, 'test-revision', ''), subprocess.CompletedProcess([], 0, '', ''),
+                   subprocess.CompletedProcess([], 0, json.dumps(image), '')]
+        with patch.object(runtime.platform, 'machine', return_value='x86_64'), \
+             patch.object(runtime.platform, 'platform', return_value='test-linux'), \
+             patch.object(runtime.subprocess, 'run', side_effect=returns):
+            report = runtime.qualify(self.root/'wrong-image')
+        self.assertEqual(report['status'], 'failed')
+        self.assertIn('image is not linux/amd64', report['error'])
+        # Docker run should never have been called
+        self.assertEqual(len(report['commands']), 1)  # Only image inspect
+
+    def test_windows_image_rejected_on_linux_host(self):
+        # Verify windows/amd64 image is rejected on x86_64 Linux host
+        image = [dict(Architecture='amd64', Os='windows', Id='fixture', Size=1, RepoDigests=[runtime.get_openfoam_image()])]
+        returns = [subprocess.CompletedProcess([], 0, 'test-revision', ''), subprocess.CompletedProcess([], 0, '', ''),
+                   subprocess.CompletedProcess([], 0, json.dumps(image), '')]
+        with patch.object(runtime.platform, 'machine', return_value='x86_64'), \
+             patch.object(runtime.platform, 'platform', return_value='test-linux'), \
+             patch.object(runtime.subprocess, 'run', side_effect=returns):
+            report = runtime.qualify(self.root/'windows-image')
+        self.assertEqual(report['status'], 'failed')
+        self.assertIn('image is not linux/amd64', report['error'])
 
 
 if __name__=='__main__': unittest.main()

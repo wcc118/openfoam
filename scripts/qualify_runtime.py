@@ -16,6 +16,8 @@ ROOT = Path(__file__).resolve().parents[1]
 # Architecture to image digest mapping
 ARCH_IMAGE_MAP = {
     'aarch64': 'b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4',
+    'arm64': 'b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4',
+    'x86_64': 'adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b',
     'amd64': 'adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b',
 }
 
@@ -24,7 +26,7 @@ def get_openfoam_image():
     """Get the pinned OpenFOAM image reference based on host architecture."""
     host_arch = platform.machine().lower()
     if host_arch not in ARCH_IMAGE_MAP:
-        return 'opencfd/openfoam-default@sha256:unknown'
+        raise ValueError(f'unsupported host architecture: {host_arch}')
     return 'opencfd/openfoam-default@sha256:' + ARCH_IMAGE_MAP[host_arch]
 SHELL_PAYLOAD = '''#!/bin/bash
 source /usr/lib/openfoam/openfoam2412/etc/bashrc || exit 1
@@ -132,7 +134,19 @@ def container_command(output):
 def qualify(output):
     output = Path(output).absolute()
     host_arch = platform.machine().lower()
-    require(host_arch in ARCH_IMAGE_MAP, f'unsupported host architecture: {host_arch}')
+    # Early rejection of unsupported architecture before directory creation
+    if host_arch not in ARCH_IMAGE_MAP:
+        report = dict(schema='openfoam-runtime-qualification-v1', run_id=output.name,
+                      started_utc=datetime.now(timezone.utc).isoformat(), status='failed',
+                      scope='runtime qualification and repeatability; not physical validation',
+                      image_reference=None, platform=platform.platform(), architecture=host_arch,
+                      limits=dict(memory='2g',cpus=2), commands=[],
+                      error=f'unsupported host architecture: {host_arch}',
+                      finished_utc=datetime.now(timezone.utc).isoformat(),
+                      artifacts_sha256={})
+        output.mkdir(parents=True, exist_ok=False)
+        (output/'qualify_report.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
+        return report
     # mkdir is intentionally exclusive, including empty existing directories/symlinks.
     output.mkdir(parents=True, exist_ok=False)
     report = dict(schema='openfoam-runtime-qualification-v1', run_id=output.name,
@@ -180,7 +194,7 @@ def main():
     args = parser.parse_args()
     try:
         report = qualify(args.output)
-    except OSError as exc:
+    except (OSError, ValueError) as exc:
         print(str(exc))
         return 1
     print(json.dumps({key:report[key] for key in ('status','run_id','scope')}))
