@@ -1,0 +1,94 @@
+{
+  "scope": "Unconverged steady iteration300 diagnostic; not physical time, final acceptance or flight performance",
+  "geometry_hashes_verified": true,
+  "iteration": 300,
+  "cells": 2850441,
+  "wing_faces": 172370,
+  "yPlus": {
+    "area_weighted_median": 0.954746482501,
+    "area_weighted_p95": 4.49178592865,
+    "area_weighted_p99": 11.7944939045,
+    "max": 51.1642890317,
+    "area_fraction_above_2": 0.09829285968284004
+  },
+  "independent_force_total_pressure_viscous_N": [
+    -0.4775182531707604,
+    -1.6065621222570212e-06,
+    36.07711835354074,
+    -1.1955941315425687,
+    -2.229474664891369e-06,
+    36.01077806238222,
+    0.7180758783717992,
+    6.229125426328115e-07,
+    0.06634029115699352
+  ],
+  "native_force_total_pressure_viscous_N": [
+    -0.4775182531708,
+    -1.606562126002e-06,
+    36.07711835354,
+    -1.195594131543,
+    -2.229474668644e-06,
+    36.01077806238,
+    0.7180758783718,
+    6.229125426422e-07,
+    0.06634029115699
+  ],
+  "max_force_difference_N": 2.2239987629291136e-12,
+  "independent_moment_total_pressure_viscous_Nm": [
+    2.1816993789069618e-05,
+    -0.37373170564506303,
+    1.0019212169878875e-05,
+    2.2412222678444035e-05,
+    -0.37765482919185395,
+    1.0317588823359698e-05,
+    -5.952288921912175e-07,
+    0.003923123546793185,
+    -2.98376653397258e-07
+  ],
+  "native_moment_total_pressure_viscous_Nm": [
+    2.181699370968e-05,
+    -0.3737317056451,
+    1.001921217954e-05,
+    2.241222260224e-05,
+    -0.3776548291919,
+    1.031758883319e-05,
+    -5.952288925602e-07,
+    0.003923123546793,
+    -2.983766536485e-07
+  ],
+  "max_moment_difference_Nm": 7.938961648994679e-14,
+  "coefficient_order": [
+    "Cd",
+    "Cl",
+    "CmPitch"
+  ],
+  "independent_coefficients": [
+    0.029877815250409216,
+    0.5275191853885179,
+    -0.053867905049220524
+  ],
+  "native_coefficients": [
+    0.02987781525041,
+    0.5275191853885,
+    -0.05386790504922
+  ],
+  "coefficient_abs_difference": [
+    7.840950111415168e-16,
+    1.7985612998927536e-14,
+    5.273559366969494e-16
+  ],
+  "boundary_volume_flux_m3_s": {
+    "inlet": -67.96293743351089,
+    "outlet": 68.0076181809305,
+    "farfield": -0.04468029054073064,
+    "wing": 0.0
+  },
+  "relative_mass_imbalance": 5.984885807959193e-09,
+  "field_sha256": {
+    "p": "067cb7f4cf3797e72ae8784a4f5be7e32ea9b6f17d25be481e808cfdf8619ec9",
+    "phi": "d03f9a1ebd356ea9169399c8c56b6c4d5ef54314838e7dfa515231341f1c1d89",
+    "yPlus": "3ecdfb3c6709d434bff840cc06f7b17a57d2d0a43f8d5a3de72d99506ec59fda",
+    "wallShearStress": "17f043e77d90ac9fef492d5e801f7e0b86f2d9c400eb6667937cbc3320a9f9df"
+  },
+  "script_sha256": "7e3e9615394bb3e0f0a724711fd3ad8df59804467a18e279663f830b289fcc78"
+}
