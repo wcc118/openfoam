@@ -1,0 +1,143 @@
+{
+  "scope": "Ideal coarse-surface-face normal-spacing controls under reviewed chord-floor convention; all dimensionless thresholds unchanged",
+  "cases": {
+    "spacing8um": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--pull",
+        "never",
+        "--network",
+        "none",
+        "--memory",
+        "512m",
+        "--cpus",
+        "1",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,src=/home/connellwc83/projects/openfoam/runs/normal-spacing-controls-20261025/spacing8um,dst=/work",
+        "--workdir",
+        "/work",
+        "--entrypoint",
+        "/bin/bash",
+        "opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4",
+        "/work/run.sh"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.3841604236513376,
+      "cell_dimensions_m": [
+        0.0015875,
+        0.0015875,
+        8e-06
+      ],
+      "analytic_cell_volume_m3": 2.016125e-11,
+      "analytic_face_pyramid_volume_m3": 3.360208333333333e-12,
+      "minVol_override": 1.048772096e-16,
+      "quality_dict_mesh_pass": false,
+      "sha256": {
+        "log.topologyQuality": "0ad75983b39ba868dfebe54acf80a20e559d9b37034c99449dfc915c1fe3e5b4",
+        "log.extended": "d884ecb34a1fce017c7d3ab0ad1c194d4a4f73378f95a138a5cf6abee5bd0fb4",
+        "log.blockMesh": "db52572068588fb79a813a3e6c53e4e2b835e415d3f5fb66b70a4c5acdd6fe33",
+        "system/controlDict": "b09bdd7d59427acb2656c725b572eed1d68e2d02a1e05ef1ddc78aea8f105d46",
+        "system/fvSchemes": "cc915dc906dd62685da3f3c048165b2a14be1303a9c863b0e915df41967a96ca",
+        "system/meshQualityDict": "7529b4a21db7f2c24d74f7337e101b2c2d3ac05ecf918acc7ffd224c093dd6bd",
+        "system/fvSolution": "48e61e0402615d31ff14eba640055603421bb51a9f2372bb18cb865a4a5f9f40",
+        "system/blockMeshDict": "6c56fb94efa2a4917b55aab014c0cd51c5a70cccfa9c03fc95936be8de53c765"
+      }
+    },
+    "spacing12um": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--pull",
+        "never",
+        "--network",
+        "none",
+        "--memory",
+        "512m",
+        "--cpus",
+        "1",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,src=/home/connellwc83/projects/openfoam/runs/normal-spacing-controls-20261025/spacing12um,dst=/work",
+        "--workdir",
+        "/work",
+        "--entrypoint",
+        "/bin/bash",
+        "opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4",
+        "/work/run.sh"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.3806277709081769,
+      "cell_dimensions_m": [
+        0.0015875,
+        0.0015875,
+        1.2e-05
+      ],
+      "analytic_cell_volume_m3": 3.0241875e-11,
+      "analytic_face_pyramid_volume_m3": 5.0403125e-12,
+      "minVol_override": 1.048772096e-16,
+      "quality_dict_mesh_pass": true,
+      "sha256": {
+        "log.topologyQuality": "2c0c1aa05d298af1b7422db642f29eca1da52d3d1d5db4bef49de2c943581b9d",
+        "log.extended": "ead566e461322438a766b94c4d751e35e00625c33ccf11685ec926255e2d39cf",
+        "log.blockMesh": "a3f7ba6c428d62fe959d9bdf5a5bb8433cac3b4b49209d22b21957027a92ea61",
+        "system/controlDict": "b09bdd7d59427acb2656c725b572eed1d68e2d02a1e05ef1ddc78aea8f105d46",
+        "system/fvSchemes": "cc915dc906dd62685da3f3c048165b2a14be1303a9c863b0e915df41967a96ca",
+        "system/meshQualityDict": "7529b4a21db7f2c24d74f7337e101b2c2d3ac05ecf918acc7ffd224c093dd6bd",
+        "system/fvSolution": "48e61e0402615d31ff14eba640055603421bb51a9f2372bb18cb865a4a5f9f40",
+        "system/blockMeshDict": "328b0944bff89bc993e3f7850ab653d2bbc5b30ce854caa488df2299c3001a0a"
+      }
+    },
+    "spacing20um": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--pull",
+        "never",
+        "--network",
+        "none",
+        "--memory",
+        "512m",
+        "--cpus",
+        "1",
+        "--user",
+        "1000:1000",
+        "--mount",
+        "type=bind,src=/home/connellwc83/projects/openfoam/runs/normal-spacing-controls-20261025/spacing20um,dst=/work",
+        "--workdir",
+        "/work",
+        "--entrypoint",
+        "/bin/bash",
+        "opencfd/openfoam-default@sha256:b8b674f7d634a7b272efa00beabfe13eefdfe9d83b28281522544d06d47a17e4",
+        "/work/run.sh"
+      ],
+      "exit_code": 0,
+      "elapsed_s": 0.3722665049135685,
+      "cell_dimensions_m": [
+        0.0015875,
+        0.0015875,
+        2e-05
+      ],
+      "analytic_cell_volume_m3": 5.0403125e-11,
+      "analytic_face_pyramid_volume_m3": 8.400520833333333e-12,
+      "minVol_override": 1.048772096e-16,
+      "quality_dict_mesh_pass": true,
+      "sha256": {
+        "log.topologyQuality": "fb25336e6e982e373450e5d22eae31eeaa7457370b658e88483d5bce3146a950",
+        "log.extended": "f909b7c5f6a352a099d4bb7882d1dcb26cc32c0d7a341565572ab8019f9a8c14",
+        "log.blockMesh": "cc08a0d757739d4072fe92331f2d8acb841a045023f1a6af8b30afdc430dff17",
+        "system/controlDict": "b09bdd7d59427acb2656c725b572eed1d68e2d02a1e05ef1ddc78aea8f105d46",
+        "system/fvSchemes": "cc915dc906dd62685da3f3c048165b2a14be1303a9c863b0e915df41967a96ca",
+        "system/meshQualityDict": "7529b4a21db7f2c24d74f7337e101b2c2d3ac05ecf918acc7ffd224c093dd6bd",
+        "system/fvSolution": "48e61e0402615d31ff14eba640055603421bb51a9f2372bb18cb865a4a5f9f40",
+        "system/blockMeshDict": "4b8d835758f834261f3b527acd19552253095e8b9592799759801fdd314a379c"
+      }
+    }
+  }
+}

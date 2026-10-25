@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "evidence_scope": "Limited mesh log/layer gate; not yPlus, flow or physical qualification",
+  "input": {
+    "wall_surface": "/home/connellwc83/projects/openfoam/runs/mesh-trial16-chord-floor-pc-20261025/postProcessing/slices/0/wingSurface.vtk",
+    "wall_surface_hash": "47785ea24d192925ec0b4ce9ae46b656768a2256d88bedc734765a91ebfcef02",
+    "mesh_log": "/home/connellwc83/projects/openfoam/runs/mesh-trial16-chord-floor-pc-20261025/log.scaledQuality",
+    "mesh_log_hash": "cf547fd9f3577530c6ed1426368b7adcc260ba0ad43edf1469f067a4dbe55fef"
+  },
+  "parameters": {
+    "requested_layers": 12,
+    "minimum_coverage": 0.9
+  },
+  "metrics": {
+    "total_faces": 172370,
+    "total_area": 0.25545330029088814,
+    "faces_with_layers": 85448,
+    "area_with_layers": 0.054895827384640127,
+    "face_coverage": 0.49572431397574984,
+    "area_coverage": 0.2148957454146394,
+    "weighted_layer_count": 1.070433344302704,
+    "min_layer": 0,
+    "max_layer": 11,
+    "full_area": 0.0,
+    "full_area_coverage": 0.0,
+    "requested_layers": 12,
+    "min_coverage": 0.9
+  },
+  "mesh_check": {
+    "result": {
+      "mesh_ok": true,
+      "failed_checks": 0,
+      "raw_status": "ok"
+    }
+  },
+  "coverage": {
+    "gate_passed": false,
+    "actual_coverage": 0.2148957454146394
+  },
+  "overall": {
+    "status": "gate_failure",
+    "gate_passed": false
+  }
+}
