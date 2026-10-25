@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "status": "unqualified_setup",
+  "created_utc": "2026-10-25T07:42:09.280312+00:00",
+  "source": {
+    "generator_sha256": "641321d92ff2e871fb18bc544506bf9bb5583d30b731aa4d594caa8da29f525f",
+    "revision": "82ce181053f694b3744e86847a04a7edc4ca1e2c",
+    "dirty": false
+  },
+  "mesh": {
+    "source_path": "/home/foam/projects/openfoam/runs/mesh-trial9-refined-short-pc-20261025/constant/polyMesh",
+    "source_sha256": {
+      "points": "4774f097960dea8e3f1a1e291d21ac0e66eb035001760aaa2e36934ed4a18a75",
+      "faces": "b3cb579fc6d040db6e6d7941525f1a9eb3fae16f94f0a73288f4ac82e838b2ba",
+      "owner": "b24307c26256ad283bd29371189a1e086ef52c5a8ac6ef4b4ff129d61b2ea286",
+      "neighbour": "0ca846848deca89f6897713e48a32f6d9e04526c6edbede966a8fe4c6d2f4b5f",
+      "boundary": "8261ef639f9b2d30f2a65a2c3b5d4545075af915c4475aa0df9cc5b4dfec2a56",
+      "cellZones": "75e6033b3f55338da36dc6c36ebb7f40ed04ee607b9af1e4b519c5f7c42e7ac7",
+      "faceZones": "90978336308dc119ba9cce45e9b6d03ff2dc69c955937aabc3b965e01ef16f2a",
+      "pointZones": "e420395d550123e862c6a5a59639f0950946b097e14e8ec597ba8ffb78f40b19"
+    },
+    "copied_sha256": {
+      "points": "4774f097960dea8e3f1a1e291d21ac0e66eb035001760aaa2e36934ed4a18a75",
+      "faces": "b3cb579fc6d040db6e6d7941525f1a9eb3fae16f94f0a73288f4ac82e838b2ba",
+      "owner": "b24307c26256ad283bd29371189a1e086ef52c5a8ac6ef4b4ff129d61b2ea286",
+      "neighbour": "0ca846848deca89f6897713e48a32f6d9e04526c6edbede966a8fe4c6d2f4b5f",
+      "boundary": "8261ef639f9b2d30f2a65a2c3b5d4545075af915c4475aa0df9cc5b4dfec2a56",
+      "cellZones": "75e6033b3f55338da36dc6c36ebb7f40ed04ee607b9af1e4b519c5f7c42e7ac7",
+      "faceZones": "90978336308dc119ba9cce45e9b6d03ff2dc69c955937aabc3b965e01ef16f2a",
+      "pointZones": "e420395d550123e862c6a5a59639f0950946b097e14e8ec597ba8ffb78f40b19"
+    },
+    "boundary_patches": [
+      "inlet",
+      "outlet",
+      "farfield",
+      "wing"
+    ]
+  },
+  "flow": {
+    "alpha_deg": 4.0,
+    "velocity_m_s": [
+      29.926921507794727,
+      0.0,
+      2.0926942123237593
+    ],
+    "drag_direction": [
+      0.9975640502598242,
+      0.0,
+      0.0697564737441253
+    ],
+    "lift_direction": [
+      -0.0697564737441253,
+      0.0,
+      0.9975640502598242
+    ],
+    "pitch_axis": [
+      0.0,
+      1.0,
+      0.0
+    ],
+    "dynamic_pressure_Pa": 551.273970764428,
+    "k_m2_s2": 0.00135,
+    "omega_per_s": 9.432232750983365,
+    "speed_m_s": 30.0,
+    "density_kg_m3": 1.2250532683653954,
+    "kinematic_viscosity_m2_s": 1.4605775310347254e-05,
+    "chord_Re": 208684.57409725367,
+    "mach": 0.08816091132962695,
+    "turbulence_intensity": 0.001,
+    "turbulence_length_scale_m": 0.007112
+  },
+  "geometry": {
+    "span_m": 1.2192,
+    "chord_m": 0.1016,
+    "reference_area_m2": 0.12387072,
+    "moment_origin_m": [
+      0.0254,
+      0.0,
+      0.0
+    ]
+  },
+  "axes": {
+    "x": "downstream",
+    "y": "span",
+    "z": "up",
+    "moment": "positive y"
+  },
+  "atmosphere_source": {
+    "repository": "wcc118/flight-loads",
+    "revision": "7fe19f0761e00dd54238100461effa2533fc62c8",
+    "file": "src/flightloads/atmosphere.py",
+    "sha256": "a7ce6a74f152a713f5d02360580a1f94f9f91dd4e23f48ec07c629d00be0f5ca"
+  },
+  "model": {
+    "solver": "simpleFoam",
+    "turbulence": "kOmegaSST",
+    "assumption": "fully turbulent; transition uncertainty unresolved",
+    "wall_k": "fixedValue 0",
+    "wall_omega": "omegaWallFunction binomial n2",
+    "wall_nut": "nutLowReWallFunction",
+    "pressure": "kinematic m2/s2"
+  },
+  "iterations": 500,
+  "time_meaning": "SIMPLE iteration, not physical seconds",
+  "generated_sha256": {
+    "0/U": "f2ffff2eda397d98a955749de821b500df9c56a3df9c2203ed47fd527e16a41e",
+    "0/p": "b84f1a473fb25f4f43cbb304edb1d23f327e4bc11de14004b2b79301b8a7fb02",
+    "0/k": "47601b6728aa70673aee1d70fd72db38f103c377e6a33854f3717960e5d6bec2",
+    "0/omega": "cb7640c2223279d791bf8d18058a8245f21b152b0d3e7787b6e9f2d2e494835d",
+    "0/nut": "47d3588b117bc3a0114835b8a79e25f3a72e847c69ca8a72849c544e24ff8fd4",
+    "constant/transportProperties": "b889f13a02dfd74ac3aec504c3b8a619794d644f41cfdbcd2e99044db8a85a78",
+    "constant/turbulenceProperties": "6df384d904139243910d0b7d485ad2168c0166ffe09c511cc0f2f9cc4c12098c",
+    "system/controlDict": "a410ea15a5c1b9c2250bd5d7cf044daf870e4b5af29eac7a203813b286fd64c2",
+    "system/fvSchemes": "ef1f321e154233d959ff716936895c9099a7b0563fab48ed2e59a1709646884c",
+    "system/fvSolution": "f49dc16848ae1b4687f75f793d0183a7c341be9cdf0f7207961b63876e244e38"
+  },
+  "scope": "setup only; no mesh, flow or physical qualification"
+}

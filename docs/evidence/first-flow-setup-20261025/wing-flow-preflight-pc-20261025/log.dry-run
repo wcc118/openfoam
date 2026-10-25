@@ -1,0 +1,55 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2412                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : _45e7c4a0-20241224 OPENFOAM=2412 version=2412
+Arch   : "LSB;label=32;scalar=64"
+Exec   : simpleFoam -dry-run
+Date   : Oct 25 2026
+Time   : 07:40:57
+Host   : 3b191f65a078
+PID    : 483
+I/O    : uncollated
+Case   : /work
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+Operating in 'dry-run' mode: case will run for 1 time step.  All checks assumed OK on a clean exit
+Selecting simplified mesh model staticFvMesh
+Creating simplified mesh using "/work/constant/polyMesh"
+Mesh bounds: (-0.508 -1.11760090428 -0.508) (1.524 1.11760090412 0.508000000014)
+Creating dummy zone frozenPoints
+
+
+--> FOAM FATAL ERROR: (openfoam-2412)
+Zone named frozenPoints not found.
+Available zone names: 1(frozenPoints)
+
+
+    From ZoneType& Foam::ZoneMesh<ZoneType, MeshType>::operator[](const Foam::word&) [with ZoneType = Foam::pointZone; MeshType = Foam::polyMesh]
+    in file ./src/OpenFOAM/lnInclude/ZoneMesh.C at line 1113.
+
+FOAM aborting
+
+[stack trace]
+=============
+#1  Foam::error::simpleExit(int, bool) in /usr/lib/openfoam/openfoam2412/platforms/linux64GccDPInt32Opt/lib/libOpenFOAM.so
+#2  Foam::simplifiedMeshes::columnFvMeshInfo::initialiseZones(Foam::fvMesh&) in /usr/lib/openfoam/openfoam2412/platforms/linux64GccDPInt32Opt/lib/libfiniteVolume.so
+#3  ? in /usr/lib/openfoam/openfoam2412/platforms/linux64GccDPInt32Opt/lib/libdynamicFvMesh.so
+#4  Foam::simplifiedMeshes::simplifiedDynamicFvMeshBase::New(Foam::IOobject const&) in /usr/lib/openfoam/openfoam2412/platforms/linux64GccDPInt32Opt/lib/libdynamicFvMesh.so
+#5  Foam::dynamicFvMesh::New(Foam::argList const&, Foam::Time const&) in /usr/lib/openfoam/openfoam2412/platforms/linux64GccDPInt32Opt/lib/libdynamicFvMesh.so
+#6  ? in /usr/lib/openfoam/openfoam2412/platforms/linux64GccDPInt32Opt/bin/simpleFoam
+#7  ? in /lib/x86_64-linux-gnu/libc.so.6
+#8  __libc_start_main in /lib/x86_64-linux-gnu/libc.so.6
+#9  ? in /usr/lib/openfoam/openfoam2412/platforms/linux64GccDPInt32Opt/bin/simpleFoam
+=============
