@@ -102,3 +102,22 @@ layer coverage via sibling `mesh-preview.html`; the geometry-only original is
 preserved as `preview.geometry-only.html`. The standalone mesh page embeds its
 images and input hashes, with no network dependency. See issue #4's preview
 checkpoint for provenance and limitations.
+
+## Reusable launcher verification
+
+The reusable launcher was subsequently run on both hosts at clean revision
+`83273aa5cc88efd453df43baacdccd50c9a9dc73`, identical launcher SHA-256
+`ea1e1a625dc5577c62ddf24bdb8f350bafd22b9c30ef97477807b2ef5c1ebc8f`.
+All47 tests passed natively on both Spark and PC; each launcher completed both
+cavity repeats and passed the unchanged acceptance verifier. Reports:
+[PC](evidence/reusable-pc-runtime-20261025.json) and
+[Spark](evidence/reusable-spark-runtime-20261025.json).
+The PC verification checkout is `/home/foam/projects/openfoam-qualification-review`;
+the active meshing checkout remains `/home/foam/projects/openfoam`.
+
+A subsequent matched18-layer wing-meshing diagnostic took199.33s on PC versus
+370.58s in the earlier Spark run. It reproduced the same wall-face counts and
+failed checks, with area-coverage difference about6.9e-12; exported mesh bytes
+were not identical. These are single runs on a rejected mesh, not a repeated
+production-CFD performance claim. Keep numerical qualification and timing claims
+separate; issue#4 retains the paired case evidence.
