@@ -74,15 +74,27 @@ FREQ2 = (BETA2**2 / (2 * PI)) * math.sqrt(E * I1 / (RHO * AREA * LENGTH**4))  # 
 FREQ3 = (BETA3**2 / (2 * PI)) * math.sqrt(E * I1 / (RHO * AREA * LENGTH**4))  # Hz
 
 
+def format_decimal(val):
+    """Format decimal with at most 1 decimal place, removing trailing zeros after decimal.
+
+    0 -> '0.', 0.0 -> '0.', 0.1 -> '0.1', 1.0 -> '1.', 1.2 -> '1.2'
+    """
+    formatted = f'{val:.1f}'
+    if formatted.endswith('.0'):
+        return formatted[:-1]
+    return formatted
+
+
 def generate_grid_cards(num_nodes):
     """Generate GRID cards for nodes along x-axis."""
     cards = []
     for i in range(num_nodes):
         x = i * LENGTH / (num_nodes - 1)
         grid_id = i + 1
-        # All grids have same coordinate system and DOF set
-        # GRID, grid_id, cid, x, y, z, seid
-        cards.append(f"GRID     {grid_id:<8}{x:>16.10E}{0:>16.10E}{0:>16.10E}{123456:>8}")
+        # GRID, id, cid, x, y, z
+        # Fixtures use comma-delimited free-field
+        # cid blank (field 3 is empty), x has 8 decimal places, y/z use format_decimal
+        cards.append(f"GRID,{grid_id},,{x:.8f},{format_decimal(0.)},{format_decimal(0.)}")
     return cards
 
 
@@ -96,60 +108,56 @@ def generate_cbar_cards(num_elements):
         # CBAR, eid, pid, g1, g2, x1, x2, x3
         # g1 is first node, g2 is second node
         # orientation vector: global y (0, 1, 0)
-        cards.append(f"CBAR     {cbar_id:<8}{1:<8}{node1:<8}{node2:<8}{0:>16.10E}{1:>16.10E}{0:>16.10E}")
+        # Comma-delimited free-field format, format_decimal for coordinates
+        cards.append(f"CBAR,{cbar_id},1,{node1},{node2},{format_decimal(0.)},{format_decimal(1.)},{format_decimal(0.)}")
     return cards
 
 
 def generate_pbar_card(area, i1, i2, j):
     """Generate PBAR card with properties."""
-    # PBAR with continuation for 8 fields
-    # Field 5: A, Field 6: I1, Field 7: I2, Field 8: J
-    card = f"""PBAR      1        1        {area:>16.10E}{i1:>16.10E}
-*         {i2:>16.10E}{j:>16.10E}"""
-    return card
+    # PBAR, mid, pid, A, I1, I2, J, k, f
+    # Comma-delimited free-field format, 10 significant digits for props
+    # 8th field is optional (shear factor k), should be 0.
+    return f"PBAR,1,1,{area:.9E},{i1:.9E},{i2:.9E},{j:.9E},{format_decimal(0.)}"
 
 
 def generate_mat1_card(young_modulus, shear_modulus, poisson, density):
     """Generate MAT1 card."""
     # MAT1, mid, E, G, nu, rho, a, tref, ge
-    return f"MAT1      1{young_modulus:>16.10E}{shear_modulus:>16.10E}{poisson:>16.10E}{density:>16.10E}"
+    # Comma-delimited free-field format
+    # E and G use scientific notation, nu and rho as decimals with trailing dot for integers
+    return f"MAT1,1,{young_modulus:.9E},{shear_modulus:.9E},{poisson:g},{format_decimal(density)}"
 
 
 def generate_spc1_card():
     """Generate SPC1 card for root DOF constraint."""
-    # SPC1, sid, dofs, node_ids
-    return "SPC1      1     123456        1"
+    # SPC1, sid, dofs, node_ids - comma-delimited format matching fixture
+    return "SPC1,1,123456,1"
 
 
-def generate_load_cards_bend(force_z, num_nodes):
-    """Generate FORCE2 cards for static bending case."""
-    # Tip load in global z direction
-    # FORCE2, sid, g, f, x1, x2, x3
-    cards = []
-    cards.append(f"FORCE2    1       {num_nodes:<8}{force_z:>16.10E}{0:>16.10E}{0:>16.10E}{1:>16.10E}")
-    # LOAD card for static case
-    cards.append(f"LOAD      2       1       1.0")
-    return cards
+def generate_force_card(force_z, num_nodes):
+    """Generate FORCE card for static bending case."""
+    # FORCE, sid, g, cid, f, x1, x2, x3
+    # cid blank (empty field) means global coordinates
+    # sid=2 (load case ID), node=num_nodes, force in z direction
+    # 4th field (cid) is empty, values: f, x1, x2, x3
+    return f"FORCE,2,{num_nodes},,{format_decimal(force_z)},{format_decimal(0.)},{format_decimal(0.)},{format_decimal(1.)}"
 
 
-def generate_load_cards_torsion(moment_x, num_nodes):
-    """Generate MOMENT2 cards for static torsion case."""
-    # Tip moment in global x direction
-    # MOMENT2, sid, g, m, x1, x2, x3
-    cards = []
-    cards.append(f"MOMENT2   1       {num_nodes:<8}{moment_x:>16.10E}{1:>16.10E}{0:>16.10E}{0:>16.10E}")
-    # LOAD card for static case
-    cards.append(f"LOAD      2       1       1.0")
-    return cards
+def generate_moment_card(moment_x, num_nodes):
+    """Generate MOMENT card for static torsion case."""
+    # MOMENT, sid, g, cid, m, x1, x2, x3
+    # cid blank (empty field) means global coordinates
+    # sid=2 (load case ID), node=num_nodes, moment about x axis
+    # 4th field (cid) is empty, values: m, x1, x2, x3
+    return f"MOMENT,2,{num_nodes},,{format_decimal(moment_x)},{format_decimal(1.)},{format_decimal(0.)},{format_decimal(0.)}"
 
 
-def generate_eigrl_card(num_modes=6):
+def generate_eigrl_card():
     """Generate EIGRL card for modal analysis."""
     # EIGRL, sid, v1, v2, nd, mode, opt, maxset, shft
-    # METHOD=3, request modes
-    # v1, v2 = frequency range (0 to auto-estimated max)
-    # nd = number of modes requested
-    return f"EIGRL     3       0       1000000         {num_modes}"
+    # Minimal format matching fixture
+    return "EIGRL,3,,,6"
 
 
 def generate_deck_bend_static(
@@ -166,24 +174,22 @@ def generate_deck_bend_static(
 ):
     """Generate SOL101 static bending deck."""
     lines = [
-        "ID CANTILEVER BENDING BENCHMARK",
         "SOL 101",
         "CEND",
-        "ECHO = UNSORT",
+        "TITLE = INDEPENDENT CIRCULAR BEAM",
+        "ECHO = NONE",
+        "SPC = 1",
         "DISPLACEMENT = ALL",
         "SPCFORCE = ALL",
-        "SUBCASE 1",
-        "  LOAD = 2",
+        "LOAD = 2",
         "BEGIN BULK",
     ]
-    lines.append("GRID")
     lines.extend(generate_grid_cards(num_nodes))
-    lines.append("CBAR")
     lines.extend(generate_cbar_cards(num_elements))
     lines.append(generate_pbar_card(area, i1, i1, j))
     lines.append(generate_mat1_card(young_modulus, shear_modulus, poisson, density))
     lines.append(generate_spc1_card())
-    lines.extend(generate_load_cards_bend(force_z, num_nodes))
+    lines.append(generate_force_card(force_z, num_nodes))
     lines.append("ENDDATA")
     return "\n".join(lines)
 
@@ -202,24 +208,22 @@ def generate_deck_torsion_static(
 ):
     """Generate SOL101 static torsion deck."""
     lines = [
-        "ID CANTILEVER TORSION BENCHMARK",
         "SOL 101",
         "CEND",
-        "ECHO = UNSORT",
+        "TITLE = INDEPENDENT CIRCULAR BEAM",
+        "ECHO = NONE",
+        "SPC = 1",
         "DISPLACEMENT = ALL",
         "SPCFORCE = ALL",
-        "SUBCASE 1",
-        "  LOAD = 2",
+        "LOAD = 2",
         "BEGIN BULK",
     ]
-    lines.append("GRID")
     lines.extend(generate_grid_cards(num_nodes))
-    lines.append("CBAR")
     lines.extend(generate_cbar_cards(num_elements))
     lines.append(generate_pbar_card(area, i1, i1, j))
     lines.append(generate_mat1_card(young_modulus, shear_modulus, poisson, density))
     lines.append(generate_spc1_card())
-    lines.extend(generate_load_cards_torsion(moment_x, num_nodes))
+    lines.append(generate_moment_card(moment_x, num_nodes))
     lines.append("ENDDATA")
     return "\n".join(lines)
 
@@ -238,23 +242,22 @@ def generate_deck_modal(
 ):
     """Generate SOL103 modal analysis deck."""
     lines = [
-        "ID CANTILEVER BENDING MODAL BENCHMARK",
         "SOL 103",
         "CEND",
-        "ECHO = UNSORT",
+        "TITLE = INDEPENDENT CIRCULAR BEAM",
+        "ECHO = NONE",
+        "SPC = 1",
         "DISPLACEMENT = ALL",
-        "SUBCASE 1",
-        "  METHOD = 3",
+        "SPCFORCE = ALL",
+        "METHOD = 3",
         "BEGIN BULK",
     ]
-    lines.append("GRID")
     lines.extend(generate_grid_cards(num_nodes))
-    lines.append("CBAR")
     lines.extend(generate_cbar_cards(num_elements))
     lines.append(generate_pbar_card(area, i1, i1, j))
     lines.append(generate_mat1_card(young_modulus, shear_modulus, poisson, density))
     lines.append(generate_spc1_card())
-    lines.append(generate_eigrl_card(num_modes))
+    lines.append(generate_eigrl_card())
     lines.append("ENDDATA")
     return "\n".join(lines)
 

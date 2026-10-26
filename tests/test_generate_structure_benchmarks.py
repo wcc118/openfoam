@@ -1,6 +1,7 @@
 """Tests for generate_structure_benchmarks.py.
 
 Independent verification ofcantilever benchmark deck generation.
+Tests verify output matches native reference fixtures with comma-delimited format.
 """
 
 import json
@@ -42,6 +43,14 @@ from scripts.generate_structure_benchmarks import (
 )
 
 
+def format_decimal(val):
+    """Format decimal with at most 1 decimal place, removing trailing zeros after decimal."""
+    formatted = f"{val:.1f}"
+    if formatted.endswith(".0"):
+        return formatted[:-1]
+    return formatted
+
+
 class StructureBenchTests(unittest.TestCase):
     """Test deck content, geometry, load direction, mass, reference scaling."""
 
@@ -70,7 +79,7 @@ class StructureBenchTests(unittest.TestCase):
         self.assertIn("SOL 103", modal)
 
     def test_deck_has_spcl_1_dof_constraint(self):
-        """Verify SPC1 with ID=1, DOFs=123456, node=1."""
+        """Verify SPC1 with ID=1, DOFs=123456, node=1 in comma-delimited format."""
         bend = generate_deck_bend_static()
         torsion = generate_deck_torsion_static()
         modal = generate_deck_modal()
@@ -82,30 +91,30 @@ class StructureBenchTests(unittest.TestCase):
         ]:
             with self.subTest(deck=deck_name):
                 self.assertIn("SPC1", deck)
-                self.assertIn("1     123456", deck)
+                # Check comma-delimited format: SPC1,1,123456,1
+                self.assertIn("SPC1,1,123456,1", deck)
                 # Verify node 1 is constrained
                 lines = deck.split("\n")
                 spc_line = [l for l in lines if l.startswith("SPC1")]
                 self.assertTrue(len(spc_line) >= 1)
 
     def test_grid_count_and_coordinates(self):
-        """Verify 21 GRID cards at correct x positions."""
+        """Verify 21 GRID cards at correct x positions with comma-delimited format."""
         bend = generate_deck_bend_static()
 
-        grid_lines = [l for l in bend.split("\n") if l.strip().startswith("GRID")]
-        # Filter out the header line "GRID" at start of card section
-        grid_card_lines = [l for l in grid_lines if "GRID" in l and len(l) > 4]
-        self.assertEqual(len(grid_card_lines), NODES)
+        # GRID cards are comma-delimited: GRID,id,,x,y,z
+        grid_lines = [l for l in bend.split("\n") if l.startswith("GRID,")]
+        self.assertEqual(len(grid_lines), NODES)
 
-        # Check node positions
+        # Check node positions with 8 decimal places for x
         for i in range(NODES):
             x = i * LENGTH / ELEMENTS
             with self.subTest(node=i + 1, x=x):
-                # GRID cards should have correct x coordinate
-                self.assertIn(f"{x:>16.10E}", bend)
+                # GRID cards should have correct x coordinate with 8 decimal places
+                self.assertIn(f",{x:.8f},", bend)
 
     def test_cbar_orientation_is_global_y(self):
-        """Verify CBAR orientation vector is global y-direction."""
+        """Verify CBAR orientation vector is global y-direction with comma-delimited format."""
         bend = generate_deck_bend_static()
         torsion = generate_deck_torsion_static()
         modal = generate_deck_modal()
@@ -116,79 +125,75 @@ class StructureBenchTests(unittest.TestCase):
             ("modal", modal),
         ]:
             with self.subTest(deck=deck_name):
-                # CBAR line with orientation: 0, 1, 0 (global y)
-                self.assertIn(f"{0:>16.10E}{1:>16.10E}{0:>16.10E}", deck)
+                # CBAR cards are comma-delimited: CBAR,eid,pid,g1,g2,x1,x2,x3
+                # orientation: 0., 1., 0. (global y)
+                self.assertIn("CBAR,1,1,1,2,0.,1.,0.", deck)
 
     def test_element_count(self):
         """Verify element count matches NODES-1."""
         bend = generate_deck_bend_static()
-        cbar_lines = [l for l in bend.split("\n") if l.strip().startswith("CBAR")]
-        # Only count actual CBAR cards, not the header line
-        cbar_card_lines = [l for l in cbar_lines if not l.strip() == "CBAR"]
-        self.assertEqual(len(cbar_card_lines), ELEMENTS)
+        # CBAR cards are comma-delimited: CBAR,eid,pid,g1,g2,x1,x2,x3
+        cbar_lines = [l for l in bend.split("\n") if l.startswith("CBAR,")]
+        self.assertEqual(len(cbar_lines), ELEMENTS)
 
     def test_static_bending_load_direction(self):
-        """Verify static bending load is in global z direction."""
+        """Verify static bending load is in global z direction using FORCE card."""
         bend = generate_deck_bend_static()
-        self.assertIn("FORCE2", bend)
-        self.assertIn(f"{FORCE_Z:>16.10E}", bend)
-        # Load is Fz in z-direction: x=0, y=0, z=1
-        self.assertIn(f"{0:>16.10E}{0:>16.10E}{1:>16.10E}", bend)
+        # Check for FORCE card (not FORCE2) with correct format
+        expected_force = f"FORCE,2,{NODES},,{format_decimal(FORCE_Z)},{format_decimal(0.)},{format_decimal(0.)},{format_decimal(1.)}"
+        self.assertIn("FORCE,", bend)
+        self.assertIn(expected_force, bend)
+        # Check load set ID 2 is selected in case control
+        self.assertIn("LOAD = 2", bend)
 
     def test_static_torsion_load_direction(self):
-        """Verify static torsion moment is about global x axis."""
+        """Verify static torsion moment is about global x axis using MOMENT card."""
         torsion = generate_deck_torsion_static()
-        self.assertIn("MOMENT2", torsion)
-        self.assertIn(f"{MOMENT_X:>16.10E}", torsion)
-        # Moment is Mx about x-axis: x=1, y=0, z=0
-        self.assertIn(f"{1:>16.10E}{0:>16.10E}{0:>16.10E}", torsion)
+        # Check for MOMENT card (not MOMENT2) with correct format
+        expected_moment = f"MOMENT,2,{NODES},,{format_decimal(MOMENT_X)},{format_decimal(1.)},{format_decimal(0.)},{format_decimal(0.)}"
+        self.assertIn("MOMENT,", torsion)
+        self.assertIn(expected_moment, torsion)
+        # Check load set ID 2 is selected in case control
+        self.assertIn("LOAD = 2", torsion)
 
     def test_modal_has_eigrl_card(self):
         """Verify modal deck has EIGRL card with correct parameters."""
         modal = generate_deck_modal()
         self.assertIn("EIGRL", modal)
-        self.assertIn("3", modal)
-        # Should request 6 modes
-        lines = modal.split("\n")
-        eigrl_lines = [l for l in lines if l.startswith("EIGRL")]
-        self.assertEqual(len(eigrl_lines), 1)
+        # Check for minimal format: EIGRL,3,,,6
+        self.assertIn("EIGRL,3,,,6", modal)
 
     def test_material_properties(self):
-        """Verify MAT1 has correct E, G, nu, rho."""
+        """Verify MAT1 has correct E, G, nu, rho with comma-delimited format."""
         bend = generate_deck_bend_static()
 
-        mat1_lines = [l for l in bend.split("\n") if l.startswith("MAT1")]
+        mat1_lines = [l for l in bend.split("\n") if l.startswith("MAT1,")]
         self.assertEqual(len(mat1_lines), 1)
         mat1 = mat1_lines[0]
 
         # MAT1, mid, E, G, nu, rho
-        self.assertIn(f"{E:>16.10E}", mat1)
-        self.assertIn(f"{G:>16.10E}", mat1)
-        self.assertIn(f"{NU:>16.10E}", mat1)
-        self.assertIn(f"{RHO:>16.10E}", mat1)
+        self.assertIn("MAT1,1,", mat1)
+        self.assertIn(f"{E:.9E}", mat1)
+        self.assertIn(f"{G:.9E}", mat1)
+        # nu and rho use format_decimal for trailing zeros removal
+        self.assertIn(f"{NU:g}", mat1)
+        self.assertIn(f"{format_decimal(RHO)}", mat1)
 
     def test_section_properties(self):
-        """Verify PBAR has correct A, I1, I2, J."""
+        """Verify PBAR has correct A, I1, I2, J with comma-delimited format."""
         bend = generate_deck_bend_static()
 
-        # PBAR spans two lines due to continuation
+        # PBAR is single-line comma-delimited
         lines = bend.split("\n")
-        pbar_lines = []
-        for i, line in enumerate(lines):
-            if line.startswith("PBAR"):
-                # Combine with continuation line if present
-                pbar_text = line
-                if i + 1 < len(lines) and lines[i + 1].startswith("*"):
-                    pbar_text += lines[i + 1]
-                pbar_lines.append(pbar_text)
+        pbar_lines = [l for l in lines if l.startswith("PBAR,")]
 
         self.assertEqual(len(pbar_lines), 1)
         pbar = pbar_lines[0]
 
-        # Check that all properties are present
-        self.assertIn(f"{AREA:>16.10E}", pbar)
-        self.assertIn(f"{I1:>16.10E}", pbar)
-        self.assertIn(f"{J:>16.10E}", pbar)
+        # Check that all properties are present with 9 significant digits
+        self.assertIn(f"{AREA:.9E}", pbar)
+        self.assertIn(f"{I1:.9E}", pbar)
+        self.assertIn(f"{J:.9E}", pbar)
 
     def test_sha256_hash_in_json(self):
         """Verify reference JSON contains SHA256 hashes."""
@@ -430,22 +435,30 @@ class StructureBenchTests(unittest.TestCase):
             finally:
                 sys.argv = orig_argv
 
-    def test_deck_has_subcase_for_static(self):
-        """Verify static decks have SUBCASE cards."""
+    def test_static_decks_have_cend_case_control(self):
+        """Verify static decks have direct CEND case control (no SUBCASE)."""
         bend = generate_deck_bend_static()
         torsion = generate_deck_torsion_static()
 
-        self.assertIn("SUBCASE", bend)
-        self.assertIn("LOAD", bend)
-        self.assertIn("SUBCASE", torsion)
-        self.assertIn("LOAD", torsion)
+        # No SUBCASE in the decks
+        self.assertNotIn("SUBCASE", bend)
+        self.assertNotIn("SUBCASE", torsion)
+
+        # But have direct case control
+        self.assertIn("LOAD = 2", bend)
+        self.assertIn("LOAD = 2", torsion)
+        self.assertIn("SPC = 1", bend)
+        self.assertIn("SPC = 1", torsion)
 
     def test_modal_has_method_card(self):
-        """Verify modal deck has METHOD in SUBCASE."""
+        """Verify modal deck has METHOD in CEND (no SUBCASE)."""
         modal = generate_deck_modal()
 
-        self.assertIn("SUBCASE", modal)
-        self.assertIn("METHOD", modal)
+        # No SUBCASE in the deck
+        self.assertNotIn("SUBCASE", modal)
+
+        # But has METHOD in CEND
+        self.assertIn("METHOD = 3", modal)
 
     def test_empty_output_directory_accepted(self):
         """Verify CLI accepts empty output directory."""
