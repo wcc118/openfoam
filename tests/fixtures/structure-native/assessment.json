@@ -1,0 +1,44 @@
+{
+  "scope": "Independent primary native verification decks, not yet repository generator acceptance",
+  "checks": {
+    "bend": {
+      "actual": 0.009700873,
+      "reference": 0.009700872721791716,
+      "relative_error": 2.8678686092575845e-08,
+      "limit": 0.01,
+      "pass": true
+    },
+    "torsion": {
+      "actual": 0.0378334,
+      "reference": 0.037833403614987694,
+      "relative_error": 9.555015789697308e-08,
+      "limit": 0.01,
+      "pass": true
+    },
+    "modal": {
+      "frequencies_hz": [
+        7.115086,
+        7.115086,
+        44.46359,
+        44.46359,
+        124.1823,
+        124.1823
+      ],
+      "first_reference_hz": 7.123247438644479,
+      "first_relative_error": 0.0011457468963106399,
+      "limit": 0.02,
+      "pass": true
+    }
+  },
+  "sha256": {
+    "torsion.bdf": "8fcf4906ad4130b2028afe51613aab791035b6c9a242240fcb0508ab87f9956f",
+    "bend.ERR": "082e2de50cbf56f48d0e9d7f5f8c161c290e438bd7e52c61808f2087a3b01bbd",
+    "torsion.F06": "fd3e1d83e6918ed8b43cc45af0a02439fb13a288176c34c3db1c4106c1689ab1",
+    "bend.bdf": "a98b2b001b10b9461ed313b34bfda92361634724fee0f7ae14412620a592758b",
+    "modal.bdf": "3ec9ff6cb30bdc9338de44b3c561cd5d2273d89faa0ca8667c4fa7aa4132c9d8",
+    "modal.ERR": "5d9f32b38a5612a4db46524f725bc457f49e608835ac9ecfe3cb31311b1efcba",
+    "modal.F06": "2b06bc84a0e5994fde3e18d5d9b1aa0efcb847622e70639dd3f7ead763d9d146",
+    "torsion.ERR": "104874dc62e31056fdb3adb4ff168d4a8be2bd6e7b4ee6d1f7675eb619e3421d",
+    "bend.F06": "c3b959ff4a3318c5775a733577d1ab039c1a7aacdaa9a12251db955e43c3436a"
+  }
+}
