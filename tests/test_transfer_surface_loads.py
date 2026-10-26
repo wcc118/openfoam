@@ -10,6 +10,10 @@ module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 
 
+def reference_cross(a, b):
+    return (a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0])
+
+
 class HandCaseTests(unittest.TestCase):
     """Test hand-calculated verification case."""
 
@@ -255,14 +259,14 @@ class RigidMotionTests(unittest.TestCase):
         nodes = [(0.0, 0.0, 0.0), (0.0, 2.0, 0.0)]
         points = [(1.0, 0.0, 0.0), (1.0, 1.0, 0.0), (1.0, 2.0, 0.0)]
         O = (0.0, 1.0, 0.0)  # Rotation center at midspan
-        theta = (0.0, 0.0, 0.05)
+        theta = (0.03, -0.02, 0.05)
 
         mapping = module.build_mapping(nodes, points)
         # Nodes rotate about O: u_node = theta x (node - O)
         node_displacements = []
         for node in nodes:
             r = (node[0] - O[0], node[1] - O[1], node[2] - O[2])
-            u_node = module._cross(theta, r)
+            u_node = reference_cross(theta, r)
             node_displacements.append(u_node)
 
         displacements = module.map_displacements(mapping, node_displacements, [theta]*len(nodes))
@@ -271,7 +275,7 @@ class RigidMotionTests(unittest.TestCase):
         for point, disp in zip(points, displacements):
             r = (point[0] - O[0], point[1] - O[1], point[2] - O[2])
             # u = theta x r where r = point - O
-            expected = module._cross(theta, r)
+            expected = reference_cross(theta, r)
             self.assertAlmostEqual(disp[0], expected[0], places=10)
             self.assertAlmostEqual(disp[1], expected[1], places=10)
             self.assertAlmostEqual(disp[2], expected[2], places=10)
@@ -313,17 +317,19 @@ class EndpointTests(unittest.TestCase):
         self.assertAlmostEqual(nodal_couples[1][1], 0.0, places=10)
 
     def test_tiny_tip_tolerance(self):
-        """Within tolerance should succeed, with lever arm retained."""
-        nodes = [(0.0, 0.0, 0.0), (0.0, 1.0, 0.0)]
-        points = [(1.0, 0.0 + 0.001, 0.0)]  # 1mm off node, within tolerance
-        forces = [(1.0, 0.0, 0.0)]
-
-        mapping = module.build_mapping(nodes, points, tip_tolerance_m=0.01)
-        nodal_forces, nodal_couples = module.map_forces(mapping, forces)
-
-        # Should succeed and retain lever arm
-        self.assertEqual(len(nodal_forces), 2)
-        self.assertEqual(len(nodal_couples), 2)
+        """Project a point beyond the upper tip, retaining the actual lever arm."""
+        nodes = [(0., 0., 0.), (0., 1., 0.)]
+        points = [(1., 1.000001, .2)]
+        with self.assertRaises(ValueError):
+            module.build_mapping(nodes, points)
+        mapping = module.build_mapping(nodes, points, tip_tolerance_m=1e-5)
+        forces, couples = module.map_forces(mapping, [(0., 0., 2.)])
+        self.assertEqual(forces, ((0., 0., 0.), (0., 0., 2.)))
+        self.assertEqual(couples[0], (0., 0., 0.))
+        self.assertAlmostEqual(couples[1][0], 2e-6, places=14)
+        self.assertAlmostEqual(couples[1][1], -2., places=14)
+        self.assertEqual(couples[1][2], 0.)
+        self.assertAlmostEqual(mapping.max_projection_m, 1e-6, places=14)
 
     def test_out_of_span_rejection(self):
         """Beyond tolerance should raise ValueError."""

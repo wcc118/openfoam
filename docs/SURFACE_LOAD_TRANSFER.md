@@ -23,9 +23,9 @@ z
 o------ x
 ```
 
-- **x**: Spanwise direction (chord-wise for airfoil sections)
-- **y**: Structural line coordinate (span for wing, chord for airfoil)
-- **z**: Vertical direction (lift direction for aircraft)
+- **x**: Downstream, along the undeformed wing chord
+- **y**: Wing span; structural interpolation stations must increase along this axis
+- **z**: Up. Wind-axis lift and drag directions depend on angle of attack.
 
 All positions, forces, displacements, and rotations use this single global frame.
 
@@ -107,7 +107,7 @@ def map_displacements(mapping, node_translations_m, node_rotations_rad):
                               [(ux,uy,uz), ...] in metres.
 
     The displacement at a surface point is interpolated from surrounding nodes,
-    with rotation contribution θ × r (lever arm cross rotation vector).
+    with rotation contribution θ × r (rotation vector cross lever arm).
     """
 ```
 
@@ -117,7 +117,7 @@ def map_displacements(mapping, node_translations_m, node_rotations_rad):
 
 For a surface point at position **p** with force **F**:
 
-1. Find y-station: clamp to span `[y₀, yₙ]`
+1. Reject points beyond the explicit tip tolerance, then clamp the admitted y-station to `[y₀, yₙ]`
 2. Find bracketing nodes `i, i+1` such that `yᵢ ≤ y ≤ yᵢ₊₁`
 3. Interpolation station: `t = (y - yᵢ) / (yᵢ₊₁ - yᵢ)`
 4. Lever arms: `r₀ = p - node₀`, `r₁ = p - node₁`
@@ -137,11 +137,11 @@ Total: `u = (1-t)·(uᵢ + θᵢ × rᵢ) + t·(uᵢ₊₁ + θᵢ₊₁ × rᵢ
 
 ### Conservation Properties
 
-- **Force balance**: Σ nodal_forces = Σ surface_forces (exact)
-- **Moment balance**: Σ (nodal_couples + nodeᵢ × nodal_forcesᵢ) = Σ (surface_pointᵢ × surface_forceᵢ) (exact about any origin)
-- **Virtual work**: Σ (surface_forceᵢ · surface_displacementᵢ) = Σ (nodal_forceᵢ · node_displacementᵢ) + Σ (nodal_coupleᵢ · node_rotationᵢ) (exact)
+- **Force balance**: Σ nodal_forces = Σ surface_forces (up to roundoff)
+- **Moment balance**: Σ (nodal_couples + nodeᵢ × nodal_forcesᵢ) = Σ (surface_pointᵢ × surface_forceᵢ) (up to roundoff, about any origin)
+- **Virtual work**: Σ (surface_forceᵢ · surface_displacementᵢ) = Σ (nodal_forceᵢ · node_displacementᵢ) + Σ (nodal_coupleᵢ · node_rotationᵢ) (up to roundoff)
 
-*Note: Conservation checks verify mathematical correctness of interpolation, not physical accuracy of the structural model.*
+*Note: Conservation checks establish algebraic consistency; they do not establish spatial interpolation accuracy or physical validity.*
 
 ## Limitations
 
