@@ -75,26 +75,30 @@ FREQ3 = (BETA3**2 / (2 * PI)) * math.sqrt(E * I1 / (RHO * AREA * LENGTH**4))  # 
 
 
 def format_decimal(val):
-    """Format decimal with at most 1 decimal place, removing trailing zeros after decimal.
+    """Finite MYSTRAN real field, at most 16 characters, with decimal point."""
+    if not math.isfinite(val):
+        raise ValueError("BDF real field must be finite")
+    result = format(val, ".10g")
+    mantissa = result.split("e")[0]
+    if "." not in mantissa:
+        result = result.replace("e", ".e") if "e" in result else result + "."
+    if len(result) > 16:
+        result = format(val, ".8E")
+    if len(result) > 16:
+        raise ValueError("BDF real field exceeds 16 characters")
+    return result
 
-    0 -> '0.', 0.0 -> '0.', 0.1 -> '0.1', 1.0 -> '1.', 1.2 -> '1.2'
-    """
-    formatted = f'{val:.1f}'
-    if formatted.endswith('.0'):
-        return formatted[:-1]
-    return formatted
 
-
-def generate_grid_cards(num_nodes):
+def generate_grid_cards(num_nodes, length=LENGTH):
     """Generate GRID cards for nodes along x-axis."""
     cards = []
     for i in range(num_nodes):
-        x = i * LENGTH / (num_nodes - 1)
+        x = i * length / (num_nodes - 1)
         grid_id = i + 1
         # GRID, id, cid, x, y, z
         # Fixtures use comma-delimited free-field
         # cid blank (field 3 is empty), x has 8 decimal places, y/z use format_decimal
-        cards.append(f"GRID,{grid_id},,{x:.8f},{format_decimal(0.)},{format_decimal(0.)}")
+        cards.append(f"GRID,{grid_id},,{format_decimal(x)},{format_decimal(0.)},{format_decimal(0.)}")
     return cards
 
 
@@ -115,9 +119,9 @@ def generate_cbar_cards(num_elements):
 
 def generate_pbar_card(area, i1, i2, j):
     """Generate PBAR card with properties."""
-    # PBAR, mid, pid, A, I1, I2, J, k, f
+    # PBAR, pid, mid, A, I1, I2, J, NSM
     # Comma-delimited free-field format, 10 significant digits for props
-    # 8th field is optional (shear factor k), should be 0.
+    # NSM is zero; shear-factor fields are omitted.
     return f"PBAR,1,1,{area:.9E},{i1:.9E},{i2:.9E},{j:.9E},{format_decimal(0.)}"
 
 
@@ -126,7 +130,7 @@ def generate_mat1_card(young_modulus, shear_modulus, poisson, density):
     # MAT1, mid, E, G, nu, rho, a, tref, ge
     # Comma-delimited free-field format
     # E and G use scientific notation, nu and rho as decimals with trailing dot for integers
-    return f"MAT1,1,{young_modulus:.9E},{shear_modulus:.9E},{poisson:g},{format_decimal(density)}"
+    return f"MAT1,1,{young_modulus:.9E},{shear_modulus:.9E},{format_decimal(poisson)},{format_decimal(density)}"
 
 
 def generate_spc1_card():
@@ -170,7 +174,8 @@ def generate_deck_bend_static(
     poisson=NU,
     density=RHO,
     force_z=FORCE_Z,
-    num_nodes=NODES
+    num_nodes=NODES,
+    length=LENGTH
 ):
     """Generate SOL101 static bending deck."""
     lines = [
@@ -184,7 +189,7 @@ def generate_deck_bend_static(
         "LOAD = 2",
         "BEGIN BULK",
     ]
-    lines.extend(generate_grid_cards(num_nodes))
+    lines.extend(generate_grid_cards(num_nodes, length))
     lines.extend(generate_cbar_cards(num_elements))
     lines.append(generate_pbar_card(area, i1, i1, j))
     lines.append(generate_mat1_card(young_modulus, shear_modulus, poisson, density))
@@ -204,7 +209,8 @@ def generate_deck_torsion_static(
     poisson=NU,
     density=RHO,
     moment_x=MOMENT_X,
-    num_nodes=NODES
+    num_nodes=NODES,
+    length=LENGTH
 ):
     """Generate SOL101 static torsion deck."""
     lines = [
@@ -218,7 +224,7 @@ def generate_deck_torsion_static(
         "LOAD = 2",
         "BEGIN BULK",
     ]
-    lines.extend(generate_grid_cards(num_nodes))
+    lines.extend(generate_grid_cards(num_nodes, length))
     lines.extend(generate_cbar_cards(num_elements))
     lines.append(generate_pbar_card(area, i1, i1, j))
     lines.append(generate_mat1_card(young_modulus, shear_modulus, poisson, density))
@@ -238,7 +244,8 @@ def generate_deck_modal(
     poisson=NU,
     density=RHO,
     num_modes=6,
-    num_nodes=NODES
+    num_nodes=NODES,
+    length=LENGTH
 ):
     """Generate SOL103 modal analysis deck."""
     lines = [
@@ -252,7 +259,7 @@ def generate_deck_modal(
         "METHOD = 3",
         "BEGIN BULK",
     ]
-    lines.extend(generate_grid_cards(num_nodes))
+    lines.extend(generate_grid_cards(num_nodes, length))
     lines.extend(generate_cbar_cards(num_elements))
     lines.append(generate_pbar_card(area, i1, i1, j))
     lines.append(generate_mat1_card(young_modulus, shear_modulus, poisson, density))
@@ -266,7 +273,7 @@ def write_deck(deck_content, filename, output_dir):
     """Write deck to file and return SHA256 hash."""
     filepath = output_dir / filename
     filepath.write_text(deck_content + "\n")
-    return hashlib.sha256(deck_content.encode()).hexdigest()
+    return hashlib.sha256(filepath.read_bytes()).hexdigest()
 
 
 def generate_reference_json(
@@ -336,7 +343,7 @@ def generate_reference_json(
             "modes_requested": 6,
             "euler_beta_values": [BETA1, BETA2, BETA3],
             "analytic_frequencies_hz": [freq1, freq2, freq3],
-            "note": "Circular beam has degenerate bending planes; first six solver modes include torsional/axial modes",
+            "note": "Default first six modes are three paired bending modes. MYSTRAN beam mass is translational only; torsional dynamics require explicit rotary inertia.",
             "tolerance_first_bending_rel": 0.02,
         },
         "mass": {
@@ -361,8 +368,8 @@ def generate_reference_json(
             "material": "Isotropic linear elastic",
             "cross_section": "Perfect circular",
             "boundary": "Root node all DOFs fixed (SPC1 123456)",
-            "solver_formulations": "MYSTRAN may differ in shear/rotary inertia/mass formulations",
-            "verification": "Native execution required for physical validation",
+            "solver_formulations": "MYSTRAN19 BREL1 beam mass is translational lumped mass only; no physical torsional modal verification from this deck",
+            "verification": "Native execution and analytical comparisons provide numerical verification, not physical wing validation",
         },
         "tolerances_prospective": {
             "static": 0.01,
@@ -453,6 +460,10 @@ def main():
     if args.poisson >= 0.5:
         p.error("Poisson's ratio must be < 0.5 for stability")
 
+    for name in ("radius", "length", "young_modulus", "density"):
+        if getattr(args, name) <= 0:
+            p.error(f"{name} must be positive")
+
     # Create output directory
     output_dir = Path(args.output_directory).resolve()
     if output_dir.exists():
@@ -473,17 +484,17 @@ def main():
     deck_bend = generate_deck_bend_static(
         args.element_count, area, i1, j,
         args.young_modulus, g, args.poisson, args.density,
-        FORCE_Z, num_nodes
+        FORCE_Z, num_nodes, args.length
     )
     deck_torsion = generate_deck_torsion_static(
         args.element_count, area, i1, j,
         args.young_modulus, g, args.poisson, args.density,
-        MOMENT_X, num_nodes
+        MOMENT_X, num_nodes, args.length
     )
     deck_modal = generate_deck_modal(
         args.element_count, area, i1, j,
         args.young_modulus, g, args.poisson, args.density,
-        6, num_nodes
+        6, num_nodes, args.length
     )
 
     # Write decks and compute hashes

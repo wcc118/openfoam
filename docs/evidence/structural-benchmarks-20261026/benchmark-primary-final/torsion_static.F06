@@ -1,0 +1,130 @@
+  1026021854
+
+ MYSTRAN Version 19.0.0   JUN 28 2026 MYSTRAN developed by Dr Bill Case
+*** Please report any problems to mystransolver@gmail.com ***                                                                                                                                                                                                   
+
+ >> MYSTRAN BEGIN  : 10/26/2026 at  2:18:54. 91 The input file is torsion_static.bdf                                                                                                                                                                                                                                              
+
+
+ >> LINK  0 BEGIN
+
+
+SOL 101                                                                                                                                                                                                                                                         
+CEND                                                                                                                                                                                                                                                            
+TITLE = INDEPENDENT CIRCULAR BEAM                                                                                                                                                                                                                               
+ECHO = NONE                                                                                                                                                                                                                                                     
+SPC = 1                                                                                                                                                                                                                                                         
+DISPLACEMENT = ALL                                                                                                                                                                                                                                              
+SPCFORCE = ALL                                                                                                                                                                                                                                                  
+LOAD = 2                                                                                                                                                                                                                                                        
+BEGIN BULK                                                                                                                                                                                                                                                      
+
+
+
+
+ >> LINK  0 END
+
+
+ >> LINK  1 BEGIN
+
+               DEALLOCATED  4.61E-02 MB MEMORY FROM ARRAY STF3
+
+               DEALLOCATED  5.04E-04 MB MEMORY FROM ARRAY STFKEY
+               DEALLOCATED  4.61E-02 MB MEMORY FROM ARRAY STF3
+
+ >> LINK  1 END
+
+
+ >> LINK  2 BEGIN
+
+
+
+ *INFORMATION: AUTOSPC Summary, Overall: after identification of all AUTOSPC's                                                               
+
+                                     AUTOSPC_RAT = 1.000000E-08
+
+                       Number of DOF's identified for AUTOSPC in component  1         =            0
+                       Number of DOF's identified for AUTOSPC in component  2         =            0
+                       Number of DOF's identified for AUTOSPC in component  3         =            0
+                       Number of DOF's identified for AUTOSPC in component  4         =            0
+                       Number of DOF's identified for AUTOSPC in component  5         =            0
+                       Number of DOF's identified for AUTOSPC in component  6         =            0
+                                                                                        ------------
+                       Total number of DOF's identified overall                       =            0
+
+
+ >> LINK  2 END
+
+
+ >> LINK  3 BEGIN
+
+ SUPERLU FACTORIZATION OF MATRIX KLL SUCCEEDED IN SUBR SYM_MAT_DECOMP_SUPRLU          
+
+ *INFORMATION: FOR INTERNAL SUBCASE NUMBER        1 EPSILON ERROR ESTIMATE            = -1.711755E-15 Based on U'*(K*U - P)/(U'*P)
+
+
+ >> LINK  3 END
+
+
+ >> LINK  5 BEGIN
+
+
+ >> LINK  5 END
+
+
+ >> LINK  9 BEGIN
+
+
+
+ OUTPUT FOR SUBCASE        1
+ INDEPENDENT CIRCULAR BEAM                                                                                                                                                                                                                                       
+
+                                                       D I S P L A C E M E N T S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0           0.0           0.0           0.0         
+              2        0  0.0           0.0           0.0           1.891670E-03  0.0           0.0         
+              3        0  0.0           0.0           0.0           3.783340E-03  0.0           0.0         
+              4        0  0.0           0.0           0.0           5.675011E-03  0.0           0.0         
+              5        0  0.0           0.0           0.0           7.566681E-03  0.0           0.0         
+              6        0  0.0           0.0           0.0           9.458351E-03  0.0           0.0         
+              7        0  0.0           0.0           0.0           1.135002E-02  0.0           0.0         
+              8        0  0.0           0.0           0.0           1.324169E-02  0.0           0.0         
+              9        0  0.0           0.0           0.0           1.513336E-02  0.0           0.0         
+             10        0  0.0           0.0           0.0           1.702503E-02  0.0           0.0         
+             11        0  0.0           0.0           0.0           1.891670E-02  0.0           0.0         
+             12        0  0.0           0.0           0.0           2.080837E-02  0.0           0.0         
+             13        0  0.0           0.0           0.0           2.270004E-02  0.0           0.0         
+             14        0  0.0           0.0           0.0           2.459171E-02  0.0           0.0         
+             15        0  0.0           0.0           0.0           2.648338E-02  0.0           0.0         
+             16        0  0.0           0.0           0.0           2.837505E-02  0.0           0.0         
+             17        0  0.0           0.0           0.0           3.026672E-02  0.0           0.0         
+             18        0  0.0           0.0           0.0           3.215839E-02  0.0           0.0         
+             19        0  0.0           0.0           0.0           3.405006E-02  0.0           0.0         
+             20        0  0.0           0.0           0.0           3.594173E-02  0.0           0.0         
+             21        0  0.0           0.0           0.0           3.783340E-02  0.0           0.0         
+                         ------------- ------------- ------------- ------------- ------------- -------------
+                MAX* :    0.0           0.0           0.0           3.783340E-02  0.0           0.0         
+                MIN* :    0.0           0.0           0.0           0.0           0.0           0.0         
+
+                ABS* :    0.0           0.0           0.0           3.783340E-02  0.0           0.0         
+                *for output set
+
+
+ OUTPUT FOR SUBCASE        1
+ INDEPENDENT CIRCULAR BEAM                                                                                                                                                                                                                                       
+
+                                                          S P C   F O R C E S
+                                              (in global coordinate system at each grid)
+           GRID     COORD      T1            T2            T3            R1            R2            R3
+                     SYS
+              1        0  0.0           0.0           0.0          -1.000000E+00  0.0           0.0         
+
+ >> LINK  9 END
+
+    Total CPU time =  5.35E-03 seconds
+
+ >> MYSTRAN END    : 10/26/2026 at  2:18:54. 96
+
+                                          * * * END OF JOB * * *

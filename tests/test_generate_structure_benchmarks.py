@@ -106,12 +106,15 @@ class StructureBenchTests(unittest.TestCase):
         grid_lines = [l for l in bend.split("\n") if l.startswith("GRID,")]
         self.assertEqual(len(grid_lines), NODES)
 
-        # Check node positions with 8 decimal places for x
+        # Check parsed node positions and real-field syntax
         for i in range(NODES):
             x = i * LENGTH / ELEMENTS
             with self.subTest(node=i + 1, x=x):
-                # GRID cards should have correct x coordinate with 8 decimal places
-                self.assertIn(f",{x:.8f},", bend)
+                fields = grid_lines[i].split(",")
+                self.assertEqual(int(fields[1]), i + 1)
+                self.assertAlmostEqual(float(fields[3]), x, places=10)
+                self.assertIn(".", fields[3])
+                self.assertLessEqual(len(fields[3]), 16)
 
     def test_cbar_orientation_is_global_y(self):
         """Verify CBAR orientation vector is global y-direction with comma-delimited format."""

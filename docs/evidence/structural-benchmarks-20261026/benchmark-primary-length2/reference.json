@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-26T06:18:54.055957+00:00",
+  "solver": "MYSTRAN 19.0.0",
+  "solver_commit": "3a5913a904ee1adbda9fbcaf9c0a6af8e10f0f9f",
+  "solver_url": "https://github.com/MystranSolver/MYSTRANSolver",
+  "model": {
+    "type": "circular_cantilever_beam",
+    "length_m": 2.0,
+    "radius_m": 0.005,
+    "elements": 20,
+    "nodes": 21,
+    "material": {
+      "type": "isotropic",
+      "E_Pa": 70000000000.0,
+      "nu": 0.0,
+      "rho_kg_m3": 2500.125,
+      "G_Pa": 35000000000.0
+    },
+    "section": {
+      "type": "circular",
+      "area_m2": 7.853981633974483e-05,
+      "I_y_m4": 4.908738521234052e-10,
+      "I_z_m4": 4.908738521234052e-10,
+      "J_m4": 9.817477042468103e-10
+    }
+  },
+  "static_bending": {
+    "description": "Tip load in global z direction",
+    "load_N": 1.0,
+    "analytic_delta_m": 0.07760698177433373,
+    "analytic_rotation_rad": 0.05820523633075029,
+    "tolerance_rel": 0.01,
+    "tolerance_abs_delta_m": 0
+  },
+  "static_torsion": {
+    "description": "Tip moment about global x direction",
+    "load_Nm": 1.0,
+    "analytic_angle_rad": 0.05820523633075029,
+    "tolerance_rel": 0.01,
+    "tolerance_abs_rad": 0
+  },
+  "modal_bending": {
+    "description": "First three Euler-Bernoulli bending modes",
+    "eigenvalue_method": "EIGRL",
+    "eigenvalue_id": 3,
+    "modes_requested": 6,
+    "euler_beta_values": [
+      1.875104068711961,
+      4.694091132974174,
+      7.854757438237612
+    ],
+    "analytic_frequencies_hz": [
+      1.8506277066782058,
+      11.597685868279608,
+      32.47385625469306
+    ],
+    "note": "Default first six modes are three paired bending modes. MYSTRAN beam mass is translational only; torsional dynamics require explicit rotary inertia.",
+    "tolerance_first_bending_rel": 0.02
+  },
+  "mass": {
+    "total_kg": 0.39271871665280905
+  },
+  "output_files": {
+    "bend_static": {
+      "filename": "bend_static.bdf",
+      "sha256": "ca71955fd6bf4503ba4cf5f3045c8349c6350631ba9648f7cc957f05cd8f4273"
+    },
+    "torsion_static": {
+      "filename": "torsion_static.bdf",
+      "sha256": "31110bb10f7e1437a5e58166a875749e8d300a31db71f02bd88526038f700970"
+    },
+    "modal_bend": {
+      "filename": "modal_bend.bdf",
+      "sha256": "fdcbb3219b02f7d0ef08726b6dcdec2e6137ab5d96949569329fe1f5cfe95113"
+    }
+  },
+  "assumptions": {
+    "beam_theory": "Euler-Bernoulli (slender beam, no shear/rotary inertia)",
+    "material": "Isotropic linear elastic",
+    "cross_section": "Perfect circular",
+    "boundary": "Root node all DOFs fixed (SPC1 123456)",
+    "solver_formulations": "MYSTRAN19 BREL1 beam mass is translational lumped mass only; no physical torsional modal verification from this deck",
+    "verification": "Native execution and analytical comparisons provide numerical verification, not physical wing validation"
+  },
+  "tolerances_prospective": {
+    "static": 0.01,
+    "first_bending_frequency": 0.02
+  }
+}
