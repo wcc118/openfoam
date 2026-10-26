@@ -73,6 +73,28 @@ airfoil coordinates alone do not provide either.
 - REA and other non-aerodynamic projects were not exhaustively inspected. Revisit
   narrowly when a specific integration need arises; avoid copying unrelated infrastructure.
 
+## Structural analysis solver
+
+**MYSTRAN**
+- Path: https://github.com/MystranSolver/MYSTRANSolver
+- Source tag commit: 3a5913a904ee1adbda9fbcaf9c0a6af8e10f0f9f (MIT)
+- Repository: wcc118/openfoam issue #24 structural benchmarks
+- Version: 19.0.0
+
+| Need | Existing source | Reuse decision / limit |
+| --- | --- | --- |
+| Structural solver | MYSTRAN 19.0.0 solver source | Use as native executable; build separately (not from this repository) |
+| Deck format | Nastran free-field (NASTRAN compatibility) | MYSTRAN supports GRID, CBAR, PBAR, MAT1, SPC1, FORCE2, MOMENT2, LOAD, EIGRL |
+| BDF card compatibility | dev_docs/bdf_card_compatibility.md | No CBEAM, PBEAM, MOMENT1, FORCE1 support; OFFT not supported for CBAR |
+| Static analysis | SOL101 | Supported; used for bending/torsion benchmarks |
+| Modal analysis | SOL103 | Supported via EIGRL; used for eigenmode benchmarks |
+| Flutter prediction | Not available | MYSTRAN does not provide flutter analysis capability |
+
+**Limitations:**
+- No flutter prediction (separate aeroelastic solver required)
+- No CBEAM/PBEAM support (use CBAR/PBAR)
+- No moment/force cards with line 2 (MOMENT1/FORCE1 unsupported)
+
 ## Integration rule
 
 Before implementing each component, record reuse/adapt/new and its rationale in the
