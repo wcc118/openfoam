@@ -24,17 +24,17 @@ No merge authorization is implied by proceeding with engineering work.
 
 - PR31: shell static/modal generator; 79 tests and nine native MYSTRAN19 solves.
   Fine mass .90514 kg, tip bending 1.48327 mm/N, first frequency 8.810675 Hz.
-  Higher modes not fully mesh-converged. Fine96rotational AUTOSPCs; disabling
+  Higher modes not fully mesh-converged. Fine mesh: 96 rotational AUTOSPCs; disabling
   them changes torsional tip compliance .181%. Ten finite positive modes despite
   documented massless rotational DOFs. Tip-local distortion must not be called GJ.
 - PR27: force/moment/virtual-work-conserving small-motion surface transfer,
-  including native181780-face force check. This span-based primitive is not a
+  including native 181780-face force check. This span-based primitive is not a
   general shell-to-aerodynamic mapper.
 - PR29: checked diagonal modal Newmark dynamics and checkpoint restoration.
-  Synthetic implicit preCICE flap test completed200windows; no wing flutter claim.
+  Synthetic implicit preCICE flap test completed 200 windows; no wing flutter claim.
 - Pinned MYSTRAN19.0.0 and SHARPy2.4 Goland experiment coupled native structural
   matrices to UVLM. Baseline and GJ+10% redesign deltas agreed with SHARPy within
-  .00937percentage points. This is a benchmark beam adapter, not a shell importer.
+  .00937 percentage points. This is a benchmark beam adapter, not a shell importer.
 - Source/reuse inventory: docs/REUSE_INVENTORY.md. Reuse these checked pieces,
   keep explicit frame/DOF normalization maps, pin sources; no mutable sibling imports.
 
@@ -96,7 +96,7 @@ Use measured mass, static bending/twist and modal data if available; compare flu
 test speed with IAS/TAS/density/configuration plus oscillation frequency/mode shape.
 A speed match alone cannot identify the physical mechanism. Preserve independent
 test/configuration evidence where possible and don't tune a separate baseline for
- each redesign. Compute paired baseline/redesign speed changes and sensitivity to
+each redesign. Compute paired baseline/redesign speed changes and sensitivity to
 uncertain properties. Report a delta as unresolved if its uncertainty overlaps zero.
 
 ## 5. Selected transient OpenFOAM FSI (requires lifting CFD hold)
@@ -113,7 +113,7 @@ launch follows approval of this plan; the owner's explicit hold remains in force
 
 Spend compute on the modes and aerodynamic phase lag controlling the paired delta.
 Use reduced models to bracket speed, then selectively increase fidelity. Initial
-numerical target: changes under about1% in boundary/delta when adding relevant modes
+numerical target: changes under about 1% in boundary/delta when adding relevant modes
 or refining aerodynamics, and well below the redesign improvement being evaluated;
 this is a planning target, not a promise of accuracy. Stop refining once numerical
 changes are small relative to physical-input uncertainty. Escalate disagreement,

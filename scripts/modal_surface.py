@@ -70,79 +70,27 @@ def _validate_masses(basis, point_masses):
 
 
 def displacements(basis, q):
-    """Compute physical displacements u = H q.
-
-    Args:
-        basis: [mode][point][xyz] shape matrix H
-        q: [mode] modal coordinates
-
-    Returns:
-        [point][xyz] physical displacements as new list
-    """
-    _validate_basis(basis)
+    """Return owned point translations Hq; basis scaling determines q units."""
     _validate_q(basis, q)
-    nmodes, npts = len(basis), len(basis[0])
-    result = []
-    for p in range(npts):
-        xyz = [0.0, 0.0, 0.0]
-        for i in range(nmodes):
-            hi = basis[i][p]
-            qi = q[i]
-            for k in range(3):
-                xyz[k] += hi[k] * qi
-        result.append(xyz)
-    return result
+    return [[math.fsum(basis[i][p][k] * q[i] for i in range(len(basis)))
+             for k in range(3)] for p in range(len(basis[0]))]
 
 
 def generalized_forces(basis, forces):
-    """Compute modal forces Q = H^T f.
-
-    Args:
-        basis: [mode][point][xyz] shape matrix H
-        forces: [point][xyz] physical forces
-
-    Returns:
-        [mode] generalized forces as new list
-    """
-    _validate_basis(basis)
+    """Return H-transpose f, conjugate to q: Q dot dq = f dot du (joules)."""
     _validate_forces(basis, forces)
-    nmodes, npts = len(basis), len(basis[0])
-    result = []
-    for i in range(nmodes):
-        qi = 0.0
-        for p in range(npts):
-            hi = basis[i][p]
-            fp = forces[p]
-            for k in range(3):
-                qi += hi[k] * fp[k]
-        result.append(qi)
-    return result
+    return [math.fsum(mode[p][k] * forces[p][k]
+                     for p in range(len(forces)) for k in range(3))
+            for mode in basis]
 
 
 def mass_gram(basis, point_masses):
-    """Compute modal mass matrix M_{ij} = sum_p m_p phi_i,p phi_j,p.
+    """Return Phi-transpose M Phi for scalar point masses in kilograms.
 
-    Args:
-        basis: [mode][point][xyz] shape matrix H
-        point_masses: [point] scalar masses in grams
-
-    Returns:
-        [mode][mode] symmetric modal mass matrix as new list
+    Modal mass units depend on the supplied mode normalization. No normalization
+    or mass conversion is performed. Only translational point masses are modeled.
     """
-    _validate_basis(basis)
     _validate_masses(basis, point_masses)
-    nmodes, npts = len(basis), len(basis[0])
-    result = [[0.0] * nmodes for _ in range(nmodes)]
-    for p in range(npts):
-        mp = point_masses[p]
-        for i in range(nmodes):
-            phi_i = basis[i][p]
-            for k in range(3):
-                phi_ik = phi_i[k]
-                for j in range(i, nmodes):
-                    phi_j = basis[j][p]
-                    phi_jk = phi_j[k]
-                    result[i][j] += mp * phi_ik * phi_jk
-                    if i != j:
-                        result[j][i] = result[i][j]
-    return result
+    return [[math.fsum(point_masses[p] * a[p][k] * b[p][k]
+                       for p in range(len(point_masses)) for k in range(3))
+             for b in basis] for a in basis]
