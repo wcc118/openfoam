@@ -38,7 +38,12 @@ mystran modal.bdf
 MYSTRAN 19.0.0 source 3a5913a904ee1adbda9fbcaf9c0a6af8e10f0f9f;
 binary SHA256 e2980a1fb40fd3d4a0d48ad54f4829dfe052db631896d2be765429d1f9818c8d.
 Artifacts on host: runs/aluminum-shell-20261027/{coarse,fine,fine-no-autospc}.
-All nine native solves terminated normally, no *FATAL or *WARNING messages.
+All nine native solves terminated normally, with no *FATAL messages.
+Each modal run warns that the mass matrix has only 2304 (coarse) or 9216
+(fine) nonzero diagonal entries, limiting the number of finite eigenvalues.
+These equal the free translational DOFs; massless shell rotational DOFs do not
+prevent extraction of the requested ten modes. No extra inertia was invented.
+The six static solves have no *WARNING messages.
 ERR contains internal memory-accounting INFORMATION and OP2 DEBUG messages;
 these are retained, not suppressed. 79 repository tests pass.
 
