@@ -71,11 +71,11 @@ def _validate_masses(basis, point_masses):
 
 def displacements(basis, q):
     """Compute physical displacements u = H q.
-    
+
     Args:
         basis: [mode][point][xyz] shape matrix H
         q: [mode] modal coordinates
-    
+
     Returns:
         [point][xyz] physical displacements as new list
     """
@@ -96,11 +96,11 @@ def displacements(basis, q):
 
 def generalized_forces(basis, forces):
     """Compute modal forces Q = H^T f.
-    
+
     Args:
         basis: [mode][point][xyz] shape matrix H
         forces: [point][xyz] physical forces
-    
+
     Returns:
         [mode] generalized forces as new list
     """
@@ -121,11 +121,11 @@ def generalized_forces(basis, forces):
 
 def mass_gram(basis, point_masses):
     """Compute modal mass matrix M_{ij} = sum_p m_p phi_i,p phi_j,p.
-    
+
     Args:
         basis: [mode][point][xyz] shape matrix H
         point_masses: [point] scalar masses in grams
-    
+
     Returns:
         [mode][mode] symmetric modal mass matrix as new list
     """
