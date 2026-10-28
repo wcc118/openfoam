@@ -51,6 +51,33 @@ def make_valid_data():
 
 
 class BuildStructureTransientTests(unittest.TestCase):
+    def test_nonfinite_scalars_rejected_before_packaging(self):
+        for field in ('modal_scale', 'speed_m_s', 'default_deformation_scale', 'frame_time'):
+            for value in (float('nan'), float('inf')):
+                with self.subTest(field=field, value=value):
+                    data = make_valid_data()
+                    if field == 'modal_scale':
+                        data[field] = value
+                    elif field == 'frame_time':
+                        data['cases'][0]['frames'][1][0] = value
+                    else:
+                        data['cases'][0][field] = value
+                    with self.assertRaises(ValueError):
+                        build_struct.validate(data)
+
+    def test_invalid_ring_topology_and_payload_types(self):
+        for count in (3, 100):
+            data = make_valid_data()
+            data['mesh']['perimeter_nodes'] = count
+            with self.assertRaises(ValueError):
+                build_struct.validate(data)
+        with self.assertRaises(ValueError):
+            build_struct.validate([])
+        data = make_valid_data()
+        data['cases'] = [None]
+        with self.assertRaises(ValueError):
+            build_struct.validate(data)
+
 
     def test_valid_data_accepted(self):
         """Valid data should be accepted and HTML generated."""

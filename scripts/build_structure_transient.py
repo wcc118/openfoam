@@ -47,6 +47,8 @@ def finite_3d_array(values, name):
 def validate(data):
     """Validate the complete input schema."""
     try:
+        if not isinstance(data, dict):
+            raise ValueError('payload must be object')
         # Top-level fields
         if not isinstance(data.get('title'), str) or not data['title'].strip():
             raise ValueError('title must be nonempty string')
@@ -82,6 +84,9 @@ def validate(data):
         if isinstance(n_perim, bool) or not isinstance(n_perim, int) or n_perim <= 0:
             raise ValueError('mesh.perimeter_nodes must be positive integer')
 
+        if n_perim > len(nodes) or len(nodes) % n_perim or n_perim % 2:
+            raise ValueError('perimeter_nodes must describe complete even node rings')
+
         # Modes
         modes = data.get('modes')
         if not isinstance(modes, list) or len(modes) == 0:
@@ -93,7 +98,7 @@ def validate(data):
 
         if 'modal_scale' not in data:
             raise ValueError('modal_scale is required')
-        modal_scale = data['modal_scale']
+        modal_scale = number(data['modal_scale'], 'modal_scale')
         if isinstance(modal_scale, bool) or not isinstance(modal_scale, (int, float)) or modal_scale <= 0:
             raise ValueError('modal_scale must be positive number')
 
@@ -103,16 +108,18 @@ def validate(data):
             raise ValueError('cases must be nonempty array')
 
         for i, c in enumerate(cases):
+            if not isinstance(c, dict):
+                raise ValueError(f'cases[{i}] must be object')
             if not isinstance(c.get('name'), str) or not c['name'].strip():
                 raise ValueError(f'cases[{i}].name must be nonempty string')
-            speed = c.get('speed_m_s')
+            speed = number(c.get('speed_m_s'), 'speed_m_s')
             if isinstance(speed, bool) or not isinstance(speed, (int, float)) or speed <= 0:
                 raise ValueError(f'cases[{i}].speed_m_s must be positive number')
 
             if not isinstance(c.get('baseline_force_applied'), bool):
                 raise ValueError(f'cases[{i}].baseline_force_applied must be boolean')
 
-            def_scale = c.get('default_deformation_scale')
+            def_scale = number(c.get('default_deformation_scale'), 'default_deformation_scale')
             if isinstance(def_scale, bool) or not isinstance(def_scale, (int, float)) or def_scale <= 0:
                 raise ValueError(f'cases[{i}].default_deformation_scale must be positive number')
 
@@ -130,7 +137,7 @@ def validate(data):
             for j, f in enumerate(frames):
                 if not isinstance(f, list) or len(f) < 2:
                     raise ValueError(f'cases[{i}].frames[{j}]: must have time and q values')
-                t = f[0]
+                t = number(f[0], 'frame time')
                 if isinstance(t, bool) or not isinstance(t, (int, float)) or t < 0:
                     raise ValueError(f'cases[{i}].frames[{j}].time_seconds must be nonnegative number')
                 if t <= last_time:
@@ -168,7 +175,7 @@ def build_html(data):
     assets = Path(__file__).with_name('structure_transient')
     page = (assets / 'viewer.html').read_text()
     script = (assets / 'viewer.js').read_text()
-    return page.replace('/*__DATA__*/', encoded).replace('/*__VIEWER__*/', script)
+    return page.replace('/*__VIEWER__*/', script).replace('/*__DATA__*/', encoded)
 
 
 def main():

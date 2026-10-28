@@ -5,7 +5,7 @@ const $ = id => document.getElementById(id);
 const cases = data.cases, nodes = data.mesh.nodes, modes = data.modes, modalScale = data.modal_scale;
 const nNodes = nodes.length, nModes = modes.length;
 let scenarioIndex = 0, playing = false, epoch = 0, lastTime = 0;
-let yaw = -0.7, pitch = 1.0, zoom = 1, pan = [0, 0], drag = null;
+let yaw = -0.7, pitch = -1.0, zoom = 1, pan = [0, 0], drag = null;
 
 // Validate data
 if (!Array.isArray(nodes) || nodes.length === 0) throw new Error('mesh.nodes must be nonempty');
@@ -88,11 +88,16 @@ scenarioSelect.value = 0;
 const currentCase = cases[scenarioIndex];
 $('speedDisplay').textContent = `${currentCase.speed_m_s.toFixed(1)} m/s`;
 const defScaleSelect = $('defScale');
-defScaleSelect.value = currentCase.default_deformation_scale || 10;
+for (const c of cases) {
+  const v=String(c.default_deformation_scale);
+  if (![...defScaleSelect.options].some(o=>o.value===v)) defScaleSelect.add(new Option(v+'×',v));
+}
+defScaleSelect.value = currentCase.default_deformation_scale;
 
 // Metadata
-$('meta').textContent = `${data.title} · ${data.scope} · source ${data.source}`;
-$('scope').textContent = `${cases.length} scenarios; ${nNodes} nodes; ${nModes} retained modes. Modal scale factor: ${modalScale.toFixed(6)}.`;
+$('meta').textContent = 'Recorded structural motion from native shell modes coupled to unsteady lifting-surface aerodynamics.';
+$('provenance').textContent=data.source+' · '+data.scope;
+$('scope').textContent = `${cases.length} scenarios; ${nNodes} nodes; ${nModes} retained modes. Zero assumed structural damping.`;
 
 for (const text of currentCase.note ? [currentCase.note] : []) {
   const li = document.createElement('li'); li.textContent = text; $('limitations').appendChild(li);
@@ -100,13 +105,8 @@ for (const text of currentCase.note ? [currentCase.note] : []) {
 
 // Case info display
 function updateCaseInfo() {
-  const c = cases[scenarioIndex];
-  const isPerturbation = c.baseline_force_applied ? 'perturbation' : 'steady-load';
-  $('caseInfo').innerHTML =
-    `<span class="stat">Scenario: ${c.name}</span> ` +
-    `<span class="stat">Speed: ${c.speed_m_s.toFixed(2)} m/s</span> ` +
-    `<span class="stat">${isPerturbation} experiment</span> ` +
-    `<span class="stat">Stopped at guard: ${c.stopped_at_20mm_motion_guard ? 'yes' : 'no'}</span>`;
+  const c=cases[scenarioIndex];
+  $('caseInfo').textContent = `${c.name} · ${c.baseline_force_applied ? 'Steady-load' : 'Small-disturbance'} experiment · stopped at motion guard: ${c.stopped_at_20mm_motion_guard ? 'yes' : 'no'}`;
 }
 
 updateCaseInfo();
@@ -117,7 +117,7 @@ function dimensions(canvas) {
   if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) {
     canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
   }
-  const ctx = canvas.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0);
+  const ctx = canvas.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   return [ctx, w, h];
 }
 
@@ -134,7 +134,7 @@ function camera(w, h) {
       lo[k] = Math.min(lo[k], p[k]); hi[k] = Math.max(hi[k], p[k]);
     }
   }
-  const scale = Math.min((w - 70) / Math.max(hi[0] - lo[0], 0.03), (h - 70) / Math.max(hi[1] - lo[1], 0.03)) * zoom;
+  const scale = Math.min((w - 70) / Math.max(hi[0] - lo[0], 0.03), (h - 70) / Math.max(hi[1] - lo[1], 0.03)) * zoom * 0.82;
   return { scale, project(p) {
     const r = rotated(p);
     return [(r[0] - (lo[0] + hi[0]) / 2) * scale + w / 2 + pan[0], (r[1] - (lo[1] + hi[1]) / 2) * scale + h / 2 + pan[1], r[2]];
@@ -202,7 +202,7 @@ function drawScene() {
   items.sort((a, b) => a.depth - b.depth);
   for (const item of items) {
     ctx.beginPath(); item.pts.forEach((v, j) => j ? ctx.lineTo(v[0], v[1]) : ctx.moveTo(v[0], v[1]));
-    ctx.closePath(); ctx.fillStyle = color(item.mag, [0, maxDisp]); ctx.fill(); ctx.strokeStyle = 'rgba(8,22,32,0.48)'; ctx.lineWidth = 0.55; ctx.stroke();
+    ctx.closePath(); ctx.fillStyle = color(item.mag, [0, maxDisp]); ctx.fill();
   }
 
   // Wireframe edges if checked
@@ -231,69 +231,43 @@ function drawScene() {
     ctx.font = '13px system-ui'; ctx.fillText(name, base[0] + r[0] * 39, base[1] + r[1] * 39);
   });
 
-  $('legendMin').textContent = '0'; $('legendMax').textContent = maxDisp.toFixed(4); $('legendUnits').textContent = `m · scale ${defScaleFactor}×`;
+  $('legendMin').textContent = '0'; $('legendMax').textContent = (maxDisp*1000).toPrecision(4); $('legendUnits').textContent = `mm actual · geometry ${defScaleFactor}×`;
 }
 
+// Cache a linear projection onto mean tip-ring z displacement. No reference
+// coordinate or visual magnification enters the physical trace.
+const tipModes=modes.map(mode=>mode.slice(-data.mesh.perimeter_nodes).reduce((sum,v)=>sum+v[2],0)/data.mesh.perimeter_nodes*modalScale);
+const tipDisplacement=q=>q.reduce((sum,v,k)=>sum+v*tipModes[k],0);
+const histories=cases.map(c=>c.frames.map(f=>[f[0],tipDisplacement(f.slice(1))]));
 function drawHistory() {
-  const [ctx, w, h] = dimensions(history); ctx.clearRect(0, 0, w, h);
-  const c = cases[scenarioIndex];
-  const t = scenarioTime;
-
-  // Mean tip ring z (suitable marker for tip behavior)
-  const nPerim = data.mesh.perimeter_nodes || nodes.length;
-  const tipIndices = Array.from({ length: nPerim }, (_, i) => nodes.length - nPerim + i);
-  const meanTipZ = tipIndices.reduce((s, i) => s + nodes[i][2], 0) / nPerim;
-
-  // Extract tip z vs time from frames
-  const times = c.frames.map(f => f[0]);
-  const tipZHistory = c.frames.map(f => {
-    const q = f.slice(1);
-    const u = computeDisplacement(q);
-    return tipIndices.reduce((s, i) => s + (nodes[i][2] + u[i][2]) / nPerim, 0);
-  });
-
-  const t0 = times[0], t1 = times.at(-1);
-  const low = Math.min(...tipZHistory), high = Math.max(...tipZHistory);
-  const pad = Math.max((high - low) * 0.1, 1e-12);
-  const left = 55, right = w - 20, top = 25, bottom = h - 42;
-  const x = tVal => left + (tVal - t0) / (t1 - t0) * (right - left);
-  const y = zVal => bottom - (zVal - low) / (high - low) * (bottom - top);
-
-  // Axes
-  ctx.strokeStyle = '#496078'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(left, top); ctx.lineTo(left, bottom); ctx.lineTo(right, bottom); ctx.stroke();
-  ctx.font = '12px system-ui'; ctx.fillStyle = '#bacbdb';
-  ctx.fillText('Tip Z (m)', left, 16);
-  ctx.fillText(high.toPrecision(3), left - 49, top + 5);
-  ctx.fillText(low.toPrecision(3), left - 49, bottom);
-  ctx.fillText((t0 * 1000).toPrecision(3), left, bottom + 18);
-  ctx.fillText((t1 * 1000).toPrecision(3), right - 45, bottom + 18);
-  ctx.fillText('Physical time (ms)', left + 8, h - 4);
-
-  // Trace
-  ctx.strokeStyle = '#55d9e9'; ctx.lineWidth = 1.5; ctx.beginPath();
-  for (let i = 0; i < times.length; i++) {
-    const px = x(times[i]), py = y(tipZHistory[i]);
-    i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
-  }
-  ctx.stroke();
-
-  // Cursor at current time
-  ctx.strokeStyle = '#fff'; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(x(t), top); ctx.lineTo(x(t), bottom); ctx.stroke(); ctx.setLineDash([]);
-
-  // Current tip Z value
-  const currentTipZ = tipZHistory.reduce((s, v, i) => {
-    const tVal = times[i];
-    if (tVal <= t && (i === times.length - 1 || times[i + 1] >= t)) return v;
-    return s;
-  }, tipZHistory[0]);
-  $('time').textContent = `t = ${(t * 1000).toPrecision(8)} ms · tip Z = ${currentTipZ.toPrecision(6)} m`;
+  const [ctx,w,h]=dimensions(history);ctx.clearRect(0,0,w,h);
+  const c=cases[scenarioIndex],trace=histories[scenarioIndex];
+  const times=trace.map(f=>f[0]),values=trace.map(f=>f[1]*1000);
+  const t0=times[0],t1=times.at(-1);
+  const lo=Math.min(...values),hi=Math.max(...values),pad=Math.max((hi-lo)*.1,1e-7);
+  const low=lo-pad,high=hi+pad,left=65,right=w-20,top=25,bottom=h-42;
+  const x=t=>left+(t-t0)/(t1-t0)*(right-left);
+  const y=v=>bottom-(v-low)/(high-low)*(bottom-top);
+  ctx.strokeStyle='#496078';ctx.beginPath();ctx.moveTo(left,top);ctx.lineTo(left,bottom);ctx.lineTo(right,bottom);ctx.stroke();
+  ctx.fillStyle='#bacbdb';ctx.font='12px system-ui';
+  ctx.fillText('Mean tip z displacement (mm)',left,16);
+  ctx.fillText(high.toPrecision(3),2,top+5);ctx.fillText(low.toPrecision(3),2,bottom);
+  ctx.fillText(t0.toPrecision(3),left,bottom+18);ctx.fillText(t1.toPrecision(3),right-45,bottom+18);
+  ctx.fillText('Physical time (s)',left+8,h-4);
+  ctx.strokeStyle='#55d9e9';ctx.lineWidth=1.5;ctx.beginPath();
+  trace.forEach((f,i)=>i?ctx.lineTo(x(f[0]),y(f[1]*1000)):ctx.moveTo(x(f[0]),y(f[1]*1000)));ctx.stroke();
+  ctx.strokeStyle='#fff';ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(x(scenarioTime),top);ctx.lineTo(x(scenarioTime),bottom);ctx.stroke();ctx.setLineDash([]);
+  const current=tipDisplacement(interpolateQ(c.frames,scenarioTime));
+  $('time').textContent=`${scenarioTime.toFixed(5)} s · mean tip z ${(current*1000).toPrecision(5)} mm`;
 }
 
-let scenarioTime = 0;
+let scenarioTime = cases[0].frames[0][0];
 const rateSelect = $('rate');
 rateSelect.value = '0.1'; // default 0.1x
 
 function draw() {
+  const c=cases[scenarioIndex];
+  $('scrub').min=c.frames[0][0];$('scrub').max=c.frames.at(-1)[0];$('scrub').value=scenarioTime;
   updateCaseInfo();
   drawScene();
   drawHistory();
@@ -338,6 +312,7 @@ $('restart').onclick = () => {
 };
 
 $('defScale').onchange = draw;
+$('scrub').oninput = () => { pause();scenarioTime=Number($('scrub').value);draw(); };
 
 // Scenario change: reset time and use default scale
 scenarioSelect.onchange = () => {
@@ -346,7 +321,7 @@ scenarioSelect.onchange = () => {
   const c = cases[scenarioIndex];
   scenarioTime = c.frames[0][0];
   $('speedDisplay').textContent = `${c.speed_m_s.toFixed(1)} m/s`;
-  defScaleSelect.value = c.default_deformation_scale || 10;
+  defScaleSelect.value = c.default_deformation_scale;
   // Update limitations from new case note
   $('limitations').innerHTML = '';
   if (c.note) {
@@ -363,7 +338,7 @@ const wireCheckbox = document.createElement('input'); wireCheckbox.type = 'check
 const ghostCheckbox = document.createElement('input'); ghostCheckbox.type = 'checkbox'; ghostCheckbox.id = 'ghost'; ghostCheckbox.checked = true;
 wireCheckbox.onchange = draw; ghostCheckbox.onchange = draw;
 // Insert into DOM - find controls div and add
-const controlsDiv = $('scene').previousElementSibling;
+const controlsDiv = $('viewControls');
 controlsDiv.appendChild(document.createTextNode(' '));
 controlsDiv.appendChild(wireCheckbox);
 controlsDiv.appendChild(document.createTextNode(' Quadrilateral edges '));
@@ -372,7 +347,7 @@ controlsDiv.appendChild(document.createTextNode(' Undeformed outline '));
 
 function preset() {
   const v = $('view').value;
-  [yaw, pitch] = ({ iso: [-0.7, 1.0], top: [0, 0], side: [0, Math.PI / 2], tip: [Math.PI / 2, Math.PI / 2] })[v];
+  [yaw, pitch] = ({ iso: [-0.7, -1.0], top: [0, 0], side: [0, -Math.PI / 2], tip: [Math.PI / 2, -Math.PI / 2] })[v];
   zoom = 1; pan = [0, 0]; draw();
 }
 
@@ -385,12 +360,9 @@ viewSelect.value = 'iso';
 viewSelect.onchange = preset;
 
 // Find controls and insert view selector and reset
-const btns = controlsDiv.querySelectorAll('button');
-if (btns.length >= 2) {
-  controlsDiv.insertBefore(viewSelect, btns[1]);
-  controlsDiv.appendChild(document.createElement('br'));
-  const resetBtn = document.createElement('button'); resetBtn.textContent = 'Reset view'; resetBtn.id = 'reset'; resetBtn.onclick = () => { viewSelect.value = 'iso'; preset(); }; controlsDiv.appendChild(resetBtn);
-}
+controlsDiv.appendChild(document.createTextNode(' View '));
+controlsDiv.appendChild(viewSelect);
+const resetBtn=document.createElement('button');resetBtn.textContent='Reset view';resetBtn.id='reset';resetBtn.onclick=()=>{viewSelect.value='iso';preset();};controlsDiv.appendChild(resetBtn);
 
 // Replay checkbox
 const replayCheckbox = document.createElement('label'); replayCheckbox.textContent = ' Replay'; replayCheckbox.style.marginLeft = '12px';
@@ -414,7 +386,7 @@ draw();
 window.structureTransientViewer = {
   data,
   draw,
-  getState: () => ({ caseIndex: scenarioIndex, time: scenarioTime, playing, deformationScale: Number($('defScale').value) })
+  getState: () => ({ caseIndex: scenarioIndex, time: scenarioTime, playing, deformationScale: Number($('defScale').value), tipDisplacementM:tipDisplacement(interpolateQ(cases[scenarioIndex].frames,scenarioTime)), q:interpolateQ(cases[scenarioIndex].frames,scenarioTime), maximumDisplacementM:caseMaxDisplacements[scenarioIndex] })
 };
 
 })();

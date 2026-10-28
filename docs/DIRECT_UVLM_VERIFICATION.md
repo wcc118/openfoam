@@ -134,3 +134,10 @@ mode. Check a time-domain response against the causal eigenvalues. Only then
 apply the direct paired-skin shell map with the same lattice convention,
 explicit root symmetry, deformed-reference equilibrium, and 10/20/30-mode plus
 wake/mesh/damping sensitivities. The existing hold on new CFD remains in force.
+
+## Subsequent exploratory run
+
+The [2026-10-28 coupled shell pilot](SHELL_COUPLED_PILOT.md) continues this work:
+fixed-mesh time-step refinement, shifted full/reduced transfer comparisons,
+computed decay/growth histories, and a deliberately untrimmed native shell pilot
+with an offline motion preview. The earlier checkpoint above remains historical.
