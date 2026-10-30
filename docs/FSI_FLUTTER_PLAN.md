@@ -131,3 +131,10 @@ UVLM about a solved clamped loaded shape at 30 m/s. Native .060-inch skin varian
 reduces loaded tip displacement from 12.59 to 10.48 mm for 20% more mass; first
 bending frequency barely changes. This advances the exploratory pipeline, not
 flutter qualification. Next vary one numerical setting on this fixed reference.
+
+2026-10-30: [Loaded-reference speed/mode sweep](SHELL_LOADED_SPEED_SWEEP.md)
+compares 10/20 modes at 10–100 m/s with the baseline skin. Twelve histories at
+10–55 m/s complete and decay; no growing coupled poles found there. The 60/80/100
+m/s initial/reference shapes exceed the experiment guard and carry no dynamic
+verdict. Higher-mode temporal phase error remains material at low speed; next
+vary timestep independently at fixed speed/wake before broader stability claims.

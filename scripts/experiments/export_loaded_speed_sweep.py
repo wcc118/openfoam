@@ -94,6 +94,8 @@ def build_payload(base, native_data, native_sha256, summary):
     quads = native_data['quads']
     phi = native_data['phi']
     mass = native_data['mass']
+    if phi.ndim != 3 or phi.shape[0] < 20 or phi.shape[1:] != (len(xyz), 3):
+        raise ValueError('native source requires at least 20 modes with one xyz vector per node')
 
     # Build models: modes10 and modes20 share same physical mass/thickness
     models = {
@@ -121,6 +123,8 @@ def build_payload(base, native_data, native_sha256, summary):
 
         # Check if this case has a valid motion file
         history, motion_sha256 = load_motion(base, modes, speed)
+        if status == 'executed_exploratory' and history is None:
+            raise ValueError(f'Completed case n{modes}-V{speed:g} lacks a replayable motion history')
 
         # Determine eligibility
         # If history is None (no motion file), case is not eligible
@@ -168,7 +172,7 @@ def build_payload(base, native_data, native_sha256, summary):
 
         # Determine note based on status
         if status == 'transient_guard_stop':
-            note = f'Guard-exceeded equilibrium. Experimental stop: 50 mm absolute native-node displacement component, not a physical allowable. {modes} modes / {speed:g} m/s / loaded perturbation'
+            note = f'Transient reached displacement guard. Experimental stop: 50 mm absolute native-node displacement component, not a physical allowable. {modes} modes / {speed:g} m/s / loaded perturbation'
         else:
             note = f'{modes} modes / {speed:g} m/s / loaded perturbation'
 
@@ -184,7 +188,7 @@ def build_payload(base, native_data, native_sha256, summary):
     payload = {
         'title': 'Loaded shell speed sweep · exploratory linear shell + UVLM',
         'scope': 'Exploratory linear shell + UVLM. Clamped loaded shape, not free-flight trim; no prestress, structural damping, flutter qualification or flight claim. Every case begins with +1 mm tip displacement and zero physical velocity relative to its reference. Magnification affects only the picture.',
-        'source': 'wcc118/openfoam issue #36; pinned SHARPy and MYSTRAN',
+        'source': f'wcc118/openfoam issue #36; {base.name}; pinned SHARPy and MYSTRAN',
         'mesh': {
             'nodes': xyz.tolist(),
             'quads': quads.tolist()
@@ -197,6 +201,11 @@ def build_payload(base, native_data, native_sha256, summary):
         },
         'omitted_cases': omitted
     }
+
+    payload['scope'] += ' Baseline .050-inch skin; mode-count change only. Fixed CFL .5 is not timestep convergence. The 50 mm native-node component guard is an experimental stop, not an allowable.'
+    if omitted:
+        speeds = sorted({o['speed_m_s'] for o in omitted})
+        payload['scope'] += ' No completed dynamic verdict at ' + ', '.join(f'{v:g}' for v in speeds) + ' m/s; those cases are omitted from playback, not classified as stable.'
 
     # Add motion hashes for included cases
     for case_data in case_reports:
@@ -223,6 +232,12 @@ def validate_payload(payload):
         raise ValueError('mesh.nodes and mesh.quads must be nonempty')
 
     n_nodes = len(mesh['nodes'])
+    nodes = np.asarray(mesh['nodes'], dtype=float)
+    if nodes.shape != (n_nodes, 3) or not np.all(np.isfinite(nodes)):
+        raise ValueError('mesh.nodes must be finite xyz vectors')
+    for quad in mesh['quads']:
+        if len(quad) != 4 or any(isinstance(i, bool) or not isinstance(i, int) or i < 0 or i >= n_nodes for i in quad):
+            raise ValueError('mesh.quads contains invalid node indices')
 
     # Validate models
     models = payload['models']
@@ -238,9 +253,12 @@ def validate_payload(payload):
             if len(mode) != n_nodes:
                 raise ValueError(f'models.{model_key}.modes[{i}] has {len(mode)} nodes, expected {n_nodes}')
 
-        if model['mass_kg'] <= 0:
+        array = np.asarray(model['modes'], dtype=float)
+        if array.shape != (n_modes, n_nodes, 3) or not np.all(np.isfinite(array)):
+            raise ValueError(f'models.{model_key}: invalid mode vectors')
+        if not np.isfinite(model['mass_kg']) or model['mass_kg'] <= 0:
             raise ValueError(f'models.{model_key}.mass_kg must be positive')
-        if model['thickness_m'] <= 0:
+        if not np.isfinite(model['thickness_m']) or model['thickness_m'] <= 0:
             raise ValueError(f'models.{model_key}.thickness_m must be positive')
 
     # Validate cases
@@ -263,6 +281,13 @@ def validate_payload(payload):
             raise ValueError(f'cases[{i}].reference_q has {len(case["reference_q"])} values, expected {n_modes}')
         if len(case['frames']) < 2:
             raise ValueError(f'cases[{i}].frames must have >= 2 entries')
+        frames = np.asarray(case['frames'], dtype=float)
+        if frames.shape != (len(case['frames']), n_modes + 1) or not np.all(np.isfinite(frames)):
+            raise ValueError(f'cases[{i}].frames has invalid dimensions or nonfinite coordinates')
+        if frames[0, 0] < 0 or not np.all(np.diff(frames[:, 0]) > 0):
+            raise ValueError(f'cases[{i}].frames must have increasing nonnegative times')
+        if not np.all(np.isfinite(case['reference_q'])) or not isinstance(case['stopped_at_50mm_guard'], bool):
+            raise ValueError(f'cases[{i}]: invalid reference coordinates or guard flag')
 
 
 def export(base, output_path):
@@ -284,132 +309,45 @@ def export(base, output_path):
 
 
 def plot(base, payload):
-    """Create 2x2 plot of speed sweep results."""
+    """Plot report fields directly; missing/guarded dynamics remain NaN gaps."""
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
-
-    xyz = np.array(payload['mesh']['nodes'])
-    tip = np.isclose(xyz[:, 1], xyz[:, 1].max())
-
-    # Load summary to get metrics
     summary = load_summary(base)
-
-    # Build lookup for reports by (modes, speed)
-    report_lookup = {}
-    for report in summary:
-        key = (report.get('modes'), report.get('speed_m_s'))
-        if key[0] is not None and key[1] is not None:
-            report_lookup[key] = report
-
-    # Collect data by model
-    modes10_data = {'speeds': [], 'equilibrium_tip_z': [], 'tracked_growth': [],
-                    'tracked_freq': [], 'dominant_growth': []}
-    modes20_data = {'speeds': [], 'equilibrium_tip_z': [], 'tracked_growth': [],
-                    'tracked_freq': [], 'dominant_growth': []}
+    fig, axes = plt.subplots(2, 2, figsize=(12, 8), sharex=True)
+    for n, color, style, marker in [(10, '#2878b5', '-', 'o'), (20, '#e1812c', '--', 's')]:
+        reports = sorted((r for r in summary if r['modes'] == n), key=lambda r: r['speed_m_s'])
+        speeds = [r['speed_m_s'] for r in reports]
+        valid = [r['status'] == 'executed_exploratory' for r in reports]
+        tip = [r.get('equilibrium_tip_z_m', np.nan)*1000 if ok else np.nan for r, ok in zip(reports, valid)]
+        growth = [r.get('poles', {}).get('tracked_bending', {}).get('growth_per_s', np.nan) if ok else np.nan for r, ok in zip(reports, valid)]
+        frequency = [r.get('poles', {}).get('tracked_bending', {}).get('frequency_hz', np.nan) if ok else np.nan for r, ok in zip(reports, valid)]
+        dominant = [r.get('poles', {}).get('dominant_resolved_oscillatory', {}).get('growth_per_s', np.nan) if ok else np.nan for r, ok in zip(reports, valid)]
+        for ax, values in [(axes[0, 0], tip), (axes[0, 1], frequency), (axes[1, 0], growth), (axes[1, 1], dominant)]:
+            ax.plot(speeds, values, color=color, linestyle=style, marker=marker, markersize=5, label=f'{n} modes')
+        guarded = [r for r in reports if r['status'] == 'outside_displacement_experiment_guard' and 'equilibrium_tip_z_m' in r]
+        axes[0, 0].scatter([r['speed_m_s'] for r in guarded], [r['equilibrium_tip_z_m']*1000 for r in guarded], marker='x', color=color, s=65, label=f'{n} modes: guard, no dynamics')
+        for r, ok in zip(reports, valid):
+            fit = r.get('history_metrics', {}).get('first_modal_tip_peak_fit')
+            if ok and fit:
+                axes[1, 0].plot(r['speed_m_s'], fit['growth_per_s'], '.', color='black', markersize=3)
+                axes[0, 1].plot(r['speed_m_s'], fit['frequency_hz'], '.', color='black', markersize=3)
+    labels = ['Loaded mean tip z (mm)', 'Tracked first-bending frequency (Hz)', 'Tracked first-bending growth (1/s)', 'Least-damped resolved oscillatory growth (1/s)']
+    for ax, label in zip(axes.flat, labels):
+        ax.set_ylabel(label)
+        ax.grid(alpha=.25)
+        ax.legend(fontsize=8)
+    for ax in axes[1]:
+        ax.axhline(0, color='black', linewidth=.8)
+        ax.set_xlabel('Airspeed (m/s)')
+    fig.suptitle('Loaded-reference airspeed sweep · same .050-inch shell · 10 versus 20 modes\nExploratory UVLM, zero structural damping, fixed CFL .5; negative growth means decay')
     omitted = payload.get('omitted_cases', [])
-
-    for case in payload['cases']:
-        model = case['model']
-
-        # Parse modes and speed from case name
-        name_parts = case['name'].split('/')
-        if len(name_parts) < 2:
-            continue
-
-        # Extract modes (10 or 20) and speed
-        modes_part = name_parts[0].strip().replace('modes', '')
-        speed_part = name_parts[1].strip().replace('m/s', '').strip()
-        try:
-            modes = int(modes_part)
-            speed = float(speed_part)
-        except (ValueError, IndexError):
-            continue
-
-        data = modes10_data if modes == 10 else modes20_data
-
-        # Calculate equilibrium mean tip z from reference_q
-        phi = np.array(payload['models'][model]['modes'])
-        tip_map = phi[:, tip, 2].mean(axis=1) / np.sqrt(2)
-        eq_tip_z = np.array(case['reference_q']) @ tip_map * 1000  # mm
-
-        # Look up metrics from original report
-        report = report_lookup.get((modes, speed), {})
-
-        # Get tracked bending growth/freq
-        tracked_bending = report.get('poles', {}).get('tracked_bending', {})
-        growth_per_s = tracked_bending.get('growth_per_s')
-        frequency_hz = tracked_bending.get('frequency_hz')
-
-        # Get dominant resolved oscillatory growth
-        dominant = report.get('poles', {}).get('dominant_resolved_oscillatory', {})
-        dominant_growth = dominant.get('growth_per_s')
-
-        data['speeds'].append(speed)
-        data['equilibrium_tip_z'].append(eq_tip_z)
-        data['tracked_growth'].append(growth_per_s if growth_per_s is not None else np.nan)
-        data['tracked_freq'].append(frequency_hz if frequency_hz is not None else np.nan)
-        data['dominant_growth'].append(dominant_growth if dominant_growth is not None else np.nan)
-
-    # Create 2x2 subplot
-    fig, axes = plt.subplots(2, 2, figsize=(12, 9), sharex=True)
-
-    # Plot 1: equilibrium mean tip z vs speed
-    ax = axes[0, 0]
-    ax.plot(modes10_data['speeds'], modes10_data['equilibrium_tip_z'],
-            'o-', label='modes10', markersize=5)
-    ax.plot(modes20_data['speeds'], modes20_data['equilibrium_tip_z'],
-            's-', label='modes20', markersize=5)
-    ax.axhline(y=0, color='k', linestyle='--', alpha=0.3)
-    ax.set_ylabel('Equilibrium mean tip z (mm)')
-    ax.legend(fontsize=8)
-    ax.grid(alpha=0.25)
-
-    # Plot 2: tracked bending growth vs speed
-    ax = axes[1, 0]
-    ax.plot(modes10_data['speeds'], modes10_data['tracked_growth'],
-            'o-', label='modes10', markersize=5)
-    ax.plot(modes20_data['speeds'], modes20_data['tracked_growth'],
-            's-', label='modes20', markersize=5)
-    ax.axhline(y=0, color='k', linestyle='--', alpha=0.3)
-    ax.set_ylabel('Tracked bending growth (1/s)')
-    ax.set_xlabel('Speed (m/s)')
-    ax.legend(fontsize=8)
-    ax.grid(alpha=0.25)
-
-    # Plot 3: tracked bending frequency vs speed
-    ax = axes[0, 1]
-    ax.plot(modes10_data['speeds'], modes10_data['tracked_freq'],
-            'o-', label='modes10', markersize=5)
-    ax.plot(modes20_data['speeds'], modes20_data['tracked_freq'],
-            's-', label='modes20', markersize=5)
-    ax.axhline(y=0, color='k', linestyle='--', alpha=0.3)
-    ax.set_ylabel('Tracked bending frequency (Hz)')
-    ax.legend(fontsize=8)
-    ax.grid(alpha=0.25)
-
-    # Plot 4: dominant resolved oscillatory growth vs speed
-    ax = axes[1, 1]
-    ax.plot(modes10_data['speeds'], modes10_data['dominant_growth'],
-            'o-', label='modes10', markersize=5)
-    ax.plot(modes20_data['speeds'], modes20_data['dominant_growth'],
-            's-', label='modes20', markersize=5)
-    ax.axhline(y=0, color='k', linestyle='--', alpha=0.3)
-    ax.set_ylabel('Dominant oscillatory growth (1/s)')
-    ax.set_xlabel('Speed (m/s)')
-    ax.legend(fontsize=8)
-    ax.grid(alpha=0.25)
-
-    # Title
-    fig.suptitle('Exploratory loaded-equilibrium speed sweep\nClamped shell, 1mm tip kick, zero structural damping, UVLM, fixed-CFL')
-    fig.tight_layout()
-
-    # Add caption about omitted cases
-    if omitted:
-        caption = f'Omitted cases ({len(omitted)}): '
-        caption += ', '.join([f'{o["modes"]} modes @ {o["speed_m_s"]} m/s ({o["status"]})' for o in omitted])
-        fig.text(0.5, 0.01, caption, ha='center', fontsize=8, style='italic')
-
+    omitted_speeds = sorted({r['speed_m_s'] for r in omitted})
+    caption = 'Black dots: transient peak fits. Crosses: solved static shape outside the reference/initial displacement guard.'
+    if omitted_speeds:
+        caption += '\nNo completed dynamic verdict at ' + ', '.join(f'{v:g}' for v in omitted_speeds) + ' m/s; see report for explicit statuses. Guard is experimental, not an allowable.'
+    fig.text(.5, .015, caption, ha='center', fontsize=9)
+    fig.tight_layout(rect=(0, .07, 1, .95))
     return fig
 
 
@@ -438,6 +376,7 @@ def main():
         fig = plot(base, payload)
         output_png = base / 'speed-sweep.png'
         fig.savefig(output_png, dpi=160, bbox_inches='tight')
+        import matplotlib.pyplot as plt
         plt.close(fig)
         print(f'Exported: {output_png}')
 

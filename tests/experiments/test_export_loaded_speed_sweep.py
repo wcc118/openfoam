@@ -350,55 +350,51 @@ class TestExport(unittest.TestCase):
 
 
 class TestPlot(unittest.TestCase):
-    def test_creates_plot_with_data(self):
+    def test_numeric_report_data_and_gaps_are_preserved(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             base = Path(tmpdir)
-
-            xyz = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0]])
-            quads = np.array([[0, 1, 2, 0]])
-            phi = np.random.rand(20, 3, 3)
-            mass = np.array([1.0, 1.0, 1.0])
-            frequencies = np.array([1.0, 2.0, 3.0])
-            gen_mass = np.array([1.0, 1.0, 1.0])
-
-            np.savez(base / 'native-modal.npz',
-                     xyz=xyz, quads=quads, phi=phi, mass=mass,
-                     frequencies_Hz=frequencies, generalized_mass=gen_mass)
-
-            sweep_dir = base / 'sweep'
-            sweep_dir.mkdir()
-
-            folder = sweep_dir / 'n10-V30'
-            folder.mkdir()
-            history = {
-                'frames_time_and_q': [[0] + [0.0] * 20, [0.1] + [0.5] * 20],
-                'equilibrium_q': [0.0] * 10,
-                'stopped_at_50mm_guard': False,
-                'poles': {
-                    'tracked_bending': {'growth_per_s': 0.1, 'frequency_hz': 2.0},
-                    'dominant_resolved_oscillatory': {'growth_per_s': 0.15}
-                }
-            }
-            (folder / 'motion.json').write_text(json.dumps(history))
-
-            summary = [
-                {'modes': 10, 'speed_m_s': 30.0, 'status': 'executed_exploratory'}
-            ]
-            (sweep_dir / 'summary.json').write_text(json.dumps(summary))
-
-            output = base / 'speed-comparison-data.json'
-            payload = export_speed_sweep.export(base, output)
-
-            fig = export_speed_sweep.plot(base, payload)
-            self.assertIsNotNone(fig)
-
-            import matplotlib
-            matplotlib.use('Agg')
+            (base / 'sweep').mkdir()
+            reports = []
+            for speed, status in [(30., 'executed_exploratory'), (40., 'outside_displacement_experiment_guard'), (50., 'executed_exploratory')]:
+                r = dict(modes=10, speed_m_s=speed, status=status, equilibrium_tip_z_m=.01)
+                if status == 'executed_exploratory':
+                    r['poles'] = dict(tracked_bending=dict(growth_per_s=-speed/10, frequency_hz=8.8), dominant_resolved_oscillatory=dict(growth_per_s=-.01))
+                reports.append(r)
+            (base / 'sweep/summary.json').write_text(json.dumps(reports))
+            fig = export_speed_sweep.plot(base, {'cases': [], 'omitted_cases': [reports[1]]})
+            x = fig.axes[2].lines[0].get_xdata()
+            y = fig.axes[2].lines[0].get_ydata()
+            np.testing.assert_equal(x, [30, 40, 50])
+            np.testing.assert_equal(y, [-3, np.nan, -5])
+            self.assertEqual(len(fig.axes[0].collections[0].get_offsets()), 1)
             import matplotlib.pyplot as plt
             plt.close(fig)
 
 
 class TestValidation(unittest.TestCase):
+    def test_rejects_bad_history_dimensions_and_times(self):
+        import copy
+        payload = dict(title='test', scope='test', source='test', source_sha256={'input': 'test'},
+            mesh=dict(nodes=[[0., 0., 0.]], quads=[[0, 0, 0, 0]]),
+            models={'modes10': dict(modes=[[[0., 0., 1.]]]*10, mass_kg=1., thickness_m=.00127)},
+            cases=[dict(name='test', model='modes10', reference_q=[0.]*10,
+                        frames=[[0.]+[0.]*10, [.1]+[.1]*10], stopped_at_50mm_guard=False)])
+        export_speed_sweep.validate_payload(payload)
+        bad = copy.deepcopy(payload)
+        bad['cases'][0]['frames'][1].pop()
+        with self.assertRaises(ValueError):
+            export_speed_sweep.validate_payload(bad)
+        bad = copy.deepcopy(payload)
+        bad['cases'][0]['frames'][1][0] = 0.
+        with self.assertRaises(ValueError):
+            export_speed_sweep.validate_payload(bad)
+
+    def test_insufficient_native_basis_is_not_labeled_twenty_modes(self):
+        native = dict(xyz=np.zeros((1, 3)), quads=np.zeros((1, 4), dtype=int),
+                      phi=np.zeros((10, 1, 3)), mass=np.ones(1))
+        with self.assertRaisesRegex(ValueError, 'at least 20 modes'):
+            export_speed_sweep.build_payload(Path('/unused'), native, 'hash', [])
+
     def test_validates_required_fields(self):
         payload = {}
         with self.assertRaises(ValueError):
@@ -439,10 +435,10 @@ class TestCLI(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdir:
             base = Path(tmpdir)
 
-            # Create native-modal.npz with 10 modes
+            # Source contains both retained bases
             xyz = np.array([[0, 0, 0]])
             quads = np.array([[0, 0, 0, 0]])
-            phi = np.random.rand(10, 1, 3)
+            phi = np.random.rand(20, 1, 3)
             mass = np.array([1.0])
             frequencies = np.array([1.0])
             gen_mass = np.array([1.0])
@@ -468,12 +464,13 @@ class TestCLI(unittest.TestCase):
             (sweep_dir / 'summary.json').write_text(json.dumps(summary))
 
             result = subprocess.run(
-                [sys.executable, '-m', 'scripts.experiments.export_loaded_speed_sweep', str(base), '--no-plot'],
+                [sys.executable, '-m', 'scripts.experiments.export_loaded_speed_sweep', str(base)],
                 capture_output=True,
                 text=True
             )
             self.assertEqual(result.returncode, 0, f"CLI failed: {result.stderr}")
             self.assertTrue((base / 'speed-comparison-data.json').exists())
+            self.assertTrue((base / 'speed-sweep.png').exists())
 
 
 if __name__ == '__main__':
