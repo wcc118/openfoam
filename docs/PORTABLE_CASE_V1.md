@@ -100,3 +100,36 @@ before implementing NX Nastran, FlightStream or STAR-CCM+ adapters. Correlate mo
 using actual test configuration, support, mass and normalization. Keep calibration
 and validation evidence distinct. First deliver this portable numerical fixture;
 commercial integration, actual CFD point mapping and measurement fitting follow.
+
+## Running and work-machine handoff
+
+From the repository root, with Python 3 and NumPy installed:
+
+```sh
+python3 -m venv .venv
+.venv/bin/python -m pip install numpy
+.venv/bin/python -m unittest discover -s tests -p 'test_portable_case.py'
+.venv/bin/python -m scripts.portable_case tests/fixtures/portable_case/free_decay.json --output build/portable-report.json
+```
+
+On Windows use `.venv\Scripts\python.exe` for the same module commands, or WSL.
+The report contains the exact CLI input hash, physical translations, generalized
+loads, per-mode and total work, damping loss and retained configuration/provenance.
+It is JSON for inspection/downstream tooling; this milestone does not add a viewer.
+`validate_case` returns `(valid, error)` without simulation; `run_case` validates
+again and hashes canonical JSON. The CLI replaces that hash with the exact file
+byte hash, explicitly identified by `input_hash_kind`. Variable timesteps are
+reported as `time_steps_s`; the initial sample precedes all integration steps.
+
+The first work-machine comparison should use a representative NX Nastran modal
+export plus its units, normalization, modal masses, geometry and support definition.
+Compare frequencies AND mapped physical shapes/coordinates and generalized loads
+against a known structural response. Frequency-only test data cannot supply this
+profile. Retain unknown damping until measured or explicitly assumed. Record test
+configuration and keep data used to fit the model separate from validation data.
+Then inspect installed FlightStream/STAR-CCM+ versions, modules and export options
+before selecting a prescribed-motion aerodynamic comparison. Pressure panels,
+rotational DOFs, mesh mappings, motion-dependent feedback and frequency-domain
+loads require subsequent adapters; this profile deliberately rejects them as
+executable inputs. Start with collocated dimensional point forces on fixed reference
+geometry. Actual CFD work/mesh checks remain issue 38.
