@@ -425,6 +425,101 @@ class EquilibriumComparisonTests(unittest.TestCase):
         html = build_eq.build_html(data)
         self.assertIn('<!doctype html>', html)
 
+    def test_description_only_model_accepted(self):
+        """Description-only model without numeric metadata should be accepted."""
+        data = make_valid_data()
+        data['models']['baseline'] = {
+            'modes': data['models']['baseline']['modes'],
+            'description': 'Benchmark wind tunnel measurement at Re=500k'
+        }
+        # Also update thicker to be description-only to avoid mm skin entirely
+        data['models']['thicker'] = {
+            'modes': data['models']['thicker']['modes'],
+            'description': 'CFD reference case'
+        }
+        data['cases'][0]['model'] = 'baseline'
+        data['cases'][1]['model'] = 'baseline'
+        data['cases'][2]['model'] = 'thicker'
+        html = build_eq.build_html(data)
+        self.assertIn('Benchmark wind tunnel measurement at Re=500k', html)
+        self.assertIn('CFD reference case', html)
+        # The viewer.js renders description when present, not physical values
+        # Verify the description appears in the info text
+        # Check that model.thickness_m and model.mass_kg are not used in info string
+        self.assertIn("model.description", html)
+
+    def test_description_with_physical_metadata_accepted(self):
+        """Model with both description and physical metadata should be accepted."""
+        data = make_valid_data()
+        data['models']['baseline']['description'] = 'Experimental reference case'
+        html = build_eq.build_html(data)
+        self.assertIn('Experimental reference case', html)
+        self.assertIn('mm skin', html)
+
+    def test_empty_description_rejected(self):
+        """Empty string description should be rejected."""
+        data = make_valid_data()
+        data['models']['baseline']['description'] = ''
+        with self.assertRaises(ValueError):
+            build_eq.validate(data)
+
+    def test_whitespace_only_description_rejected(self):
+        """Whitespace-only description should be rejected."""
+        data = make_valid_data()
+        data['models']['baseline']['description'] = '   '
+        with self.assertRaises(ValueError):
+            build_eq.validate(data)
+
+    def test_missing_both_description_and_physical_rejected(self):
+        """Model missing both description and numeric physical metadata should be rejected."""
+        data = make_valid_data()
+        del data['models']['baseline']['mass_kg']
+        del data['models']['baseline']['thickness_m']
+        with self.assertRaises(ValueError):
+            build_eq.validate(data)
+
+    def test_only_mass_kg_rejected(self):
+        """Model with only mass_kg (without thickness_m) should be rejected."""
+        data = make_valid_data()
+        data['models']['baseline']['description'] = 'Hypothetical model'
+        del data['models']['baseline']['thickness_m']
+        with self.assertRaises(ValueError):
+            build_eq.validate(data)
+
+    def test_only_thickness_m_rejected(self):
+        """Model with only thickness_m (without mass_kg) should be rejected."""
+        data = make_valid_data()
+        data['models']['baseline']['description'] = 'Hypothetical model'
+        del data['models']['baseline']['mass_kg']
+        with self.assertRaises(ValueError):
+            build_eq.validate(data)
+
+    def test_partial_physical_metadata_rejected_without_description(self):
+        """Model with only mass_kg and no description should be rejected."""
+        data = make_valid_data()
+        del data['models']['baseline']['thickness_m']
+        with self.assertRaises(ValueError):
+            build_eq.validate(data)
+
+    def test_description_with_html_entities_safe(self):
+        """Description with HTML special characters should be safely escaped."""
+        data = make_valid_data()
+        data['models']['baseline']['description'] = 'Benchmark & comparison <test> "quote"'
+        html = build_eq.build_html(data)
+        # JSON escaping uses \uXXXX format for special chars in script context
+        # The description is embedded in JSON, which uses \u0026 for &, etc.
+        self.assertIn('\\u0026', html)  # escaped &
+        self.assertIn('\\u003c', html)  # escaped <
+        self.assertIn('\\u003e', html)  # escaped >
+
+    def test_description_null_accepted(self):
+        """Null description should be accepted (optional field)."""
+        data = make_valid_data()
+        data['models']['baseline']['description'] = None
+        html = build_eq.build_html(data)
+        self.assertIn('<!doctype html>', html)
+        self.assertIn('mm skin', html)
+
 
 class TestComparisonBoundaries(unittest.TestCase):
     def test_named_modal_bases_and_single_model(self):

@@ -87,13 +87,33 @@ def validate(data):
                     raise ValueError(f'models.{tag}.modes[{i}]: must have {n_nodes} node displacements')
                 finite_3d_array(mode, f'models.{tag}.modes[{i}]')
 
-            mass_kg = number(model.get('mass_kg'), 'mass_kg')
-            if isinstance(mass_kg, bool) or not isinstance(mass_kg, (int, float)) or mass_kg <= 0:
-                raise ValueError(f'models.{tag}.mass_kg must be positive number')
+            # description: optional nonempty string to explain benchmark/hypothetical model
+            description = model.get('description')
+            if description is not None:
+                if not isinstance(description, str) or not description.strip():
+                    raise ValueError(f'models.{tag}.description: must be nonempty string if supplied')
 
-            thickness_m = number(model.get('thickness_m'), 'thickness_m')
-            if isinstance(thickness_m, bool) or not isinstance(thickness_m, (int, float)) or thickness_m <= 0:
-                raise ValueError(f'models.{tag}.thickness_m must be positive number')
+            # Physical metadata: mass_kg and thickness_m must both be present or both absent
+            has_mass = 'mass_kg' in model
+            has_thickness = 'thickness_m' in model
+
+            if has_mass and has_thickness:
+                # Both present: validate as positive numbers
+                mass_kg = number(model.get('mass_kg'), 'mass_kg')
+                if isinstance(mass_kg, bool) or not isinstance(mass_kg, (int, float)) or mass_kg <= 0:
+                    raise ValueError(f'models.{tag}.mass_kg must be positive number')
+                thickness_m = number(model.get('thickness_m'), 'thickness_m')
+                if isinstance(thickness_m, bool) or not isinstance(thickness_m, (int, float)) or thickness_m <= 0:
+                    raise ValueError(f'models.{tag}.thickness_m must be positive number')
+            elif has_mass or has_thickness:
+                # Partial: reject
+                if 'mass_kg' in model:
+                    raise ValueError(f'models.{tag}: mass_kg supplied without thickness_m')
+                else:
+                    raise ValueError(f'models.{tag}: thickness_m supplied without mass_kg')
+            # If neither, description must be provided for benchmark/hypothetical models
+            elif description is None:
+                raise ValueError(f'models.{tag}: must supply description or both mass_kg and thickness_m')
 
         # Cases array
         cases = data.get('cases')

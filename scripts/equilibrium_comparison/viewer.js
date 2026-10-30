@@ -59,7 +59,15 @@ function draw(){
  prepare();const [t0,t1]=bounds();time=Math.max(t0,Math.min(t1,time));$('scrub').min=t0;$('scrub').max=t1;$('scrub').value=time;$('time').textContent=time.toFixed(6)+' s';
  const states=selected().map((i,j)=>{const c=cases[i],q=effective(interp(c.frames,time),c),m=metric(q,c.model),camera=scene('canvas'+(j+1),c,q,colorRange);
  $('metrics'+j).textContent=`${(m.tip_z_m*1000).toFixed(5)} mm tip z · ${m.twist_degrees.toFixed(6)}° tip twist`;
- const model=models[c.model];$('info'+j).textContent=`${(model.thickness_m*1000).toFixed(3)} mm skin · ${model.mass_kg.toFixed(6)} kg half-wing · ${model.modes.length} modes. ${c.note||''}${c.stopped_at_50mm_guard?' STOPPED at experimental guard.':''}`;
+ const model=models[c.model];
+ const physicalParts=[];
+ if('description' in model && model.description){
+  physicalParts.push(model.description);
+ }else if('mass_kg' in model && 'thickness_m' in model){
+  physicalParts.push(`${(model.thickness_m*1000).toFixed(3)} mm skin · ${model.mass_kg.toFixed(6)} kg half-wing`);
+ }
+ physicalParts.push(`${model.modes.length} modes`);
+ $('info'+j).textContent=physicalParts.join(' · ')+`. ${c.note||''}${c.stopped_at_50mm_guard?' STOPPED at experimental guard.':''}`;
  return {name:c.name,q,...m,...camera};});
  $('legendMin').textContent='0';$('legendMax').textContent=(colorRange*1000).toPrecision(4);$('legendUnits').textContent=`mm actual displacement magnitude · common color range · geometry ${$('defScale').value}×`;
  const axes={z:trace('history','tip_z_m',1000,'Mean tip z (mm)'),twist:trace('twistHistory','twist_degrees',1,'Tip twist (degrees)')};
