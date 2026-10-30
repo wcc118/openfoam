@@ -1,0 +1,2 @@
+import subprocess
+raise SystemExit(subprocess.run(['docker','run','--rm','--network','none','--cpus','2','--memory','4g','--user','1000:1000','-v','/home/foam/projects/openfoam/runs:/home/foam/projects/openfoam/runs','-v','/mnt/g/projects/openfoam/build:/mnt/g/projects/openfoam/build','--entrypoint','/opt/precice-python/bin/python','sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853','/mnt/g/projects/openfoam/build/issue38-coupled-analyze.py']).returncode)
