@@ -46,7 +46,7 @@ def plot(base,payload):
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     xyz=np.array(payload['mesh']['nodes']); tip=np.isclose(xyz[:,1],xyz[:,1].max())
-    fig,axes=plt.subplots(2,2,figsize=(12,7),sharex=True)
+    fig,axes=plt.subplots(2,2,figsize=(12,7),sharex=True,sharey="row")
     for case in payload['cases']:
         f=np.array(case['frames']); model=payload['models'][case['model']]
         phi=np.array(model['modes']); tipmap=phi[:,tip,2].mean(axis=1)/np.sqrt(2)

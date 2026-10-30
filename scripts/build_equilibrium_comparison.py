@@ -91,11 +91,11 @@ def validate(data):
                     raise ValueError(f'models.{tag}.modes[{i}]: must have {n_nodes} node displacements')
                 finite_3d_array(mode, f'models.{tag}.modes[{i}]')
 
-            mass_kg = model.get('mass_kg')
+            mass_kg = number(model.get('mass_kg'), 'mass_kg')
             if isinstance(mass_kg, bool) or not isinstance(mass_kg, (int, float)) or mass_kg <= 0:
                 raise ValueError(f'models.{tag}.mass_kg must be positive number')
 
-            thickness_m = model.get('thickness_m')
+            thickness_m = number(model.get('thickness_m'), 'thickness_m')
             if isinstance(thickness_m, bool) or not isinstance(thickness_m, (int, float)) or thickness_m <= 0:
                 raise ValueError(f'models.{tag}.thickness_m must be positive number')
 
@@ -129,7 +129,7 @@ def validate(data):
             reference_q = c.get('reference_q')
             if not isinstance(reference_q, list):
                 raise ValueError(f'cases[{i}].reference_q must be array')
-            n_modes_expected = n_modes_baseline if model_ref == 'baseline' else n_modes_thicker
+            n_modes_expected = len(models[model_ref]['modes'])
             if len(reference_q) != n_modes_expected:
                 raise ValueError(f'cases[{i}].reference_q has {len(reference_q)} values, expected {n_modes_expected} for {model_ref}')
             finite_array(reference_q, f'cases[{i}].reference_q')
@@ -169,6 +169,9 @@ def validate(data):
                     has_baseline_frozen = True
                 if note and 'loaded' in note.lower():
                     has_baseline_perturbation = True
+
+        if max(c['frames'][0][0] for c in cases) >= min(c['frames'][-1][0] for c in cases):
+            raise ValueError('case histories must have a common positive time interval')
 
         # Verify at least one baseline case exists
         if 'baseline' not in used_models:

@@ -1266,5 +1266,31 @@
     "sharpy_commit": "a4154d471c30f15db9af6524763ea250bb46c7b8",
     "container_image": "sha256:53f45db26c471d5d35b1aac8b77826f642f2b4dd74b8a1311838a3bb31e8de9a",
     "mystran": "19.0.0"
+  },
+  "verification": {
+    "unit_tests": 166,
+    "browser": {
+      "status": "passed",
+      "checked_case_mode_time_combinations": 48,
+      "checked_both_panels": true,
+      "physical_q_tip_z_twist": true,
+      "shared_projection": true,
+      "magnification_invariance": true,
+      "playback_endpoint": true,
+      "shorter_guarded_history_endpoint": true,
+      "external_network_requests": [],
+      "errors": []
+    },
+    "artifact_sha256": {
+      "check-comparison.cjs": "7be8d3240774ad9b95c10ce519541791a03258d76106ff550d47190d8e26b4b9",
+      "browser-expected.json": "16a90ce79c725923415e9e99b44dddce31f1595268cc90cc351bf5910acc3351",
+      "browser-check.json": "357d0bdebe7aa9008e1fcbee0af0f89e5f95e8c5c1a4b9387f5cb11364b6ce45"
+    },
+    "source_sha256": {
+      "scripts/experiments/shell_loaded_equilibrium.py": "5892336cb32dce2d0190881730f31265602d3c7d300134df3dd13b21c495a0d5",
+      "scripts/experiments/check_loaded_equilibrium.py": "2ae06d7c1c4db1f85cb8685801d89209c6dae5462217640bd53904a819b41d90",
+      "scripts/experiments/export_equilibrium_comparison.py": "ffaed246eba9cf31f0c7899c3585b7220cabd9584b2d9aa461e975a8e9d930ba",
+      "viewers/wing-equilibrium-comparison.html": "862b1cf2b57b889337a94f1261b9f040b66c8320b02f298d5cee5cb5e9cce3d8"
+    }
   }
 }

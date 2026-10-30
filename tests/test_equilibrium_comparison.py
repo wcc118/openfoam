@@ -426,5 +426,27 @@ class EquilibriumComparisonTests(unittest.TestCase):
         self.assertIn('<!doctype html>', html)
 
 
+class TestComparisonBoundaries(unittest.TestCase):
+    def test_nonfinite_material_metadata(self):
+        for field in ('mass_kg', 'thickness_m'):
+            for value in (float('nan'), float('inf')):
+                data = make_valid_data()
+                data['models']['baseline'][field] = value
+                with self.assertRaises(ValueError):
+                    build_eq.validate(data)
+
+    def test_no_common_time_interval(self):
+        data = make_valid_data()
+        for frame in data['cases'][0]['frames']:
+            frame[0] += 1.0
+        with self.assertRaisesRegex(ValueError, 'common positive time interval'):
+            build_eq.validate(data)
+
+    def test_unequal_end_times_with_overlap(self):
+        data = make_valid_data()
+        data['cases'][0]['frames'] = data['cases'][0]['frames'][:2]
+        build_eq.validate(data)
+
+
 if __name__ == '__main__':
     unittest.main()

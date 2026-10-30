@@ -113,3 +113,30 @@ python3 scripts/experiments/export_equilibrium_comparison.py runs/loaded-equilib
 The next useful physics experiment is a single-variable mode-count or wake/time
 resolution check on this loaded-reference case. Keep physical redesign studies
 small and interpretable; do not begin an automated optimization loop yet.
+
+## Offline synchronized preview
+
+Download [wing-equilibrium-comparison.html](../viewers/wing-equilibrium-comparison.html)
+and open it locally. Choose any two of the six histories. Both views share physical
+time, camera and magnification; the tip displacement and twist plots use common
+axes for the selected pair. Total and perturbation-about-reference modes change
+both geometry and physical metrics. Perturbation geometry is drawn on the original
+mesh for comparison, with the equilibrium offset removed. The previous pilot
+viewer remains available as historical evidence.
+
+```sh
+python3 scripts/build_equilibrium_comparison.py \
+  --data runs/loaded-equilibrium-20261029/comparison-data.json \
+  --output viewers/wing-equilibrium-comparison.html
+```
+
+The builder refuses overwrites. Verification: 166 repository unit tests pass.
+Headless Chromium checked both panels against independent NumPy values for 48
+case/mode/time combinations, including interpolated q, tip z, fitted twist,
+shared projection, physical-value invariance under magnification, end-of-history
+stopping, a synthetic shorter guarded history, responsive layout and zero external
+network requests. Browser script, expected values and result hashes are recorded
+in the evidence JSON. The first worker viewer draft needed primary correction;
+unit tests alone did not verify its browser behavior. The worker delivery command
+also failed the known main-base check after pushing its commits to the intended
+stacked PR; primary inspected the actual head and acknowledged the failed run.
