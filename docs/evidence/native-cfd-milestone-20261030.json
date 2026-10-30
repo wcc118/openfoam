@@ -1,0 +1,1258 @@
+{
+  "scope": "Issue38 bounded native CFD interface/mesh/startup milestone; implicit feedback remains no-go.",
+  "archive_sha256": "deee40860d7f4b68cb414d02efcd41ec19996ba6bd680f7ef8b18bc6d82f5579",
+  "pc_archive": "G:\\projects\\openfoam\\build\\issue38-native-evidence.tar.gz",
+  "baseline_projection": {
+    "scope": "Read-only reproduction of retained native closed-surface projection; no distance-guard relaxation or mesh modification.",
+    "source_map_sha256": "c84ea5efb30d3e7ccf43c474f3d81c1e0093a34dd4af2dd5be75c03eb3f5ce4a",
+    "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+    "point_map_sha256": "bebf371fbba4f112955b2a88674043d8d8ce767efb077d6969efb051374167ef",
+    "point_count": 42147,
+    "guard_m": 0.001,
+    "maximum_distance_m": 0.0010272593542464898,
+    "p99_m": 0.00011030336768375123,
+    "failed_points": [
+      {
+        "point_id": 16772,
+        "xyz_m": [
+          0.0516447077357,
+          -1.18423470114,
+          -0.0024059992744
+        ],
+        "distance_m": 0.0010272593542464898,
+        "distance_to_tip_plane_m": 0.034965298859999994
+      },
+      {
+        "point_id": 16960,
+        "xyz_m": [
+          0.0516447077357,
+          1.18423470114,
+          -0.0024059992744
+        ],
+        "distance_m": 0.0010272593542464898,
+        "distance_to_tip_plane_m": 0.034965298859999994
+      },
+      {
+        "point_id": 244237,
+        "xyz_m": [
+          0.0939146895024,
+          -1.21760991828,
+          0.0009122721325
+        ],
+        "distance_m": 0.0010084588734924644,
+        "distance_to_tip_plane_m": 0.0015900817200000805
+      },
+      {
+        "point_id": 244665,
+        "xyz_m": [
+          0.0939146894763,
+          1.21760991827,
+          0.000912272132264
+        ],
+        "distance_m": 0.0010084588736347796,
+        "distance_to_tip_plane_m": 0.0015900817300000814
+      }
+    ],
+    "passed": false
+  },
+  "snap_projection": {
+    "scope": "Read-only reproduction of retained native closed-surface projection; no distance-guard relaxation or mesh modification.",
+    "source_map_sha256": "c84ea5efb30d3e7ccf43c474f3d81c1e0093a34dd4af2dd5be75c03eb3f5ce4a",
+    "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+    "point_map_sha256": "6e0f3a1d00f12316a18fd79c3e4cc7811d410387fd4e2e25a1c300efdad74edc",
+    "point_count": 42143,
+    "guard_m": 0.001,
+    "maximum_distance_m": 0.0010177093160549358,
+    "p99_m": 9.467048121963356e-05,
+    "failed_points": [
+      {
+        "point_id": 16772,
+        "xyz_m": [
+          0.0516426727241,
+          -1.18423444617,
+          -0.00239652623125
+        ],
+        "distance_m": 0.0010177093160549358,
+        "distance_to_tip_plane_m": 0.034965553829999996
+      },
+      {
+        "point_id": 16960,
+        "xyz_m": [
+          0.0516426727241,
+          1.18423444617,
+          -0.00239652623125
+        ],
+        "distance_m": 0.0010177093160549358,
+        "distance_to_tip_plane_m": 0.034965553829999996
+      }
+    ],
+    "passed": false
+  },
+  "issue38-span32-20261030": {
+    "execution.json": {
+      "exit_code": 0,
+      "elapsed_s": 136.00823556100005,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-span32-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "6g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-span32-20261030:/case",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-motion-assets-20261030:/assets:ro",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "/case/run.sh"
+      ],
+      "strict_quality_passed": true,
+      "map_passed": true
+    },
+    "manifest.json": {
+      "scope": "No-layer geometry-only spanwise base-grid sensitivity16to32; unchanged surface levels, snap controls, quality limits and1mm projection guard. No flow or coupled FSI.",
+      "source": "/home/foam/projects/openfoam/runs/extended-wing-plumbing-mesh-v3-20261030",
+      "changed_parameters": {
+        "base_grid": [
+          [
+            40,
+            16,
+            20
+          ],
+          [
+            40,
+            32,
+            20
+          ]
+        ]
+      },
+      "inputs": {
+        "system/surfaceFeatureExtractDict": "7852e57f6c87d52ffd9a3c57b048216ad43b096a38029e1e21680f6bb2e1a82a",
+        "system/fvSolution": "48e61e0402615d31ff14eba640055603421bb51a9f2372bb18cb865a4a5f9f40",
+        "system/meshQualityDict.canonical": "6c86f42464aa21fe49ae9962d8fb6f8137054feb4cff6308deb664575a9cd2a1",
+        "system/controlDict": "b09bdd7d59427acb2656c725b572eed1d68e2d02a1e05ef1ddc78aea8f105d46",
+        "system/meshQualityDict": "7529b4a21db7f2c24d74f7337e101b2c2d3ac05ecf918acc7ffd224c093dd6bd",
+        "system/blockMeshDict": "16eba5f1eec8d55b1069a8e8af251373150241ebeb2cdd14e78c2c8bb975df46",
+        "system/slices": "3b4cfa784e5462512d60cf520c4739ff005f01201c0c43caa11d65494b975e27",
+        "system/fvSchemes": "cc915dc906dd62685da3f3c048165b2a14be1303a9c863b0e915df41967a96ca",
+        "system/snappyHexMeshDict": "076355d66bc0ad68886719d0db9535f7e9d5229807098894064eadea34223138",
+        "constant/triSurface/wing.stl": "b2fd2ed9415c637f58f20a90a27935e246ef788fba3a142c61c8f3c448abdd35",
+        "constant/triSurface/wing.eMesh": "6583d63b59903f407ee374d6d4b25fe386dc82680f1fef8b57b184a61825f1ee"
+      }
+    },
+    "motion-map-report.json": {
+      "scope": "Prescribed first native bending mode;0.1mm mean tip amplitude. Nearest closed reference surface: span/perimeter or tip-cap triangle interpolation; not coupled FSI.",
+      "native_identity_max_error_m": 2.710505431213761e-20,
+      "patch_points": 81685,
+      "surface_projection_max_distance_m": 8.707656753841513e-05,
+      "surface_projection_p99_m": 1.023767358798012e-07,
+      "maximum_displacement_component_m": 0.00010022549413987352,
+      "root_max_displacement_m": 4.1181686576902073e-16,
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "point_map_sha256": "8dfafb67b7dd880448bdf16b8c8b54711af6a407afa74f1e9ae95fd9d43b12bd"
+    }
+  },
+  "issue38-native-motion-20261030": {
+    "execution.json": {
+      "exit_code": 0,
+      "elapsed_s": 303.15616157700003,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-native-motion-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-native-motion-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "/case/run.sh"
+      ],
+      "mesh_ok_count": 33,
+      "failed_check_lines": [],
+      "strict_quality_passed": true
+    },
+    "manifest.json": {
+      "scope": "Geometry-only two-cycle native first-bending motion on no-layer span32 diagnostic mesh. No flow, damping or coupled FSI. Unchanged strict mesh-quality limits.",
+      "source_mesh": "/home/foam/projects/openfoam/runs/issue38-span32-20261030",
+      "motion_template": "/home/foam/projects/openfoam/runs/extended-wing-motion-extension-20261030",
+      "frequency_hz": 8.810675,
+      "mean_tip_amplitude_m": 0.0001,
+      "cycles": 2,
+      "steps_per_cycle": 16,
+      "quality_expected_samples": 33,
+      "inputs": {
+        "motion-map-report.json": "f81646e756cac75a3ff8f47456cb78465614e21c54e4c3ec8d0e128ee33ab597",
+        "wing-points.dat": "8dfafb67b7dd880448bdf16b8c8b54711af6a407afa74f1e9ae95fd9d43b12bd",
+        "constant/wingMode": "8e0d4f468ea141c67bedd42e0622d0e77d8a5ca329b68e52b64904d954c5892b",
+        "constant/dynamicMeshDict": "f8d3f88c23f659c299d3cab9951604849b5a6cfd50c42e893921d6b0003e055f",
+        "0/pointDisplacement": "6e6eede5aa84b569d53183f7678924392cef48e3ae7f863eda2549b7cd4e8cf4",
+        "system/fvSolution": "a25631e54c934639ab6683079734e02166442acaf16a1960517fe8229433e913",
+        "system/meshQualityDict.canonical": "6c86f42464aa21fe49ae9962d8fb6f8137054feb4cff6308deb664575a9cd2a1",
+        "system/fvSolution.attempt1": "d647ef2ac82cb0b9e34c63a95907f760d1235a29bd728d736a12eb2578500889",
+        "system/controlDict": "8cf03f2741ea4f49aa486df1b04b138731aae33c18d43da41ba5a053c87ab76b",
+        "system/meshQualityDict": "7529b4a21db7f2c24d74f7337e101b2c2d3ac05ecf918acc7ffd224c093dd6bd",
+        "system/controlDict.cycle1": "caf31fded553ddb6c60b4b23297662da41c79617c90d1f739fd05b1777ed2f90",
+        "system/fvSchemes": "5677770da28eddf353593f96504c93d0b53972cea3137d03b35daac05031d06a",
+        "system/controlDict.attempt2": "c02d2563ffde9af51532a64a05c45d9fec29b5d84ada0f319b0acfa1256b6dd6"
+      }
+    }
+  },
+  "issue38-interface-v4-20261030": {
+    "execution.json": {
+      "exit_code": 0,
+      "elapsed_s": 66.10936314700001,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-interface-v4-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "6g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-interface-v4-20261030:/case",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-interface-v4-20261030/source:/source",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-span32-20261030:/mesh:ro",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-native-motion-20261030:/motion:ro",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "/case/run.sh"
+      ],
+      "source_archive_sha256": "3b0c891c173581c5e90c0162b04626b8d7bfd1bae8af630457f2a93832f0a83b"
+    },
+    "native-verification.json": {
+      "scope": "Actual native serial/4-rank geometry, point order, force transpose assembly and stored native-mode wall positions. Loads are synthetic; no fluid/damping inference.",
+      "ranks": [
+        {
+          "rank": 0,
+          "point_count": 17334,
+          "face_count": 16727,
+          "max_point_error_m": 0.0,
+          "max_center_error_m": 0.0,
+          "max_area_error_m2": 0.0
+        },
+        {
+          "rank": 1,
+          "point_count": 21582,
+          "face_count": 20858,
+          "max_point_error_m": 0.0,
+          "max_center_error_m": 0.0,
+          "max_area_error_m2": 0.0
+        },
+        {
+          "rank": 2,
+          "point_count": 21741,
+          "face_count": 20996,
+          "max_point_error_m": 0.0,
+          "max_center_error_m": 0.0,
+          "max_area_error_m2": 0.0
+        },
+        {
+          "rank": 3,
+          "point_count": 21428,
+          "face_count": 20703,
+          "max_point_error_m": 0.0,
+          "max_center_error_m": 0.0,
+          "max_area_error_m2": 0.0
+        }
+      ],
+      "unique_points": 81685,
+      "unique_faces": 79284,
+      "max_parallel_force_assembly_difference_N": 5.421010862427522e-20,
+      "max_point_map_position_difference_m": 0.0,
+      "observed_motion_samples": [
+        {
+          "time_s": 0.0070936676247847,
+          "phase_cycles": 0.06249999999999994,
+          "max_wall_position_error_m": 5.016446173354298e-14,
+          "points_sha256": "703cf2eb5ee6b3f885d6cef470d33cffe7ff1f7589e9fd4c070551cdd9cbc9ce"
+        },
+        {
+          "time_s": 0.014187335249569,
+          "phase_cycles": 0.12499999999999635,
+          "max_wall_position_error_m": 5.010558908319331e-14,
+          "points_sha256": "4191dd4107e905474e93845071f3a9df9cbf20300682e1f0e1e3de72c8fbd1ff"
+        },
+        {
+          "time_s": 0.021281002874354,
+          "phase_cycles": 0.18749999999999892,
+          "max_wall_position_error_m": 4.996213508050468e-14,
+          "points_sha256": "2bf016c2530260a1e80e260d486f55eb0ff7d7132efa152f972f3f6e92ce3c7d"
+        },
+        {
+          "time_s": 0.028374670499139,
+          "phase_cycles": 0.2500000000000015,
+          "max_wall_position_error_m": 4.9962534265002417e-14,
+          "points_sha256": "93529b6e78a20e47eb1e8cba73a4e0e16c92225ddc1623430892e4c20182fcdc"
+        },
+        {
+          "time_s": 0.035468338123924,
+          "phase_cycles": 0.31250000000000405,
+          "max_wall_position_error_m": 4.9962135088974646e-14,
+          "points_sha256": "1b7bfa2f56ebf58e660696a223eea4ced1fb72de2be17b636e91fb6108597882"
+        },
+        {
+          "time_s": 0.042562005748708,
+          "phase_cycles": 0.37499999999999784,
+          "max_wall_position_error_m": 5.010558904272422e-14,
+          "points_sha256": "a4e3699ec40d1d557fe5aa979e385de532aeb4e5a91ce724bf66c03c071094b2"
+        },
+        {
+          "time_s": 0.049655673373493,
+          "phase_cycles": 0.4375000000000004,
+          "max_wall_position_error_m": 5.0164461734037265e-14,
+          "points_sha256": "7b37bdfe91623a4b230e4b9489de6cb53db231123d204542349da194efc45fd3"
+        },
+        {
+          "time_s": 0.056749340998278,
+          "phase_cycles": 0.500000000000003,
+          "max_wall_position_error_m": 1.95175213094119e-18,
+          "points_sha256": "c22e49b789cd584a1e2325813c3d852c527889061c29f85017ca6f120a3a68e9"
+        },
+        {
+          "time_s": 0.063843008623062,
+          "phase_cycles": 0.5624999999999968,
+          "max_wall_position_error_m": 5.0054087198006424e-14,
+          "points_sha256": "8df2a6ef85ddddd25c7e6c6652edceea09f7772a65e55c0296241e6bcc360ef6"
+        },
+        {
+          "time_s": 0.070936676247847,
+          "phase_cycles": 0.6249999999999993,
+          "max_wall_position_error_m": 5.010035178403724e-14,
+          "points_sha256": "03d08a810cfbe5389c86e66413a5d52ecfe67984d30c32fc61f4a9e0b7eec6b5"
+        },
+        {
+          "time_s": 0.078030343872632,
+          "phase_cycles": 0.6875000000000019,
+          "max_wall_position_error_m": 4.99621423146851e-14,
+          "points_sha256": "b617111a905b8c8b22b92fdb2690d64736173085e2537ec5e3245019069afa48"
+        },
+        {
+          "time_s": 0.085124011497416,
+          "phase_cycles": 0.7499999999999957,
+          "max_wall_position_error_m": 4.9962280145414683e-14,
+          "points_sha256": "724e18a59926395e10aea6c1639166fb3ae036b74b7a3e808c7eb1c1a097ccdb"
+        },
+        {
+          "time_s": 0.092217679122201,
+          "phase_cycles": 0.8124999999999982,
+          "max_wall_position_error_m": 4.99621423146851e-14,
+          "points_sha256": "09c7ec0e22b6e43a63aed5297b2a91e03c18d679bb7b335bceeada82d0ad4f20"
+        },
+        {
+          "time_s": 0.099311346746986,
+          "phase_cycles": 0.8750000000000008,
+          "max_wall_position_error_m": 5.010035178403724e-14,
+          "points_sha256": "c5544af3a6a56ad05ce5dae3eda35e308db1caf49d37ad7b9d6b2536cbaadc37"
+        },
+        {
+          "time_s": 0.10640501437177,
+          "phase_cycles": 0.9374999999999946,
+          "max_wall_position_error_m": 5.0054087216569255e-14,
+          "points_sha256": "e827ff5b5dffc8b33a198e9f4e7818c93831c72958af3f51b891819e6a7d6612"
+        },
+        {
+          "time_s": 0.11349868199656,
+          "phase_cycles": 1.0000000000000413,
+          "max_wall_position_error_m": 2.602175562577726e-17,
+          "points_sha256": "a33882b7b8f92ed4c7de5183f0f52ea505eb79c397bb991fe80caf449c4fb6a1"
+        },
+        {
+          "time_s": 0.12059234962134,
+          "phase_cycles": 1.0624999999999998,
+          "max_wall_position_error_m": 5.016446173385053e-14,
+          "points_sha256": "62aad367f1412541eada203ca3b7351c9d8d2e546c8d1398fdb7f277c081f45d"
+        },
+        {
+          "time_s": 0.12768601724612,
+          "phase_cycles": 1.1249999999999583,
+          "max_wall_position_error_m": 5.010559247086686e-14,
+          "points_sha256": "bfbf84be2f8c1e76a68482c6e666318f74c161b8b03438507eadf8be1e3881e5"
+        },
+        {
+          "time_s": 0.13477968487091,
+          "phase_cycles": 1.1875000000000049,
+          "max_wall_position_error_m": 4.996213509120978e-14,
+          "points_sha256": "a987b9c78717c6286c84bd1ae4e0be3879975a6ef59099812408df84242b76b1"
+        },
+        {
+          "time_s": 0.14187335249569,
+          "phase_cycles": 1.2499999999999634,
+          "max_wall_position_error_m": 4.9962534265002417e-14,
+          "points_sha256": "6036018c0ec1361cd87b0fb3caffad1ff4d3c8f56ef2dc1c9fb0b416eaa947ca"
+        },
+        {
+          "time_s": 0.14896702012048,
+          "phase_cycles": 1.31250000000001,
+          "max_wall_position_error_m": 4.996213513638297e-14,
+          "points_sha256": "4defa22774b01defe6248607a2db0bbbbc720cd4ab77abc977e481417a5487e2"
+        },
+        {
+          "time_s": 0.15606068774526,
+          "phase_cycles": 1.3749999999999687,
+          "max_wall_position_error_m": 5.0105590701957015e-14,
+          "points_sha256": "200186fb239560a3809cb7e39d285a33f36f66bc7e9fb0b1de5784e11cf565ff"
+        },
+        {
+          "time_s": 0.16315435537005,
+          "phase_cycles": 1.437500000000015,
+          "max_wall_position_error_m": 5.0164462325074997e-14,
+          "points_sha256": "a0645543ff0788b5aee53571e95b6647089b391bb6dedda0742de34697274777"
+        },
+        {
+          "time_s": 0.17024802299483,
+          "phase_cycles": 1.4999999999999738,
+          "max_wall_position_error_m": 1.734723475976807e-17,
+          "points_sha256": "ec1bb51efa2ee4f8384c85737428062d3f663b8c2c25e293465ba21d33c8deac"
+        },
+        {
+          "time_s": 0.17734169061962,
+          "phase_cycles": 1.5625000000000204,
+          "max_wall_position_error_m": 5.005408811595706e-14,
+          "points_sha256": "2c57d45a9be4936b8aaae533a13b70061150be61d37ebdf072689ded9fd771e5"
+        },
+        {
+          "time_s": 0.1844353582444,
+          "phase_cycles": 1.624999999999979,
+          "max_wall_position_error_m": 5.01003531523875e-14,
+          "points_sha256": "59096048fa92be1fd0f51870cde187aff99ef822da2e9449a3197c6dc88d8a9b"
+        },
+        {
+          "time_s": 0.19152902586919,
+          "phase_cycles": 1.6875000000000255,
+          "max_wall_position_error_m": 4.996214538646166e-14,
+          "points_sha256": "55a71df725aceeaf2e6b184cc53888173251ce28b8443b0b9d47f1e89fd2d4d4"
+        },
+        {
+          "time_s": 0.19862269349397,
+          "phase_cycles": 1.749999999999984,
+          "max_wall_position_error_m": 4.9962280145414683e-14,
+          "points_sha256": "140524cbd3281e281f3dce1785af58d30e4a8971e909e4bb007c0ea6fa8497eb"
+        },
+        {
+          "time_s": 0.20571636111876,
+          "phase_cycles": 1.8125000000000306,
+          "max_wall_position_error_m": 4.996213872341667e-14,
+          "points_sha256": "e945ce01a786b6bd132136247a1780aeb1818a1bc5c7d469a0d454845c44cc4d"
+        },
+        {
+          "time_s": 0.21281002874354,
+          "phase_cycles": 1.8749999999999891,
+          "max_wall_position_error_m": 5.0100351692297706e-14,
+          "points_sha256": "7056abad9574baaa075af9bea3f53f21b2fb31cf62b3ffcfc94039be694999d8"
+        },
+        {
+          "time_s": 0.21990369636833,
+          "phase_cycles": 1.9375000000000357,
+          "max_wall_position_error_m": 5.0054089736045974e-14,
+          "points_sha256": "7c2ec7b0fd7a66b64fb85532c3f9749406871eb85562716f77a6c6f7c9c50aab"
+        },
+        {
+          "time_s": 0.22699736399311,
+          "phase_cycles": 1.9999999999999942,
+          "max_wall_position_error_m": 3.686387036038797e-18,
+          "points_sha256": "419edc222e23e616e5357abfeb12e988b92c958fed66a7e5f36458575444e458"
+        }
+      ],
+      "cycle_returns": [
+        {
+          "cycle": 1,
+          "max_interior_return_offset_m": 6.110179715422748e-06
+        },
+        {
+          "cycle": 2,
+          "max_interior_return_offset_m": 6.46464515600619e-06
+        }
+      ],
+      "passed": true
+    },
+    "native-modal-transfer.json": {
+      "schema_version": 1,
+      "scope": "Fixed-geometry numerical interface verification only; no flow, damping, flutter or coupled FSI qualification.",
+      "native_export": {
+        "native_runtime": "OpenCFD 2412",
+        "rank": 0,
+        "time_s": 0,
+        "reference_state": "exported_mesh",
+        "patch": "wing"
+      },
+      "reference_bounds_m": [
+        [
+          0.0,
+          -1.21921209059,
+          -0.00294282755393
+        ],
+        [
+          0.101599998772,
+          1.21921209059,
+          0.0100354059705
+        ]
+      ],
+      "geometry_sha256": "949d812196ea1d2c425e30df83ada88feb5c05a75037d45fe5e336370a96f1eb",
+      "point_count": 81685,
+      "face_count": 79284,
+      "nonzero_weights": 321934,
+      "units": {
+        "length": "m",
+        "force": "N",
+        "moment": "N m",
+        "work": "J",
+        "modal_basis": "dimensionless",
+        "modal_coordinate": "m"
+      },
+      "axes": [
+        "x_downstream",
+        "y_spanwise",
+        "z_up"
+      ],
+      "loads_source": "supplied integrated point forces; provenance owned by caller",
+      "modes_source": "supplied point shapes; normalization owned by caller",
+      "force_sha256": "f01dbe28436d790f390b514733f936b2349ace10dfbf421731f18865366b813b",
+      "modes_sha256": "ba577b25cea2876331704e841672517dc71c71a6a0881f157250df68c52720f0",
+      "geometry_checks": {
+        "max_centroid_error_m": 6.674335894457505e-16,
+        "centroid_tolerance_m": 1e-10,
+        "max_area_vector_error_m2": 6.831344384166639e-21,
+        "area_absolute_tolerance_m2": 1e-12,
+        "area_relative_tolerance": 1e-10
+      },
+      "checks": {
+        "force_N": {
+          "max_absolute_error": 9.42801392511683e-13,
+          "tolerance": 1.1812841894450635e-10,
+          "passed": true
+        },
+        "virtual_work_J": {
+          "max_absolute_error": 0.0,
+          "tolerance": 1.0011079149963757e-12,
+          "passed": true
+        },
+        "rigid_translation_m": {
+          "max_absolute_error": 8.673617379884035e-19,
+          "tolerance": 1.003e-12,
+          "passed": true
+        },
+        "rigid_rotation_m": {
+          "max_absolute_error": 2.6020852139652106e-18,
+          "tolerance": 1.0037570977060301e-12,
+          "passed": true
+        },
+        "modal_work_J": {
+          "max_absolute_error": 0.0,
+          "tolerance": 1.0000173072007608e-12,
+          "passed": true
+        }
+      },
+      "moments": [
+        {
+          "origin_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "face_moment_N_m": [
+            -0.010675094438170588,
+            -0.17959497314123143,
+            -3.3720620920127358
+          ],
+          "point_moment_N_m": [
+            -0.01067509443817026,
+            -0.17959497314122722,
+            -3.37206209201281
+          ],
+          "max_absolute_error": 7.416289804496046e-14,
+          "tolerance": 1.0798433005720669e-10,
+          "passed": true
+        },
+        {
+          "origin_m": [
+            0.0254,
+            -0.37,
+            0.11
+          ],
+          "face_moment_N_m": [
+            2.113837680134484,
+            -0.982628050654853,
+            -6.563742666141756
+          ],
+          "point_moment_N_m": [
+            2.113837680134493,
+            -0.9826280506548526,
+            -6.563742666141703
+          ],
+          "max_absolute_error": 5.3290705182007514e-14,
+          "tolerance": 1.1126419700586952e-10,
+          "passed": true
+        }
+      ],
+      "face_total_force_N": [
+        8.219035189364345,
+        5.930612364730558,
+        3.97877139041259
+      ],
+      "point_total_force_N": [
+        8.219035189364291,
+        5.930612364730301,
+        3.978771390411647
+      ],
+      "point_work_J": 0.0008933140709228856,
+      "face_work_J": 0.0008933140709228856,
+      "generalized_forces_N": [
+        1.7147429570304797
+      ],
+      "modal_work_J": 1.71474295703048e-05,
+      "face_modal_work_J": 1.71474295703048e-05,
+      "remaining_gates": [
+        "native shell-to-CFD point projection and its transpose",
+        "actual movingWallVelocity/mesh-flux work",
+        "native load provenance",
+        "moving-mesh quality",
+        "periodic and timestep convergence",
+        "implicit checkpoint/feedback verification"
+      ],
+      "passed": true
+    }
+  },
+  "issue38-native-pilot-base-20261030": {
+    "execution.json": {
+      "status": "process_completed",
+      "exit_code": 0,
+      "elapsed_s": 250.46889711400001,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-native-pilot-base-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-native-pilot-base-20261030:/case",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-span32-20261030:/mesh:ro",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-interface-v4-20261030/source:/exporter:ro",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "/case/run.sh"
+      ],
+      "mesh_ok_count": 2,
+      "strict_sampled_quality_passed": true
+    },
+    "pilot-analysis.json": {
+      "scope": "Short prescribed native-mode startup CFD diagnostic. Integrated forces are native dimensional fluid-on-wall forces. Partial non-closed path work is NOT aerodynamic damping.",
+      "dt_s": 2.5e-05,
+      "samples": 20,
+      "end_time_s": 0.0005000000000000001,
+      "cycle_fraction": 0.004405337500000001,
+      "flow_initial_hashes": {
+        "U": "d3bc6ec0d304f745190f56b5feead67f24ef0b6d8602e391d8d4bf8574f0dff8",
+        "p": "8c42d316a44986d2808ee5d6c8720761166e2c0f4e7dd90c3c4c3040861c0732",
+        "k": "8e2f50004cf08dae80a087f867095657a91ef78b93c3dca0186a0011a843f00d",
+        "omega": "c15af84ff9c5dd33e50252885d8a66d51635c817cd5131bcc65c9514dedbd07b",
+        "nut": "7801d7e4ebae9f7aa89c39a0eeae739b617314cef4e0e1c8356130b1868cd4d8",
+        "phi": "18195a509a4419225f6e0bef69481e76da288380e2431927522ae7c0e5ea3f92"
+      },
+      "native_force_history_max_error_N": 3.268496584496461e-13,
+      "native_moment_history_max_error_N_m": 1.9960769148674729e-13,
+      "final_face_center_max_error_m": 0.0,
+      "final_wall_position_max_error_m": 0.0,
+      "maximum_fluid_Courant": 2.084581770639238,
+      "final_actual_wall_power_W": 0.10906215864075988,
+      "final_reference_operator_power_W": 0.10906215863522878,
+      "final_current_operator_power_W": 0.10906215863522102,
+      "max_wall_vs_reference_velocity_difference_m_s": 4.4775244851566054e-07,
+      "max_current_vs_reference_operator_velocity_difference_m_s": 1.4210944731757848e-13,
+      "max_actual_vs_reference_power_difference_W": 1.2500986357188992e-11,
+      "actual_wall_work_right_endpoint_J": 5.453613570046979e-05,
+      "reference_modal_work_right_endpoint_J": 5.453613569723509e-05,
+      "work_quadrature": "right endpoint power*dt from0 to0.0005s; imposed sine starts with nonzero velocity; no cycle closure",
+      "final_modal_force_current_operator_N": 19.708031495598462,
+      "final_modal_force_reference_operator_N": 19.70803149559986,
+      "transfer_passed": true,
+      "strict_sampled_quality_passed": true,
+      "mesh_samples": 2,
+      "native_force_field_lines": [
+        "nativeInterfaceWork forceField=force force=(1.6602991767129684 -4.8202888148732304e-05 55.539570593514327) wallPower=0.11011444958643184 referencePower=0.11011444959658087",
+        "nativeInterfaceWork forceField=force force=(1.8552275850475677 -4.1583524107144387e-05 53.803519165209295) wallPower=0.10899660240148139 referencePower=0.1089966023889804"
+      ],
+      "implicit_feedback_ready": false,
+      "remaining": [
+        "native shell interpolation full transpose/resultant-moment audit",
+        "movingWallVelocity flux correction versus chosen structural work operator",
+        "periodic startup removal",
+        "time/coupling sensitivity beyond this short pilot",
+        "viscous mesh qualification",
+        "checkpoint rollback coupled pilot"
+      ],
+      "native_shell_projection_audit": {
+        "scope": "Linear-coordinate reproduction of retained translation-only shell projection. Implied resultant-moment defect for its transpose; no offset couples are included.",
+        "source_sha256": "c84ea5efb30d3e7ccf43c474f3d81c1e0093a34dd4af2dd5be75c03eb3f5ce4a",
+        "max_reference_coordinate_error_m": 8.707656753841515e-05,
+        "coordinate_reproduction_tolerance_m": 1e-10,
+        "linear_coordinate_reproduction_passed": false,
+        "actual_load_implied_moment_defect_N_m": [
+          -8.702967788196361e-10,
+          -8.228551778672211e-11,
+          -1.3238320370304914e-10
+        ],
+        "synthetic_point_force_implied_moment_defect_N_m": [
+          1.0749478478177584e-09,
+          -1.2746756861194948e-08,
+          1.6721765033997835e-09
+        ],
+        "distance_guard_m": 0.001,
+        "distance_guard_passed": true,
+        "interpretation": "Distance acceptance does not imply exact rigid-rotation/moment reproduction; require an explicit offset treatment before claiming a conservative full shell interface."
+      }
+    },
+    "actual-load-transfer.json": {
+      "schema_version": 1,
+      "scope": "Fixed-geometry numerical interface verification only; no flow, damping, flutter or coupled FSI qualification.",
+      "native_export": {
+        "native_runtime": "OpenCFD 2412",
+        "rank": 0,
+        "time_s": 0.0005000000000000001,
+        "reference_state": "exported_mesh",
+        "patch": "wing"
+      },
+      "reference_bounds_m": [
+        [
+          0.0,
+          -1.2192120785943907,
+          -0.0029417887841939445
+        ],
+        [
+          0.10160002033393291,
+          1.2192120785943907,
+          0.010038171315073827
+        ]
+      ],
+      "geometry_sha256": "fb7baa15ddfd735cdf6e7a85201760535fb0c43289797664eb8843eaaa36ef26",
+      "point_count": 81685,
+      "face_count": 79284,
+      "nonzero_weights": 321934,
+      "units": {
+        "length": "m",
+        "force": "N",
+        "moment": "N m",
+        "work": "J",
+        "modal_basis": "dimensionless",
+        "modal_coordinate": "m"
+      },
+      "axes": [
+        "x_downstream",
+        "y_spanwise",
+        "z_up"
+      ],
+      "loads_source": "supplied integrated point forces; provenance owned by caller",
+      "modes_source": "supplied point shapes; normalization owned by caller",
+      "force_sha256": "6d9c7927dd7428c6293b0f1b220f6f9c9df734dc4a1310f405fc5f03ea0978a8",
+      "modes_sha256": "ba577b25cea2876331704e841672517dc71c71a6a0881f157250df68c52720f0",
+      "geometry_checks": {
+        "max_centroid_error_m": 8.882870714996457e-16,
+        "centroid_tolerance_m": 1e-10,
+        "max_area_vector_error_m2": 1.3552551906655715e-20,
+        "area_absolute_tolerance_m2": 1e-12,
+        "area_relative_tolerance": 1e-10
+      },
+      "checks": {
+        "force_N": {
+          "max_absolute_error": 3.765876499528531e-13,
+          "tolerance": 1.8871778388230407e-10,
+          "passed": true
+        },
+        "virtual_work_J": {
+          "max_absolute_error": 0.0,
+          "tolerance": 1.0016496641819713e-12,
+          "passed": true
+        },
+        "rigid_translation_m": {
+          "max_absolute_error": 1.3010426069826053e-18,
+          "tolerance": 1.003e-12,
+          "passed": true
+        },
+        "rigid_rotation_m": {
+          "max_absolute_error": 2.6020852139652106e-18,
+          "tolerance": 1.0037570977472008e-12,
+          "passed": true
+        },
+        "modal_work_J": {
+          "max_absolute_error": 2.710505431213761e-20,
+          "tolerance": 1.0002926517014898e-12,
+          "passed": true
+        }
+      },
+      "moments": [
+        {
+          "origin_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "face_moment_N_m": [
+            0.0007179644767102166,
+            -2.7994984709307666,
+            -4.963337972508538e-05
+          ],
+          "point_moment_N_m": [
+            0.0007179644767228661,
+            -2.7994984709307427,
+            -4.963337972432631e-05
+          ],
+          "max_absolute_error": 2.398081733190338e-14,
+          "tolerance": 1.5632201526320537e-10,
+          "passed": true
+        },
+        {
+          "origin_m": [
+            0.0254,
+            -0.37,
+            0.11
+          ],
+          "face_moment_N_m": [
+            19.928553503104407,
+            -1.6303978408995552,
+            -0.6691386294669169
+          ],
+          "point_moment_N_m": [
+            19.92855350310423,
+            -1.6303978408995412,
+            -0.6691386294669144
+          ],
+          "max_absolute_error": 1.7763568394002505e-13,
+          "tolerance": 1.611420032032657e-10,
+          "passed": true
+        }
+      ],
+      "face_total_force_N": [
+        1.808351439761605,
+        -4.081199212690522e-05,
+        53.859027102558336
+      ],
+      "point_total_force_N": [
+        1.8083514397616072,
+        -4.0811992126887006e-05,
+        53.85902710255796
+      ],
+      "point_work_J": 0.0005424662489138723,
+      "face_work_J": 0.0005424662489138723,
+      "generalized_forces_N": [
+        19.708031495598462
+      ],
+      "modal_work_J": 0.00019708031495598464,
+      "face_modal_work_J": 0.0001970803149559846,
+      "remaining_gates": [
+        "native shell-to-CFD point projection and its transpose",
+        "actual movingWallVelocity/mesh-flux work",
+        "native load provenance",
+        "moving-mesh quality",
+        "periodic and timestep convergence",
+        "implicit checkpoint/feedback verification"
+      ],
+      "passed": true
+    }
+  },
+  "issue38-native-pilot-half-20261030": {
+    "execution.json": {
+      "status": "process_completed",
+      "exit_code": 0,
+      "elapsed_s": 331.68987475699987,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-native-pilot-half-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-native-pilot-half-20261030:/case",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-span32-20261030:/mesh:ro",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-interface-v4-20261030/source:/exporter:ro",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "/case/run.sh"
+      ],
+      "mesh_ok_count": 2,
+      "strict_sampled_quality_passed": true
+    },
+    "pilot-analysis.json": {
+      "scope": "Short prescribed native-mode startup CFD diagnostic. Integrated forces are native dimensional fluid-on-wall forces. Partial non-closed path work is NOT aerodynamic damping.",
+      "dt_s": 1.25e-05,
+      "samples": 40,
+      "end_time_s": 0.0004999999999999997,
+      "cycle_fraction": 0.004405337499999997,
+      "flow_initial_hashes": {
+        "U": "d3bc6ec0d304f745190f56b5feead67f24ef0b6d8602e391d8d4bf8574f0dff8",
+        "p": "8c42d316a44986d2808ee5d6c8720761166e2c0f4e7dd90c3c4c3040861c0732",
+        "k": "8e2f50004cf08dae80a087f867095657a91ef78b93c3dca0186a0011a843f00d",
+        "omega": "c15af84ff9c5dd33e50252885d8a66d51635c817cd5131bcc65c9514dedbd07b",
+        "nut": "7801d7e4ebae9f7aa89c39a0eeae739b617314cef4e0e1c8356130b1868cd4d8",
+        "phi": "18195a509a4419225f6e0bef69481e76da288380e2431927522ae7c0e5ea3f92"
+      },
+      "native_force_history_max_error_N": 3.410605131648481e-13,
+      "native_moment_history_max_error_N_m": 2.339890434188696e-13,
+      "final_face_center_max_error_m": 0.0,
+      "final_wall_position_max_error_m": 0.0,
+      "maximum_fluid_Courant": 1.0421418278213037,
+      "final_actual_wall_power_W": 0.10909599725904184,
+      "final_reference_operator_power_W": 0.10909599717954599,
+      "final_current_operator_power_W": 0.10909599717953823,
+      "max_wall_vs_reference_velocity_difference_m_s": 4.477166291545013e-07,
+      "max_current_vs_reference_operator_velocity_difference_m_s": 1.4210813666710594e-13,
+      "max_actual_vs_reference_power_difference_W": 8.605294254948603e-11,
+      "actual_wall_work_right_endpoint_J": 5.458161608467336e-05,
+      "reference_modal_work_right_endpoint_J": 5.458161604477912e-05,
+      "work_quadrature": "right endpoint power*dt from0 to0.0005s; imposed sine starts with nonzero velocity; no cycle closure",
+      "final_modal_force_current_operator_N": 19.714330403685267,
+      "final_modal_force_reference_operator_N": 19.714330403686667,
+      "transfer_passed": true,
+      "strict_sampled_quality_passed": true,
+      "mesh_samples": 2,
+      "native_force_field_lines": [
+        "nativeInterfaceWork forceField=force force=(1.4586587484731948 -5.9410680692317808e-05 58.239231979295269) wallPower=0.11325916767316081 referencePower=0.11325916763723518",
+        "nativeInterfaceWork forceField=force force=(1.8643391175363466 -4.5409670311927219e-05 54.427898020190696) wallPower=0.11035335780043284 referencePower=0.1103533577143799"
+      ],
+      "implicit_feedback_ready": false,
+      "remaining": [
+        "native shell interpolation full transpose/resultant-moment audit",
+        "movingWallVelocity flux correction versus chosen structural work operator",
+        "periodic startup removal",
+        "time/coupling sensitivity beyond this short pilot",
+        "viscous mesh qualification",
+        "checkpoint rollback coupled pilot"
+      ],
+      "native_shell_projection_audit": {
+        "scope": "Linear-coordinate reproduction of retained translation-only shell projection. Implied resultant-moment defect for its transpose; no offset couples are included.",
+        "source_sha256": "c84ea5efb30d3e7ccf43c474f3d81c1e0093a34dd4af2dd5be75c03eb3f5ce4a",
+        "max_reference_coordinate_error_m": 8.707656753841515e-05,
+        "coordinate_reproduction_tolerance_m": 1e-10,
+        "linear_coordinate_reproduction_passed": false,
+        "actual_load_implied_moment_defect_N_m": [
+          -8.688740507482185e-10,
+          -8.355671412133102e-11,
+          -1.3237391436697387e-10
+        ],
+        "synthetic_point_force_implied_moment_defect_N_m": [
+          1.0749478478177584e-09,
+          -1.2746756861194948e-08,
+          1.6721765033997835e-09
+        ],
+        "distance_guard_m": 0.001,
+        "distance_guard_passed": true,
+        "interpretation": "Distance acceptance does not imply exact rigid-rotation/moment reproduction; require an explicit offset treatment before claiming a conservative full shell interface."
+      }
+    },
+    "actual-load-transfer.json": {
+      "schema_version": 1,
+      "scope": "Fixed-geometry numerical interface verification only; no flow, damping, flutter or coupled FSI qualification.",
+      "native_export": {
+        "native_runtime": "OpenCFD 2412",
+        "rank": 0,
+        "time_s": 0.0004999999999999997,
+        "reference_state": "exported_mesh",
+        "patch": "wing"
+      },
+      "reference_bounds_m": [
+        [
+          0.0,
+          -1.2192120785943907,
+          -0.0029417887841939445
+        ],
+        [
+          0.10160002033393291,
+          1.2192120785943907,
+          0.010038171315073827
+        ]
+      ],
+      "geometry_sha256": "0a9d7987d84cd8440167dfa8ab3e4ab21399f8943f3aa843c8400873dc4a961b",
+      "point_count": 81685,
+      "face_count": 79284,
+      "nonzero_weights": 321934,
+      "units": {
+        "length": "m",
+        "force": "N",
+        "moment": "N m",
+        "work": "J",
+        "modal_basis": "dimensionless",
+        "modal_coordinate": "m"
+      },
+      "axes": [
+        "x_downstream",
+        "y_spanwise",
+        "z_up"
+      ],
+      "loads_source": "supplied integrated point forces; provenance owned by caller",
+      "modes_source": "supplied point shapes; normalization owned by caller",
+      "force_sha256": "1c632f339e240ee9398b8cbc0234a13a6989dcceaa97e53cf42535b43abd4164",
+      "modes_sha256": "ba577b25cea2876331704e841672517dc71c71a6a0881f157250df68c52720f0",
+      "geometry_checks": {
+        "max_centroid_error_m": 8.882870714996457e-16,
+        "centroid_tolerance_m": 1e-10,
+        "max_area_vector_error_m2": 1.3552551906655715e-20,
+        "area_absolute_tolerance_m2": 1e-12,
+        "area_relative_tolerance": 1e-10
+      },
+      "checks": {
+        "force_N": {
+          "max_absolute_error": 3.552713678800501e-14,
+          "tolerance": 1.8872075835080025e-10,
+          "passed": true
+        },
+        "virtual_work_J": {
+          "max_absolute_error": 1.0842021724855044e-19,
+          "tolerance": 1.001649878439159e-12,
+          "passed": true
+        },
+        "rigid_translation_m": {
+          "max_absolute_error": 1.3010426069826053e-18,
+          "tolerance": 1.003e-12,
+          "passed": true
+        },
+        "rigid_rotation_m": {
+          "max_absolute_error": 2.6020852139652106e-18,
+          "tolerance": 1.0037570977472008e-12,
+          "passed": true
+        },
+        "modal_work_J": {
+          "max_absolute_error": 0.0,
+          "tolerance": 1.0002926438675405e-12,
+          "passed": true
+        }
+      },
+      "moments": [
+        {
+          "origin_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "face_moment_N_m": [
+            0.0007239840471652537,
+            -2.8005922775150998,
+            -4.905419140998234e-05
+          ],
+          "point_moment_N_m": [
+            0.000723984047167713,
+            -2.800592277515089,
+            -4.905419140971019e-05
+          ],
+          "max_absolute_error": 1.0658141036401503e-14,
+          "tolerance": 1.5632293090965642e-10,
+          "passed": true
+        },
+        {
+          "origin_m": [
+            0.0254,
+            -0.37,
+            0.11
+          ],
+          "face_moment_N_m": [
+            19.93490013034151,
+            -1.6297509926672045,
+            -0.664747224392923
+          ],
+          "point_moment_N_m": [
+            19.934900130341532,
+            -1.6297509926672162,
+            -0.6647472243929372
+          ],
+          "max_absolute_error": 2.1316282072803006e-14,
+          "tolerance": 1.6114373510403892e-10,
+          "passed": true
+        }
+      ],
+      "face_total_force_N": [
+        1.796484394677622,
+        -4.1568078814469036e-05,
+        53.876164104818606
+      ],
+      "point_total_force_N": [
+        1.7964843946776428,
+        -4.156807881445151e-05,
+        53.87616410481864
+      ],
+      "point_work_J": 0.0005426360892731368,
+      "face_work_J": 0.0005426360892731367,
+      "generalized_forces_N": [
+        19.714330403685267
+      ],
+      "modal_work_J": 0.00019714330403685268,
+      "face_modal_work_J": 0.00019714330403685268,
+      "remaining_gates": [
+        "native shell-to-CFD point projection and its transpose",
+        "actual movingWallVelocity/mesh-flux work",
+        "native load provenance",
+        "moving-mesh quality",
+        "periodic and timestep convergence",
+        "implicit checkpoint/feedback verification"
+      ],
+      "passed": true
+    }
+  },
+  "pilot_comparison": {
+    "identical_initial_flow_fields": true,
+    "common_time_max_force_component_difference_N": 1.1116725733236308,
+    "partial_work_difference_J": 4.548038420357063e-08,
+    "partial_work_relative_change": 0.0008339495202476233,
+    "warning": "Only0.44% of one cycle; startup and Courant/timestep sensitivity unresolved. Positive partial work from mean lift is not damping."
+  },
+  "native_excerpt": {
+    "points": 57,
+    "faces": 14,
+    "sha256": "e3e3c96f72fa4d73bfb9603669eabb314704acd01ba990f253f7c4863385f598",
+    "source_export_sha256": "79ebaff389db1b2231200639ef250fc504e7cce33db146ae470306da9c1db4fe"
+  },
+  "failed_export_attempts": {
+    "issue38-interface-20261030": {
+      "exit_code": 2,
+      "elapsed_s": 1.667828407,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-interface-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "6g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-interface-20261030:/case",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-interface-20261030/source:/source",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "/case/run.sh"
+      ],
+      "source_archive_sha256": "60cdbf1f887a36b1b5bd655503653a87a0d12a30a506277dcc0c0dfd00c47445"
+    },
+    "issue38-interface-v2-20261030": {
+      "exit_code": 1,
+      "elapsed_s": 7.3322903870000005,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-interface-v2-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "6g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-interface-v2-20261030:/case",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-interface-v2-20261030/source:/source",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "/case/run.sh"
+      ],
+      "source_archive_sha256": "cdac644916c666a25f408b5fa90b62409226390cb4636abfe083676099fdd045"
+    },
+    "issue38-interface-v3-20261030": {
+      "exit_code": 1,
+      "elapsed_s": 18.089522396999996,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-interface-v3-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "6g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-interface-v3-20261030:/case",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-interface-v3-20261030/source:/source",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-span32-20261030:/mesh:ro",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-native-motion-20261030:/motion:ro",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "/case/run.sh"
+      ],
+      "source_archive_sha256": "6e5cc2fd3f621d6ed574a802d118b62a3166a1145107da76da1791bc028555fb"
+    }
+  }
+}

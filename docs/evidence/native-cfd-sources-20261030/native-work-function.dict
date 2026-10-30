@@ -1,0 +1,59 @@
+nativeInterfaceWork
+{
+ type coded;
+ libs (utilityFunctionObjects);
+ name nativeInterfaceWork;
+ executeControl timeStep;
+ executeInterval 1;
+ writeControl none;
+ codeInclude
+ #{
+ #include "fvCFD.H"
+ #include "IFstream.H"
+ #include "labelIOList.H"
+ #include <fstream>
+ #include <iomanip>
+ #};
+ codeExecute
+ #{
+  const Foam::fvMesh& m=mesh();
+  Foam::word forceName("forces:force");
+  if(!m.foundObject<Foam::volVectorField>(forceName)) forceName="force";
+  const auto& load=m.lookupObject<Foam::volVectorField>(forceName);
+  const Foam::label patchi=m.boundaryMesh().findPatchID("wing");
+  if(patchi<0) FatalErrorInFunction << "wing patch absent" << exit(FatalError);
+  const auto& f=load.boundaryField()[patchi];
+  const auto& u=m.lookupObject<Foam::volVectorField>("U").boundaryField()[patchi];
+  const auto& c=m.Cf().boundaryField()[patchi];
+  static Foam::vectorField faceMode;
+  if(faceMode.empty()) {Foam::IFstream in(m.time().path()/"constant/faceMode");if(!in.good()) FatalErrorInFunction << "missing faceMode" << exit(FatalError);in >> faceMode;}
+  if(faceMode.size()!=f.size()) FatalErrorInFunction << "faceMode size mismatch" << exit(FatalError);
+  const Foam::scalar t=m.time().value(), dt=m.time().deltaTValue(), w=2*3.14159265358979323846*8.810675;
+  const Foam::scalar rate=(Foam::sin(w*t)-Foam::sin(w*(t-dt)))/dt;
+  Foam::vector total=Foam::sum(f), moment=Foam::vector::zero;
+  forAll(f,i) moment+=(c[i]-Foam::vector(.0254,0,0))^f[i];
+  Foam::scalar Q=Foam::sum(f & faceMode)/.0001;
+  Foam::scalar actualPower=Foam::sum(f & u), referencePower=Foam::sum(f & faceMode)*rate;
+  Foam::reduce(total,Foam::sumOp<Foam::vector>());Foam::reduce(moment,Foam::sumOp<Foam::vector>());
+  Foam::reduce(Q,Foam::sumOp<Foam::scalar>());Foam::reduce(actualPower,Foam::sumOp<Foam::scalar>());Foam::reduce(referencePower,Foam::sumOp<Foam::scalar>());
+  if(Foam::Pstream::master())
+  {
+   std::ofstream out((m.time().path()/"native-interface-work.csv").c_str(),std::ios::app);
+   if(!out.good()) FatalErrorInFunction << "cannot write work" << exit(FatalError);
+   out << std::setprecision(17) << t << ',' << total.x() << ',' << total.y() << ',' << total.z() << ',' << moment.x() << ',' << moment.y() << ',' << moment.z() << ',' << Q << ',' << actualPower << ',' << referencePower << ',' << rate*.0001 << '\n';
+   Info << "nativeInterfaceWork forceField=" << forceName << " force=" << total << " wallPower=" << actualPower << " referencePower=" << referencePower << endl;
+  }
+  if(m.time().writeTime())
+  {
+   Foam::labelIOList addressing(Foam::IOobject("faceProcAddressing",m.facesInstance(),Foam::polyMesh::meshSubDir,m,Foam::IOobject::MUST_READ,Foam::IOobject::NO_WRITE));
+   std::ofstream out((m.time().path()/"final-face-loads.csv").c_str());out << std::setprecision(17);
+   const auto& patch=m.boundaryMesh()[patchi];
+   forAll(f,i)
+   {
+    Foam::label a=addressing[patch.start()+i];if(a<=0) FatalErrorInFunction << "reversed wing face" << exit(FatalError);
+    out << a-1 << ',' << c[i].x() << ',' << c[i].y() << ',' << c[i].z() << ',' << f[i].x() << ',' << f[i].y() << ',' << f[i].z() << ',' << u[i].x() << ',' << u[i].y() << ',' << u[i].z() << '\n';
+   }
+   if(!out.good()) FatalErrorInFunction << "cannot write face loads" << exit(FatalError);
+  }
+ #};
+}
