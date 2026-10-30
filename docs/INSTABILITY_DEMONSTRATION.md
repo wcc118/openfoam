@@ -85,6 +85,7 @@ and trapezoidal power quadrature; it is not assumed to be identically zero.
 | M8/N16,20modes,CFL0.0625,wake8 |22.56636|
 | M12/N24,20modes,CFL0.09375,wake8 |23.10665|
 | M8/N16,20modes,CFL0.0625,wake12 |22.54561|
+| M16/N32,20modes,CFL0.125,wake8 (later completed retry) |23.34976|
 
 M12/N24 uses the same physical timestep as the M8/N16 CFL0.0625 case at any given
 speed. Geometry and wake spacing remain fixed for the timestep comparison;
@@ -92,7 +93,13 @@ non-CFL1 wake propagation is explicitly assembled. The timestep change moves the
 crossing about0.015%, mode-count change about0.0003%, and wake extension about0.092%.
 Aerodynamic-grid refinement moves it about2.4%, so a fully converged boundary is
 not claimed. This remaining sensitivity is much larger than root-finder precision.
-Stable20/growing25m/s survives all these completed checks.
+Stable20/growing25m/s survives all these completed checks. The later M16/N32
+run changes the crossing a further1.05% from M12/N24, still too much to claim
+a converged threshold. At25m/s its growth is2.549896/s and peak-fit growth
+2.549900/s; at20m/s the tracked branch decays at-2.536842/s while the mixed-mode
+peak fit gives-2.458407/s. Both actual two-second histories stay below the guard.
+[Supplemental evidence](evidence/instability-M16-supplement-20261030.json) retains
+these results separately; the preview remains the explicitly labeled M12/N24 case.
 
 Goland's fixed-mesh causal crossings are163.9402,163.7959,163.7182m/s at relative
 steps1,0.5,0.25. The preview uses the quarter-step matrices. Independent original-
@@ -111,7 +118,9 @@ must not be transferred to the loaded cambered aluminum baseline.
 
 An M16/N32 trial was stopped by the primary agent when shared Spark memory fell
 below1GiB available during simultaneous local-worker/CFD activity. Exit137 is
-recorded as an interrupted experiment, with no result. CFD meshing moved to the
+recorded as an interrupted experiment, with no result. A later fresh M16/N32
+run completed after host memory became available; it does not erase the failed
+attempt. CFD meshing moved to the
 PC. A first aligned-grid meshing attempt stalled in feature refinement; translating
 the background grid by-5mm x/-3mm z progressed beyond that stage. This supports an
 alignment hypothesis, not a general OpenFOAM defect diagnosis.
