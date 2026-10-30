@@ -133,3 +133,25 @@ rotational DOFs, mesh mappings, motion-dependent feedback and frequency-domain
 loads require subsequent adapters; this profile deliberately rejects them as
 executable inputs. Start with collocated dimensional point forces on fixed reference
 geometry. Actual CFD work/mesh checks remain issue 38.
+
+## Observed verification, 2026-10-30
+
+Implementation revision `17938442acb43944908f12892ff955e9e0c4be9b`:
+
+- Spark aarch64, Python 3.12.3, NumPy 2.4.4: all 141 repository tests passed.
+- PC x86_64, Python 3.12.3, NumPy 2.5.4: all 51 portable-case tests and CLI passed
+  from a git archive, with source mounted read-only and networking disabled.
+- Entire parsed reports were equal across machines, including every state/load/
+  displacement sample and work/damping totals (comparison tolerance 1e-12;
+  observed maximum history difference zero).
+- Exact fixture SHA256:
+  `f3ab59149cdc72c7bd00e02e59a710b3c9697c631244f3220ff289f8ee0c6846`.
+- Analytic free-decay maximum whole-history tip error: `3.766525861204073e-6 m`,
+  below `5e-5 m`; timestep `0.00228125 s`, duration `0.73 s`.
+- PC archive SHA256:
+  `930af0a838626aeb4ab228a86d41db03d6b4a6e4ef7ba4cf9c73d22fd58f7e98`.
+  Evidence is retained on the PC at
+  `G:\projects\openfoam\build\portable-case-17938442acb43944908f12892ff955e9e0c4be9b-pc-evidence.tar.gz`.
+
+These are reproducibility and numerical verification results for a synthetic
+oscillator. They do not validate a physical wing or any commercial solver adapter.
