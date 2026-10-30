@@ -760,7 +760,8 @@ class PortablePhysicsTests(unittest.TestCase):
         self.assertEqual(self.pc.run_case(self.case)['measurements'], [measurement])
         for field, bad in (('direction', [0,0,2]), ('position_m', [[0],1,0]), ('unit', 'g'),
                            ('sample_axis', dict(kind='time_s', values=[False,1])),
-                           ('provenance', dict(source='x', sha256='z'*64))):
+                           ('provenance', dict(source='x', sha256='z'*64)),
+                           ('provenance', dict(source='x', sha256='+'+'1'*63))):
             c = copy.deepcopy(self.case)
             c['measurements'][0]['channels'][0][field] = bad
             self.assertFalse(self.pc.validate_case(c)[0], field)
@@ -771,6 +772,12 @@ class PortablePhysicsTests(unittest.TestCase):
             self.assertFalse(self.pc.validate_case(c)[0])
         self.case['structure']['initial_q_m'] = [[.7]]
         self.assertFalse(self.pc.validate_case(self.case)[0])
+
+    def test_bool_node_ids_cannot_alias_integer_nodes(self):
+        for section in ('geometry', 'structure', 'aerodynamics'):
+            c = copy.deepcopy(self.case)
+            c[section]['node_ids'][0] = True
+            self.assertFalse(self.pc.validate_case(c)[0], section)
 
 
 if __name__ == '__main__':

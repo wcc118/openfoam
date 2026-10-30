@@ -137,6 +137,8 @@ def _validateDirection(arr: Any, name: str) -> None:
 
 def _validateIdsMatch(actual: List[Any], expected: List[Any], name: str) -> None:
     """Validate that actual IDs match expected IDs exactly."""
+    if isinstance(expected, list):
+        _validateUniqueIds(actual, name)
     if actual != expected:
         raise ValueError(f'{name} IDs must match reference')
 
@@ -500,7 +502,7 @@ def validate_case(case: Dict[str, Any]) -> Tuple[bool, str]:
                 _validateNonemptyString(provenance.get('source'), f'measurements[{i}].channels[{j}].provenance.source')
                 sha256 = provenance.get('sha256')
                 if sha256 is not None:
-                    if not isinstance(sha256, str) or len(sha256) != 64:
+                    if not isinstance(sha256, str) or len(sha256) != 64 or any(c not in '0123456789abcdefABCDEF' for c in sha256):
                         raise ValueError(f'measurements[{i}].channels[{j}].provenance.sha256 must be 64 hex chars or null')
                     try:
                         int(sha256, 16)
