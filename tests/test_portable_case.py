@@ -31,21 +31,21 @@ class PortableCaseValidationTests(unittest.TestCase):
     def setUpClass(cls):
         """Load the portable_case module once for all tests."""
         cls.scripts_dir = Path(__file__).resolve().parents[1] / 'scripts'
-        
+
         import importlib.util
         spec = importlib.util.spec_from_file_location(
             'portable_case', cls.scripts_dir / 'portable_case.py'
         )
         cls.pc = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(cls.pc)
-        
+
         # Load the fixture
         cls.fixture, cls.fixture_sha256 = load_test_case()
 
     def test_validate_case_valid_fixture(self):
         """Test that the valid fixture passes validation."""
         case = copy.deepcopy(self.fixture)
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertTrue(is_valid)
         self.assertEqual(error, "")
@@ -54,7 +54,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of wrong schema version."""
         case = copy.deepcopy(self.fixture)
         case['schema_version'] = 2
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("schema_version", error)
@@ -63,7 +63,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of wrong profile."""
         case = copy.deepcopy(self.fixture)
         case['profile'] = 'wrong_profile'
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("profile", error)
@@ -72,7 +72,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of missing case_id."""
         case = copy.deepcopy(self.fixture)
         del case['case_id']
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("case_id", error)
@@ -81,7 +81,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of empty case_id."""
         case = copy.deepcopy(self.fixture)
         case['case_id'] = ""
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("case_id", error)
@@ -90,7 +90,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of wrong axes."""
         case = copy.deepcopy(self.fixture)
         case['configuration']['axes'] = ['x_wrong', 'y_wrong', 'z_wrong']
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("axes", error)
@@ -100,7 +100,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         case = copy.deepcopy(self.fixture)
         case['configuration']['axes'] = ['x_downstream', 'y_spanwise', 'z_up']
         case['configuration']['handedness'] = 'left'
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("handedness", error)
@@ -110,7 +110,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         case = copy.deepcopy(self.fixture)
         case['configuration']['axes'] = ['x_downstream', 'y_spanwise', 'z_up']
         case['configuration']['length_unit'] = 'cm'
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("length_unit", error)
@@ -119,7 +119,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of duplicate node IDs."""
         case = copy.deepcopy(self.fixture)
         case['geometry']['node_ids'] = [1, 1]
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("duplicate", error)
@@ -129,7 +129,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         case = copy.deepcopy(self.fixture)
         case['structure']['axes'] = ['x_downstream', 'y_spanwise', 'z_up']
         case['structure']['normalization'] = 'unit_modal_mass'
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("normalization", error)
@@ -138,7 +138,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of wrong damping kind."""
         case = copy.deepcopy(self.fixture)
         case['structure']['modes'][0]['damping']['kind'] = 'invalid'
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("damping kind", error)
@@ -147,7 +147,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of negative mass."""
         case = copy.deepcopy(self.fixture)
         case['structure']['modes'][0]['mass_kg'] = -1.0
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("mass_kg", error)
@@ -156,7 +156,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of negative damping."""
         case = copy.deepcopy(self.fixture)
         case['structure']['modes'][0]['damping']['c_kg_per_s'] = -0.1
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("damping coefficient", error)
@@ -166,7 +166,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         case = copy.deepcopy(self.fixture)
         # m=2, k=18, expected freq = sqrt(18/2)/(2*pi) = 0.477... Hz
         case['structure']['modes'][0]['frequency_hz'] = 1.0
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("frequency", error)
@@ -176,7 +176,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         case = copy.deepcopy(self.fixture)
         case['structure']['modes'][0]['damping']['kind'] = 'unknown'
         case['structure']['modes'][0]['damping']['c_kg_per_s'] = 0.5
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("unknown", error)
@@ -185,7 +185,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of NaN values."""
         case = copy.deepcopy(self.fixture)
         case['structure']['initial_q_m'][0] = float('nan')
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("finite", error)
@@ -194,7 +194,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of boolean numeric values."""
         case = copy.deepcopy(self.fixture)
         case['structure']['initial_q_m'][0] = True
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("numeric, not boolean", error)
@@ -203,7 +203,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of incorrect node count in mode shape."""
         case = copy.deepcopy(self.fixture)
         case['structure']['modes'][0]['shape'] = [[0, 0, 0]]  # Only 1 node
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("shape", error)
@@ -213,7 +213,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         case = copy.deepcopy(self.fixture)
         case['configuration']['axes'] = ['x_downstream', 'y_spanwise', 'z_up']
         case['configuration']['time_unit'] = 'ms'
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("time_unit", error)
@@ -223,7 +223,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         case = copy.deepcopy(self.fixture)
         case['structure']['axes'] = ['x_downstream', 'y_spanwise', 'z_up']
         case['structure']['components'] = ['ux', 'uy']
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("components", error)
@@ -233,7 +233,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         case = copy.deepcopy(self.fixture)
         case['structure']['axes'] = ['x_downstream', 'y_spanwise', 'z_up']
         case['structure']['basis_units'] = 'm'
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("basis_units", error)
@@ -243,7 +243,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         case = copy.deepcopy(self.fixture)
         case['structure']['axes'] = ['x_downstream', 'y_spanwise', 'z_up']
         case['structure']['coordinate_units'] = 'cm'
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("coordinate_units", error)
@@ -252,7 +252,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of wrong force unit."""
         case = copy.deepcopy(self.fixture)
         case['aerodynamics']['force_unit'] = 'kN'
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("force_unit", error)
@@ -261,7 +261,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of wrong quantity."""
         case = copy.deepcopy(self.fixture)
         case['aerodynamics']['quantity'] = 'pressure'
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("quantity", error)
@@ -270,7 +270,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of wrong pressure meaning."""
         case = copy.deepcopy(self.fixture)
         case['aerodynamics']['pressure_meaning'] = 'stagnation'
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("pressure_meaning", error)
@@ -279,7 +279,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of wrong time convention."""
         case = copy.deepcopy(self.fixture)
         case['aerodynamics']['time_convention'] = 'seconds_to_end'
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("time_convention", error)
@@ -288,7 +288,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of non-strictly-increasing times."""
         case = copy.deepcopy(self.fixture)
         case['aerodynamics']['times_s'] = [0.0, 0.1, 0.1, 0.2]
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("strictly increasing", error)
@@ -297,7 +297,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of times not starting at zero."""
         case = copy.deepcopy(self.fixture)
         case['aerodynamics']['times_s'] = [0.01, 0.1, 0.2]
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("start at zero", error)
@@ -306,7 +306,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of wrong source_kind."""
         case = copy.deepcopy(self.fixture)
         case['aerodynamics']['source_kind'] = 'wrong_kind'
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("source_kind", error)
@@ -315,7 +315,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of wrong history_kind."""
         case = copy.deepcopy(self.fixture)
         case['aerodynamics']['history_kind'] = 'steady'
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("history", error)
@@ -333,7 +333,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         case = copy.deepcopy(self.fixture)
         case['aerodynamics']['source_kind'] = 'solver_export'
         case['aerodynamics']['density_kg_m3'] = None
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("density_kg_m3", error)
@@ -343,7 +343,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         case = copy.deepcopy(self.fixture)
         case['configuration']['axes'] = ['x_downstream', 'y_spanwise', 'z_up']
         case['configuration']['reference_shape'] = 'deflected'
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("reference_shape", error)
@@ -352,7 +352,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of missing provenance scope."""
         case = copy.deepcopy(self.fixture)
         del case['provenance']['scope']
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("scope", error)
@@ -361,7 +361,7 @@ class PortableCaseValidationTests(unittest.TestCase):
         """Test rejection of empty provenance scope."""
         case = copy.deepcopy(self.fixture)
         case['provenance']['scope'] = ""
-        
+
         is_valid, error = self.pc.validate_case(case)
         self.assertFalse(is_valid)
         self.assertIn("scope", error)
@@ -374,14 +374,14 @@ class PortableCaseRunTests(unittest.TestCase):
     def setUpClass(cls):
         """Load the portable_case module once for all tests."""
         cls.scripts_dir = Path(__file__).resolve().parents[1] / 'scripts'
-        
+
         import importlib.util
         spec = importlib.util.spec_from_file_location(
             'portable_case', cls.scripts_dir / 'portable_case.py'
         )
         cls.pc = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(cls.pc)
-        
+
         # Load the fixture
         cls.fixture, cls.fixture_sha256 = load_test_case()
 
@@ -390,11 +390,11 @@ class PortableCaseRunTests(unittest.TestCase):
         case = copy.deepcopy(self.fixture)
         case['structure']['modes'][0]['damping']['kind'] = 'unknown'
         case['structure']['modes'][0]['damping']['c_kg_per_s'] = None
-        
+
         # Validate should pass but run should fail
         is_valid, _ = self.pc.validate_case(case)
         self.assertTrue(is_valid)
-        
+
         with self.assertRaises(ValueError) as ctx:
             self.pc.run_case(case)
         self.assertIn("unknown", str(ctx.exception))
@@ -402,25 +402,25 @@ class PortableCaseRunTests(unittest.TestCase):
     def test_run_case_valid_fixture(self):
         """Test that valid fixture runs and produces output."""
         case = copy.deepcopy(self.fixture)
-        
+
         is_valid, _ = self.pc.validate_case(case)
         self.assertTrue(is_valid)
-        
+
         result = self.pc.run_case(case)
-        
+
         # Check output structure
         self.assertEqual(result['schema_version'], 1)
         self.assertEqual(result['profile'], 'diagonal_modal_point_forces')
         self.assertEqual(result['case_id'], 'modal-free-decay-reference')
         self.assertEqual(result['input_sha256'], hashlib.sha256(json.dumps(case, sort_keys=True, allow_nan=False).encode()).hexdigest())
-        
+
         # Check numerical results
         self.assertIn('numerical_results', result)
         nr = result['numerical_results']
         self.assertEqual(nr['time_samples'], 321)
         self.assertIn('time_history', nr)
         th = nr['time_history']
-        
+
         # Check time history arrays
         self.assertIn('times_s', th)
         self.assertIn('modal_displacements_m', th)
@@ -429,10 +429,10 @@ class PortableCaseRunTests(unittest.TestCase):
         self.assertIn('generalized_forces_N', th)
         self.assertIn('physical_node_displacements_m', th)
         self.assertIn('mean_tip_displacement_m', th)
-        
+
         # Check time array starts at 0
         self.assertEqual(th['times_s'][0], 0.0)
-        
+
         # Check that we have the expected number of samples
         self.assertEqual(len(th['times_s']), nr['time_samples'])
         self.assertEqual(len(th['modal_displacements_m']), nr['time_samples'])
@@ -440,10 +440,10 @@ class PortableCaseRunTests(unittest.TestCase):
     def test_run_case_initial_conditions(self):
         """Test that initial conditions are preserved."""
         case = copy.deepcopy(self.fixture)
-        
+
         result = self.pc.run_case(case)
         th = result['numerical_results']['time_history']
-        
+
         # First sample should match initial conditions
         self.assertAlmostEqual(th['modal_displacements_m'][0][0], 0.7, places=10)
         self.assertAlmostEqual(th['modal_velocities_m_per_s'][0][0], -0.4, places=10)
@@ -451,15 +451,15 @@ class PortableCaseRunTests(unittest.TestCase):
     def test_run_case_frequency(self):
         """Test that the frequency is correct for the free-decay case."""
         case = copy.deepcopy(self.fixture)
-        
+
         result = self.pc.run_case(case)
         nr = result['numerical_results']
         th = nr['time_history']
-        
+
         # Time step from fixture
         dt = nr['time_steps_s'][0]
         self.assertAlmostEqual(dt, 0.00228125, places=10)
-        
+
         # Check that we have 321 samples (T=0.73s, dt=0.00228125 => 320 steps + 1)
         self.assertEqual(len(th['times_s']), 321)
 
@@ -471,21 +471,21 @@ class PortableCaseScalingTests(unittest.TestCase):
     def setUpClass(cls):
         """Load the portable_case module once for all tests."""
         cls.scripts_dir = Path(__file__).resolve().parents[1] / 'scripts'
-        
+
         import importlib.util
         spec = importlib.util.spec_from_file_location(
             'portable_case', cls.scripts_dir / 'portable_case.py'
         )
         cls.pc = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(cls.pc)
-        
+
         # Load the fixture
         cls.fixture, cls.fixture_sha256 = load_test_case()
 
     def test_negative_mode_scaling_invariance(self):
         """Test that negative mode scaling preserves motion and work."""
         case = copy.deepcopy(self.fixture)
-        
+
         # Scale mode by -2
         scale = -2.0
         case['structure']['modes'][0]['shape'] = [
@@ -498,18 +498,18 @@ class PortableCaseScalingTests(unittest.TestCase):
         case['structure']['modes'][0]['damping']['c_kg_per_s'] *= scale * scale
         case['structure']['initial_q_m'][0] /= scale
         case['structure']['initial_v_m_per_s'][0] /= scale
-        
+
         is_valid, _ = self.pc.validate_case(case)
         self.assertTrue(is_valid)
-        
+
         result = self.pc.run_case(case)
         th = result['numerical_results']['time_history']
-        
+
         # Check that physical displacements match original
         original_case = copy.deepcopy(self.fixture)
         original_result = self.pc.run_case(original_case)
         original_th = original_result['numerical_results']['time_history']
-        
+
         # Physical displacements should be the same
         for t_idx in range(len(th['times_s'])):
             for node_idx in range(len(th['physical_node_displacements_m'][t_idx])):
@@ -528,7 +528,7 @@ class PortableCaseCLITests(unittest.TestCase):
     def setUpClass(cls):
         """Load the portable_case module once for all tests."""
         cls.project_dir = Path(__file__).resolve().parents[1]
-        
+
         # Load the fixture
         cls.fixture, cls.fixture_sha256 = load_test_case()
 
@@ -549,14 +549,14 @@ class PortableCaseCLITests(unittest.TestCase):
         """Test that CLI handles invalid input file."""
         import subprocess
         import tempfile
-        
+
         with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
             f.write('{"invalid": "json"}')
             f.flush()
             invalid_file = f.name
-        
+
         output_file = tempfile.mktemp(suffix='.json')
-        
+
         try:
             result = subprocess.run(
                 [sys.executable, '-m', 'scripts.portable_case', invalid_file, '--output', output_file],
@@ -575,10 +575,10 @@ class PortableCaseCLITests(unittest.TestCase):
         """Test that CLI runs successfully on valid fixture."""
         import subprocess
         import tempfile
-        
+
         fixture_path = Path(__file__).resolve().parent / 'fixtures' / 'portable_case' / 'free_decay.json'
         output_file = tempfile.mktemp(suffix='.json')
-        
+
         try:
             result = subprocess.run(
                 [sys.executable, '-m', 'scripts.portable_case', str(fixture_path), '--output', output_file],
@@ -589,12 +589,12 @@ class PortableCaseCLITests(unittest.TestCase):
             self.assertEqual(result.returncode, 0)
             self.assertIn('Output written', result.stdout)
             self.assertIn('Input SHA256', result.stdout)
-            
+
             # Check output file exists and is valid JSON
             self.assertTrue(os.path.exists(output_file))
             with open(output_file, 'r') as f:
                 output = json.load(f)
-            
+
             self.assertEqual(output['case_id'], 'modal-free-decay-reference')
         finally:
             if os.path.exists(output_file):
@@ -604,10 +604,10 @@ class PortableCaseCLITests(unittest.TestCase):
         """Test that output contains correct input hash."""
         import subprocess
         import tempfile
-        
+
         fixture_path = Path(__file__).resolve().parent / 'fixtures' / 'portable_case' / 'free_decay.json'
         output_file = tempfile.mktemp(suffix='.json')
-        
+
         try:
             result = subprocess.run(
                 [sys.executable, '-m', 'scripts.portable_case', str(fixture_path), '--output', output_file],
@@ -616,11 +616,11 @@ class PortableCaseCLITests(unittest.TestCase):
                 cwd=self.project_dir
             )
             self.assertEqual(result.returncode, 0)
-            
+
             # Check output file contains correct hash
             with open(output_file, 'r') as f:
                 output = json.load(f)
-            
+
             self.assertEqual(output['input_sha256'], self.fixture_sha256)
         finally:
             if os.path.exists(output_file):

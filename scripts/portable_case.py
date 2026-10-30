@@ -177,7 +177,7 @@ def _validateDampingKind(damping: Dict[str, Any]) -> Tuple[str, Optional[float]]
     kind = damping.get('kind')
     if kind not in ('assumed', 'measured', 'unknown'):
         raise ValueError(f'Unsupported damping kind: {kind}')
-    
+
     if kind == 'unknown':
         if 'c_kg_per_s' not in damping:
             raise ValueError('unknown damping must have explicit null c_kg_per_s')
@@ -197,14 +197,14 @@ def _validateDampingKind(damping: Dict[str, Any]) -> Tuple[str, Optional[float]]
 
 def validate_case(case: Dict[str, Any]) -> Tuple[bool, str]:
     """Validate a portable case against the v1 contract.
-    
+
     Returns (is_valid, error_message). Does not execute any simulation.
     Does not modify the input case.
     """
     import copy
     # Deep copy to avoid modifying input
     case = copy.deepcopy(case)
-    
+
     try:
         # Schema version and profile
         if not isinstance(case, dict):
@@ -213,16 +213,16 @@ def validate_case(case: Dict[str, Any]) -> Tuple[bool, str]:
             raise ValueError('schema_version must be 1')
         if case.get('profile') != 'diagonal_modal_point_forces':
             raise ValueError('profile must be "diagonal_modal_point_forces"')
-        
+
         # Basic identifiers
         if not isinstance(case.get('case_id'), str) or not case['case_id']:
             raise ValueError('case_id must be a nonempty string')
-        
+
         # Configuration section
         config = case.get('configuration')
         if not isinstance(config, dict):
             raise ValueError('configuration must be a dictionary')
-        
+
         _validateNonemptyString(config.get('id'), 'configuration.id')
         for field in ('support_conditions', 'joint_state'):
             _validateNonemptyString(config.get(field), 'configuration.' + field)
@@ -237,85 +237,85 @@ def validate_case(case: Dict[str, Any]) -> Tuple[bool, str]:
             raise ValueError('time_unit must be "s"')
         if config.get('reference_shape') != 'undeformed':
             raise ValueError('reference_shape must be "undeformed"')
-        
+
         # Geometry section
         geom = case.get('geometry')
         if not isinstance(geom, dict):
             raise ValueError('geometry must be a dictionary')
-        
+
         _validateIdsMatch(geom.get('configuration_id'), config.get('id'), 'geometry.configuration_id')
         node_ids = geom.get('node_ids')
         _validateUniqueIds(node_ids, 'geometry.node_ids')
         nodes = geom.get('nodes_m')
         _validateArrayShape(nodes, (len(node_ids), 3), 'geometry.nodes_m')
         _validateFiniteArray(nodes, 'geometry.nodes_m')
-        
+
         tip_ids = geom.get('tip_node_ids')
         _validateUniqueIds(tip_ids, 'tip_node_ids')
         if not tip_ids:
             raise ValueError('tip_node_ids must be nonempty')
         if not all(tip in node_ids for tip in tip_ids):
             raise ValueError('tip_node_ids must be a subset of geometry.node_ids')
-        
+
         # Structure section
         struct = case.get('structure')
         if not isinstance(struct, dict):
             raise ValueError('structure must be a dictionary')
-        
+
         _validateIdsMatch(struct.get('configuration_id'), config.get('id'), 'structure.configuration_id')
         struct_node_ids = struct.get('node_ids')
         _validateIdsMatch(struct_node_ids, node_ids, 'structure.node_ids')
-        
+
         components = struct.get('components')
         if components != ['ux', 'uy', 'uz']:
             raise ValueError('structure.components must be ["ux", "uy", "uz"]')
-        
+
         if struct.get('basis_units') != 'dimensionless':
             raise ValueError('structure.basis_units must be "dimensionless"')
         if struct.get('coordinate_units') != 'm':
             raise ValueError('structure.coordinate_units must be "m"')
         if struct.get('normalization') != 'explicit_modal_mass':
             raise ValueError('structure.normalization must be "explicit_modal_mass"')
-        
+
         modes = struct.get('modes')
         if not isinstance(modes, list) or not modes:
             raise ValueError('structure.modes must be a nonempty list')
-        
+
         # Validate each mode
         for i, mode in enumerate(modes):
             if not isinstance(mode, dict):
                 raise ValueError(f'modes[{i}] must be a dictionary')
-            
+
             _validateNonemptyString(mode.get('id'), f'modes[{i}].id')
-            
+
             shape = mode.get('shape')
             if not isinstance(shape, list) or len(shape) != len(node_ids):
                 raise ValueError(f'modes[{i}].shape must have {len(node_ids)} nodes')
             _validateArrayShape(shape, (len(node_ids), 3), f'modes[{i}].shape')
             _validateFiniteArray(shape, f'modes[{i}].shape')
-            
+
             mass = mode.get('mass_kg')
             _validateFinitePositive(mass, f'modes[{i}].mass_kg')
-            
+
             stiffness = mode.get('stiffness_N_per_m')
             _validateFiniteNonnegative(stiffness, f'modes[{i}].stiffness_N_per_m')
-            
+
             freq_hz = mode.get('frequency_hz')
             _validateFinite(freq_hz, f'modes[{i}].frequency_hz')
             if freq_hz < 0:
                 raise ValueError(f'modes[{i}].frequency_hz must be positive')
-            
+
             _validateModalMassFrequency(mass, stiffness, 0, freq_hz)
-            
+
             damping = mode.get('damping')
             damping_kind, damping_val = _validateDampingKind(damping)
             mode['_damping_kind'] = damping_kind
             mode['_damping_val'] = damping_val
-            
+
             # Check that unknown damping is properly marked
             if damping_kind == 'unknown' and damping_val is not None:
                 raise ValueError(f'modes[{i}].damping unknown must have null coefficient')
-        
+
         _validateUniqueIds([m['id'] for m in modes], 'mode IDs')
         # Initial conditions
         init_q = struct.get('initial_q_m')
@@ -327,37 +327,37 @@ def validate_case(case: Dict[str, Any]) -> Tuple[bool, str]:
         if not isinstance(init_v, list) or len(init_v) != n_modes:
             raise ValueError(f'initial_v_m_per_s must have {n_modes} elements')
         _validateArrayShape(init_v, (n_modes,), 'initial_v_m_per_s')
-        
+
         # Aerodynamics section
         aero = case.get('aerodynamics')
         if not isinstance(aero, dict):
             raise ValueError('aerodynamics must be a dictionary')
-        
+
         _validateIdsMatch(aero.get('configuration_id'), config.get('id'), 'aerodynamics.configuration_id')
         aero_node_ids = aero.get('node_ids')
         _validateIdsMatch(aero_node_ids, node_ids, 'aerodynamics.node_ids')
-        
+
         source_kind = aero.get('source_kind')
         if source_kind not in ('synthetic_prescribed', 'solver_export'):
             raise ValueError('aerodynamics.source_kind must be "synthetic_prescribed" or "solver_export"')
-        
+
         history_kind = aero.get('history_kind')
         if history_kind not in ('time_history', 'steady'):
             raise ValueError('aerodynamics.history_kind must be "time_history"')
-        
+
         if aero.get('quantity') != 'integrated_point_force':
             raise ValueError('aerodynamics.quantity must be "integrated_point_force"')
         if aero.get('force_unit') != 'N':
             raise ValueError('aerodynamics.force_unit must be "N"')
-        
+
         pressure_meaning = aero.get('pressure_meaning')
         if pressure_meaning != 'not_applicable':
             raise ValueError('aerodynamics.pressure_meaning must be "not_applicable"')
-        
+
         time_convention = aero.get('time_convention')
         if time_convention != 'seconds_from_start':
             raise ValueError('aerodynamics.time_convention must be "seconds_from_start"')
-        
+
         if aero.get('load_reference') != 'fixed_reference_geometry':
             raise ValueError('load_reference must be fixed_reference_geometry')
         for field in ('density_kg_m3', 'reference_area_m2', 'reference_length_m', 'airspeed_m_s'):
@@ -388,13 +388,13 @@ def validate_case(case: Dict[str, Any]) -> Tuple[bool, str]:
                 raise ValueError(f'aerodynamics.forces_N[{t_idx}] must have {len(node_ids)} nodes')
             _validateArrayShape(time_forces, (len(node_ids), 3), f'aerodynamics.forces_N[{t_idx}]')
             _validateFiniteArray(time_forces, f'aerodynamics.forces_N[{t_idx}]')
-        
+
         # Moment origin
         moment_origin = aero.get('moment_origin_m')
         if not isinstance(moment_origin, list) or len(moment_origin) != 3:
             raise ValueError('aerodynamics.moment_origin_m must have 3 components')
         _validateArrayShape(moment_origin, (3,), 'aerodynamics.moment_origin_m')
-        
+
         # Extension and overlap (can be null or finite nonnegative)
         extension = config.get('extension_m')
         if extension is not None:
@@ -402,7 +402,7 @@ def validate_case(case: Dict[str, Any]) -> Tuple[bool, str]:
         overlap = config.get('overlap_m')
         if overlap is not None:
             _validateFiniteNonnegative(overlap, 'configuration.overlap_m')
-        
+
         # Measurements section (empty is valid)
         measurements = case.get('measurements', [])
         if not isinstance(measurements, list):
@@ -414,41 +414,41 @@ def validate_case(case: Dict[str, Any]) -> Tuple[bool, str]:
                 raise ValueError(f'measurements[{i}] must be a dictionary')
             _validateNonemptyString(meas.get('id'), f'measurements[{i}].id')
             _validateIdsMatch(meas.get('configuration_id'), config.get('id'), f'measurements[{i}].configuration_id')
-            
+
             kind = meas.get('kind')
             if kind not in ('modal', 'steady_aero', 'dynamic_aero'):
                 raise ValueError(f'measurements[{i}].kind must be modal/steady_aero/dynamic_aero')
-            
+
             env = meas.get('environment')
             if env not in ('ground', 'in_flow'):
                 raise ValueError(f'measurements[{i}].environment must be ground/in_flow')
-            
+
             role = meas.get('role')
             if role not in ('calibration', 'validation'):
                 raise ValueError(f'measurements[{i}].role must be calibration/validation')
-            
+
             data_status = meas.get('data_status')
             if data_status != 'metadata_only':
                 raise ValueError(f'measurements[{i}].data_status must be metadata_only')
-            
+
             channels = meas.get('channels')
             if not isinstance(channels, list) or not channels:
                 raise ValueError(f'measurements[{i}].channels must be nonempty')
-            
+
             _validateUniqueIds([ch.get('id') if isinstance(ch, dict) else None for ch in channels], 'channel IDs')
             for j, ch in enumerate(channels):
                 if not isinstance(ch, dict):
                     raise ValueError(f'measurements[{i}].channels[{j}] must be a dictionary')
                 _validateNonemptyString(ch.get('id'), f'measurements[{i}].channels[{j}].id')
-                
+
                 pos = ch.get('position_m')
                 _validateArrayShape(pos, (3,), f'measurements[{i}].channels[{j}].position_m')
                 if len(pos) != 3:
                     raise ValueError(f'measurements[{i}].channels[{j}].position_m must have 3 components')
-                
+
                 direction = ch.get('direction')
                 _validateDirection(direction, f'measurements[{i}].channels[{j}].direction')
-                
+
                 quantity = ch.get('quantity')
                 unit = ch.get('unit')
                 valid_pairs = [
@@ -459,14 +459,14 @@ def validate_case(case: Dict[str, Any]) -> Tuple[bool, str]:
                 ]
                 if (quantity, unit) not in valid_pairs:
                     raise ValueError(f'measurements[{i}].channels[{j}] invalid quantity/unit pair')
-                
+
                 excitation = ch.get('excitation')
                 if not isinstance(excitation, dict):
                     raise ValueError(f'measurements[{i}].channels[{j}].excitation must be a dictionary')
                 if 'known' not in excitation or not isinstance(excitation['known'], bool):
                     raise ValueError(f'measurements[{i}].channels[{j}].excitation.known must be boolean')
                 _validateNonemptyString(excitation.get('description'), f'measurements[{i}].channels[{j}].excitation.description')
-                
+
                 sample_axis = ch.get('sample_axis')
                 if not isinstance(sample_axis, dict):
                     raise ValueError(f'measurements[{i}].channels[{j}].sample_axis must be a dictionary')
@@ -483,11 +483,11 @@ def validate_case(case: Dict[str, Any]) -> Tuple[bool, str]:
                 for k in range(1, len(axis_values)):
                     if axis_values[k] <= axis_values[k-1]:
                         raise ValueError(f'measurements[{i}].channels[{j}].sample_axis.values must be strictly increasing')
-                
+
                 phase_conv = ch.get('phase_convention')
                 if phase_conv is not None and (not isinstance(phase_conv, str) or not phase_conv):
                     raise ValueError(f'measurements[{i}].channels[{j}].phase_convention must be nonempty or null')
-                
+
                 uncertainty = ch.get('uncertainty')
                 if not isinstance(uncertainty, dict):
                     raise ValueError(f'measurements[{i}].channels[{j}].uncertainty must be a dictionary')
@@ -495,7 +495,7 @@ def validate_case(case: Dict[str, Any]) -> Tuple[bool, str]:
                 if unc_status not in ('unknown', 'specified'):
                     raise ValueError(f'measurements[{i}].channels[{j}].uncertainty.status must be unknown/specifies')
                 _validateNonemptyString(uncertainty.get('description'), f'measurements[{i}].channels[{j}].uncertainty.description')
-                
+
                 provenance = ch.get('provenance')
                 if not isinstance(provenance, dict):
                     raise ValueError(f'measurements[{i}].channels[{j}].provenance must be a dictionary')
@@ -508,16 +508,16 @@ def validate_case(case: Dict[str, Any]) -> Tuple[bool, str]:
                         int(sha256, 16)
                     except ValueError:
                         raise ValueError(f'measurements[{i}].channels[{j}].provenance.sha256 must be hex')
-        
+
         # Provenance section
         provenance = case.get('provenance')
         if not isinstance(provenance, dict):
             raise ValueError('provenance must be a dictionary')
         _validateNonemptyString(provenance.get('scope'), 'provenance.scope')
         _validateNonemptyString(provenance.get('source'), 'provenance.source')
-        
+
         return True, ""
-    
+
     except (ValueError, TypeError, OverflowError) as e:
         return False, str(e)
 
