@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "evidence_scope": "Limited mesh log/layer gate; not yPlus, flow or physical qualification",
+  "input": {
+    "wall_surface": "/home/connellwc83/projects/openfoam/runs/instability-20261030/cfd-fine-pc/postProcessing/slices/0/wingSurface.vtk",
+    "wall_surface_hash": "92444544358f4033ee385b7e11965548981dba3a0bcd717f6d82b1304bc151dc",
+    "mesh_log": "/home/connellwc83/projects/openfoam/runs/instability-20261030/cfd-fine-pc/log.scaledQuality",
+    "mesh_log_hash": "0d0d3f4f217960d498bf566a18a43b70129469055d526b0af9827a1cd4ad60f3"
+  },
+  "parameters": {
+    "requested_layers": 12,
+    "minimum_coverage": 0.9
+  },
+  "metrics": {
+    "total_faces": 411589,
+    "total_area": 0.5088805131292822,
+    "faces_with_layers": 406712,
+    "area_with_layers": 0.5028945795991392,
+    "face_coverage": 0.9881508009203356,
+    "area_coverage": 0.988237054916225,
+    "weighted_layer_count": 10.066703643789536,
+    "min_layer": 0,
+    "max_layer": 12,
+    "full_area": 0.35289908648603857,
+    "full_area_coverage": 0.6934812345553185,
+    "requested_layers": 12,
+    "min_coverage": 0.9
+  },
+  "mesh_check": {
+    "result": {
+      "mesh_ok": true,
+      "failed_checks": 0,
+      "raw_status": "ok"
+    }
+  },
+  "coverage": {
+    "gate_passed": true,
+    "actual_coverage": 0.988237054916225
+  },
+  "overall": {
+    "status": "pass",
+    "gate_passed": true
+  }
+}

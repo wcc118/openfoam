@@ -1,0 +1,57 @@
+{
+  "windows_directory": "G:\\projects\\openfoam\\viewers",
+  "scope": "Existing preview hashes rechecked, plus final report and completed unqualified CFD comparison.",
+  "files": [
+    {
+      "name": "wing-instability-comparison.html",
+      "sha256": "6601c46821086bb16697f220583429210b162c4d94ed1b984ef5bc1324a42152",
+      "actual_sha256": "6601c46821086bb16697f220583429210b162c4d94ed1b984ef5bc1324a42152",
+      "bytes": 3625428,
+      "verified": true
+    },
+    {
+      "name": "goland-instability-comparison.html",
+      "sha256": "3bde78f4c58ada662a73ba20f99416b91cffb33e629878a3c56a064e8a943870",
+      "actual_sha256": "3bde78f4c58ada662a73ba20f99416b91cffb33e629878a3c56a064e8a943870",
+      "bytes": 218748,
+      "verified": true
+    },
+    {
+      "name": "instability-comparison.png",
+      "sha256": "ba40cf5151f911f13473c73b45328d639f82625d144623b175417f3d1fdc4f42",
+      "actual_sha256": "ba40cf5151f911f13473c73b45328d639f82625d144623b175417f3d1fdc4f42",
+      "bytes": 347155,
+      "verified": true
+    },
+    {
+      "name": "extended-wing-fine-layer-coverage.png",
+      "sha256": "083e59a9aff8bc30fd2f03c7f8e6191246d0a67dcc82ec2da3b14dfd0de5b6fd",
+      "actual_sha256": "083e59a9aff8bc30fd2f03c7f8e6191246d0a67dcc82ec2da3b14dfd0de5b6fd",
+      "bytes": 85801,
+      "verified": true
+    },
+    {
+      "name": "extended-wing-fine-mesh-slices.png",
+      "sha256": "11213de09a65090b520bc5c040b3e446a401c0bacb76e35e2105496e7ee625b6",
+      "actual_sha256": "11213de09a65090b520bc5c040b3e446a401c0bacb76e35e2105496e7ee625b6",
+      "bytes": 457825,
+      "verified": true
+    },
+    {
+      "name": "OVERNIGHT_FSI_20261030.md",
+      "sha256": "a8013e18712169774b09b4f435b7d9213f570b304f0c2eeba198ddd505d3072b",
+      "actual_sha256": "a8013e18712169774b09b4f435b7d9213f570b304f0c2eeba198ddd505d3072b",
+      "bytes": 13918,
+      "verified": true
+    },
+    {
+      "name": "cfd-force-work-comparison.png",
+      "sha256": "31443d91fd800f42238bfa1f0e662d788f9d45d893c05b76c5e33930e332f50a",
+      "actual_sha256": "31443d91fd800f42238bfa1f0e662d788f9d45d893c05b76c5e33930e332f50a",
+      "bytes": 263188,
+      "verified": true
+    }
+  ],
+  "verified_utc": "2026-10-30T07:43:12Z",
+  "all_verified": true
+}

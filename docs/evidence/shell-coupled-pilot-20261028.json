@@ -1,0 +1,1506 @@
+{
+  "scope": "Exploratory native shell UVLM pilot and fixed-mesh benchmark temporal study, issue36; not qualified flutter",
+  "source_commit": "a4154d471c30f15db9af6524763ea250bb46c7b8",
+  "image": "sha256:53f45db26c471d5d35b1aac8b77826f642f2b4dd74b8a1311838a3bb31e8de9a",
+  "cases": {
+    "goland-cfl1-v2": {
+      "model": "goland",
+      "scope": "Exploratory pipeline test; not qualified flutter",
+      "M": 16,
+      "N_per_half": 16,
+      "wake_chords": 10,
+      "modes": 2,
+      "cfl": 1.0,
+      "status": "executed_exploratory_not_qualified",
+      "input_sha256": "27d320dc7077a0bb02964a4fb12f37bc4c3203bc20e4cfa0969111ee674b2877",
+      "dt_at_1m_s": 0.1143,
+      "geometry_sha256": "d0a86104ed0f74f2a68a6efe9bca11c053248ab0d85c22fbf0007bd5391040f0",
+      "wake_spacing_m": 0.1143,
+      "rho_kg_m3": 1.02,
+      "frequencies_hz": [
+        7.637391154071827,
+        15.219466046417386
+      ],
+      "work_absolute_error": 2.7755575615628914e-16,
+      "reference_force_at_1m_s_N": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "reference_generalized_force_at_1m_s": [
+        0.0,
+        0.0
+      ],
+      "equilibrium": "unloaded flat equilibrium",
+      "full_aero_states": 6656,
+      "rom_aero_states": 12,
+      "rom_radius": 0.9714419467097732,
+      "rom_stable": true,
+      "causal_full_rom_transfer_checks": [
+        {
+          "frequency_rad_s": 50.0,
+          "relative_frobenius_error": 0.0001073977674210987
+        },
+        {
+          "frequency_rad_s": 70.0,
+          "relative_frobenius_error": 0.00035290379559347414
+        },
+        {
+          "frequency_rad_s": 100.0,
+          "relative_frobenius_error": 0.0007607950822136694
+        }
+      ],
+      "sweeps": [
+        {
+          "causal": true,
+          "assumed_modal_damping_ratio": 0.0,
+          "rows": [
+            {
+              "speed_m_s": 150.0,
+              "dominant_growth_per_s": -2.858963050045757,
+              "dominant_frequency_hz": 11.868287130534279,
+              "tracked_growth_per_s": -2.858963050045757,
+              "tracked_frequency_hz": 11.868287130534279,
+              "tracked_adjacent_mac": 1.0,
+              "largest_nonoscillatory_growth_per_s": -34.79550294753011
+            },
+            {
+              "speed_m_s": 155.0,
+              "dominant_growth_per_s": -2.0305099693271265,
+              "dominant_frequency_hz": 11.620421037479923,
+              "tracked_growth_per_s": -2.0305099693271265,
+              "tracked_frequency_hz": 11.620421037479923,
+              "tracked_adjacent_mac": 0.9964224093023987,
+              "largest_nonoscillatory_growth_per_s": -35.66177897781816
+            },
+            {
+              "speed_m_s": 160.0,
+              "dominant_growth_per_s": -0.9612325226051432,
+              "dominant_frequency_hz": 11.391193146177399,
+              "tracked_growth_per_s": -0.9612325226051432,
+              "tracked_frequency_hz": 11.391193146177399,
+              "tracked_adjacent_mac": 0.9968291675449097,
+              "largest_nonoscillatory_growth_per_s": -36.48567652946579
+            },
+            {
+              "speed_m_s": 162.0,
+              "dominant_growth_per_s": -0.4821706486546584,
+              "dominant_frequency_hz": 11.308382458131076,
+              "tracked_growth_per_s": -0.4821706486546584,
+              "tracked_frequency_hz": 11.308382458131076,
+              "tracked_adjacent_mac": 0.9995597205430974,
+              "largest_nonoscillatory_growth_per_s": -36.802308068657645
+            },
+            {
+              "speed_m_s": 164.0,
+              "dominant_growth_per_s": 0.015067526732255046,
+              "dominant_frequency_hz": 11.231475818837486,
+              "tracked_growth_per_s": 0.015067526732255046,
+              "tracked_frequency_hz": 11.231475818837486,
+              "tracked_adjacent_mac": 0.9996034286691337,
+              "largest_nonoscillatory_growth_per_s": -37.11104718933284
+            },
+            {
+              "speed_m_s": 166.0,
+              "dominant_growth_per_s": 0.5227762571556883,
+              "dominant_frequency_hz": 11.160502219310645,
+              "tracked_growth_per_s": 0.5227762571556883,
+              "tracked_frequency_hz": 11.160502219310645,
+              "tracked_adjacent_mac": 0.9996466694542168,
+              "largest_nonoscillatory_growth_per_s": -37.41152705852697
+            },
+            {
+              "speed_m_s": 168.0,
+              "dominant_growth_per_s": 1.0341963659739926,
+              "dominant_frequency_hz": 11.095181441526885,
+              "tracked_growth_per_s": 1.0341963659739926,
+              "tracked_frequency_hz": 11.095181441526885,
+              "tracked_adjacent_mac": 0.9996874912594262,
+              "largest_nonoscillatory_growth_per_s": -37.703356592931385
+            },
+            {
+              "speed_m_s": 170.0,
+              "dominant_growth_per_s": 1.5439393144425508,
+              "dominant_frequency_hz": 11.035032892435007,
+              "tracked_growth_per_s": 1.5439393144425508,
+              "tracked_frequency_hz": 11.035032892435007,
+              "tracked_adjacent_mac": 0.9997246883359491,
+              "largest_nonoscillatory_growth_per_s": -37.986118333951794
+            },
+            {
+              "speed_m_s": 175.0,
+              "dominant_growth_per_s": 2.7880569413126635,
+              "dominant_frequency_hz": 10.90346837071704,
+              "tracked_growth_per_s": 2.7880569413126635,
+              "tracked_frequency_hz": 10.90346837071704,
+              "tracked_adjacent_mac": 0.9986213567252628,
+              "largest_nonoscillatory_growth_per_s": -38.650345317630645
+            }
+          ],
+          "oscillatory_crossing_brackets_m_s": [
+            [
+              162.0,
+              164.0
+            ]
+          ]
+        },
+        {
+          "causal": false,
+          "assumed_modal_damping_ratio": 0.0,
+          "rows": [
+            {
+              "speed_m_s": 150.0,
+              "dominant_growth_per_s": -4.109076962701458,
+              "dominant_frequency_hz": 11.776734184363516,
+              "tracked_growth_per_s": -4.109076962701458,
+              "tracked_frequency_hz": 11.776734184363516,
+              "tracked_adjacent_mac": 1.0,
+              "largest_nonoscillatory_growth_per_s": -34.67303623480856
+            },
+            {
+              "speed_m_s": 155.0,
+              "dominant_growth_per_s": -3.1612329063794466,
+              "dominant_frequency_hz": 11.497658220483792,
+              "tracked_growth_per_s": -3.1612329063794466,
+              "tracked_frequency_hz": 11.497658220483792,
+              "tracked_adjacent_mac": 0.9957078246186615,
+              "largest_nonoscillatory_growth_per_s": -35.521460818457804
+            },
+            {
+              "speed_m_s": 160.0,
+              "dominant_growth_per_s": -1.880862368680002,
+              "dominant_frequency_hz": 11.248692302500466,
+              "tracked_growth_per_s": -1.880862368680002,
+              "tracked_frequency_hz": 11.248692302500466,
+              "tracked_adjacent_mac": 0.996241170911156,
+              "largest_nonoscillatory_growth_per_s": -36.325064436606716
+            },
+            {
+              "speed_m_s": 162.0,
+              "dominant_growth_per_s": -1.308888471844117,
+              "dominant_frequency_hz": 11.163402211521479,
+              "tracked_growth_per_s": -1.308888471844117,
+              "tracked_frequency_hz": 11.163402211521479,
+              "tracked_adjacent_mac": 0.9994973370974332,
+              "largest_nonoscillatory_growth_per_s": -36.632814098797965
+            },
+            {
+              "speed_m_s": 164.0,
+              "dominant_growth_per_s": -0.7236083484413492,
+              "dominant_frequency_hz": 11.08689948473774,
+              "tracked_growth_per_s": -0.7236083484413492,
+              "tracked_frequency_hz": 11.08689948473774,
+              "tracked_adjacent_mac": 0.9995604402316283,
+              "largest_nonoscillatory_growth_per_s": -36.932195938787466
+            },
+            {
+              "speed_m_s": 166.0,
+              "dominant_growth_per_s": -0.13688232502330175,
+              "dominant_frequency_hz": 11.018568379698012,
+              "tracked_growth_per_s": -0.13688232502330175,
+              "tracked_frequency_hz": 11.018568379698012,
+              "tracked_adjacent_mac": 0.9996199053130402,
+              "largest_nonoscillatory_growth_per_s": -37.222814884596644
+            },
+            {
+              "speed_m_s": 168.0,
+              "dominant_growth_per_s": 0.4427091406585134,
+              "dominant_frequency_hz": 10.957412225462283,
+              "tracked_growth_per_s": 0.4427091406585134,
+              "tracked_frequency_hz": 10.957412225462283,
+              "tracked_adjacent_mac": 0.9996729392182995,
+              "largest_nonoscillatory_growth_per_s": -37.504249647817616
+            },
+            {
+              "speed_m_s": 170.0,
+              "dominant_growth_per_s": 1.0097217059287227,
+              "dominant_frequency_hz": 10.902325116545835,
+              "tracked_growth_per_s": 1.0097217059287227,
+              "tracked_frequency_hz": 10.902325116545835,
+              "tracked_adjacent_mac": 0.9997186022973507,
+              "largest_nonoscillatory_growth_per_s": -37.7760504577198
+            },
+            {
+              "speed_m_s": 175.0,
+              "dominant_growth_per_s": 2.3565183182512377,
+              "dominant_frequency_hz": 10.7846067036178,
+              "tracked_growth_per_s": 2.3565183182512377,
+              "tracked_frequency_hz": 10.7846067036178,
+              "tracked_adjacent_mac": 0.9986324161349283,
+              "largest_nonoscillatory_growth_per_s": -38.410165376664416
+            }
+          ],
+          "oscillatory_crossing_brackets_m_s": [
+            [
+              166.0,
+              168.0
+            ]
+          ]
+        }
+      ],
+      "transients": [
+        {
+          "speed_m_s": 150.0,
+          "requested_seconds": 2.0,
+          "recorded_seconds": 2.00025,
+          "stopped_at_20mm_motion_guard": false,
+          "peak_vertex_component_m": 1.1544806790360843e-06,
+          "descriptor_causal_response_max_error": 2.710505431213761e-18,
+          "late_positive_peak_fit": {
+            "growth_per_s": -2.8606639162190586,
+            "frequency_hz": 11.872211171933364,
+            "positive_peaks": 14
+          },
+          "baseline_force_applied": false
+        },
+        {
+          "speed_m_s": 175.0,
+          "requested_seconds": 2.0,
+          "recorded_seconds": 2.0005765714285713,
+          "stopped_at_20mm_motion_guard": false,
+          "peak_vertex_component_m": 0.0001541269691253279,
+          "descriptor_causal_response_max_error": 5.2350485058028084e-14,
+          "late_positive_peak_fit": {
+            "growth_per_s": 2.7889348874988387,
+            "frequency_hz": 10.91663898518924,
+            "positive_peaks": 13
+          },
+          "baseline_force_applied": false
+        }
+      ],
+      "elapsed_seconds": 29.743484243750572
+    },
+    "goland-cfl05": {
+      "model": "goland",
+      "scope": "Exploratory pipeline test; not qualified flutter",
+      "M": 16,
+      "N_per_half": 16,
+      "wake_chords": 10,
+      "modes": 2,
+      "cfl": 0.5,
+      "status": "executed_exploratory_not_qualified",
+      "input_sha256": "27d320dc7077a0bb02964a4fb12f37bc4c3203bc20e4cfa0969111ee674b2877",
+      "dt_at_1m_s": 0.05715,
+      "geometry_sha256": "d0a86104ed0f74f2a68a6efe9bca11c053248ab0d85c22fbf0007bd5391040f0",
+      "wake_spacing_m": 0.1143,
+      "rho_kg_m3": 1.02,
+      "frequencies_hz": [
+        7.637391154071827,
+        15.219466046417386
+      ],
+      "work_absolute_error": 2.7755575615628914e-16,
+      "reference_force_at_1m_s_N": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "reference_generalized_force_at_1m_s": [
+        0.0,
+        0.0
+      ],
+      "equilibrium": "unloaded flat equilibrium",
+      "full_aero_states": 6656,
+      "rom_aero_states": 12,
+      "rom_radius": 0.9856869653470401,
+      "rom_stable": true,
+      "causal_full_rom_transfer_checks": [
+        {
+          "frequency_rad_s": 50.0,
+          "relative_frobenius_error": 0.00010462270833642409
+        },
+        {
+          "frequency_rad_s": 70.0,
+          "relative_frobenius_error": 0.0003958004248446332
+        },
+        {
+          "frequency_rad_s": 100.0,
+          "relative_frobenius_error": 0.0007975921229553102
+        }
+      ],
+      "sweeps": [
+        {
+          "causal": true,
+          "assumed_modal_damping_ratio": 0.0,
+          "rows": [
+            {
+              "speed_m_s": 150.0,
+              "dominant_growth_per_s": -2.8126118890586436,
+              "dominant_frequency_hz": 11.85975663160984,
+              "tracked_growth_per_s": -2.8126118890586436,
+              "tracked_frequency_hz": 11.85975663160984,
+              "tracked_adjacent_mac": 1.0,
+              "largest_nonoscillatory_growth_per_s": -34.619504050101895
+            },
+            {
+              "speed_m_s": 155.0,
+              "dominant_growth_per_s": -1.9856580794224055,
+              "dominant_frequency_hz": 11.613053428949366,
+              "tracked_growth_per_s": -1.9856580794224055,
+              "tracked_frequency_hz": 11.613053428949366,
+              "tracked_adjacent_mac": 0.9964354522432198,
+              "largest_nonoscillatory_growth_per_s": -35.4816835669259
+            },
+            {
+              "speed_m_s": 160.0,
+              "dominant_growth_per_s": -0.9205044550568294,
+              "dominant_frequency_hz": 11.384907183135276,
+              "tracked_growth_per_s": -0.9205044550568294,
+              "tracked_frequency_hz": 11.384907183135276,
+              "tracked_adjacent_mac": 0.9968419100540113,
+              "largest_nonoscillatory_growth_per_s": -36.301887320589046
+            },
+            {
+              "speed_m_s": 162.0,
+              "dominant_growth_per_s": -0.44369763796348527,
+              "dominant_frequency_hz": 11.302450668903422,
+              "tracked_growth_per_s": -0.44369763796348527,
+              "tracked_frequency_hz": 11.302450668903422,
+              "tracked_adjacent_mac": 0.9995614804090913,
+              "largest_nonoscillatory_growth_per_s": -36.617169791836325
+            },
+            {
+              "speed_m_s": 164.0,
+              "dominant_growth_per_s": 0.05108646379868161,
+              "dominant_frequency_hz": 11.225838324601963,
+              "tracked_growth_per_s": 0.05108646379868161,
+              "tracked_frequency_hz": 11.225838324601963,
+              "tracked_adjacent_mac": 0.9996049398409517,
+              "largest_nonoscillatory_growth_per_s": -36.92464083575443
+            },
+            {
+              "speed_m_s": 166.0,
+              "dominant_growth_per_s": 0.5562527207271387,
+              "dominant_frequency_hz": 11.155098383224873,
+              "tracked_growth_per_s": 0.5562527207271387,
+              "tracked_frequency_hz": 11.155098383224873,
+              "tracked_adjacent_mac": 0.9996479195409511,
+              "largest_nonoscillatory_growth_per_s": -37.22393919780649
+            },
+            {
+              "speed_m_s": 168.0,
+              "dominant_growth_per_s": 1.0651355763265375,
+              "dominant_frequency_hz": 11.089955539909154,
+              "tracked_growth_per_s": 1.0651355763265375,
+              "tracked_frequency_hz": 11.089955539909154,
+              "tracked_adjacent_mac": 0.9996884961604813,
+              "largest_nonoscillatory_growth_per_s": -37.5146797941966
+            },
+            {
+              "speed_m_s": 170.0,
+              "dominant_growth_per_s": 1.5724137306154162,
+              "dominant_frequency_hz": 11.029937375429935,
+              "tracked_growth_per_s": 1.5724137306154162,
+              "tracked_frequency_hz": 11.029937375429935,
+              "tracked_adjacent_mac": 0.9997254809436571,
+              "largest_nonoscillatory_growth_per_s": -37.79645162538777
+            },
+            {
+              "speed_m_s": 175.0,
+              "dominant_growth_per_s": 2.8109039899351527,
+              "dominant_frequency_hz": 10.898549615343672,
+              "tracked_growth_per_s": 2.8109039899351527,
+              "tracked_frequency_hz": 10.898549615343672,
+              "tracked_adjacent_mac": 0.9986245951460708,
+              "largest_nonoscillatory_growth_per_s": -38.45868412950816
+            }
+          ],
+          "oscillatory_crossing_brackets_m_s": [
+            [
+              162.0,
+              164.0
+            ]
+          ]
+        },
+        {
+          "causal": false,
+          "assumed_modal_damping_ratio": 0.0,
+          "rows": [
+            {
+              "speed_m_s": 150.0,
+              "dominant_growth_per_s": -3.4173051283726226,
+              "dominant_frequency_hz": 11.815392130726686,
+              "tracked_growth_per_s": -3.4173051283726226,
+              "tracked_frequency_hz": 11.815392130726686,
+              "tracked_adjacent_mac": 1.0,
+              "largest_nonoscillatory_growth_per_s": -34.55965625362604
+            },
+            {
+              "speed_m_s": 155.0,
+              "dominant_growth_per_s": -2.5354145922962883,
+              "dominant_frequency_hz": 11.55473624199803,
+              "tracked_growth_per_s": -2.5354145922962883,
+              "tracked_frequency_hz": 11.55473624199803,
+              "tracked_adjacent_mac": 0.9961203635943733,
+              "largest_nonoscillatory_growth_per_s": -35.413158607004384
+            },
+            {
+              "speed_m_s": 160.0,
+              "dominant_growth_per_s": -1.3765433073037079,
+              "dominant_frequency_hz": 11.317437914213686,
+              "tracked_growth_per_s": -1.3765433073037079,
+              "tracked_frequency_hz": 11.317437914213686,
+              "tracked_adjacent_mac": 0.9965817945674871,
+              "largest_nonoscillatory_growth_per_s": -36.22350499272646
+            },
+            {
+              "speed_m_s": 162.0,
+              "dominant_growth_per_s": -0.8579651095830441,
+              "dominant_frequency_hz": 11.233573405533926,
+              "tracked_growth_per_s": -0.8579651095830441,
+              "tracked_frequency_hz": 11.233573405533926,
+              "tracked_adjacent_mac": 0.9995328738261463,
+              "largest_nonoscillatory_growth_per_s": -36.53447526013599
+            },
+            {
+              "speed_m_s": 164.0,
+              "dominant_growth_per_s": -0.32285940599878,
+              "dominant_frequency_hz": 11.156812972484401,
+              "tracked_growth_per_s": -0.32285940599878,
+              "tracked_frequency_hz": 11.156812972484401,
+              "tracked_adjacent_mac": 0.9995845051013315,
+              "largest_nonoscillatory_growth_per_s": -36.83740442369245
+            },
+            {
+              "speed_m_s": 166.0,
+              "dominant_growth_per_s": 0.21928241136978563,
+              "dominant_frequency_hz": 11.086958135985384,
+              "tracked_growth_per_s": 0.21928241136978563,
+              "tracked_frequency_hz": 11.086958135985384,
+              "tracked_adjacent_mac": 0.99963457504644,
+              "largest_nonoscillatory_growth_per_s": -37.13191757566019
+            },
+            {
+              "speed_m_s": 168.0,
+              "dominant_growth_per_s": 0.7607685851476348,
+              "dominant_frequency_hz": 11.023453132506235,
+              "tracked_growth_per_s": 0.7607685851476348,
+              "tracked_frequency_hz": 11.023453132506235,
+              "tracked_adjacent_mac": 0.9996807151376842,
+              "largest_nonoscillatory_growth_per_s": -37.41761501580654
+            },
+            {
+              "speed_m_s": 170.0,
+              "dominant_growth_per_s": 1.2960012425420215,
+              "dominant_frequency_hz": 10.965559520080623,
+              "tracked_growth_per_s": 1.2960012425420215,
+              "tracked_frequency_hz": 10.965559520080623,
+              "tracked_adjacent_mac": 0.9997217281510907,
+              "largest_nonoscillatory_growth_per_s": -37.69407009301519
+            },
+            {
+              "speed_m_s": 175.0,
+              "dominant_growth_per_s": 2.586074008033976,
+              "dominant_frequency_hz": 10.840337439088309,
+              "tracked_growth_per_s": 2.586074008033976,
+              "tracked_frequency_hz": 10.840337439088309,
+              "tracked_adjacent_mac": 0.9986259934987088,
+              "largest_nonoscillatory_growth_per_s": -38.34170077257303
+            }
+          ],
+          "oscillatory_crossing_brackets_m_s": [
+            [
+              164.0,
+              166.0
+            ]
+          ]
+        }
+      ],
+      "transients": [
+        {
+          "speed_m_s": 150.0,
+          "requested_seconds": 2.0,
+          "recorded_seconds": 2.00025,
+          "stopped_at_20mm_motion_guard": false,
+          "peak_vertex_component_m": 1.1544806790360843e-06,
+          "descriptor_causal_response_max_error": 5.312590645178972e-18,
+          "late_positive_peak_fit": {
+            "growth_per_s": -2.8120311377566902,
+            "frequency_hz": 11.847477398658503,
+            "positive_peaks": 14
+          },
+          "baseline_force_applied": false
+        },
+        {
+          "speed_m_s": 175.0,
+          "requested_seconds": 2.0,
+          "recorded_seconds": 2.00025,
+          "stopped_at_20mm_motion_guard": false,
+          "peak_vertex_component_m": 0.00016191845727915843,
+          "descriptor_causal_response_max_error": 5.0411064211886014e-14,
+          "late_positive_peak_fit": {
+            "growth_per_s": 2.8117974641045893,
+            "frequency_hz": 10.913396740168393,
+            "positive_peaks": 13
+          },
+          "baseline_force_applied": false
+        }
+      ],
+      "elapsed_seconds": 27.206669359467924
+    },
+    "goland-cfl025": {
+      "model": "goland",
+      "scope": "Exploratory pipeline test; not qualified flutter",
+      "M": 16,
+      "N_per_half": 16,
+      "wake_chords": 10,
+      "modes": 2,
+      "cfl": 0.25,
+      "status": "executed_exploratory_not_qualified",
+      "input_sha256": "27d320dc7077a0bb02964a4fb12f37bc4c3203bc20e4cfa0969111ee674b2877",
+      "dt_at_1m_s": 0.028575,
+      "geometry_sha256": "d0a86104ed0f74f2a68a6efe9bca11c053248ab0d85c22fbf0007bd5391040f0",
+      "wake_spacing_m": 0.1143,
+      "rho_kg_m3": 1.02,
+      "frequencies_hz": [
+        7.637391154071827,
+        15.219466046417386
+      ],
+      "work_absolute_error": 2.7755575615628914e-16,
+      "reference_force_at_1m_s_N": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "reference_generalized_force_at_1m_s": [
+        0.0,
+        0.0
+      ],
+      "equilibrium": "unloaded flat equilibrium",
+      "full_aero_states": 6656,
+      "rom_aero_states": 12,
+      "rom_radius": 0.9928380610049968,
+      "rom_stable": true,
+      "causal_full_rom_transfer_checks": [
+        {
+          "frequency_rad_s": 50.0,
+          "relative_frobenius_error": 7.328974920743216e-05
+        },
+        {
+          "frequency_rad_s": 70.0,
+          "relative_frobenius_error": 0.000274870657168051
+        },
+        {
+          "frequency_rad_s": 100.0,
+          "relative_frobenius_error": 0.0003838833235519812
+        }
+      ],
+      "sweeps": [
+        {
+          "causal": true,
+          "assumed_modal_damping_ratio": 0.0,
+          "rows": [
+            {
+              "speed_m_s": 150.0,
+              "dominant_growth_per_s": -2.791950992215493,
+              "dominant_frequency_hz": 11.853545283943983,
+              "tracked_growth_per_s": -2.791950992215493,
+              "tracked_frequency_hz": 11.853545283943983,
+              "tracked_adjacent_mac": 1.0,
+              "largest_nonoscillatory_growth_per_s": -34.523082061353634
+            },
+            {
+              "speed_m_s": 155.0,
+              "dominant_growth_per_s": -1.9634970583209472,
+              "dominant_frequency_hz": 11.607696892475495,
+              "tracked_growth_per_s": -1.9634970583209472,
+              "tracked_frequency_hz": 11.607696892475495,
+              "tracked_adjacent_mac": 0.996445078828002,
+              "largest_nonoscillatory_growth_per_s": -35.38342062542775
+            },
+            {
+              "speed_m_s": 160.0,
+              "dominant_growth_per_s": -0.8991490206493886,
+              "dominant_frequency_hz": 11.380454365522528,
+              "tracked_growth_per_s": -0.8991490206493886,
+              "tracked_frequency_hz": 11.380454365522528,
+              "tracked_adjacent_mac": 0.9968534286505909,
+              "largest_nonoscillatory_growth_per_s": -36.20203202591139
+            },
+            {
+              "speed_m_s": 162.0,
+              "dominant_growth_per_s": -0.4232725601394109,
+              "dominant_frequency_hz": 11.29831789617515,
+              "tracked_growth_per_s": -0.4232725601394109,
+              "tracked_frequency_hz": 11.29831789617515,
+              "tracked_adjacent_mac": 0.999563199947184,
+              "largest_nonoscillatory_growth_per_s": -36.51675518510055
+            },
+            {
+              "speed_m_s": 164.0,
+              "dominant_growth_per_s": 0.07034238474740279,
+              "dominant_frequency_hz": 11.221984459307256,
+              "tracked_growth_per_s": 0.07034238474740279,
+              "tracked_frequency_hz": 11.221984459307256,
+              "tracked_adjacent_mac": 0.999606464977633,
+              "largest_nonoscillatory_growth_per_s": -36.823715125829324
+            },
+            {
+              "speed_m_s": 166.0,
+              "dominant_growth_per_s": 0.5741922354805221,
+              "dominant_frequency_hz": 11.151478552068662,
+              "tracked_growth_per_s": 0.5741922354805221,
+              "tracked_frequency_hz": 11.151478552068662,
+              "tracked_adjacent_mac": 0.9996492191579187,
+              "largest_nonoscillatory_growth_per_s": -37.1225534054952
+            },
+            {
+              "speed_m_s": 168.0,
+              "dominant_growth_per_s": 1.0816933330861724,
+              "dominant_frequency_hz": 11.08652635189503,
+              "tracked_growth_per_s": 1.0816933330861724,
+              "tracked_frequency_hz": 11.08652635189503,
+              "tracked_adjacent_mac": 0.9996895708406756,
+              "largest_nonoscillatory_growth_per_s": -37.412887951298366
+            },
+            {
+              "speed_m_s": 170.0,
+              "dominant_growth_per_s": 1.5875870160870553,
+              "dominant_frequency_hz": 11.026660237520769,
+              "tracked_growth_per_s": 1.5875870160870553,
+              "tracked_frequency_hz": 11.026660237520769,
+              "tracked_adjacent_mac": 0.9997263518691989,
+              "largest_nonoscillatory_growth_per_s": -37.694310991660636
+            },
+            {
+              "speed_m_s": 175.0,
+              "dominant_growth_per_s": 2.8228363092676436,
+              "dominant_frequency_hz": 10.895524550821673,
+              "tracked_growth_per_s": 2.8228363092676436,
+              "tracked_frequency_hz": 10.895524550821673,
+              "tracked_adjacent_mac": 0.9986282965408945,
+              "largest_nonoscillatory_growth_per_s": -38.355945407730516
+            }
+          ],
+          "oscillatory_crossing_brackets_m_s": [
+            [
+              162.0,
+              164.0
+            ]
+          ]
+        },
+        {
+          "causal": false,
+          "assumed_modal_damping_ratio": 0.0,
+          "rows": [
+            {
+              "speed_m_s": 150.0,
+              "dominant_growth_per_s": -3.089608185178276,
+              "dominant_frequency_hz": 11.831650557021176,
+              "tracked_growth_per_s": -3.089608185178276,
+              "tracked_frequency_hz": 11.831650557021176,
+              "tracked_adjacent_mac": 1.0,
+              "largest_nonoscillatory_growth_per_s": -34.49355624833455
+            },
+            {
+              "speed_m_s": 155.0,
+              "dominant_growth_per_s": -2.234607277021852,
+              "dominant_frequency_hz": 11.579195245888764,
+              "tracked_growth_per_s": -2.234607277021852,
+              "tracked_frequency_hz": 11.579195245888764,
+              "tracked_adjacent_mac": 0.9962966511211535,
+              "largest_nonoscillatory_growth_per_s": -35.34962271044883
+            },
+            {
+              "speed_m_s": 160.0,
+              "dominant_growth_per_s": -1.125868545645721,
+              "dominant_frequency_hz": 11.34756819152398,
+              "tracked_growth_per_s": -1.125868545645721,
+              "tracked_frequency_hz": 11.34756819152398,
+              "tracked_adjacent_mac": 0.9967309805247428,
+              "largest_nonoscillatory_growth_per_s": -36.163382127154364
+            },
+            {
+              "speed_m_s": 162.0,
+              "dominant_growth_per_s": -0.6301536581444289,
+              "dominant_frequency_hz": 11.264710801570162,
+              "tracked_growth_per_s": -0.6301536581444289,
+              "tracked_frequency_hz": 11.264710801570162,
+              "tracked_adjacent_mac": 0.9995495538596674,
+              "largest_nonoscillatory_growth_per_s": -36.475983058383086
+            },
+            {
+              "speed_m_s": 164.0,
+              "dominant_growth_per_s": -0.11725812273276559,
+              "dominant_frequency_hz": 11.188243560611637,
+              "tracked_growth_per_s": -0.11725812273276559,
+              "tracked_frequency_hz": 11.188243560611637,
+              "tracked_adjacent_mac": 0.9995965765088872,
+              "largest_nonoscillatory_growth_per_s": -36.78070791310005
+            },
+            {
+              "speed_m_s": 166.0,
+              "dominant_growth_per_s": 0.4044259594943345,
+              "dominant_frequency_hz": 11.118095409220697,
+              "tracked_growth_per_s": 0.4044259594943345,
+              "tracked_frequency_hz": 11.118095409220697,
+              "tracked_adjacent_mac": 0.9996426353374951,
+              "largest_nonoscillatory_growth_per_s": -37.077191532111705
+            },
+            {
+              "speed_m_s": 168.0,
+              "dominant_growth_per_s": 0.927800000359734,
+              "dominant_frequency_hz": 11.053868905693873,
+              "tracked_growth_per_s": 0.927800000359734,
+              "tracked_frequency_hz": 11.053868905693873,
+              "tracked_adjacent_mac": 0.9996856238284828,
+              "largest_nonoscillatory_growth_per_s": -37.36504464918218
+            },
+            {
+              "speed_m_s": 170.0,
+              "dominant_growth_per_s": 1.4474290629176538,
+              "dominant_frequency_hz": 10.994975031655615,
+              "tracked_growth_per_s": 1.4474290629176538,
+              "tracked_frequency_hz": 10.994975031655615,
+              "tracked_adjacent_mac": 0.9997243496139225,
+              "largest_nonoscillatory_growth_per_s": -37.643851785943696
+            },
+            {
+              "speed_m_s": 175.0,
+              "dominant_growth_per_s": 2.708372311683047,
+              "dominant_frequency_hz": 10.866742766584832,
+              "tracked_growth_per_s": 2.708372311683047,
+              "tracked_frequency_hz": 10.866742766584832,
+              "tracked_adjacent_mac": 0.9986281130584955,
+              "largest_nonoscillatory_growth_per_s": -38.298302454578156
+            }
+          ],
+          "oscillatory_crossing_brackets_m_s": [
+            [
+              164.0,
+              166.0
+            ]
+          ]
+        }
+      ],
+      "transients": [
+        {
+          "speed_m_s": 150.0,
+          "requested_seconds": 2.0,
+          "recorded_seconds": 1.9985355,
+          "stopped_at_20mm_motion_guard": false,
+          "peak_vertex_component_m": 1.1544806790360843e-06,
+          "descriptor_causal_response_max_error": 3.1956859034010243e-17,
+          "late_positive_peak_fit": {
+            "growth_per_s": -2.7869833804263697,
+            "frequency_hz": 11.849534609528213,
+            "positive_peaks": 14
+          },
+          "baseline_force_applied": false
+        },
+        {
+          "speed_m_s": 175.0,
+          "requested_seconds": 2.0,
+          "recorded_seconds": 1.9986171428571429,
+          "stopped_at_20mm_motion_guard": false,
+          "peak_vertex_component_m": 0.00016614593754669214,
+          "descriptor_causal_response_max_error": 1.0661263538658261e-13,
+          "late_positive_peak_fit": {
+            "growth_per_s": 2.821717300725953,
+            "frequency_hz": 10.887527947895402,
+            "positive_peaks": 13
+          },
+          "baseline_force_applied": false
+        }
+      ],
+      "elapsed_seconds": 27.64417970739305
+    },
+    "shell-coarse-v2": {
+      "model": "shell",
+      "scope": "Exploratory pipeline test; not qualified flutter",
+      "M": 4,
+      "N_per_half": 8,
+      "wake_chords": 8,
+      "modes": 10,
+      "cfl": 1.0,
+      "status": "executed_exploratory_not_qualified",
+      "input_sha256": "207e4c3e6b99293769081a98cb0948d225dae423def6d59daf8600fac5ad8ae8",
+      "dt_at_1m_s": 0.0254,
+      "geometry_sha256": "26adcc4962df1ebbb93162e7b5ed5fd56e90d774833956561d9a4cdbf19336d8",
+      "wake_spacing_m": 0.0254,
+      "rho_kg_m3": 1.225,
+      "frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331
+      ],
+      "work_absolute_error": 1.7763568394002505e-15,
+      "reference_force_at_1m_s_N": [
+        0.00027483808946815154,
+        1.6940658945086007e-20,
+        0.04748785351171153
+      ],
+      "reference_generalized_force_at_1m_s": [
+        -0.026601720276480514,
+        0.016976536986479336,
+        -0.0001405108385515332,
+        -0.010865842961017814,
+        -0.009451032159820722,
+        0.005679170239049503,
+        0.00011670687075378864,
+        -0.006581498260535372,
+        0.002309754541530911,
+        -0.00013353297108191034
+      ],
+      "equilibrium": "untrimmed cambered native reference; nonzero load imbalance deliberately retained",
+      "full_aero_states": 704,
+      "rom_aero_states": 60,
+      "rom_radius": 0.9068973705403168,
+      "rom_stable": true,
+      "causal_full_rom_transfer_checks": [
+        {
+          "frequency_rad_s": 55.0,
+          "relative_frobenius_error": 1.3265439640537001e-08
+        },
+        {
+          "frequency_rad_s": 340.0,
+          "relative_frobenius_error": 0.0002643479947261098
+        },
+        {
+          "frequency_rad_s": 1065.0,
+          "relative_frobenius_error": 0.000622499766636675
+        }
+      ],
+      "sweeps": [
+        {
+          "causal": true,
+          "assumed_modal_damping_ratio": 0.0,
+          "rows": [
+            {
+              "speed_m_s": 10.0,
+              "dominant_growth_per_s": -0.003662713513010431,
+              "dominant_frequency_hz": 53.02398172165347,
+              "tracked_growth_per_s": -0.003662713513010431,
+              "tracked_frequency_hz": 53.02398172165347,
+              "tracked_adjacent_mac": 1.0,
+              "largest_nonoscillatory_growth_per_s": -38.213055377827665
+            },
+            {
+              "speed_m_s": 20.0,
+              "dominant_growth_per_s": -0.006136497000539989,
+              "dominant_frequency_hz": 55.507077651717545,
+              "tracked_growth_per_s": -0.006136497000539989,
+              "tracked_frequency_hz": 55.507077651717545,
+              "tracked_adjacent_mac": 0.9999684754430797,
+              "largest_nonoscillatory_growth_per_s": -75.77915720377882
+            },
+            {
+              "speed_m_s": 30.0,
+              "dominant_growth_per_s": -0.009243653606816626,
+              "dominant_frequency_hz": 56.01470256998381,
+              "tracked_growth_per_s": -0.009243653606816626,
+              "tracked_frequency_hz": 56.01470256998381,
+              "tracked_adjacent_mac": 0.999964946612003,
+              "largest_nonoscillatory_growth_per_s": -113.0209890957263
+            },
+            {
+              "speed_m_s": 40.0,
+              "dominant_growth_per_s": -0.012093721418883051,
+              "dominant_frequency_hz": 56.196509456969956,
+              "tracked_growth_per_s": -0.012093721418883051,
+              "tracked_frequency_hz": 56.196509456969956,
+              "tracked_adjacent_mac": 0.9999600758962013,
+              "largest_nonoscillatory_growth_per_s": -150.00874693381698
+            },
+            {
+              "speed_m_s": 50.0,
+              "dominant_growth_per_s": -0.014660799438783066,
+              "dominant_frequency_hz": 56.281563399141525,
+              "tracked_growth_per_s": -0.014660799438783066,
+              "tracked_frequency_hz": 56.281563399141525,
+              "tracked_adjacent_mac": 0.9999546446489382,
+              "largest_nonoscillatory_growth_per_s": -186.69619744519224
+            },
+            {
+              "speed_m_s": 60.0,
+              "dominant_growth_per_s": -0.01686213481506693,
+              "dominant_frequency_hz": 56.328150859076175,
+              "tracked_growth_per_s": -0.01686213481506693,
+              "tracked_frequency_hz": 56.328150859076175,
+              "tracked_adjacent_mac": 0.9999468264464302,
+              "largest_nonoscillatory_growth_per_s": -223.02530738711067
+            },
+            {
+              "speed_m_s": 80.0,
+              "dominant_growth_per_s": -0.01963762613073004,
+              "dominant_frequency_hz": 56.37518622889237,
+              "tracked_growth_per_s": -0.01963762613073004,
+              "tracked_frequency_hz": 56.37518622889237,
+              "tracked_adjacent_mac": 0.9997151981443172,
+              "largest_nonoscillatory_growth_per_s": -294.3947271728495
+            },
+            {
+              "speed_m_s": 100.0,
+              "dominant_growth_per_s": -0.019658336687647212,
+              "dominant_frequency_hz": 56.39792102748141,
+              "tracked_growth_per_s": -0.019658336687647212,
+              "tracked_frequency_hz": 56.39792102748141,
+              "tracked_adjacent_mac": 0.9995646142113754,
+              "largest_nonoscillatory_growth_per_s": -363.70516869640414
+            }
+          ],
+          "oscillatory_crossing_brackets_m_s": []
+        },
+        {
+          "causal": false,
+          "assumed_modal_damping_ratio": 0.0,
+          "rows": [
+            {
+              "speed_m_s": 10.0,
+              "dominant_growth_per_s": 0.18721293306820438,
+              "dominant_frequency_hz": 155.5964315025804,
+              "tracked_growth_per_s": 0.18721293306820438,
+              "tracked_frequency_hz": 155.5964315025804,
+              "tracked_adjacent_mac": 1.0,
+              "largest_nonoscillatory_growth_per_s": -38.1853174341878
+            },
+            {
+              "speed_m_s": 20.0,
+              "dominant_growth_per_s": -0.010001219847952183,
+              "dominant_frequency_hz": 55.50765760032562,
+              "tracked_growth_per_s": -0.6903901013998451,
+              "tracked_frequency_hz": 243.58991984778868,
+              "tracked_adjacent_mac": 0.9996541820064866,
+              "largest_nonoscillatory_growth_per_s": -75.64999709245065
+            },
+            {
+              "speed_m_s": 30.0,
+              "dominant_growth_per_s": -0.011850198951937457,
+              "dominant_frequency_hz": 56.01520710906046,
+              "tracked_growth_per_s": -2.9623370946607346,
+              "tracked_frequency_hz": 290.72260409835866,
+              "tracked_adjacent_mac": 0.9997088911592653,
+              "largest_nonoscillatory_growth_per_s": -112.75020903211963
+            },
+            {
+              "speed_m_s": 40.0,
+              "dominant_growth_per_s": -0.014023835429404084,
+              "dominant_frequency_hz": 56.196973720358784,
+              "tracked_growth_per_s": -4.721839853337438,
+              "tracked_frequency_hz": 316.5192151920003,
+              "tracked_adjacent_mac": 0.9998314938018822,
+              "largest_nonoscillatory_growth_per_s": -149.5662707182322
+            },
+            {
+              "speed_m_s": 50.0,
+              "dominant_growth_per_s": -0.016131948610062875,
+              "dominant_frequency_hz": 56.28199464047367,
+              "tracked_growth_per_s": -5.666190378444613,
+              "tracked_frequency_hz": 331.4762892854077,
+              "tracked_adjacent_mac": 0.9999119067502218,
+              "largest_nonoscillatory_growth_per_s": -186.04691307174033
+            },
+            {
+              "speed_m_s": 60.0,
+              "dominant_growth_per_s": -0.017974525463776328,
+              "dominant_frequency_hz": 56.328549564033196,
+              "tracked_growth_per_s": -6.170577196242678,
+              "tracked_frequency_hz": 340.7092271059165,
+              "tracked_adjacent_mac": 0.9999526733083386,
+              "largest_nonoscillatory_growth_per_s": -222.12616072506148
+            },
+            {
+              "speed_m_s": 80.0,
+              "dominant_growth_per_s": -0.020099331556850186,
+              "dominant_frequency_hz": 56.37551537681419,
+              "tracked_growth_per_s": -6.84794351828161,
+              "tracked_frequency_hz": 350.8490597237915,
+              "tracked_adjacent_mac": 0.9999021761010037,
+              "largest_nonoscillatory_growth_per_s": -292.8323636787641
+            },
+            {
+              "speed_m_s": 100.0,
+              "dominant_growth_per_s": -0.019407986202749004,
+              "dominant_frequency_hz": 56.39818265571276,
+              "tracked_growth_per_s": -7.625929848623866,
+              "tracked_frequency_hz": 355.90197952910546,
+              "tracked_adjacent_mac": 0.9999179875841094,
+              "largest_nonoscillatory_growth_per_s": -361.1973238369869
+            }
+          ],
+          "oscillatory_crossing_brackets_m_s": []
+        }
+      ],
+      "uncoupled_static_q_at_30m_s": [
+        -0.007812214006806978,
+        0.0001338321761181107,
+        -1.0057855452870973e-06,
+        -1.2091427384487101e-05,
+        -7.501288446186292e-06,
+        1.9582017357016188e-06,
+        2.2845359097253857e-08,
+        -1.1182372197897364e-06,
+        2.6356148266266817e-07,
+        -1.4773642346687739e-08
+      ],
+      "transients": [
+        {
+          "speed_m_s": 20.0,
+          "requested_seconds": 1.0,
+          "recorded_seconds": 1.0007599999999999,
+          "stopped_at_20mm_motion_guard": false,
+          "peak_vertex_component_m": 1.4875302637190145e-05,
+          "descriptor_causal_response_max_error": 9.64939933512099e-18,
+          "late_positive_peak_fit": {
+            "growth_per_s": -3.6689595099764865,
+            "frequency_hz": 8.847208705653367,
+            "positive_peaks": 5
+          },
+          "baseline_force_applied": false
+        },
+        {
+          "speed_m_s": 60.0,
+          "requested_seconds": 1.0,
+          "recorded_seconds": 0.9999133333333333,
+          "stopped_at_20mm_motion_guard": false,
+          "peak_vertex_component_m": 1.4875290954394359e-05,
+          "descriptor_causal_response_max_error": 1.3525422101756668e-17,
+          "late_positive_peak_fit": {
+            "growth_per_s": -13.9219691395891,
+            "frequency_hz": 22.076679667378023,
+            "positive_peaks": 13
+          },
+          "baseline_force_applied": false
+        },
+        {
+          "speed_m_s": 30.0,
+          "requested_seconds": 0.5,
+          "recorded_seconds": 0.50038,
+          "stopped_at_20mm_motion_guard": false,
+          "peak_vertex_component_m": 0.019664320796057073,
+          "descriptor_causal_response_max_error": null,
+          "late_positive_peak_fit": null,
+          "baseline_force_applied": true
+        }
+      ],
+      "elapsed_seconds": 0.45303812716156244
+    },
+    "shell-finer": {
+      "model": "shell",
+      "scope": "Exploratory pipeline test; not qualified flutter",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "modes": 10,
+      "cfl": 0.5,
+      "status": "executed_exploratory_not_qualified",
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "dt_at_1m_s": 0.00635,
+      "geometry_sha256": "8b7a3e6a23a7a8ccac4bd93aedc8480a71487375a44f9a6087298e35ba572ce2",
+      "wake_spacing_m": 0.0127,
+      "rho_kg_m3": 1.225,
+      "frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331
+      ],
+      "work_absolute_error": 1.0685896612017132e-15,
+      "reference_force_at_1m_s_N": [
+        0.00036878681022942355,
+        -6.522153693858113e-20,
+        0.05391571130282967
+      ],
+      "reference_generalized_force_at_1m_s": [
+        -0.029693151334081746,
+        0.020244626480784376,
+        -0.00015489565236334558,
+        -0.010977096256042684,
+        -0.006570536683916151,
+        0.007965807251537277,
+        0.00017331159333921331,
+        -0.006137305009032883,
+        0.003933675905170743,
+        0.001965139098524672
+      ],
+      "equilibrium": "untrimmed cambered native reference; nonzero load imbalance deliberately retained",
+      "full_aero_states": 2816,
+      "rom_aero_states": 60,
+      "rom_radius": 0.9760777492849656,
+      "rom_stable": true,
+      "causal_full_rom_transfer_checks": [
+        {
+          "frequency_rad_s": 55.0,
+          "relative_frobenius_error": 3.333792054577732e-08
+        },
+        {
+          "frequency_rad_s": 340.0,
+          "relative_frobenius_error": 0.00043849396697657165
+        },
+        {
+          "frequency_rad_s": 1065.0,
+          "relative_frobenius_error": 0.004438692692747849
+        }
+      ],
+      "sweeps": [
+        {
+          "causal": true,
+          "assumed_modal_damping_ratio": 0.0,
+          "rows": [
+            {
+              "speed_m_s": 10.0,
+              "dominant_growth_per_s": -0.004109875128225269,
+              "dominant_frequency_hz": 56.19615494390935,
+              "tracked_growth_per_s": -0.004109875128225269,
+              "tracked_frequency_hz": 56.19615494390935,
+              "tracked_adjacent_mac": 1.0,
+              "largest_nonoscillatory_growth_per_s": -37.897006160462645
+            },
+            {
+              "speed_m_s": 20.0,
+              "dominant_growth_per_s": -0.008708982899232042,
+              "dominant_frequency_hz": 56.37341750300337,
+              "tracked_growth_per_s": -0.008708982899232042,
+              "tracked_frequency_hz": 56.37341750300337,
+              "tracked_adjacent_mac": 0.9999602754540735,
+              "largest_nonoscillatory_growth_per_s": -75.20563119006071
+            },
+            {
+              "speed_m_s": 30.0,
+              "dominant_growth_per_s": -0.012993470003005199,
+              "dominant_frequency_hz": 56.406608975001426,
+              "tracked_growth_per_s": -0.012993470003005199,
+              "tracked_frequency_hz": 56.406608975001426,
+              "tracked_adjacent_mac": 0.9999559160762083,
+              "largest_nonoscillatory_growth_per_s": -112.1980560707469
+            },
+            {
+              "speed_m_s": 40.0,
+              "dominant_growth_per_s": -0.016811732019777068,
+              "dominant_frequency_hz": 56.41843509868285,
+              "tracked_growth_per_s": -0.016811732019777068,
+              "tracked_frequency_hz": 56.41843509868285,
+              "tracked_adjacent_mac": 0.9999507236555304,
+              "largest_nonoscillatory_growth_per_s": -148.9253053888123
+            },
+            {
+              "speed_m_s": 50.0,
+              "dominant_growth_per_s": -0.02025343710528845,
+              "dominant_frequency_hz": 56.42415400661349,
+              "tracked_growth_per_s": -0.02025343710528845,
+              "tracked_frequency_hz": 56.42415400661349,
+              "tracked_adjacent_mac": 0.9999450508420091,
+              "largest_nonoscillatory_growth_per_s": -185.33639697443232
+            },
+            {
+              "speed_m_s": 60.0,
+              "dominant_growth_per_s": -0.023274915207174778,
+              "dominant_frequency_hz": 56.42752862008015,
+              "tracked_growth_per_s": -0.023274915207174778,
+              "tracked_frequency_hz": 56.42752862008015,
+              "tracked_adjacent_mac": 0.9999370782092429,
+              "largest_nonoscillatory_growth_per_s": -221.37100746244695
+            },
+            {
+              "speed_m_s": 80.0,
+              "dominant_growth_per_s": -0.027637951320217305,
+              "dominant_frequency_hz": 56.43171264540596,
+              "tracked_growth_per_s": -0.027637951320217305,
+              "tracked_frequency_hz": 56.43171264540596,
+              "tracked_adjacent_mac": 0.9996779361065118,
+              "largest_nonoscillatory_growth_per_s": -292.08786406661443
+            },
+            {
+              "speed_m_s": 100.0,
+              "dominant_growth_per_s": -0.029408503275723377,
+              "dominant_frequency_hz": 56.43496528300437,
+              "tracked_growth_per_s": -0.029408503275723377,
+              "tracked_frequency_hz": 56.43496528300437,
+              "tracked_adjacent_mac": 0.999539524068191,
+              "largest_nonoscillatory_growth_per_s": -360.6406816436458
+            }
+          ],
+          "oscillatory_crossing_brackets_m_s": []
+        },
+        {
+          "causal": false,
+          "assumed_modal_damping_ratio": 0.0,
+          "rows": [
+            {
+              "speed_m_s": 10.0,
+              "dominant_growth_per_s": -0.006238916037001595,
+              "dominant_frequency_hz": 56.19634046907001,
+              "tracked_growth_per_s": -0.006238916037001595,
+              "tracked_frequency_hz": 56.19634046907001,
+              "tracked_adjacent_mac": 1.0,
+              "largest_nonoscillatory_growth_per_s": -37.89111467371899
+            },
+            {
+              "speed_m_s": 20.0,
+              "dominant_growth_per_s": -0.009755571604444468,
+              "dominant_frequency_hz": 56.373583064577296,
+              "tracked_growth_per_s": -0.009755571604444468,
+              "tracked_frequency_hz": 56.373583064577296,
+              "tracked_adjacent_mac": 0.9999598275960137,
+              "largest_nonoscillatory_growth_per_s": -75.17805665371993
+            },
+            {
+              "speed_m_s": 30.0,
+              "dominant_growth_per_s": -0.013683853706768143,
+              "dominant_frequency_hz": 56.40676788378504,
+              "tracked_growth_per_s": -0.013683853706768143,
+              "tracked_frequency_hz": 56.40676788378504,
+              "tracked_adjacent_mac": 0.9999561903645298,
+              "largest_nonoscillatory_growth_per_s": -112.13970262942304
+            },
+            {
+              "speed_m_s": 40.0,
+              "dominant_growth_per_s": -0.01731146804514693,
+              "dominant_frequency_hz": 56.41858655634225,
+              "tracked_growth_per_s": -0.01731146804514693,
+              "tracked_frequency_hz": 56.41858655634225,
+              "tracked_adjacent_mac": 0.9999511189753358,
+              "largest_nonoscillatory_growth_per_s": -148.82880895869508
+            },
+            {
+              "speed_m_s": 50.0,
+              "dominant_growth_per_s": -0.020617761938693854,
+              "dominant_frequency_hz": 56.4242979826112,
+              "tracked_growth_per_s": -0.020617761938693854,
+              "tracked_frequency_hz": 56.4242979826112,
+              "tracked_adjacent_mac": 0.9999454674502565,
+              "largest_nonoscillatory_growth_per_s": -185.19301689444754
+            },
+            {
+              "speed_m_s": 60.0,
+              "dominant_growth_per_s": -0.023528140273273584,
+              "dominant_frequency_hz": 56.42766501893288,
+              "tracked_growth_per_s": -0.023528140273273584,
+              "tracked_frequency_hz": 56.42766501893288,
+              "tracked_adjacent_mac": 0.9999374672452823,
+              "largest_nonoscillatory_growth_per_s": -221.17006491610786
+            },
+            {
+              "speed_m_s": 80.0,
+              "dominant_growth_per_s": -0.027684573075765176,
+              "dominant_frequency_hz": 56.43183382250583,
+              "tracked_growth_per_s": -0.027684573075765176,
+              "tracked_frequency_hz": 56.43183382250583,
+              "tracked_adjacent_mac": 0.999678921378345,
+              "largest_nonoscillatory_growth_per_s": -291.73148580789905
+            },
+            {
+              "speed_m_s": 100.0,
+              "dominant_growth_per_s": -0.029234238872428733,
+              "dominant_frequency_hz": 56.43507373568097,
+              "tracked_growth_per_s": -0.029234238872428733,
+              "tracked_frequency_hz": 56.43507373568097,
+              "tracked_adjacent_mac": 0.999539427164729,
+              "largest_nonoscillatory_growth_per_s": -360.0595595456896
+            }
+          ],
+          "oscillatory_crossing_brackets_m_s": []
+        }
+      ],
+      "uncoupled_static_q_at_30m_s": [
+        -0.008720084654203535,
+        0.00015959570663790515,
+        -1.10875296013361e-06,
+        -1.2215229204824851e-05,
+        -5.215037900499361e-06,
+        2.746643775347632e-06,
+        3.3925728279566826e-08,
+        -1.042766041807673e-06,
+        4.488639096663681e-07,
+        2.1741643256995462e-07
+      ],
+      "transients": [
+        {
+          "speed_m_s": 20.0,
+          "requested_seconds": 1.0,
+          "recorded_seconds": 1.000125,
+          "stopped_at_20mm_motion_guard": false,
+          "peak_vertex_component_m": 1.4873139580672442e-05,
+          "descriptor_causal_response_max_error": 3.922101358966312e-17,
+          "late_positive_peak_fit": {
+            "growth_per_s": -3.5584300833133513,
+            "frequency_hz": 8.859652037166242,
+            "positive_peaks": 5
+          },
+          "baseline_force_applied": false
+        },
+        {
+          "speed_m_s": 60.0,
+          "requested_seconds": 1.0,
+          "recorded_seconds": 1.0000191666666667,
+          "stopped_at_20mm_motion_guard": false,
+          "peak_vertex_component_m": 1.4873139507953204e-05,
+          "descriptor_causal_response_max_error": 2.7023739149201198e-17,
+          "late_positive_peak_fit": {
+            "growth_per_s": -12.048915955146681,
+            "frequency_hz": 8.832735590219954,
+            "positive_peaks": 5
+          },
+          "baseline_force_applied": false
+        },
+        {
+          "speed_m_s": 30.0,
+          "requested_seconds": 0.5,
+          "recorded_seconds": 0.045720000000000004,
+          "stopped_at_20mm_motion_guard": true,
+          "peak_vertex_component_m": 0.020045654865843643,
+          "descriptor_causal_response_max_error": null,
+          "late_positive_peak_fit": null,
+          "baseline_force_applied": true
+        }
+      ],
+      "elapsed_seconds": 4.892600979655981
+    }
+  },
+  "refined_crossings": [
+    {
+      "case": "goland-cfl1-v2",
+      "geometry_sha256": "d0a86104ed0f74f2a68a6efe9bca11c053248ab0d85c22fbf0007bd5391040f0",
+      "crossings": [
+        {
+          "causal": true,
+          "interpolated_crossing_m_s": 163.94015401875734,
+          "growth_residual_per_s": 1.8624023071220295e-12
+        },
+        {
+          "causal": false,
+          "interpolated_crossing_m_s": 166.46927381787825,
+          "growth_residual_per_s": 1.9617015269128875e-08
+        }
+      ]
+    },
+    {
+      "case": "goland-cfl05",
+      "geometry_sha256": "d0a86104ed0f74f2a68a6efe9bca11c053248ab0d85c22fbf0007bd5391040f0",
+      "crossings": [
+        {
+          "causal": true,
+          "interpolated_crossing_m_s": 163.79591781709507,
+          "growth_residual_per_s": -5.2066732535668645e-12
+        },
+        {
+          "causal": false,
+          "interpolated_crossing_m_s": 165.19218610317031,
+          "growth_residual_per_s": -2.9194979069784586e-09
+        }
+      ]
+    },
+    {
+      "case": "goland-cfl025",
+      "geometry_sha256": "d0a86104ed0f74f2a68a6efe9bca11c053248ab0d85c22fbf0007bd5391040f0",
+      "crossings": [
+        {
+          "causal": true,
+          "interpolated_crossing_m_s": 163.7181723020284,
+          "growth_residual_per_s": 1.7071695241653292e-11
+        },
+        {
+          "causal": false,
+          "interpolated_crossing_m_s": 164.4514148257546,
+          "growth_residual_per_s": 5.341871531819142e-08
+        }
+      ]
+    }
+  ],
+  "sha256": {
+    "goland-cfl1-v2/assessment.json": "f62807211c450c0a9199b673e15ecef4fbe7002bdc86c1bbbbc4f798336528c0",
+    "goland-cfl1-v2/motion.json": "a8f4d187ae77937cbef93c801deba42120df81311e3f4854560a0cd0479c36bd",
+    "goland-cfl1-v2/model.npz": "ef729c246237833cedb35798bdbe8b4ad99218f886674388daac2e453f10141b",
+    "goland-cfl05/assessment.json": "502b8160890cdfd5c3e2a3c505688555038a5b91c9472161c41389a578210d76",
+    "goland-cfl05/motion.json": "7468c66edba88b27f3b1f2b42d53cf7b2eddecc84418e02e8a3f2980dfd7dfc7",
+    "goland-cfl05/model.npz": "fd9231034e61a4455fa85929b946f39f9442e4b6b8497fb5e44ed95c9468a310",
+    "goland-cfl025/assessment.json": "05ab817bd4ffa7fa9196fc6396c43e403e6dd72f4a8e01ae9bcc6ae90f50e838",
+    "goland-cfl025/motion.json": "00cf7b218df3bd9aaab84b09e922a9b3ae41e4dce254828c51e341317dc16f91",
+    "goland-cfl025/model.npz": "94f1e2305f57bb78fce178caa8bc4264acc4d600b94500a3e367e330b5a0c410",
+    "shell-coarse-v2/assessment.json": "66538e1e435dbc58be33e58499fecec3d40cb9ebc19605523500a3440d2a1f40",
+    "shell-coarse-v2/motion.json": "273989c22fb3e3bc2b238325962307880b856485604eb49ebf91ab27406be875",
+    "shell-coarse-v2/model.npz": "a0f14b24bed2ac384d8a20a98067b4e7542d78914abd052e1da66b88d7eae252",
+    "shell-finer/assessment.json": "0c58710306f14e72a9a8be01e715e77a7d9b29cdea4d587b35221262af807e9a",
+    "shell-finer/motion.json": "f6832651091a0ea224ffaecf1fd26987c096f07670e76324c35b88adb12c2b89",
+    "shell-finer/model.npz": "f1138edf4d7a82ceb221e3131a3a3556d5470d8a1d7ca8380b6b90bda4c28acb",
+    "modal_uvlm_explore.py": "fbd99e356d4c8e9dc0cb0a2885b3f6df0f0dbf2165bc9d65a6e28d611010f4e6",
+    "explore-v1.py": "72b8ea00eae289d398db82788dc23792cd9234718fb2811fe7627a9f70cd226c",
+    "refine-crossings.py": "e0171d14f9a1e8a65eee5d798c2559701bf12e708a9baa74d47287606f92c3b4",
+    "plot-results.py": "954e1bf6ac01badcca593021b2abf97ed6a75e178456026c65ad213e823578d7",
+    "shell-preview-data.json": "d59ea5cb8daedbb38045bb8ebc14f535605108f59339fae9e4a7554fd840f68c",
+    "goland-native.npz": "27d320dc7077a0bb02964a4fb12f37bc4c3203bc20e4cfa0969111ee674b2877",
+    "camber-M4-N8.npz": "207e4c3e6b99293769081a98cb0948d225dae423def6d59daf8600fac5ad8ae8",
+    "camber-M8-N16.npz": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+    "browser-check-script": "cda8eb3f6ea40516b1ef2b7a56ecda518166a9e46c48d47e3a2b7af6fbf0491c",
+    "viewers/wing-coupled-pilot.html": "d82eae009e104753a0783c81e6796d53b062fbce0f94e6f97ec6c0a3b780ec21"
+  },
+  "failures": {
+    "shell-coarse": "UFuncTypeError(<ufunc 'subtract'>, 'same_kind', dtype('complex128'), dtype('float64'), 2)",
+    "goland-cfl1": "UFuncTypeError(<ufunc 'subtract'>, 'same_kind', dtype('complex128'), dtype('float64'), 2)"
+  },
+  "interpretation_limits": [
+    "Shell untrimmed cambered reference deliberately retained; perturbation operator does not represent a solved loaded equilibrium.",
+    "20mm guard is an exploratory stop, not a flight or structural limit.",
+    "Ten modes, no actual carbon/spars/joint/control/test calibration; zero assumed damping.",
+    "Shell coarse/finer cases change mesh and dt together, not an isolated convergence study.",
+    "Recorded frames are downsampled for preview; high-frequency playback and generic peak fits are not mode-identification proof.",
+    "No new CFD or merge."
+  ],
+  "browser_verification": {
+    "status": "passed",
+    "checks": [
+      {
+        "case": 0,
+        "interpolatedQ": true,
+        "physicalTipTrace": true,
+        "magnificationIndependent": true,
+        "caseMaximumMatches": true
+      },
+      {
+        "case": 1,
+        "interpolatedQ": true,
+        "physicalTipTrace": true,
+        "magnificationIndependent": true,
+        "caseMaximumMatches": true
+      },
+      {
+        "case": 2,
+        "interpolatedQ": true,
+        "physicalTipTrace": true,
+        "magnificationIndependent": true,
+        "caseMaximumMatches": true
+      },
+      {
+        "case": 3,
+        "interpolatedQ": true,
+        "physicalTipTrace": true,
+        "magnificationIndependent": true,
+        "caseMaximumMatches": true
+      },
+      {
+        "case": 4,
+        "interpolatedQ": true,
+        "physicalTipTrace": true,
+        "magnificationIndependent": true,
+        "caseMaximumMatches": true
+      },
+      {
+        "case": 5,
+        "interpolatedQ": true,
+        "physicalTipTrace": true,
+        "magnificationIndependent": true,
+        "caseMaximumMatches": true
+      }
+    ],
+    "playPause": true,
+    "stopAtEnd": true,
+    "noExternalRequests": true,
+    "errors": []
+  },
+  "repository_tests": {
+    "command": "python3 -m unittest discover -s tests",
+    "passed": 125
+  }
+}

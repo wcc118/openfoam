@@ -1,0 +1,2 @@
+point-map.C
+EXE = $(FOAM_USER_APPBIN)/wingPointMap

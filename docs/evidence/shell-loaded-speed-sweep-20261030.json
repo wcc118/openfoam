@@ -1,0 +1,5258 @@
+{
+  "scope": "Exploratory loaded-reference speed and mode-count study; failed/guarded cases have no favorable stability classification",
+  "runtime": {
+    "SHARPy_commit": "a4154d471c30f15db9af6524763ea250bb46c7b8",
+    "image": "sha256:53f45db26c471d5d35b1aac8b77826f642f2b4dd74b8a1311838a3bb31e8de9a",
+    "cpus": 4,
+    "memory": "24g",
+    "OPENBLAS_NUM_THREADS": 1,
+    "network": "none",
+    "native_MYSTRAN_version": "19.0.0"
+  },
+  "source_sha256": {
+    "scripts/experiments/shell_loaded_speed_sweep.py": "23fa908bf330e362c612daf134df3b8e34afb2d40b96607edc538d3f1f2f679e",
+    "scripts/experiments/shell_loaded_equilibrium.py": "5892336cb32dce2d0190881730f31265602d3c7d300134df3dd13b21c495a0d5",
+    "scripts/experiments/modal_uvlm_explore.py": "fbd99e356d4c8e9dc0cb0a2885b3f6df0f0dbf2165bc9d65a6e28d611010f4e6",
+    "runs/loaded-speed-sweep-20261030/native-modal.npz": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+    "runs/loaded-speed-sweep-20261030/camber-M8-N16.npz": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+    "runs/loaded-speed-sweep-20261030/check_results.py": "061efe34f1b583f86e1bf393b14f56394442280ef59e96f812055c7b155dd7c4",
+    "runs/loaded-speed-sweep-20261030/sweep/summary.json": "f0603d5059fa7e2ff3005064938216cc0d1a160870d0bae9e504f7799b582c53",
+    "scripts/experiments/export_loaded_speed_sweep.py": "986afc293cfb1b8018eaf1b277d7b0a387f3be46053fd0c2ff1254b06fbd960f",
+    "scripts/build_equilibrium_comparison.py": "7f8e0db8b71ee8723977c1b498197e93e1e90fbd2dbd117ce467a3f6be69c694",
+    "viewers/wing-speed-comparison.html": "489f884d489ca6070683f64e60bb92d49140dd673df17545116d6068b91fc4d7",
+    "docs/evidence/shell-loaded-speed-sweep-20261030.png": "c97a5bc3e7fb0f5da7502123a79bc8a92a317865fa8070f5e0656fb9c71d6b94"
+  },
+  "reports": [
+    {
+      "modes": 10,
+      "speed_m_s": 10.0,
+      "status": "executed_exploratory",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "cfl": 0.5,
+      "rho_kg_m3": 1.225,
+      "assumed_structural_damping": 0.0,
+      "guard_native_node_component_m": 0.05,
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "dt_seconds": 0.0006349999999999999,
+      "native_frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331
+      ],
+      "discrete_uncoupled_frequencies_hz": [
+        8.809767862760884,
+        53.57077059609857,
+        56.197729206583176,
+        139.42124454337247,
+        163.43005274970622,
+        237.58313814241185,
+        299.6212237183634,
+        316.33366248748376,
+        365.02722806372657,
+        368.8767480977926
+      ],
+      "equilibrium_solver_success": true,
+      "equilibrium_solver_message": "The solution converged.",
+      "equilibrium_residual_history": [
+        0.0009688982949115035,
+        0.0009688982949115035,
+        0.0009688982949115035,
+        0.0009689132056211949,
+        0.0009688981445974038,
+        0.0009688982466461893,
+        0.0009688988371174376,
+        0.0009689042691701389,
+        0.0009688985828472719,
+        0.0009688981012124913,
+        0.0009688980894118295,
+        0.0009688984700433092,
+        0.0009688978614627007,
+        1.430375233513713e-09,
+        1.218643241873707e-15,
+        5.421010862427522e-19,
+        5.421010862427522e-19
+      ],
+      "equilibrium_q": [
+        -0.0009678255209698457,
+        1.7724344760846646e-05,
+        -1.2282175894357756e-07,
+        -1.3580673162682464e-06,
+        -5.825317580312484e-07,
+        3.0511549308028393e-07,
+        3.7993418709279735e-09,
+        -1.1590068039642549e-07,
+        4.990284286227491e-08,
+        2.4105491220247457e-08
+      ],
+      "equilibrium_tip_z_m": 0.00141157350404445,
+      "equilibrium_tip_twist_deg": -0.005696978915071983,
+      "equilibrium_max_node_component_m": 0.001416501109477828,
+      "initial_max_node_component_m": 0.0024187560559233616,
+      "equilibrium_force_relative_residual": 7.694427701038145e-16,
+      "aero": {
+        "full_states": 2816,
+        "reduced_states": 60,
+        "aero_rom_radius": 0.9760780933900519,
+        "transfer_checks": [
+          {
+            "frequency_rad_s": 0.0,
+            "relative_frobenius_error": 1.0543324216862434e-12
+          },
+          {
+            "frequency_rad_s": 55.3591037063345,
+            "relative_frobenius_error": 1.7333881884573103e-05
+          },
+          {
+            "frequency_rad_s": 2852.145784362482,
+            "relative_frobenius_error": 0.03080026808691508
+          }
+        ]
+      },
+      "poles": {
+        "tracked_bending": {
+          "growth_per_s": -1.5520714770493025,
+          "frequency_hz": 8.811313453801759,
+          "first_native_mode_fraction": 0.9999999763628016
+        },
+        "tracked_adjacent_mac": null,
+        "dominant_resolved_oscillatory": {
+          "growth_per_s": -0.0041062966678152395,
+          "frequency_hz": 56.19615223454726,
+          "first_native_mode_fraction": 3.4793307632288286e-05
+        },
+        "largest_nonoscillatory_growth_per_s": -37.89645134163949,
+        "largest_all_pole_growth_per_s": -0.0041062966678152395,
+        "unresolved_high_phase_growing_poles": 0,
+        "resolved_oscillatory_growing_poles": 0,
+        "all_resolved_oscillatory": [
+          {
+            "growth_per_s": -2.230283526134271,
+            "frequency_hz": 368.13267731756866,
+            "first_native_mode_fraction": 0.00038306366922879575
+          },
+          {
+            "growth_per_s": -2.897377814019508,
+            "frequency_hz": 364.051616782336,
+            "first_native_mode_fraction": 0.00014738469208304755
+          },
+          {
+            "growth_per_s": -3.0040484309643705,
+            "frequency_hz": 315.06023078701776,
+            "first_native_mode_fraction": 1.0143061001676227e-05
+          },
+          {
+            "growth_per_s": -0.047704378299162804,
+            "frequency_hz": 299.5985080819152,
+            "first_native_mode_fraction": 1.4879630652570091e-05
+          },
+          {
+            "growth_per_s": -1.9942816729240578,
+            "frequency_hz": 236.30117935619592,
+            "first_native_mode_fraction": 2.0311698043741857e-05
+          },
+          {
+            "growth_per_s": -0.6690568544780644,
+            "frequency_hz": 162.9231764750478,
+            "first_native_mode_fraction": 0.0064072454881160526
+          },
+          {
+            "growth_per_s": -1.080369991031511,
+            "frequency_hz": 138.5700166610717,
+            "first_native_mode_fraction": 3.9920422231243124e-05
+          },
+          {
+            "growth_per_s": -2848.216709321252,
+            "frequency_hz": 637.9188662581125,
+            "first_native_mode_fraction": 0.9921819149179001
+          },
+          {
+            "growth_per_s": -2919.9977693337055,
+            "frequency_hz": 624.6816532464256,
+            "first_native_mode_fraction": 0.9880451844016982
+          },
+          {
+            "growth_per_s": -3336.1690238033316,
+            "frequency_hz": 703.8729469366699,
+            "first_native_mode_fraction": 0.9817939031254814
+          },
+          {
+            "growth_per_s": -3627.699060263379,
+            "frequency_hz": 709.3528005487042,
+            "first_native_mode_fraction": 0.953928635718457
+          },
+          {
+            "growth_per_s": -4017.617839948927,
+            "frequency_hz": 586.4241939691406,
+            "first_native_mode_fraction": 0.9989654521352003
+          },
+          {
+            "growth_per_s": -4058.0688157018944,
+            "frequency_hz": 638.6663302388403,
+            "first_native_mode_fraction": 0.9406012685653435
+          },
+          {
+            "growth_per_s": -4585.779000799041,
+            "frequency_hz": 617.9978026864085,
+            "first_native_mode_fraction": 0.9675579682936176
+          },
+          {
+            "growth_per_s": -6089.405833797956,
+            "frequency_hz": 508.7098821356173,
+            "first_native_mode_fraction": 0.34547677035349056
+          },
+          {
+            "growth_per_s": -0.0041062966678152395,
+            "frequency_hz": 56.19615223454726,
+            "first_native_mode_fraction": 3.4793307632288286e-05
+          },
+          {
+            "growth_per_s": -1.0624846644037467,
+            "frequency_hz": 53.260914441567095,
+            "first_native_mode_fraction": 1.576943609004934e-05
+          },
+          {
+            "growth_per_s": -1.5520714770493025,
+            "frequency_hz": 8.811313453801759,
+            "first_native_mode_fraction": 0.9999999763628016
+          },
+          {
+            "growth_per_s": -66.98957524623096,
+            "frequency_hz": 18.29554874191716,
+            "first_native_mode_fraction": 0.998067875050209
+          },
+          {
+            "growth_per_s": -68.83427426737039,
+            "frequency_hz": 11.888232025223909,
+            "first_native_mode_fraction": 0.9964644024259969
+          },
+          {
+            "growth_per_s": -74.65217295759875,
+            "frequency_hz": 11.136655243886379,
+            "first_native_mode_fraction": 0.9998774636622288
+          },
+          {
+            "growth_per_s": -79.46064917319542,
+            "frequency_hz": 8.93064293100895,
+            "first_native_mode_fraction": 0.9971587434744691
+          },
+          {
+            "growth_per_s": -216.79521397207333,
+            "frequency_hz": 0.7800794807768147,
+            "first_native_mode_fraction": 0.8839740473692341
+          },
+          {
+            "growth_per_s": -105.96655955533438,
+            "frequency_hz": 8.689468494868182,
+            "first_native_mode_fraction": 0.9917188309115871
+          },
+          {
+            "growth_per_s": -195.7866065679478,
+            "frequency_hz": 1.4177310208668186,
+            "first_native_mode_fraction": 0.962284326057666
+          },
+          {
+            "growth_per_s": -132.91127738984176,
+            "frequency_hz": 5.511985604880436,
+            "first_native_mode_fraction": 0.9844776511513066
+          }
+        ]
+      },
+      "history": {
+        "equilibrium_q": [
+          -0.0009678255209698457,
+          1.7724344760846646e-05,
+          -1.2282175894357756e-07,
+          -1.3580673162682464e-06,
+          -5.825317580312484e-07,
+          3.0511549308028393e-07,
+          3.7993418709279735e-09,
+          -1.1590068039642549e-07,
+          4.990284286227491e-08,
+          2.4105491220247457e-08
+        ],
+        "initial_physical_state_error": 2.168404344971009e-19,
+        "peak_node_component_m": 0.0024187560559233616,
+        "stopped_at_50mm_guard": false,
+        "recorded_seconds": 1.000125
+      },
+      "history_metrics": {
+        "initial_delta_tip_z_m": 0.0010000000000000002,
+        "peak_abs_delta_tip_z_m": 0.0010000000000000002,
+        "final_delta_tip_z_m": 7.383969552500817e-05,
+        "first_modal_tip_peak_fit": {
+          "growth_per_s": -1.5521022154425743,
+          "frequency_hz": 8.81419673287108,
+          "positive_peaks": 7,
+          "fit_start_s": 0.22732999999999998,
+          "fit_end_s": 0.9080499999999999
+        }
+      },
+      "pole_transient_growth_difference_per_s": -3.073839327183414e-05,
+      "pole_transient_frequency_relative_difference": 0.00032722466229784253,
+      "elapsed_seconds": 5.215145351365209
+    },
+    {
+      "modes": 10,
+      "speed_m_s": 20.0,
+      "status": "executed_exploratory",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "cfl": 0.5,
+      "rho_kg_m3": 1.225,
+      "assumed_structural_damping": 0.0,
+      "guard_native_node_component_m": 0.05,
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "dt_seconds": 0.00031749999999999997,
+      "native_frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331
+      ],
+      "discrete_uncoupled_frequencies_hz": [
+        8.810448184165462,
+        53.72416578014882,
+        56.37486613715579,
+        142.1704685371532,
+        167.8906497156601,
+        251.70589688030228,
+        328.9301679042461,
+        351.1930272991062,
+        420.4570729674723,
+        426.24634131258284
+      ],
+      "equilibrium_solver_success": true,
+      "equilibrium_solver_message": "The solution converged.",
+      "equilibrium_residual_history": [
+        1.282798093574537e-05,
+        1.282798093574537e-05,
+        1.282798093574537e-05,
+        1.2827923102956464e-05,
+        1.2827980978475512e-05,
+        1.282798093584685e-05,
+        1.282798092397397e-05,
+        1.2827980880068986e-05,
+        1.282798093433634e-05,
+        1.2827980935760548e-05,
+        1.2827980936133947e-05,
+        1.2827980935609194e-05,
+        1.282798093591754e-05,
+        6.830013984937544e-13,
+        6.071532165918825e-18,
+        6.071532165918825e-18
+      ],
+      "equilibrium_q": [
+        -0.003858449800986252,
+        7.079535057760354e-05,
+        -4.867002093488334e-07,
+        -5.442121604841735e-06,
+        -2.3672122495430504e-06,
+        1.2196558782802527e-06,
+        1.5559462853499722e-08,
+        -4.6405636100707677e-07,
+        1.999606158143859e-07,
+        9.57986573516618e-08
+      ],
+      "equilibrium_tip_z_m": 0.005627383816105147,
+      "equilibrium_tip_twist_deg": -0.022808127214745563,
+      "equilibrium_max_node_component_m": 0.00564711241807362,
+      "initial_max_node_component_m": 0.006649367364519154,
+      "equilibrium_force_relative_residual": 1.390696733288832e-15,
+      "aero": {
+        "full_states": 2816,
+        "reduced_states": 60,
+        "aero_rom_radius": 0.9760791498675095,
+        "transfer_checks": [
+          {
+            "frequency_rad_s": 0.0,
+            "relative_frobenius_error": 8.616682570853772e-13
+          },
+          {
+            "frequency_rad_s": 55.3591037063345,
+            "relative_frobenius_error": 3.769460696672733e-07
+          },
+          {
+            "frequency_rad_s": 2852.145784362482,
+            "relative_frobenius_error": 0.024340881429906612
+          }
+        ]
+      },
+      "poles": {
+        "tracked_bending": {
+          "growth_per_s": -3.5561986857509464,
+          "frequency_hz": 8.853051338314321,
+          "first_native_mode_fraction": 0.9999998316269039
+        },
+        "tracked_adjacent_mac": 0.9996693902941399,
+        "dominant_resolved_oscillatory": {
+          "growth_per_s": -0.00868421013236329,
+          "frequency_hz": 56.37340936499421,
+          "first_native_mode_fraction": 0.00014819388407118285
+        },
+        "largest_nonoscillatory_growth_per_s": -75.20109161854269,
+        "largest_all_pole_growth_per_s": -0.00868421013236329,
+        "unresolved_high_phase_growing_poles": 0,
+        "resolved_oscillatory_growing_poles": 0,
+        "all_resolved_oscillatory": [
+          {
+            "growth_per_s": -1.648248805957307,
+            "frequency_hz": 424.9909814966596,
+            "first_native_mode_fraction": 0.0012128108663709445
+          },
+          {
+            "growth_per_s": -2.013693813392354,
+            "frequency_hz": 418.8727473401844,
+            "first_native_mode_fraction": 0.0002718553317044306
+          },
+          {
+            "growth_per_s": -2.1244498565771015,
+            "frequency_hz": 349.44763689628945,
+            "first_native_mode_fraction": 3.055964790194075e-05
+          },
+          {
+            "growth_per_s": -0.035005729901980226,
+            "frequency_hz": 328.9007470108962,
+            "first_native_mode_fraction": 4.344478480789632e-05
+          },
+          {
+            "growth_per_s": -1.8342970077382434,
+            "frequency_hz": 250.28064533784533,
+            "first_native_mode_fraction": 5.932743202168581e-05
+          },
+          {
+            "growth_per_s": -5686.3200755156495,
+            "frequency_hz": 1276.093549752365,
+            "first_native_mode_fraction": 0.9921699083019887
+          },
+          {
+            "growth_per_s": -5856.884230630716,
+            "frequency_hz": 1251.3173598397211,
+            "first_native_mode_fraction": 0.9878359262459158
+          },
+          {
+            "growth_per_s": -6679.849504771927,
+            "frequency_hz": 1415.667133838969,
+            "first_native_mode_fraction": 0.9806078949519694
+          },
+          {
+            "growth_per_s": -7280.728978336632,
+            "frequency_hz": 1427.6150582334735,
+            "first_native_mode_fraction": 0.9483139936944204
+          },
+          {
+            "growth_per_s": -8029.291886330817,
+            "frequency_hz": 1170.35264940922,
+            "first_native_mode_fraction": 0.9990293920839591
+          },
+          {
+            "growth_per_s": -8133.567064330556,
+            "frequency_hz": 1285.313110955008,
+            "first_native_mode_fraction": 0.9347857998888872
+          },
+          {
+            "growth_per_s": -9193.739097036416,
+            "frequency_hz": 1252.1911654165099,
+            "first_native_mode_fraction": 0.9646824425446366
+          },
+          {
+            "growth_per_s": -12197.52206080565,
+            "frequency_hz": 1027.7288681084585,
+            "first_native_mode_fraction": 0.44778307427634056
+          },
+          {
+            "growth_per_s": -1.1807385839922488,
+            "frequency_hz": 167.1859352329896,
+            "first_native_mode_fraction": 0.02282565174993367
+          },
+          {
+            "growth_per_s": -1.9390540523061148,
+            "frequency_hz": 141.3498362131096,
+            "first_native_mode_fraction": 0.00016634429696398754
+          },
+          {
+            "growth_per_s": -2.3955275995815026,
+            "frequency_hz": 53.48000528642236,
+            "first_native_mode_fraction": 6.754252971137299e-05
+          },
+          {
+            "growth_per_s": -0.00868421013236329,
+            "frequency_hz": 56.37340936499421,
+            "first_native_mode_fraction": 0.00014819388407118285
+          },
+          {
+            "growth_per_s": -131.07690451035862,
+            "frequency_hz": 36.51252546540956,
+            "first_native_mode_fraction": 0.9840842122603499
+          },
+          {
+            "growth_per_s": -3.5561986857509464,
+            "frequency_hz": 8.853051338314321,
+            "first_native_mode_fraction": 0.9999998316269039
+          },
+          {
+            "growth_per_s": -137.52384007107668,
+            "frequency_hz": 23.661502914673605,
+            "first_native_mode_fraction": 0.9809965220519676
+          },
+          {
+            "growth_per_s": -149.06974082976706,
+            "frequency_hz": 22.397111677293882,
+            "first_native_mode_fraction": 0.9992038608686643
+          },
+          {
+            "growth_per_s": -158.94215208902048,
+            "frequency_hz": 17.889223617005495,
+            "first_native_mode_fraction": 0.9884802373327284
+          },
+          {
+            "growth_per_s": -211.78873005242392,
+            "frequency_hz": 17.297611392356934,
+            "first_native_mode_fraction": 0.9754804745765903
+          },
+          {
+            "growth_per_s": -434.938235735726,
+            "frequency_hz": 2.0833945114691126,
+            "first_native_mode_fraction": 0.8799237744628708
+          },
+          {
+            "growth_per_s": -388.7766497685811,
+            "frequency_hz": 3.057491827276108,
+            "first_native_mode_fraction": 0.9246867121891265
+          },
+          {
+            "growth_per_s": -265.8443875052499,
+            "frequency_hz": 11.082197757124074,
+            "first_native_mode_fraction": 0.9583690808842239
+          }
+        ]
+      },
+      "history": {
+        "equilibrium_q": [
+          -0.003858449800986252,
+          7.079535057760354e-05,
+          -4.867002093488334e-07,
+          -5.442121604841735e-06,
+          -2.3672122495430504e-06,
+          1.2196558782802527e-06,
+          1.5559462853499722e-08,
+          -4.6405636100707677e-07,
+          1.999606158143859e-07,
+          9.57986573516618e-08
+        ],
+        "initial_physical_state_error": 3.2526065174565133e-19,
+        "peak_node_component_m": 0.006649367364519155,
+        "stopped_at_50mm_guard": false,
+        "recorded_seconds": 1.000125
+      },
+      "history_metrics": {
+        "initial_delta_tip_z_m": 0.0010000000000000009,
+        "peak_abs_delta_tip_z_m": 0.0010000000000000009,
+        "final_delta_tip_z_m": 1.558448101644857e-05,
+        "first_modal_tip_peak_fit": {
+          "growth_per_s": -3.5554820174709287,
+          "frequency_hz": 8.847208705653369,
+          "positive_peaks": 7,
+          "fit_start_s": 0.22574249999999998,
+          "fit_end_s": 0.9039224999999999
+        }
+      },
+      "pole_transient_growth_difference_per_s": 0.0007166682800177071,
+      "pole_transient_frequency_relative_difference": -0.0006599569388767712,
+      "elapsed_seconds": 4.896085455082357
+    },
+    {
+      "modes": 10,
+      "speed_m_s": 30.0,
+      "status": "executed_exploratory",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "cfl": 0.5,
+      "rho_kg_m3": 1.225,
+      "assumed_structural_damping": 0.0,
+      "guard_native_node_component_m": 0.05,
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "dt_seconds": 0.00021166666666666667,
+      "native_frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331
+      ],
+      "discrete_uncoupled_frequencies_hz": [
+        8.810574190367285,
+        53.75274620706678,
+        56.40789039313357,
+        142.70133245818514,
+        168.7658173462218,
+        254.66864446963967,
+        335.5806242999177,
+        359.30307885295116,
+        434.46922651438973,
+        440.85432597304424
+      ],
+      "equilibrium_solver_success": true,
+      "equilibrium_solver_message": "The solution converged.",
+      "equilibrium_residual_history": [
+        4.784964279888962e-05,
+        4.784964279888962e-05,
+        4.784964279888962e-05,
+        4.7849512709478154e-05,
+        4.784964301542648e-05,
+        4.784964279940136e-05,
+        4.7849642739197784e-05,
+        4.784964251253014e-05,
+        4.784964279177899e-05,
+        4.7849642798950334e-05,
+        4.78496428008221e-05,
+        4.784964279818185e-05,
+        4.784964279971882e-05,
+        1.3821237557221089e-11,
+        3.469446951953614e-18,
+        1.734723475976807e-18,
+        1.734723475976807e-18,
+        1.9081958235744878e-17,
+        1.734723475976807e-18
+      ],
+      "equilibrium_q": [
+        -0.008633450127580218,
+        0.00015890621442675508,
+        -1.0770346059965545e-06,
+        -1.2281553767835496e-05,
+        -5.46597098711132e-06,
+        2.741129408223934e-06,
+        3.639881972341561e-08,
+        -1.045809884560943e-06,
+        4.5121571366104304e-07,
+        2.1319731206140716e-07
+      ],
+      "equilibrium_tip_z_m": 0.01259090016433907,
+      "equilibrium_tip_twist_deg": -0.051395922701717396,
+      "equilibrium_max_node_component_m": 0.012635359269783614,
+      "initial_max_node_component_m": 0.013637614216229148,
+      "equilibrium_force_relative_residual": 6.389201079471251e-16,
+      "aero": {
+        "full_states": 2816,
+        "reduced_states": 60,
+        "aero_rom_radius": 0.9760809513283204,
+        "transfer_checks": [
+          {
+            "frequency_rad_s": 0.0,
+            "relative_frobenius_error": 7.901955817885434e-13
+          },
+          {
+            "frequency_rad_s": 55.3591037063345,
+            "relative_frobenius_error": 3.701547210660929e-08
+          },
+          {
+            "frequency_rad_s": 2852.145784362482,
+            "relative_frobenius_error": 0.015655939327013316
+          }
+        ]
+      },
+      "poles": {
+        "tracked_bending": {
+          "growth_per_s": -5.650942358532729,
+          "frequency_hz": 8.865497083106636,
+          "first_native_mode_fraction": 0.9999995192795379
+        },
+        "tracked_adjacent_mac": 0.9996479966763159,
+        "dominant_resolved_oscillatory": {
+          "growth_per_s": -0.012935161925239254,
+          "frequency_hz": 56.406598874324494,
+          "first_native_mode_fraction": 0.00035080009751485667
+        },
+        "largest_nonoscillatory_growth_per_s": -112.18243982299725,
+        "largest_all_pole_growth_per_s": -0.012935161925239254,
+        "unresolved_high_phase_growing_poles": 0,
+        "resolved_oscillatory_growing_poles": 0,
+        "all_resolved_oscillatory": [
+          {
+            "growth_per_s": -1.6268073069302156,
+            "frequency_hz": 439.4194044760824,
+            "first_native_mode_fraction": 0.0023396143353964748
+          },
+          {
+            "growth_per_s": -1.875618537753488,
+            "frequency_hz": 432.75157788896746,
+            "first_native_mode_fraction": 0.0005164509980968654
+          },
+          {
+            "growth_per_s": -2.326530235344537,
+            "frequency_hz": 357.49790026101715,
+            "first_native_mode_fraction": 7.809841361203797e-05
+          },
+          {
+            "growth_per_s": -8498.035602322214,
+            "frequency_hz": 1913.9039233235071,
+            "first_native_mode_fraction": 0.9926865831912973
+          },
+          {
+            "growth_per_s": -8825.748693592199,
+            "frequency_hz": 1881.9919768185678,
+            "first_native_mode_fraction": 0.9854027915792288
+          },
+          {
+            "growth_per_s": -10021.865124039072,
+            "frequency_hz": 2132.455650369684,
+            "first_native_mode_fraction": 0.9775401815426698
+          },
+          {
+            "growth_per_s": -10978.969292544916,
+            "frequency_hz": 2144.2737241743334,
+            "first_native_mode_fraction": 0.9412754334765119
+          },
+          {
+            "growth_per_s": -12023.485776845067,
+            "frequency_hz": 1742.5575129665174,
+            "first_native_mode_fraction": 0.9989123472172425
+          },
+          {
+            "growth_per_s": -12155.16739426679,
+            "frequency_hz": 1952.6950653054657,
+            "first_native_mode_fraction": 0.8518633723408362
+          },
+          {
+            "growth_per_s": -13781.116572198167,
+            "frequency_hz": 1889.865760607335,
+            "first_native_mode_fraction": 0.9544247029413927
+          },
+          {
+            "growth_per_s": -0.04374735195561872,
+            "frequency_hz": 335.54973106741267,
+            "first_native_mode_fraction": 9.23939424784689e-05
+          },
+          {
+            "growth_per_s": -18496.3844528533,
+            "frequency_hz": 1496.6770935212583,
+            "first_native_mode_fraction": 0.6673129915574177
+          },
+          {
+            "growth_per_s": -2.593271956716537,
+            "frequency_hz": 253.2577803882178,
+            "first_native_mode_fraction": 0.0001231092772681625
+          },
+          {
+            "growth_per_s": -1.8744520598552088,
+            "frequency_hz": 167.7392771468426,
+            "first_native_mode_fraction": 0.051189864224949276
+          },
+          {
+            "growth_per_s": -3.0918214388394483,
+            "frequency_hz": 141.92621076579823,
+            "first_native_mode_fraction": 0.0004037686079905216
+          },
+          {
+            "growth_per_s": -3.8855585183312273,
+            "frequency_hz": 53.58289765755222,
+            "first_native_mode_fraction": 0.0002503539206713802
+          },
+          {
+            "growth_per_s": -0.012935161925239254,
+            "frequency_hz": 56.406598874324494,
+            "first_native_mode_fraction": 0.00035080009751485667
+          },
+          {
+            "growth_per_s": -191.49182640957397,
+            "frequency_hz": 54.23354165452703,
+            "first_native_mode_fraction": 0.9697918421205649
+          },
+          {
+            "growth_per_s": -5.650942358532729,
+            "frequency_hz": 8.865497083106636,
+            "first_native_mode_fraction": 0.9999995192795379
+          },
+          {
+            "growth_per_s": -657.150392762104,
+            "frequency_hz": 3.769763768287293,
+            "first_native_mode_fraction": 0.9220023386194918
+          },
+          {
+            "growth_per_s": -205.42695809037383,
+            "frequency_hz": 35.265248204488245,
+            "first_native_mode_fraction": 0.9556185293653967
+          },
+          {
+            "growth_per_s": -223.03483970688174,
+            "frequency_hz": 33.921820883481196,
+            "first_native_mode_fraction": 0.9967405786365554
+          },
+          {
+            "growth_per_s": -573.053432225433,
+            "frequency_hz": 4.268060664674183,
+            "first_native_mode_fraction": 0.9059320849210539
+          },
+          {
+            "growth_per_s": -319.3218400837715,
+            "frequency_hz": 25.367412813739765,
+            "first_native_mode_fraction": 0.9671795502169922
+          },
+          {
+            "growth_per_s": -238.58376102374496,
+            "frequency_hz": 26.88750404187581,
+            "first_native_mode_fraction": 0.9755003627917618
+          },
+          {
+            "growth_per_s": -394.76245383547433,
+            "frequency_hz": 17.10448392404861,
+            "first_native_mode_fraction": 0.9429456861251166
+          }
+        ]
+      },
+      "history": {
+        "equilibrium_q": [
+          -0.008633450127580218,
+          0.00015890621442675508,
+          -1.0770346059965545e-06,
+          -1.2281553767835496e-05,
+          -5.46597098711132e-06,
+          2.741129408223934e-06,
+          3.639881972341561e-08,
+          -1.045809884560943e-06,
+          4.5121571366104304e-07,
+          2.1319731206140716e-07
+        ],
+        "initial_physical_state_error": 2.168404344971009e-19,
+        "peak_node_component_m": 0.013637614216229148,
+        "stopped_at_50mm_guard": false,
+        "recorded_seconds": 1.000125
+      },
+      "history_metrics": {
+        "initial_delta_tip_z_m": 0.0009999999999999996,
+        "peak_abs_delta_tip_z_m": 0.0009999999999999996,
+        "final_delta_tip_z_m": 2.047380773654115e-06,
+        "first_modal_tip_peak_fit": {
+          "growth_per_s": -5.649309573123971,
+          "frequency_hz": 8.858267716535433,
+          "positive_peaks": 7,
+          "fit_start_s": 0.22542500000000001,
+          "fit_end_s": 0.9027583333333333
+        }
+      },
+      "pole_transient_growth_difference_per_s": 0.0016327854087583304,
+      "pole_transient_frequency_relative_difference": -0.0008154496587651217,
+      "elapsed_seconds": 4.876960965804756
+    },
+    {
+      "modes": 10,
+      "speed_m_s": 40.0,
+      "status": "executed_exploratory",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "cfl": 0.5,
+      "rho_kg_m3": 1.225,
+      "assumed_structural_damping": 0.0,
+      "guard_native_node_component_m": 0.05,
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "dt_seconds": 0.00015874999999999998,
+      "native_frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331
+      ],
+      "discrete_uncoupled_frequencies_hz": [
+        8.810618294070661,
+        53.76276229483301,
+        56.41946534597244,
+        142.88882719212785,
+        169.07602678964543,
+        255.735626350318,
+        338.0250428446145,
+        362.30470556462006,
+        439.78448404342583,
+        446.40818436957034
+      ],
+      "equilibrium_solver_success": true,
+      "equilibrium_solver_message": "The solution converged.",
+      "equilibrium_residual_history": [
+        0.00011818023987132491,
+        0.00011818023987132491,
+        0.00011818023987132491,
+        0.00011818000893503225,
+        0.00011818024055640364,
+        0.00011818023987303881,
+        0.00011818023968230597,
+        0.00011818023894270661,
+        0.00011818023984896953,
+        0.00011818023987155216,
+        0.00011818023987745715,
+        0.00011818023986912007,
+        0.00011818023987395128,
+        2.8307445276709586e-10,
+        5.117434254131581e-16,
+        6.938893903907228e-18,
+        6.938893903907228e-18
+      ],
+      "equilibrium_q": [
+        -0.015229191240512484,
+        0.00028154279880687706,
+        -1.8667299833011038e-06,
+        -2.1924886163385025e-05,
+        -1.0067562143485715e-05,
+        4.8651958381578666e-06,
+        6.82871532847846e-08,
+        -1.863343928070627e-06,
+        8.053842736573742e-07,
+        3.7312156203295683e-07
+      ],
+      "equilibrium_tip_z_m": 0.02220850528741884,
+      "equilibrium_tip_twist_deg": -0.09157037318904429,
+      "equilibrium_max_node_component_m": 0.022287722954229323,
+      "initial_max_node_component_m": 0.023289977900674858,
+      "equilibrium_force_relative_residual": 9.891825651383916e-16,
+      "aero": {
+        "full_states": 2816,
+        "reduced_states": 60,
+        "aero_rom_radius": 0.9760836725226928,
+        "transfer_checks": [
+          {
+            "frequency_rad_s": 0.0,
+            "relative_frobenius_error": 8.085293752906031e-13
+          },
+          {
+            "frequency_rad_s": 55.3591037063345,
+            "relative_frobenius_error": 7.039280866710576e-09
+          },
+          {
+            "frequency_rad_s": 2852.145784362482,
+            "relative_frobenius_error": 0.01100372568327849
+          }
+        ]
+      },
+      "poles": {
+        "tracked_bending": {
+          "growth_per_s": -7.767157028650711,
+          "frequency_hz": 8.862397548119528,
+          "first_native_mode_fraction": 0.9999990334634805
+        },
+        "tracked_adjacent_mac": 0.9996443035697652,
+        "dominant_resolved_oscillatory": {
+          "growth_per_s": -0.016722485663116553,
+          "frequency_hz": 56.418427039097814,
+          "first_native_mode_fraction": 0.0006545263416523425
+        },
+        "largest_nonoscillatory_growth_per_s": -148.88703447345597,
+        "largest_all_pole_growth_per_s": -0.016722485663116553,
+        "unresolved_high_phase_growing_poles": 0,
+        "resolved_oscillatory_growing_poles": 0,
+        "all_resolved_oscillatory": [
+          {
+            "growth_per_s": -11292.969398944464,
+            "frequency_hz": 2554.2131809072903,
+            "first_native_mode_fraction": 0.9916216258865449
+          },
+          {
+            "growth_per_s": -11843.466456964756,
+            "frequency_hz": 2516.5227021044425,
+            "first_native_mode_fraction": 0.9840751500028538
+          },
+          {
+            "growth_per_s": -13399.874958420323,
+            "frequency_hz": 2850.0743740745716,
+            "first_native_mode_fraction": 0.9757500673545256
+          },
+          {
+            "growth_per_s": -14681.306985508703,
+            "frequency_hz": 2852.64539295441,
+            "first_native_mode_fraction": 0.9402292008726857
+          },
+          {
+            "growth_per_s": -16018.940946247832,
+            "frequency_hz": 2313.9534048060927,
+            "first_native_mode_fraction": 0.9988211684954148
+          },
+          {
+            "growth_per_s": -16233.230167586762,
+            "frequency_hz": 2608.164509936309,
+            "first_native_mode_fraction": 0.8136212968047101
+          },
+          {
+            "growth_per_s": -18437.790884774295,
+            "frequency_hz": 2533.7340185699254,
+            "first_native_mode_fraction": 0.952309630176959
+          },
+          {
+            "growth_per_s": -24420.10770780238,
+            "frequency_hz": 2029.4164166643675,
+            "first_native_mode_fraction": 0.5157331885901385
+          },
+          {
+            "growth_per_s": -1.9598745148681471,
+            "frequency_hz": 444.81073267771563,
+            "first_native_mode_fraction": 0.0038668279040504037
+          },
+          {
+            "growth_per_s": -2.2043788008223593,
+            "frequency_hz": 437.9934723645908,
+            "first_native_mode_fraction": 0.0008899901660403094
+          },
+          {
+            "growth_per_s": -2.9587726836860986,
+            "frequency_hz": 360.48219312304093,
+            "first_native_mode_fraction": 0.00014498672165783809
+          },
+          {
+            "growth_per_s": -0.058669091706973216,
+            "frequency_hz": 337.99260903109035,
+            "first_native_mode_fraction": 0.00017057909951140237
+          },
+          {
+            "growth_per_s": -3.571073148782472,
+            "frequency_hz": 254.34477184315986,
+            "first_native_mode_fraction": 0.0002137856178462039
+          },
+          {
+            "growth_per_s": -2.655871549381795,
+            "frequency_hz": 167.59203575578238,
+            "first_native_mode_fraction": 0.09313860031614289
+          },
+          {
+            "growth_per_s": -4.338222859742191,
+            "frequency_hz": 142.15903547744549,
+            "first_native_mode_fraction": 0.0008111616076100458
+          },
+          {
+            "growth_per_s": -0.016722485663116553,
+            "frequency_hz": 56.418427039097814,
+            "first_native_mode_fraction": 0.0006545263416523425
+          },
+          {
+            "growth_per_s": -5.486974239040142,
+            "frequency_hz": 53.66934308047598,
+            "first_native_mode_fraction": 0.0007071210844456884
+          },
+          {
+            "growth_per_s": -247.63857877722438,
+            "frequency_hz": 71.39845393340701,
+            "first_native_mode_fraction": 0.9687653282492751
+          },
+          {
+            "growth_per_s": -7.767157028650711,
+            "frequency_hz": 8.862397548119528,
+            "first_native_mode_fraction": 0.9999990334634805
+          },
+          {
+            "growth_per_s": -876.824768034812,
+            "frequency_hz": 5.918959011871673,
+            "first_native_mode_fraction": 0.9380737666857791
+          },
+          {
+            "growth_per_s": -758.8293263768672,
+            "frequency_hz": 5.9591418221028825,
+            "first_native_mode_fraction": 0.8965421757449433
+          },
+          {
+            "growth_per_s": -295.5511523331821,
+            "frequency_hz": 45.884183209950905,
+            "first_native_mode_fraction": 0.9904464272027566
+          },
+          {
+            "growth_per_s": -274.41157743329825,
+            "frequency_hz": 46.58005815655834,
+            "first_native_mode_fraction": 0.9441363254832479
+          },
+          {
+            "growth_per_s": -425.79786350392357,
+            "frequency_hz": 33.64466479837454,
+            "first_native_mode_fraction": 0.9643180542235046
+          },
+          {
+            "growth_per_s": -318.2046565366094,
+            "frequency_hz": 35.94734815344913,
+            "first_native_mode_fraction": 0.9625376276568852
+          },
+          {
+            "growth_per_s": -527.8784713759294,
+            "frequency_hz": 22.869601838919422,
+            "first_native_mode_fraction": 0.9293598145055103
+          }
+        ]
+      },
+      "history": {
+        "equilibrium_q": [
+          -0.015229191240512484,
+          0.00028154279880687706,
+          -1.8667299833011038e-06,
+          -2.1924886163385025e-05,
+          -1.0067562143485715e-05,
+          4.8651958381578666e-06,
+          6.82871532847846e-08,
+          -1.863343928070627e-06,
+          8.053842736573742e-07,
+          3.7312156203295683e-07
+        ],
+        "initial_physical_state_error": 1.0842021724855044e-19,
+        "peak_node_component_m": 0.023289977900674858,
+        "stopped_at_50mm_guard": false,
+        "recorded_seconds": 1.000125
+      },
+      "history_metrics": {
+        "initial_delta_tip_z_m": 0.0010000000000000022,
+        "peak_abs_delta_tip_z_m": 0.0010000000000000022,
+        "final_delta_tip_z_m": 2.281030908580971e-07,
+        "first_modal_tip_peak_fit": {
+          "growth_per_s": -7.770289757792064,
+          "frequency_hz": 8.865886838036872,
+          "positive_peaks": 7,
+          "fit_start_s": 0.22558374999999997,
+          "fit_end_s": 0.9023349999999999
+        }
+      },
+      "pole_transient_growth_difference_per_s": -0.0031327291413525415,
+      "pole_transient_frequency_relative_difference": 0.0003937185054494474,
+      "elapsed_seconds": 4.810178317129612
+    },
+    {
+      "modes": 10,
+      "speed_m_s": 50.0,
+      "status": "executed_exploratory",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "cfl": 0.5,
+      "rho_kg_m3": 1.225,
+      "assumed_structural_damping": 0.0,
+      "guard_native_node_component_m": 0.05,
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "dt_seconds": 0.000127,
+      "native_frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331
+      ],
+      "discrete_uncoupled_frequencies_hz": [
+        8.810638708053865,
+        53.76740058775128,
+        56.424825791067924,
+        142.97591116704902,
+        169.2203058627846,
+        256.23496125350107,
+        339.17834358041125,
+        363.7248876991003,
+        442.3250689021473,
+        449.0653511154382
+      ],
+      "equilibrium_solver_success": true,
+      "equilibrium_solver_message": "The solution converged.",
+      "equilibrium_residual_history": [
+        0.00023506948856086632,
+        0.00023506948856086632,
+        0.00023506948856086632,
+        0.00023506912873757363,
+        0.000235069490234701,
+        0.00023506948856521354,
+        0.0002350694880980421,
+        0.00023506948621278972,
+        0.00023506948850642723,
+        0.00023506948856145266,
+        0.00023506948857587515,
+        0.00023506948855547133,
+        0.0002350694885671252,
+        1.3287837150044446e-09,
+        9.086481567166516e-15,
+        3.469446951953614e-18,
+        3.469446951953614e-18
+      ],
+      "equilibrium_q": [
+        -0.0235572733546485,
+        0.00043797794454303703,
+        -2.8121999570542102e-06,
+        -3.4439066451451844e-05,
+        -1.6440719348673464e-05,
+        7.585348275292616e-06,
+        1.1419897192179408e-07,
+        -2.919582248221236e-06,
+        1.2648385169845175e-06,
+        5.710315650352538e-07
+      ],
+      "equilibrium_tip_z_m": 0.03435016740196111,
+      "equilibrium_tip_twist_deg": -0.14349685955863717,
+      "equilibrium_max_node_component_m": 0.034474319385444395,
+      "initial_max_node_component_m": 0.03547657433188993,
+      "equilibrium_force_relative_residual": 1.4295825421068252e-15,
+      "aero": {
+        "full_states": 2816,
+        "reduced_states": 60,
+        "aero_rom_radius": 0.9760873879941178,
+        "transfer_checks": [
+          {
+            "frequency_rad_s": 0.0,
+            "relative_frobenius_error": 1.2376350360912443e-12
+          },
+          {
+            "frequency_rad_s": 55.3591037063345,
+            "relative_frobenius_error": 1.945498041223697e-09
+          },
+          {
+            "frequency_rad_s": 2852.145784362482,
+            "relative_frobenius_error": 0.008539316114868477
+          }
+        ]
+      },
+      "poles": {
+        "tracked_bending": {
+          "growth_per_s": -9.91203919491434,
+          "frequency_hz": 8.84963089246278,
+          "first_native_mode_fraction": 0.9999983557167487
+        },
+        "tracked_adjacent_mac": 0.9996373380634239,
+        "dominant_resolved_oscillatory": {
+          "growth_per_s": -0.02012515217125777,
+          "frequency_hz": 56.4241448657706,
+          "first_native_mode_fraction": 0.0010764250766719375
+        },
+        "largest_nonoscillatory_growth_per_s": -185.2594067972815,
+        "largest_all_pole_growth_per_s": -0.02012515217125777,
+        "unresolved_high_phase_growing_poles": 0,
+        "resolved_oscillatory_growing_poles": 0,
+        "all_resolved_oscillatory": [
+          {
+            "growth_per_s": -14070.839421118202,
+            "frequency_hz": 3197.0189986944647,
+            "first_native_mode_fraction": 0.9894976086363363
+          },
+          {
+            "growth_per_s": -14918.271951341058,
+            "frequency_hz": 3159.5863511621246,
+            "first_native_mode_fraction": 0.9829616671637436
+          },
+          {
+            "growth_per_s": -16809.422137389898,
+            "frequency_hz": 3571.7569812677816,
+            "first_native_mode_fraction": 0.9737227566700867
+          },
+          {
+            "growth_per_s": -18415.309445152052,
+            "frequency_hz": 3556.7834533102364,
+            "first_native_mode_fraction": 0.9381952983499563
+          },
+          {
+            "growth_per_s": -20029.464579876723,
+            "frequency_hz": 2875.016389428383,
+            "first_native_mode_fraction": 0.9986127338112026
+          },
+          {
+            "growth_per_s": -20318.652792645356,
+            "frequency_hz": 3265.6244630436036,
+            "first_native_mode_fraction": 0.7545894765195029
+          },
+          {
+            "growth_per_s": -23144.688093477387,
+            "frequency_hz": 3187.794728375102,
+            "first_native_mode_fraction": 0.9511657488519304
+          },
+          {
+            "growth_per_s": -30112.399929456922,
+            "frequency_hz": 2580.032642614727,
+            "first_native_mode_fraction": 0.3396378924753264
+          },
+          {
+            "growth_per_s": -2.4282327925142924,
+            "frequency_hz": 447.27272227246135,
+            "first_native_mode_fraction": 0.005828858605136083
+          },
+          {
+            "growth_per_s": -2.7102951991533404,
+            "frequency_hz": 440.45527765594375,
+            "first_native_mode_fraction": 0.0014172880893104658
+          },
+          {
+            "growth_per_s": -3.748970242536092,
+            "frequency_hz": 361.8827088657278,
+            "first_native_mode_fraction": 0.000232737008335021
+          },
+          {
+            "growth_per_s": -0.07576637230307992,
+            "frequency_hz": 339.143728598968,
+            "first_native_mode_fraction": 0.00028824904445375087
+          },
+          {
+            "growth_per_s": -4.636763757225355,
+            "frequency_hz": 254.85893812646452,
+            "first_native_mode_fraction": 0.00033214626832747706
+          },
+          {
+            "growth_per_s": -3.5355022834286403,
+            "frequency_hz": 167.13910407367317,
+            "first_native_mode_fraction": 0.1507152788815949
+          },
+          {
+            "growth_per_s": -5.649017424637369,
+            "frequency_hz": 142.29009358510922,
+            "first_native_mode_fraction": 0.001509128949553179
+          },
+          {
+            "growth_per_s": -303.86619598891764,
+            "frequency_hz": 87.41328601040217,
+            "first_native_mode_fraction": 0.9680480451372938
+          },
+          {
+            "growth_per_s": -7.1488205902848785,
+            "frequency_hz": 53.75278431357742,
+            "first_native_mode_fraction": 0.0016086554415838455
+          },
+          {
+            "growth_per_s": -0.02012515217125777,
+            "frequency_hz": 56.4241448657706,
+            "first_native_mode_fraction": 0.0010764250766719375
+          },
+          {
+            "growth_per_s": -9.91203919491434,
+            "frequency_hz": 8.84963089246278,
+            "first_native_mode_fraction": 0.9999983557167487
+          },
+          {
+            "growth_per_s": -1094.4531292736733,
+            "frequency_hz": 8.674005897557324,
+            "first_native_mode_fraction": 0.9523674262938737
+          },
+          {
+            "growth_per_s": -366.13713604772977,
+            "frequency_hz": 58.84319814558794,
+            "first_native_mode_fraction": 0.9776171811171523
+          },
+          {
+            "growth_per_s": -344.9961785582364,
+            "frequency_hz": 57.26511579175547,
+            "first_native_mode_fraction": 0.9489327863021727
+          },
+          {
+            "growth_per_s": -942.7928648979911,
+            "frequency_hz": 7.668059924273524,
+            "first_native_mode_fraction": 0.8927157120334315
+          },
+          {
+            "growth_per_s": -533.1613893444918,
+            "frequency_hz": 41.9657855793848,
+            "first_native_mode_fraction": 0.9633970436862677
+          },
+          {
+            "growth_per_s": -662.8695402784597,
+            "frequency_hz": 28.338792263121594,
+            "first_native_mode_fraction": 0.9211373137398159
+          },
+          {
+            "growth_per_s": -397.9425731117374,
+            "frequency_hz": 45.053664555605216,
+            "first_native_mode_fraction": 0.9500389266750902
+          }
+        ]
+      },
+      "history": {
+        "equilibrium_q": [
+          -0.0235572733546485,
+          0.00043797794454303703,
+          -2.8121999570542102e-06,
+          -3.4439066451451844e-05,
+          -1.6440719348673464e-05,
+          7.585348275292616e-06,
+          1.1419897192179408e-07,
+          -2.919582248221236e-06,
+          1.2648385169845175e-06,
+          5.710315650352538e-07
+        ],
+        "initial_physical_state_error": 1.0780032314097928e-20,
+        "peak_node_component_m": 0.035476574331889936,
+        "stopped_at_50mm_guard": false,
+        "recorded_seconds": 1.000125
+      },
+      "history_metrics": {
+        "initial_delta_tip_z_m": 0.0010000000000000022,
+        "peak_abs_delta_tip_z_m": 0.0010000000000000022,
+        "final_delta_tip_z_m": 2.1629013632938467e-08,
+        "first_modal_tip_peak_fit": {
+          "growth_per_s": -9.916321821117018,
+          "frequency_hz": 8.85218184151939,
+          "positive_peaks": 7,
+          "fit_start_s": 0.226314,
+          "fit_end_s": 0.9041129999999999
+        }
+      },
+      "pole_transient_growth_difference_per_s": -0.004282626202677164,
+      "pole_transient_frequency_relative_difference": 0.0002882548535194651,
+      "elapsed_seconds": 4.803847713395953
+    },
+    {
+      "modes": 10,
+      "speed_m_s": 55.0,
+      "status": "executed_exploratory",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "cfl": 0.5,
+      "rho_kg_m3": 1.225,
+      "assumed_structural_damping": 0.0,
+      "guard_native_node_component_m": 0.05,
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "dt_seconds": 0.00011545454545454545,
+      "native_frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331
+      ],
+      "discrete_uncoupled_frequencies_hz": [
+        8.810645006617492,
+        53.76883197721813,
+        56.426480072648275,
+        143.0028186385523,
+        169.26491124810937,
+        256.3897355388572,
+        339.53704946344106,
+        364.1671274868948,
+        443.11965037711593,
+        449.8967357834336
+      ],
+      "equilibrium_solver_success": true,
+      "equilibrium_solver_message": "The solution converged.",
+      "equilibrium_residual_history": [
+        0.0001647625056201349,
+        0.0001647625056201349,
+        0.0001647625056201349,
+        0.00016476207340451743,
+        0.00016476250806563703,
+        0.00016476250562651867,
+        0.00016476250493933225,
+        0.00016476250202786952,
+        0.00016476250554073313,
+        0.0001647625056210439,
+        0.00016476250564211037,
+        0.00016476250561220374,
+        0.00016476250562906872,
+        8.685514564510388e-10,
+        4.1147640850169864e-15,
+        1.0408340855860843e-17,
+        1.0408340855860843e-17
+      ],
+      "equilibrium_q": [
+        -0.02833664197787921,
+        0.0005285821782005169,
+        -3.3239399056451827e-06,
+        -4.179839110669597e-05,
+        -2.0398484159697455e-05,
+        9.166222561233074e-06,
+        1.4366692545963907e-07,
+        -3.5383050429188105e-06,
+        1.534958801515033e-06,
+        6.824173535699532e-07
+      ],
+      "equilibrium_tip_z_m": 0.041317073459558984,
+      "equilibrium_tip_twist_deg": -0.1739362134512305,
+      "equilibrium_max_node_component_m": 0.041467570047402695,
+      "initial_max_node_component_m": 0.04246982499384823,
+      "equilibrium_force_relative_residual": 1.9316755211718977e-15,
+      "aero": {
+        "full_states": 2816,
+        "reduced_states": 60,
+        "aero_rom_radius": 0.9760896548181403,
+        "transfer_checks": [
+          {
+            "frequency_rad_s": 0.0,
+            "relative_frobenius_error": 1.5744440523951988e-12
+          },
+          {
+            "frequency_rad_s": 55.3591037063345,
+            "relative_frobenius_error": 1.1230825107143077e-09
+          },
+          {
+            "frequency_rad_s": 2852.145784362482,
+            "relative_frobenius_error": 0.007722751114125497
+          }
+        ]
+      },
+      "poles": {
+        "tracked_bending": {
+          "growth_per_s": -11.000259682515582,
+          "frequency_hz": 8.840228460691643,
+          "first_native_mode_fraction": 0.9999979348740514
+        },
+        "tracked_adjacent_mac": 0.9999071742029105,
+        "dominant_resolved_oscillatory": {
+          "growth_per_s": -0.02166279660002952,
+          "frequency_hz": 56.42600920686133,
+          "first_native_mode_fraction": 0.0013428505024526693
+        },
+        "largest_nonoscillatory_growth_per_s": -203.3005160550545,
+        "largest_all_pole_growth_per_s": -0.02166279660002952,
+        "unresolved_high_phase_growing_poles": 0,
+        "resolved_oscillatory_growing_poles": 0,
+        "all_resolved_oscillatory": [
+          {
+            "growth_per_s": -15458.524423427434,
+            "frequency_hz": 3519.357174612204,
+            "first_native_mode_fraction": 0.9879629052085613
+          },
+          {
+            "growth_per_s": -16475.847496099937,
+            "frequency_hz": 3485.8016600866863,
+            "first_native_mode_fraction": 0.9825125947135085
+          },
+          {
+            "growth_per_s": -18529.205124797725,
+            "frequency_hz": 3934.055514778468,
+            "first_native_mode_fraction": 0.9727424938426715
+          },
+          {
+            "growth_per_s": -20294.4809158108,
+            "frequency_hz": 3908.1597892616337,
+            "first_native_mode_fraction": 0.9366292758644493
+          },
+          {
+            "growth_per_s": -22050.837584083707,
+            "frequency_hz": 3150.8979528255536,
+            "first_native_mode_fraction": 0.9984592617681731
+          },
+          {
+            "growth_per_s": -22359.34468499332,
+            "frequency_hz": 3595.061028525833,
+            "first_native_mode_fraction": 0.7171051126702349
+          },
+          {
+            "growth_per_s": -25519.44688211031,
+            "frequency_hz": 3520.1510042357763,
+            "first_native_mode_fraction": 0.9511909795319147
+          },
+          {
+            "growth_per_s": -32861.292223699165,
+            "frequency_hz": 2859.655301122709,
+            "first_native_mode_fraction": 0.30813667309019965
+          },
+          {
+            "growth_per_s": -2.6873544635603333,
+            "frequency_hz": 447.99111637650526,
+            "first_native_mode_fraction": 0.006971749844211023
+          },
+          {
+            "growth_per_s": -2.9968965232151494,
+            "frequency_hz": 441.20373840004606,
+            "first_native_mode_fraction": 0.0017488132611010036
+          },
+          {
+            "growth_per_s": -4.175655488505694,
+            "frequency_hz": 362.31153497030544,
+            "first_native_mode_fraction": 0.00028559977271555364
+          },
+          {
+            "growth_per_s": -0.08477282332200525,
+            "frequency_hz": 339.5010519573262,
+            "first_native_mode_fraction": 0.00036595723393066215
+          },
+          {
+            "growth_per_s": -5.190622512319026,
+            "frequency_hz": 255.01870107453905,
+            "first_native_mode_fraction": 0.00040190892132547433
+          },
+          {
+            "growth_per_s": -2695.5404484229,
+            "frequency_hz": 3.6882806469222005,
+            "first_native_mode_fraction": 0.5224461615109338
+          },
+          {
+            "growth_per_s": -4.015220442047892,
+            "frequency_hz": 166.83135874524677,
+            "first_native_mode_fraction": 0.18579417407012205
+          },
+          {
+            "growth_per_s": -6.324531400563779,
+            "frequency_hz": 142.3381727686673,
+            "first_native_mode_fraction": 0.002034298482590776
+          },
+          {
+            "growth_per_s": -333.76320210753954,
+            "frequency_hz": 94.88902431086055,
+            "first_native_mode_fraction": 0.9668487109918209
+          },
+          {
+            "growth_per_s": -7.9986052527771765,
+            "frequency_hz": 53.79540313627304,
+            "first_native_mode_fraction": 0.002312307920143542
+          },
+          {
+            "growth_per_s": -0.02166279660002952,
+            "frequency_hz": 56.42600920686133,
+            "first_native_mode_fraction": 0.0013428505024526693
+          },
+          {
+            "growth_per_s": -1201.7691869161015,
+            "frequency_hz": 10.24983884992123,
+            "first_native_mode_fraction": 0.9584561224219954
+          },
+          {
+            "growth_per_s": -11.000259682515582,
+            "frequency_hz": 8.840228460691643,
+            "first_native_mode_fraction": 0.9999979348740514
+          },
+          {
+            "growth_per_s": -402.1406115304682,
+            "frequency_hz": 65.85025574742002,
+            "first_native_mode_fraction": 0.9708356156096768
+          },
+          {
+            "growth_per_s": -379.639298122925,
+            "frequency_hz": 62.29765768164529,
+            "first_native_mode_fraction": 0.9495771670010883
+          },
+          {
+            "growth_per_s": -1034.5292683627717,
+            "frequency_hz": 8.520220304353348,
+            "first_native_mode_fraction": 0.8926119436380218
+          },
+          {
+            "growth_per_s": -587.3901198271086,
+            "frequency_hz": 46.1919498327479,
+            "first_native_mode_fraction": 0.9623805291353748
+          },
+          {
+            "growth_per_s": -731.1292750655141,
+            "frequency_hz": 30.83460107711729,
+            "first_native_mode_fraction": 0.918898381154424
+          },
+          {
+            "growth_per_s": -437.88542187538496,
+            "frequency_hz": 49.61754006876875,
+            "first_native_mode_fraction": 0.9435196206495082
+          }
+        ]
+      },
+      "history": {
+        "equilibrium_q": [
+          -0.02833664197787921,
+          0.0005285821782005169,
+          -3.3239399056451827e-06,
+          -4.179839110669597e-05,
+          -2.0398484159697455e-05,
+          9.166222561233074e-06,
+          1.4366692545963907e-07,
+          -3.5383050429188105e-06,
+          1.534958801515033e-06,
+          6.824173535699532e-07
+        ],
+        "initial_physical_state_error": 1.0842021724855044e-19,
+        "peak_node_component_m": 0.04246982499384823,
+        "stopped_at_50mm_guard": false,
+        "recorded_seconds": 1.0000672727272726
+      },
+      "history_metrics": {
+        "initial_delta_tip_z_m": 0.0010000000000000022,
+        "peak_abs_delta_tip_z_m": 0.0010000000000000022,
+        "final_delta_tip_z_m": 5.946179588203376e-09,
+        "first_modal_tip_peak_fit": {
+          "growth_per_s": -11.000232343021533,
+          "frequency_hz": 8.838180941668007,
+          "positive_peaks": 6,
+          "fit_start_s": 0.22629090909090907,
+          "fit_end_s": 0.7920181818181817
+        }
+      },
+      "pole_transient_growth_difference_per_s": 2.7339494048206348e-05,
+      "pole_transient_frequency_relative_difference": -0.00023161381323344443,
+      "elapsed_seconds": 4.8216145085170865
+    },
+    {
+      "modes": 10,
+      "speed_m_s": 60.0,
+      "status": "outside_displacement_experiment_guard",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "cfl": 0.5,
+      "rho_kg_m3": 1.225,
+      "assumed_structural_damping": 0.0,
+      "guard_native_node_component_m": 0.05,
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "dt_seconds": 0.00010583333333333334,
+      "native_frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331
+      ],
+      "discrete_uncoupled_frequencies_hz": [
+        8.81064979720253,
+        53.76992075814755,
+        56.42773840636457,
+        143.02329618518,
+        169.29886564902282,
+        256.5076795493539,
+        339.8107900399857,
+        364.50478471612615,
+        443.72744128535055,
+        450.53278876949236
+      ],
+      "equilibrium_solver_success": true,
+      "equilibrium_solver_message": "The solution converged.",
+      "equilibrium_residual_history": [
+        0.00021340345239932723,
+        0.00021340345239932723,
+        0.00021340345239932723,
+        0.00021340293957542583,
+        0.0002134034558625708,
+        0.0002134034524084935,
+        0.00021340345143310013,
+        0.00021340344718408927,
+        0.00021340345228718777,
+        0.00021340345240068725,
+        0.0002134034524304551,
+        0.00021340345238805847,
+        0.00021340345241179642,
+        1.4185224384011264e-09,
+        1.3475331961387838e-14,
+        3.469446951953614e-17,
+        3.469446951953614e-17
+      ],
+      "equilibrium_q": [
+        -0.03350490297964027,
+        0.0006272614684544773,
+        -3.8480744135895365e-06,
+        -4.9908228275523346e-05,
+        -2.493828147686717e-05,
+        1.0892466900547652e-05,
+        1.7831583711518858e-07,
+        -4.218073447593994e-06,
+        1.8325679884907738e-06,
+        8.009298723411838e-07
+      ],
+      "equilibrium_tip_z_m": 0.04885000322718112,
+      "equilibrium_tip_twist_deg": -0.20740539179274525,
+      "equilibrium_max_node_component_m": 0.04902947003983589,
+      "initial_max_node_component_m": 0.050031724986281424,
+      "equilibrium_force_relative_residual": 1.3809532083897378e-15,
+      "elapsed_seconds": 0.1910108420997858
+    },
+    {
+      "modes": 10,
+      "speed_m_s": 80.0,
+      "status": "outside_displacement_experiment_guard",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "cfl": 0.5,
+      "rho_kg_m3": 1.225,
+      "assumed_structural_damping": 0.0,
+      "guard_native_node_component_m": 0.05,
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "dt_seconds": 7.937499999999999e-05,
+      "native_frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331
+      ],
+      "discrete_uncoupled_frequencies_hz": [
+        8.810660823394489,
+        53.77242703106628,
+        56.43063500941455,
+        143.07046806333625,
+        169.3771093767781,
+        256.7798866479822,
+        340.4438686500471,
+        365.2862459477385,
+        445.13782021225455,
+        452.00912093621537
+      ],
+      "equilibrium_solver_success": true,
+      "equilibrium_solver_message": "The solution converged.",
+      "equilibrium_residual_history": [
+        0.0017985801981348845,
+        0.0017985801981348845,
+        0.0017985801981348845,
+        0.0017985792814363202,
+        0.0017985802091805975,
+        0.0017985801981684826,
+        0.0017985801950865937,
+        0.001798580181238879,
+        0.001798580197783721,
+        0.0017985801981399846,
+        0.0017985801982333682,
+        0.0017985801981003635,
+        0.0017985801981729443,
+        2.274055843701217e-07,
+        3.047454649740544e-11,
+        4.440892098500626e-16,
+        6.938893903907228e-17,
+        6.938893903907228e-17
+      ],
+      "equilibrium_q": [
+        -0.057685329240159657,
+        0.0010993432492713438,
+        -5.782422044610531e-06,
+        -9.012225161107642e-05,
+        -5.016748855077241e-05,
+        1.9214537790095184e-05,
+        3.8536739920850796e-07,
+        -7.557958366620051e-06,
+        3.3076803319841596e-06,
+        1.32458573403944e-06
+      ],
+      "equilibrium_tip_z_m": 0.08408106194947944,
+      "equilibrium_tip_twist_deg": -0.37246305390636814,
+      "equilibrium_max_node_component_m": 0.08440344828167334,
+      "initial_max_node_component_m": 0.08540570322811887,
+      "equilibrium_force_relative_residual": 1.965720468876773e-15,
+      "elapsed_seconds": 0.2051668744534254
+    },
+    {
+      "modes": 10,
+      "speed_m_s": 100.0,
+      "status": "outside_displacement_experiment_guard",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "cfl": 0.5,
+      "rho_kg_m3": 1.225,
+      "assumed_structural_damping": 0.0,
+      "guard_native_node_component_m": 0.05,
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "dt_seconds": 6.35e-05,
+      "native_frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331
+      ],
+      "discrete_uncoupled_frequencies_hz": [
+        8.810665926963013,
+        53.77358721977296,
+        56.431975904057246,
+        143.0923208731687,
+        169.41336914095805,
+        256.9062321423603,
+        340.7383341758571,
+        365.64999781678904,
+        445.7961078417109,
+        452.69837026159064
+      ],
+      "equilibrium_solver_success": true,
+      "equilibrium_solver_message": "The solution converged.",
+      "equilibrium_residual_history": [
+        0.0034802615843991525,
+        0.0034802615843991525,
+        0.0034802615843991525,
+        0.003480260182180367,
+        0.0034802616113410456,
+        0.0034802615844811563,
+        0.003480261576896196,
+        0.003480261537909257,
+        0.0034802615835581724,
+        0.003480261584417124,
+        0.003480261584641431,
+        0.00348026158431608,
+        0.003480261584484959,
+        1.4237617309981188e-06,
+        6.293390253375719e-10,
+        3.60961260881254e-14,
+        4.0245584642661925e-16,
+        4.0245584642661925e-16
+      ],
+      "equilibrium_q": [
+        -0.08636391055497714,
+        0.0016848000183611758,
+        -6.464229721230599e-06,
+        -0.00014349393309881058,
+        -9.044447641722771e-05,
+        2.9680538284801773e-05,
+        7.561364376042025e-07,
+        -1.1915497675451367e-05,
+        5.26545316430943e-06,
+        1.8610099096343882e-06
+      ],
+      "equilibrium_tip_z_m": 0.1258345742390083,
+      "equilibrium_tip_twist_deg": -0.5901367430160941,
+      "equilibrium_max_node_component_m": 0.12634555370081835,
+      "initial_max_node_component_m": 0.1273478086472639,
+      "equilibrium_force_relative_residual": 4.45342095596638e-15,
+      "elapsed_seconds": 0.1985749714076519
+    },
+    {
+      "modes": 20,
+      "speed_m_s": 10.0,
+      "status": "executed_exploratory",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "cfl": 0.5,
+      "rho_kg_m3": 1.225,
+      "assumed_structural_damping": 0.0,
+      "guard_native_node_component_m": 0.05,
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "dt_seconds": 0.0006349999999999999,
+      "native_frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331,
+        500.0461000000001,
+        534.4911,
+        563.3481,
+        589.2068,
+        593.679,
+        619.9817,
+        629.1384,
+        646.2279,
+        652.4830999999999,
+        657.9004
+      ],
+      "discrete_uncoupled_frequencies_hz": [
+        8.809767862760884,
+        53.57077059609857,
+        56.197729206583176,
+        139.42124454337247,
+        163.43005274970622,
+        237.58313814241185,
+        299.6212237183634,
+        316.33366248748376,
+        365.02722806372657,
+        368.8767480977926,
+        393.08537744830085,
+        409.77053250847797,
+        422.8945121247239,
+        434.0340283731558,
+        435.903599894674,
+        446.5733290614259,
+        450.1609117219993,
+        456.6882303197067,
+        459.02395196932815,
+        461.0241635822956
+      ],
+      "equilibrium_solver_success": true,
+      "equilibrium_solver_message": "The solution converged.",
+      "equilibrium_residual_history": [
+        0.0009688982949115035,
+        0.0009688982949115035,
+        0.0009688982949115035,
+        0.0009689132056211949,
+        0.0009688981445974038,
+        0.0009688982466461893,
+        0.0009688988371174376,
+        0.0009689042691701389,
+        0.0009688985828472719,
+        0.0009688981012124913,
+        0.0009688980894118295,
+        0.0009688984700433092,
+        0.0009688978614627007,
+        0.00096889814081424,
+        0.0009688981392449743,
+        0.0009688980333443322,
+        0.0009688981664594096,
+        0.0009688980260771223,
+        0.0009688977922753492,
+        0.0009688982940086529,
+        0.0009688961428850427,
+        0.0009688968310418894,
+        0.000968898153838665,
+        1.4307054331400351e-09,
+        1.2190769227427012e-15,
+        3.049318610115481e-20,
+        3.049318610115481e-20
+      ],
+      "equilibrium_q": [
+        -0.0009678335272530447,
+        1.7724463734504913e-05,
+        -1.228203232596838e-07,
+        -1.3580739507508377e-06,
+        -5.825373001337606e-07,
+        3.0511625894581515e-07,
+        3.799513684082463e-09,
+        -1.159010726253595e-07,
+        4.990277502158177e-08,
+        2.4106226572668107e-08,
+        -4.1975378960746715e-08,
+        1.9637342370284485e-08,
+        -2.554071117268955e-08,
+        6.678160359860462e-09,
+        4.759122389265398e-09,
+        -2.0460416122089707e-08,
+        4.118587454743022e-09,
+        -2.482079597208533e-08,
+        -3.2064856682097246e-08,
+        -5.955611609227247e-09
+      ],
+      "equilibrium_tip_z_m": 0.0014116303611450016,
+      "equilibrium_tip_twist_deg": -0.005724696716639367,
+      "equilibrium_max_node_component_m": 0.0014165167838060663,
+      "initial_max_node_component_m": 0.0024187717302516,
+      "equilibrium_force_relative_residual": 1.2650267438431623e-15,
+      "aero": {
+        "full_states": 2816,
+        "reduced_states": 120,
+        "aero_rom_radius": 0.9760780193212873,
+        "transfer_checks": [
+          {
+            "frequency_rad_s": 0.0,
+            "relative_frobenius_error": 1.7320529741489178e-12
+          },
+          {
+            "frequency_rad_s": 55.3591037063345,
+            "relative_frobenius_error": 1.6368184050630774e-06
+          },
+          {
+            "frequency_rad_s": 2852.145784362482,
+            "relative_frobenius_error": 0.006357494534249409
+          },
+          {
+            "frequency_rad_s": 4133.710126867572,
+            "relative_frobenius_error": 0.003968485935401856
+          }
+        ]
+      },
+      "poles": {
+        "tracked_bending": {
+          "growth_per_s": -1.55207610623347,
+          "frequency_hz": 8.811309317953956,
+          "first_native_mode_fraction": 0.9999999763613112
+        },
+        "tracked_adjacent_mac": null,
+        "dominant_resolved_oscillatory": {
+          "growth_per_s": -0.004112299447088656,
+          "frequency_hz": 56.196154629388765,
+          "first_native_mode_fraction": 3.469960650530106e-05
+        },
+        "largest_nonoscillatory_growth_per_s": -37.89658100501668,
+        "largest_all_pole_growth_per_s": -0.004112299447088656,
+        "unresolved_high_phase_growing_poles": 0,
+        "resolved_oscillatory_growing_poles": 0,
+        "all_resolved_oscillatory": [
+          {
+            "growth_per_s": -2.4834039538404,
+            "frequency_hz": 392.34522786737966,
+            "first_native_mode_fraction": 0.0001355492529684892
+          },
+          {
+            "growth_per_s": -0.6213425931067612,
+            "frequency_hz": 460.8955062282578,
+            "first_native_mode_fraction": 9.668292063128447e-05
+          },
+          {
+            "growth_per_s": -0.4080801934190349,
+            "frequency_hz": 456.6012750175963,
+            "first_native_mode_fraction": 0.0028749806548352816
+          },
+          {
+            "growth_per_s": -1.9325389862235136,
+            "frequency_hz": 409.2410455034386,
+            "first_native_mode_fraction": 0.0001931325032188437
+          },
+          {
+            "growth_per_s": -0.8306492933906225,
+            "frequency_hz": 446.38565707835943,
+            "first_native_mode_fraction": 0.0008966053529017448
+          },
+          {
+            "growth_per_s": -1.4911298134059086,
+            "frequency_hz": 422.51199832837045,
+            "first_native_mode_fraction": 0.0003749413528153161
+          },
+          {
+            "growth_per_s": -0.3748581880398145,
+            "frequency_hz": 458.94388376844273,
+            "first_native_mode_fraction": 0.0003141091034353846
+          },
+          {
+            "growth_per_s": -2.893492254578516,
+            "frequency_hz": 364.0395674601636,
+            "first_native_mode_fraction": 0.00012845915660513054
+          },
+          {
+            "growth_per_s": -2.2354804199337055,
+            "frequency_hz": 368.12195332776656,
+            "first_native_mode_fraction": 0.00036873603192361684
+          },
+          {
+            "growth_per_s": -1.3523225094559728,
+            "frequency_hz": 433.714138489634,
+            "first_native_mode_fraction": 0.0002489823565144988
+          },
+          {
+            "growth_per_s": -1.42181152604286,
+            "frequency_hz": 435.5642818693599,
+            "first_native_mode_fraction": 0.0002375645594213571
+          },
+          {
+            "growth_per_s": -0.8355912029455744,
+            "frequency_hz": 449.98177422833703,
+            "first_native_mode_fraction": 5.166584511214224e-07
+          },
+          {
+            "growth_per_s": -2.914829539161208,
+            "frequency_hz": 315.03002641995124,
+            "first_native_mode_fraction": 1.226774396791388e-05
+          },
+          {
+            "growth_per_s": -0.04736044771052403,
+            "frequency_hz": 299.598368765255,
+            "first_native_mode_fraction": 1.4754107116357472e-05
+          },
+          {
+            "growth_per_s": -1.8614627054704525,
+            "frequency_hz": 236.29096460877852,
+            "first_native_mode_fraction": 2.2713469512134796e-05
+          },
+          {
+            "growth_per_s": -0.6455453595805812,
+            "frequency_hz": 162.92167895411396,
+            "first_native_mode_fraction": 0.006330595683486762
+          },
+          {
+            "growth_per_s": -1.0257429393782094,
+            "frequency_hz": 138.57233797046828,
+            "first_native_mode_fraction": 4.2946171045227276e-05
+          },
+          {
+            "growth_per_s": -0.004112299447088656,
+            "frequency_hz": 56.196154629388765,
+            "first_native_mode_fraction": 3.469960650530106e-05
+          },
+          {
+            "growth_per_s": -1.0573667583104456,
+            "frequency_hz": 53.2616066184496,
+            "first_native_mode_fraction": 1.48032450624661e-05
+          },
+          {
+            "growth_per_s": -1.55207610623347,
+            "frequency_hz": 8.811309317953956,
+            "first_native_mode_fraction": 0.9999999763613112
+          },
+          {
+            "growth_per_s": -3242.795598266471,
+            "frequency_hz": 567.399390676505,
+            "first_native_mode_fraction": 0.9836275431878506
+          },
+          {
+            "growth_per_s": -71.7923931579642,
+            "frequency_hz": 17.099270245382446,
+            "first_native_mode_fraction": 0.9974060949841815
+          },
+          {
+            "growth_per_s": -753.4864529920242,
+            "frequency_hz": 1.2678129019671396,
+            "first_native_mode_fraction": 0.48368118033036556
+          },
+          {
+            "growth_per_s": -671.0392867145481,
+            "frequency_hz": 2.586102985867984,
+            "first_native_mode_fraction": 0.8724483979506471
+          },
+          {
+            "growth_per_s": -69.56134927591302,
+            "frequency_hz": 14.533146770256405,
+            "first_native_mode_fraction": 0.9890044207048043
+          },
+          {
+            "growth_per_s": -73.75769149005328,
+            "frequency_hz": 11.97378511547907,
+            "first_native_mode_fraction": 0.9987759986398981
+          },
+          {
+            "growth_per_s": -80.71865884009398,
+            "frequency_hz": 13.096916834980103,
+            "first_native_mode_fraction": 0.9967431379073284
+          },
+          {
+            "growth_per_s": -85.37740394567996,
+            "frequency_hz": 9.778720392285319,
+            "first_native_mode_fraction": 0.998166334564496
+          },
+          {
+            "growth_per_s": -98.46775993103225,
+            "frequency_hz": 9.718321869869737,
+            "first_native_mode_fraction": 0.9967680063517697
+          },
+          {
+            "growth_per_s": -96.87400180144726,
+            "frequency_hz": 7.773737859186142,
+            "first_native_mode_fraction": 0.9924045236505384
+          },
+          {
+            "growth_per_s": -301.0551272345132,
+            "frequency_hz": 8.812117278343605,
+            "first_native_mode_fraction": 0.8575595556284337
+          },
+          {
+            "growth_per_s": -276.2289709461726,
+            "frequency_hz": 7.176414742261692,
+            "first_native_mode_fraction": 0.9909031548825498
+          },
+          {
+            "growth_per_s": -140.58173715883513,
+            "frequency_hz": 7.378060179702833,
+            "first_native_mode_fraction": 0.9891869551606789
+          },
+          {
+            "growth_per_s": -110.09090714956413,
+            "frequency_hz": 1.2610482078628995,
+            "first_native_mode_fraction": 0.8950934005879972
+          },
+          {
+            "growth_per_s": -234.4017328150967,
+            "frequency_hz": 5.296797714624648,
+            "first_native_mode_fraction": 0.9944660944642189
+          },
+          {
+            "growth_per_s": -280.4918963829003,
+            "frequency_hz": 0.5694754629392929,
+            "first_native_mode_fraction": 0.9939763124457293
+          },
+          {
+            "growth_per_s": -176.22863834051253,
+            "frequency_hz": 2.170059954394138,
+            "first_native_mode_fraction": 0.9990064388907147
+          },
+          {
+            "growth_per_s": -144.83589010393212,
+            "frequency_hz": 0.13329608717575,
+            "first_native_mode_fraction": 0.32421450161985627
+          },
+          {
+            "growth_per_s": -182.89205906297138,
+            "frequency_hz": 0.7746451275406332,
+            "first_native_mode_fraction": 0.9997757726999048
+          },
+          {
+            "growth_per_s": -3851.2919285902435,
+            "frequency_hz": 651.4994493305759,
+            "first_native_mode_fraction": 0.9948162090127383
+          },
+          {
+            "growth_per_s": -4438.916760357711,
+            "frequency_hz": 195.45918210622298,
+            "first_native_mode_fraction": 0.9969492695727689
+          },
+          {
+            "growth_per_s": -4623.891145251285,
+            "frequency_hz": 224.81147738390706,
+            "first_native_mode_fraction": 0.9904364314151032
+          },
+          {
+            "growth_per_s": -4755.582039693183,
+            "frequency_hz": 192.53210491520036,
+            "first_native_mode_fraction": 0.9928781933791194
+          },
+          {
+            "growth_per_s": -4937.5690130058065,
+            "frequency_hz": 222.55995132728637,
+            "first_native_mode_fraction": 0.9922383963177206
+          },
+          {
+            "growth_per_s": -5081.5339134810365,
+            "frequency_hz": 530.4460474504648,
+            "first_native_mode_fraction": 0.9959343730294417
+          },
+          {
+            "growth_per_s": -5072.739407948249,
+            "frequency_hz": 741.9160902034087,
+            "first_native_mode_fraction": 0.9065401082219824
+          },
+          {
+            "growth_per_s": -5312.565298005227,
+            "frequency_hz": 543.8755956749569,
+            "first_native_mode_fraction": 0.9893576150049114
+          },
+          {
+            "growth_per_s": -4770.174417625233,
+            "frequency_hz": 21.381530711812292,
+            "first_native_mode_fraction": 0.941202193809642
+          },
+          {
+            "growth_per_s": -5349.120169886804,
+            "frequency_hz": 573.1969524318054,
+            "first_native_mode_fraction": 0.9860104350955055
+          },
+          {
+            "growth_per_s": -5318.437525473372,
+            "frequency_hz": 172.2225336812191,
+            "first_native_mode_fraction": 0.9877534183224713
+          },
+          {
+            "growth_per_s": -5691.606738524133,
+            "frequency_hz": 575.6244446311931,
+            "first_native_mode_fraction": 0.9792998759692769
+          },
+          {
+            "growth_per_s": -5985.313132793462,
+            "frequency_hz": 227.6808983865849,
+            "first_native_mode_fraction": 0.9935145623746455
+          },
+          {
+            "growth_per_s": -5889.230853801709,
+            "frequency_hz": 563.0385294671493,
+            "first_native_mode_fraction": 0.9932674009645938
+          },
+          {
+            "growth_per_s": -5152.161573519317,
+            "frequency_hz": 4.703072919138808,
+            "first_native_mode_fraction": 0.9545301069859206
+          },
+          {
+            "growth_per_s": -7225.683450217263,
+            "frequency_hz": 194.73155517668704,
+            "first_native_mode_fraction": 0.9656254047960335
+          },
+          {
+            "growth_per_s": -13424.5484192909,
+            "frequency_hz": 334.2722846220715,
+            "first_native_mode_fraction": 0.9541327029366924
+          },
+          {
+            "growth_per_s": -9598.285813888075,
+            "frequency_hz": 334.66052825944433,
+            "first_native_mode_fraction": 0.9918742523091486
+          },
+          {
+            "growth_per_s": -5450.564699871311,
+            "frequency_hz": 4.517302305678989,
+            "first_native_mode_fraction": 0.918070357067632
+          }
+        ]
+      },
+      "history": {
+        "equilibrium_q": [
+          -0.0009678335272530447,
+          1.7724463734504913e-05,
+          -1.228203232596838e-07,
+          -1.3580739507508377e-06,
+          -5.825373001337606e-07,
+          3.0511625894581515e-07,
+          3.799513684082463e-09,
+          -1.159010726253595e-07,
+          4.990277502158177e-08,
+          2.4106226572668107e-08,
+          -4.1975378960746715e-08,
+          1.9637342370284485e-08,
+          -2.554071117268955e-08,
+          6.678160359860462e-09,
+          4.759122389265398e-09,
+          -2.0460416122089707e-08,
+          4.118587454743022e-09,
+          -2.482079597208533e-08,
+          -3.2064856682097246e-08,
+          -5.955611609227247e-09
+        ],
+        "initial_physical_state_error": 1.0842021724855044e-19,
+        "peak_node_component_m": 0.0024187717302516006,
+        "stopped_at_50mm_guard": false,
+        "recorded_seconds": 1.000125
+      },
+      "history_metrics": {
+        "initial_delta_tip_z_m": 0.0010000000000000009,
+        "peak_abs_delta_tip_z_m": 0.0010000000000000009,
+        "final_delta_tip_z_m": 7.383442269504909e-05,
+        "first_modal_tip_peak_fit": {
+          "growth_per_s": -1.55210755570886,
+          "frequency_hz": 8.81419673287108,
+          "positive_peaks": 7,
+          "fit_start_s": 0.22732999999999998,
+          "fit_end_s": 0.9080499999999999
+        }
+      },
+      "pole_transient_growth_difference_per_s": -3.144947538991083e-05,
+      "pole_transient_frequency_relative_difference": 0.00032769419537248545,
+      "elapsed_seconds": 8.12876404915005
+    },
+    {
+      "modes": 20,
+      "speed_m_s": 20.0,
+      "status": "executed_exploratory",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "cfl": 0.5,
+      "rho_kg_m3": 1.225,
+      "assumed_structural_damping": 0.0,
+      "guard_native_node_component_m": 0.05,
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "dt_seconds": 0.00031749999999999997,
+      "native_frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331,
+        500.0461000000001,
+        534.4911,
+        563.3481,
+        589.2068,
+        593.679,
+        619.9817,
+        629.1384,
+        646.2279,
+        652.4830999999999,
+        657.9004
+      ],
+      "discrete_uncoupled_frequencies_hz": [
+        8.810448184165462,
+        53.72416578014882,
+        56.37486613715579,
+        142.1704685371532,
+        167.8906497156601,
+        251.70589688030228,
+        328.9301679042461,
+        351.1930272991062,
+        420.4570729674723,
+        426.24634131258284,
+        463.8463604855388,
+        491.04931757089093,
+        513.2506517343569,
+        532.687316471542,
+        536.004906114553,
+        555.254998960396,
+        561.851607848153,
+        574.0186811477117,
+        578.4252442014183,
+        582.2212798335904
+      ],
+      "equilibrium_solver_success": true,
+      "equilibrium_solver_message": "The solution converged.",
+      "equilibrium_residual_history": [
+        1.2731894947723334e-05,
+        1.2731894947723334e-05,
+        1.2731894947723334e-05,
+        1.2731837114451309e-05,
+        1.2731894990452176e-05,
+        1.2731894947823081e-05,
+        1.273189493595497e-05,
+        1.2731894892047384e-05,
+        1.2731894946318208e-05,
+        1.2731894947738513e-05,
+        1.2731894948100637e-05,
+        1.2731894947590194e-05,
+        1.2731894947894205e-05,
+        1.273189494783349e-05,
+        1.2731894947772774e-05,
+        1.2731894947826984e-05,
+        1.2731894947740248e-05,
+        1.273189494774762e-05,
+        1.2731894947891603e-05,
+        1.2731894947725069e-05,
+        1.273189494857812e-05,
+        1.2731894948479674e-05,
+        1.2731894947742416e-05,
+        3.1175309729569722e-12,
+        4.7704895589362195e-18,
+        1.3010426069826053e-18,
+        1.3010426069826053e-18
+      ],
+      "equilibrium_q": [
+        -0.003858577834613908,
+        7.07972560374532e-05,
+        -4.866770803545969e-07,
+        -5.442228391239093e-06,
+        -2.367302401893797e-06,
+        1.2196681317834858e-06,
+        1.5562245697839468e-08,
+        -4.6406265819064096e-07,
+        1.9995953649760976e-07,
+        9.581040416353369e-08,
+        -1.6796288166562117e-07,
+        7.858852599162969e-08,
+        -1.0219967284811288e-07,
+        2.670949580934404e-08,
+        1.9075465468554946e-08,
+        -8.190278878497058e-08,
+        1.6419530679664034e-08,
+        -9.95684116796986e-08,
+        -1.2868999821277062e-07,
+        -2.3856907902277224e-08
+      ],
+      "equilibrium_tip_z_m": 0.005627751647240603,
+      "equilibrium_tip_twist_deg": -0.022919594327782736,
+      "equilibrium_max_node_component_m": 0.005647315879642838,
+      "initial_max_node_component_m": 0.006649570826088372,
+      "equilibrium_force_relative_residual": 4.598846938768959e-16,
+      "aero": {
+        "full_states": 2816,
+        "reduced_states": 120,
+        "aero_rom_radius": 0.9760790130162388,
+        "transfer_checks": [
+          {
+            "frequency_rad_s": 0.0,
+            "relative_frobenius_error": 1.066660966826863e-12
+          },
+          {
+            "frequency_rad_s": 55.3591037063345,
+            "relative_frobenius_error": 3.563531124709257e-08
+          },
+          {
+            "frequency_rad_s": 2852.145784362482,
+            "relative_frobenius_error": 0.0045253920041459506
+          },
+          {
+            "frequency_rad_s": 4133.710126867572,
+            "relative_frobenius_error": 0.006271142899841891
+          }
+        ]
+      },
+      "poles": {
+        "tracked_bending": {
+          "growth_per_s": -3.556134785491769,
+          "frequency_hz": 8.853046869305588,
+          "first_native_mode_fraction": 0.9999998316256363
+        },
+        "tracked_adjacent_mac": 0.9996694122778748,
+        "dominant_resolved_oscillatory": {
+          "growth_per_s": -0.008693292139839054,
+          "frequency_hz": 56.37340834796892,
+          "first_native_mode_fraction": 0.00014820129768584832
+        },
+        "largest_nonoscillatory_growth_per_s": -75.2016641515459,
+        "largest_all_pole_growth_per_s": -0.008693292139839054,
+        "unresolved_high_phase_growing_poles": 0,
+        "resolved_oscillatory_growing_poles": 0,
+        "all_resolved_oscillatory": [
+          {
+            "growth_per_s": -0.6252496106389938,
+            "frequency_hz": 581.8859641289091,
+            "first_native_mode_fraction": 0.00011248511644878119
+          },
+          {
+            "growth_per_s": -0.3946469867894886,
+            "frequency_hz": 573.791578060112,
+            "first_native_mode_fraction": 0.0037787431221301977
+          },
+          {
+            "growth_per_s": -0.37653497497832816,
+            "frequency_hz": 578.2159830866763,
+            "first_native_mode_fraction": 0.00047811726447175094
+          },
+          {
+            "growth_per_s": -0.7379244806812555,
+            "frequency_hz": 554.8053935648899,
+            "first_native_mode_fraction": 0.0010907039848254364
+          },
+          {
+            "growth_per_s": -0.8307401079674082,
+            "frequency_hz": 561.410061181789,
+            "first_native_mode_fraction": 1.781146500580155e-06
+          },
+          {
+            "growth_per_s": -1.1403860614804702,
+            "frequency_hz": 512.4471374961295,
+            "first_native_mode_fraction": 0.00042290950950501875
+          },
+          {
+            "growth_per_s": -1.2220998218002523,
+            "frequency_hz": 535.238004889269,
+            "first_native_mode_fraction": 0.00028541489703902173
+          },
+          {
+            "growth_per_s": -1.1712144258776507,
+            "frequency_hz": 531.966216397298,
+            "first_native_mode_fraction": 0.00028484738160254933
+          },
+          {
+            "growth_per_s": -1.4028472550923956,
+            "frequency_hz": 490.0096530551732,
+            "first_native_mode_fraction": 0.00021023320879899246
+          },
+          {
+            "growth_per_s": -1.714836217186966,
+            "frequency_hz": 462.5065448539506,
+            "first_native_mode_fraction": 0.00014473820668684382
+          },
+          {
+            "growth_per_s": -1.5764808294299455,
+            "frequency_hz": 424.98358706550175,
+            "first_native_mode_fraction": 0.0011556972855587206
+          },
+          {
+            "growth_per_s": -1.9460927938212547,
+            "frequency_hz": 418.8691456362722,
+            "first_native_mode_fraction": 0.0002887430549576003
+          },
+          {
+            "growth_per_s": -1.9752903747637507,
+            "frequency_hz": 349.4498399137607,
+            "first_native_mode_fraction": 4.159536024260129e-05
+          },
+          {
+            "growth_per_s": -0.03419811727051027,
+            "frequency_hz": 328.90072151410664,
+            "first_native_mode_fraction": 4.3466087659249997e-05
+          },
+          {
+            "growth_per_s": -1.7772981686664415,
+            "frequency_hz": 250.2868134558403,
+            "first_native_mode_fraction": 6.206973769954996e-05
+          },
+          {
+            "growth_per_s": -1.1597088782579648,
+            "frequency_hz": 167.1878247253692,
+            "first_native_mode_fraction": 0.02262448860396142
+          },
+          {
+            "growth_per_s": -1.9275456768264254,
+            "frequency_hz": 141.3521315570801,
+            "first_native_mode_fraction": 0.00016429238575596183
+          },
+          {
+            "growth_per_s": -0.008693292139839054,
+            "frequency_hz": 56.37340834796892,
+            "first_native_mode_fraction": 0.00014820129768584832
+          },
+          {
+            "growth_per_s": -2.3957272604411903,
+            "frequency_hz": 53.480418941588105,
+            "first_native_mode_fraction": 6.74512862958497e-05
+          },
+          {
+            "growth_per_s": -3.556134785491769,
+            "frequency_hz": 8.853046869305588,
+            "first_native_mode_fraction": 0.9999998316256363
+          },
+          {
+            "growth_per_s": -1506.2284659374745,
+            "frequency_hz": 2.6677517651856406,
+            "first_native_mode_fraction": 0.35258895731938983
+          },
+          {
+            "growth_per_s": -6466.9795537193695,
+            "frequency_hz": 1135.058798234872,
+            "first_native_mode_fraction": 0.9837882833029666
+          },
+          {
+            "growth_per_s": -143.48312168010833,
+            "frequency_hz": 34.28865173639872,
+            "first_native_mode_fraction": 0.9821277545557645
+          },
+          {
+            "growth_per_s": -139.28752717698302,
+            "frequency_hz": 29.192292132045115,
+            "first_native_mode_fraction": 0.9317388475473463
+          },
+          {
+            "growth_per_s": -148.0392205838624,
+            "frequency_hz": 23.939270872118765,
+            "first_native_mode_fraction": 0.9939137223281279
+          },
+          {
+            "growth_per_s": -161.55425334830548,
+            "frequency_hz": 26.03454793054374,
+            "first_native_mode_fraction": 0.9888333535253031
+          },
+          {
+            "growth_per_s": -170.56648775749176,
+            "frequency_hz": 19.622465145347988,
+            "first_native_mode_fraction": 0.9928602844802819
+          },
+          {
+            "growth_per_s": -195.6377487529222,
+            "frequency_hz": 19.510840302864587,
+            "first_native_mode_fraction": 0.9892740446506237
+          },
+          {
+            "growth_per_s": -7658.278070212325,
+            "frequency_hz": 1306.3501169828173,
+            "first_native_mode_fraction": 0.9946034941787618
+          },
+          {
+            "growth_per_s": -607.0542243848483,
+            "frequency_hz": 18.260396197403825,
+            "first_native_mode_fraction": 0.8799563564285743
+          },
+          {
+            "growth_per_s": -194.6642809277453,
+            "frequency_hz": 15.655240585068569,
+            "first_native_mode_fraction": 0.9797464837629049
+          },
+          {
+            "growth_per_s": -547.4136789047783,
+            "frequency_hz": 13.029010017381037,
+            "first_native_mode_fraction": 0.9855313565532134
+          },
+          {
+            "growth_per_s": -598.1178291882519,
+            "frequency_hz": 1.5776978639758497,
+            "first_native_mode_fraction": 0.9250828422769594
+          },
+          {
+            "growth_per_s": -283.2775939743633,
+            "frequency_hz": 14.381161140904437,
+            "first_native_mode_fraction": 0.9721607432409859
+          },
+          {
+            "growth_per_s": -220.99550862689156,
+            "frequency_hz": 2.179816448720049,
+            "first_native_mode_fraction": 0.7610081261256572
+          },
+          {
+            "growth_per_s": -567.6715858806384,
+            "frequency_hz": 0.9218466361910275,
+            "first_native_mode_fraction": 0.9924642262245841
+          },
+          {
+            "growth_per_s": -467.93586728825954,
+            "frequency_hz": 11.798726601630603,
+            "first_native_mode_fraction": 0.9885798314200579
+          },
+          {
+            "growth_per_s": -8939.607386333257,
+            "frequency_hz": 387.2907372997393,
+            "first_native_mode_fraction": 0.9975241928486753
+          },
+          {
+            "growth_per_s": -9269.406639370298,
+            "frequency_hz": 451.467428318298,
+            "first_native_mode_fraction": 0.9902656674904616
+          },
+          {
+            "growth_per_s": -9804.16302297011,
+            "frequency_hz": 1488.0853323875722,
+            "first_native_mode_fraction": 0.9329896040572196
+          },
+          {
+            "growth_per_s": -10140.414053543096,
+            "frequency_hz": 1068.6417347618003,
+            "first_native_mode_fraction": 0.995231307124276
+          },
+          {
+            "growth_per_s": -329.4561391052784,
+            "frequency_hz": 4.782891462750493,
+            "first_native_mode_fraction": 0.9911843292160992
+          },
+          {
+            "growth_per_s": -9587.841473646587,
+            "frequency_hz": 369.97204746708616,
+            "first_native_mode_fraction": 0.9926030341292249
+          },
+          {
+            "growth_per_s": -10683.030677450426,
+            "frequency_hz": 1107.4756147797705,
+            "first_native_mode_fraction": 0.989897964914762
+          },
+          {
+            "growth_per_s": -282.49422026099774,
+            "frequency_hz": 1.7278593886505929,
+            "first_native_mode_fraction": 0.8355478248061734
+          },
+          {
+            "growth_per_s": -10827.350679633093,
+            "frequency_hz": 1184.6814664217625,
+            "first_native_mode_fraction": 0.9864005740693161
+          },
+          {
+            "growth_per_s": -9903.765148782608,
+            "frequency_hz": 436.9240052953874,
+            "first_native_mode_fraction": 0.9918799431706772
+          },
+          {
+            "growth_per_s": -11423.249394852626,
+            "frequency_hz": 1220.4677280756503,
+            "first_native_mode_fraction": 0.9824510486107789
+          },
+          {
+            "growth_per_s": -11927.637610988075,
+            "frequency_hz": 1192.8983229844284,
+            "first_native_mode_fraction": 0.9940334613794346
+          },
+          {
+            "growth_per_s": -9430.272090883802,
+            "frequency_hz": 46.92203367043281,
+            "first_native_mode_fraction": 0.9366716196473696
+          },
+          {
+            "growth_per_s": -10882.32909009401,
+            "frequency_hz": 324.3578687127345,
+            "first_native_mode_fraction": 0.9901067834949429
+          },
+          {
+            "growth_per_s": -13575.816626189711,
+            "frequency_hz": 557.9989453988078,
+            "first_native_mode_fraction": 0.9679215562361656
+          },
+          {
+            "growth_per_s": -12499.77815086341,
+            "frequency_hz": 353.2605316306888,
+            "first_native_mode_fraction": 0.9952182876690681
+          },
+          {
+            "growth_per_s": -10082.866987023413,
+            "frequency_hz": 32.810497966804924,
+            "first_native_mode_fraction": 0.9799825324131204
+          },
+          {
+            "growth_per_s": -10806.544893887964,
+            "frequency_hz": 6.0491054387427114,
+            "first_native_mode_fraction": 0.7229320874668699
+          },
+          {
+            "growth_per_s": -10398.324579096508,
+            "frequency_hz": 5.191630428925216,
+            "first_native_mode_fraction": 0.9421291949459027
+          },
+          {
+            "growth_per_s": -20230.570263625817,
+            "frequency_hz": 664.5760939177296,
+            "first_native_mode_fraction": 0.9927948253667369
+          },
+          {
+            "growth_per_s": -27339.607080793576,
+            "frequency_hz": 593.277339065387,
+            "first_native_mode_fraction": 0.9528244397615627
+          }
+        ]
+      },
+      "history": {
+        "equilibrium_q": [
+          -0.003858577834613908,
+          7.07972560374532e-05,
+          -4.866770803545969e-07,
+          -5.442228391239093e-06,
+          -2.367302401893797e-06,
+          1.2196681317834858e-06,
+          1.5562245697839468e-08,
+          -4.6406265819064096e-07,
+          1.9995953649760976e-07,
+          9.581040416353369e-08,
+          -1.6796288166562117e-07,
+          7.858852599162969e-08,
+          -1.0219967284811288e-07,
+          2.670949580934404e-08,
+          1.9075465468554946e-08,
+          -8.190278878497058e-08,
+          1.6419530679664034e-08,
+          -9.95684116796986e-08,
+          -1.2868999821277062e-07,
+          -2.3856907902277224e-08
+        ],
+        "initial_physical_state_error": 1.0842021724855044e-19,
+        "peak_node_component_m": 0.006649570826088371,
+        "stopped_at_50mm_guard": false,
+        "recorded_seconds": 1.000125
+      },
+      "history_metrics": {
+        "initial_delta_tip_z_m": 0.0010000000000000002,
+        "peak_abs_delta_tip_z_m": 0.0010000000000000002,
+        "final_delta_tip_z_m": 1.55848342895872e-05,
+        "first_modal_tip_peak_fit": {
+          "growth_per_s": -3.5554199392082024,
+          "frequency_hz": 8.847208705653369,
+          "positive_peaks": 7,
+          "fit_start_s": 0.22574249999999998,
+          "fit_end_s": 0.9039224999999999
+        }
+      },
+      "pole_transient_growth_difference_per_s": 0.0007148462835666614,
+      "pole_transient_frequency_relative_difference": -0.0006594524730757501,
+      "elapsed_seconds": 8.256985059939325
+    },
+    {
+      "modes": 20,
+      "speed_m_s": 30.0,
+      "status": "executed_exploratory",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "cfl": 0.5,
+      "rho_kg_m3": 1.225,
+      "assumed_structural_damping": 0.0,
+      "guard_native_node_component_m": 0.05,
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "dt_seconds": 0.00021166666666666667,
+      "native_frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331,
+        500.0461000000001,
+        534.4911,
+        563.3481,
+        589.2068,
+        593.679,
+        619.9817,
+        629.1384,
+        646.2279,
+        652.4830999999999,
+        657.9004
+      ],
+      "discrete_uncoupled_frequencies_hz": [
+        8.810574190367285,
+        53.75274620706678,
+        56.40789039313357,
+        142.70133245818514,
+        168.7658173462218,
+        254.66864446963967,
+        335.5806242999177,
+        359.30307885295116,
+        434.46922651438973,
+        440.85432597304424,
+        482.750273112567,
+        513.5504032208347,
+        539.0142797496736,
+        561.5616702695813,
+        565.4347814003821,
+        588.0540853419908,
+        595.8637243769227,
+        610.3486285374921,
+        615.6208107201801,
+        620.1738515985674
+      ],
+      "equilibrium_solver_success": true,
+      "equilibrium_solver_message": "The solution converged.",
+      "equilibrium_residual_history": [
+        4.748943291953134e-05,
+        4.748943291953134e-05,
+        4.748943291953134e-05,
+        4.7489302825805615e-05,
+        4.748943313608034e-05,
+        4.7489432920055225e-05,
+        4.748943285984644e-05,
+        4.748943263317533e-05,
+        4.748943291244499e-05,
+        4.748943291960073e-05,
+        4.7489432921458616e-05,
+        4.748943291882357e-05,
+        4.7489432920370944e-05,
+        4.7489432920055225e-05,
+        4.748943291977767e-05,
+        4.7489432920081245e-05,
+        4.748943291959899e-05,
+        4.748943291964236e-05,
+        4.7489432920374414e-05,
+        4.748943291953654e-05,
+        4.748943292386294e-05,
+        4.7489432923342526e-05,
+        4.748943291959379e-05,
+        2.795408002298494e-11,
+        1.5612511283791264e-17,
+        2.710505431213761e-20,
+        2.710505431213761e-20
+      ],
+      "equilibrium_q": [
+        -0.008634097790756976,
+        0.00015891587869648735,
+        -1.076916085308761e-06,
+        -1.2282099688332364e-05,
+        -5.466440005848729e-06,
+        2.741191249465488e-06,
+        3.6413200688459745e-08,
+        -1.0458419146861268e-06,
+        4.512103482657885e-07,
+        2.1325662567246232e-07,
+        -3.7814055483085697e-07,
+        1.7696470405860452e-07,
+        -2.3008677871483864e-07,
+        6.008036456543158e-08,
+        4.306429574186833e-08,
+        -1.8451284048287467e-07,
+        3.67362469713414e-08,
+        -2.2511468955787927e-07,
+        -2.911778964300413e-07,
+        -5.3807836228687026e-08
+      ],
+      "equilibrium_tip_z_m": 0.012592253616692705,
+      "equilibrium_tip_twist_deg": -0.05164897576006017,
+      "equilibrium_max_node_component_m": 0.01263634424608823,
+      "initial_max_node_component_m": 0.013638599192533764,
+      "equilibrium_force_relative_residual": 2.0889776054710557e-16,
+      "aero": {
+        "full_states": 2816,
+        "reduced_states": 120,
+        "aero_rom_radius": 0.9760807654206204,
+        "transfer_checks": [
+          {
+            "frequency_rad_s": 0.0,
+            "relative_frobenius_error": 1.1284872830130668e-12
+          },
+          {
+            "frequency_rad_s": 55.3591037063345,
+            "relative_frobenius_error": 4.200092305170932e-09
+          },
+          {
+            "frequency_rad_s": 2852.145784362482,
+            "relative_frobenius_error": 0.002602870584181162
+          },
+          {
+            "frequency_rad_s": 4133.710126867572,
+            "relative_frobenius_error": 0.004453854726149649
+          }
+        ]
+      },
+      "poles": {
+        "tracked_bending": {
+          "growth_per_s": -5.650695125022538,
+          "frequency_hz": 8.865486818429664,
+          "first_native_mode_fraction": 0.9999995193110431
+        },
+        "tracked_adjacent_mac": 0.9996480578889189,
+        "dominant_resolved_oscillatory": {
+          "growth_per_s": -0.012940196940664752,
+          "frequency_hz": 56.40659743432442,
+          "first_native_mode_fraction": 0.0003509283551854272
+        },
+        "largest_nonoscillatory_growth_per_s": -112.18391493993427,
+        "largest_all_pole_growth_per_s": -0.012940196940664752,
+        "unresolved_high_phase_growing_poles": 0,
+        "resolved_oscillatory_growing_poles": 0,
+        "all_resolved_oscillatory": [
+          {
+            "growth_per_s": -0.4590763584786209,
+            "frequency_hz": 619.7648350950356,
+            "first_native_mode_fraction": 9.622791353075497e-05
+          },
+          {
+            "growth_per_s": -0.2756275415428207,
+            "frequency_hz": 610.062742782737,
+            "first_native_mode_fraction": 0.003982812934874662
+          },
+          {
+            "growth_per_s": -0.28017285295001365,
+            "frequency_hz": 615.3567275590457,
+            "first_native_mode_fraction": 0.0005775391118336023
+          },
+          {
+            "growth_per_s": -0.5110417113298007,
+            "frequency_hz": 587.518554703741,
+            "first_native_mode_fraction": 0.0010686527763042483
+          },
+          {
+            "growth_per_s": -0.6728900420125651,
+            "frequency_hz": 595.3307428604472,
+            "first_native_mode_fraction": 3.3749867701606503e-06
+          },
+          {
+            "growth_per_s": -0.8011087895396669,
+            "frequency_hz": 538.0926371504054,
+            "first_native_mode_fraction": 0.00040616021833768655
+          },
+          {
+            "growth_per_s": -0.9259503467915351,
+            "frequency_hz": 564.5277714387776,
+            "first_native_mode_fraction": 0.0002780398310098329
+          },
+          {
+            "growth_per_s": -0.9022162175796585,
+            "frequency_hz": 560.7105617494619,
+            "first_native_mode_fraction": 0.00027484039818000155
+          },
+          {
+            "growth_per_s": -1.0398408347619819,
+            "frequency_hz": 512.3784755006448,
+            "first_native_mode_fraction": 0.00020104547950023857
+          },
+          {
+            "growth_per_s": -1.3777020721595972,
+            "frequency_hz": 481.2700985791735,
+            "first_native_mode_fraction": 0.0001448693319777437
+          },
+          {
+            "growth_per_s": -1.5548736999281736,
+            "frequency_hz": 439.4188135981492,
+            "first_native_mode_fraction": 0.0022872096848653377
+          },
+          {
+            "growth_per_s": -1.8289698479408953,
+            "frequency_hz": 432.75305466889,
+            "first_native_mode_fraction": 0.0005364165171366535
+          },
+          {
+            "growth_per_s": -2.2570201113348687,
+            "frequency_hz": 357.5062162681115,
+            "first_native_mode_fraction": 8.605020755322528e-05
+          },
+          {
+            "growth_per_s": -0.04313660758836522,
+            "frequency_hz": 335.5497648012563,
+            "first_native_mode_fraction": 9.288192754433236e-05
+          },
+          {
+            "growth_per_s": -2.576609538086534,
+            "frequency_hz": 253.2625555926544,
+            "first_native_mode_fraction": 0.0001277929110155533
+          },
+          {
+            "growth_per_s": -1.8652059582955687,
+            "frequency_hz": 167.74281262633835,
+            "first_native_mode_fraction": 0.05088590584420733
+          },
+          {
+            "growth_per_s": -3.0886973354098632,
+            "frequency_hz": 141.92749167622685,
+            "first_native_mode_fraction": 0.00039471094542127446
+          },
+          {
+            "growth_per_s": -9665.071227340055,
+            "frequency_hz": 1704.6155343105906,
+            "first_native_mode_fraction": 0.983977855804237
+          },
+          {
+            "growth_per_s": -2252.943659686302,
+            "frequency_hz": 3.9211963100108638,
+            "first_native_mode_fraction": 0.7139043814397354
+          },
+          {
+            "growth_per_s": -0.012940196940664752,
+            "frequency_hz": 56.40659743432442,
+            "first_native_mode_fraction": 0.0003509283551854272
+          },
+          {
+            "growth_per_s": -3.8864571620352737,
+            "frequency_hz": 53.5830358466115,
+            "first_native_mode_fraction": 0.0002517727848195897
+          },
+          {
+            "growth_per_s": -5.650695125022538,
+            "frequency_hz": 8.865486818429664,
+            "first_native_mode_fraction": 0.9999995193110431
+          },
+          {
+            "growth_per_s": -11430.05256030124,
+            "frequency_hz": 1951.989107396639,
+            "first_native_mode_fraction": 0.9934214492567113
+          },
+          {
+            "growth_per_s": -213.8688624898907,
+            "frequency_hz": 51.33839788193445,
+            "first_native_mode_fraction": 0.9674492178755275
+          },
+          {
+            "growth_per_s": -208.57921186202225,
+            "frequency_hz": 44.100283699643605,
+            "first_native_mode_fraction": 0.8318346223688299
+          },
+          {
+            "growth_per_s": -242.09021852417973,
+            "frequency_hz": 38.30477028224901,
+            "first_native_mode_fraction": 0.9889837598227359
+          },
+          {
+            "growth_per_s": -223.68218201592242,
+            "frequency_hz": 35.63188099162955,
+            "first_native_mode_fraction": 0.9887284154773357
+          },
+          {
+            "growth_per_s": -906.8784946336701,
+            "frequency_hz": 33.290903125234664,
+            "first_native_mode_fraction": 0.9686748518656462
+          },
+          {
+            "growth_per_s": -255.54057997480305,
+            "frequency_hz": 29.619000218171955,
+            "first_native_mode_fraction": 0.9861900133796133
+          },
+          {
+            "growth_per_s": -14501.351478316248,
+            "frequency_hz": 2236.288028568942,
+            "first_native_mode_fraction": 0.9491927690245293
+          },
+          {
+            "growth_per_s": -292.3237016913048,
+            "frequency_hz": 29.307804081166918,
+            "first_native_mode_fraction": 0.9784802910700551
+          },
+          {
+            "growth_per_s": -15166.36993380271,
+            "frequency_hz": 1607.560485855548,
+            "first_native_mode_fraction": 0.995507958042101
+          },
+          {
+            "growth_per_s": -13502.313677839617,
+            "frequency_hz": 576.4414367108998,
+            "first_native_mode_fraction": 0.9979985882038943
+          },
+          {
+            "growth_per_s": -13934.714495198335,
+            "frequency_hz": 679.6748936403028,
+            "first_native_mode_fraction": 0.9898279433158761
+          },
+          {
+            "growth_per_s": -15991.149482888095,
+            "frequency_hz": 1667.4993143290303,
+            "first_native_mode_fraction": 0.9868300559164499
+          },
+          {
+            "growth_per_s": -16362.788025995773,
+            "frequency_hz": 1794.8650140827162,
+            "first_native_mode_fraction": 0.9881559178095055
+          },
+          {
+            "growth_per_s": -295.918104846101,
+            "frequency_hz": 24.469141834502054,
+            "first_native_mode_fraction": 0.9815077041558807
+          },
+          {
+            "growth_per_s": -17028.944775322772,
+            "frequency_hz": 1871.670430516683,
+            "first_native_mode_fraction": 0.9824613390843484
+          },
+          {
+            "growth_per_s": -14406.445564385482,
+            "frequency_hz": 530.8719894872122,
+            "first_native_mode_fraction": 0.8758359998985041
+          },
+          {
+            "growth_per_s": -14806.505387523732,
+            "frequency_hz": 648.0226679836979,
+            "first_native_mode_fraction": 0.9901448561504458
+          },
+          {
+            "growth_per_s": -18109.965371723734,
+            "frequency_hz": 1831.6005185082527,
+            "first_native_mode_fraction": 0.9950712645018309
+          },
+          {
+            "growth_per_s": -818.9515296127504,
+            "frequency_hz": 18.116020316623146,
+            "first_native_mode_fraction": 0.9838958042068298
+          },
+          {
+            "growth_per_s": -870.8298447306637,
+            "frequency_hz": 4.271713546282841,
+            "first_native_mode_fraction": 0.9821076054336005
+          },
+          {
+            "growth_per_s": -438.3514150236759,
+            "frequency_hz": 18.010894355567192,
+            "first_native_mode_fraction": 0.8498960802606184
+          },
+          {
+            "growth_per_s": -14028.124147663284,
+            "frequency_hz": 76.88553471651265,
+            "first_native_mode_fraction": 0.935908226740745
+          },
+          {
+            "growth_per_s": -673.2869715362386,
+            "frequency_hz": 15.875861407330243,
+            "first_native_mode_fraction": 0.972644866388419
+          },
+          {
+            "growth_per_s": -376.7238132196994,
+            "frequency_hz": 10.506377046986918,
+            "first_native_mode_fraction": 0.9437933006031336
+          },
+          {
+            "growth_per_s": -16449.899966643447,
+            "frequency_hz": 486.50859033244194,
+            "first_native_mode_fraction": 0.9918879547789905
+          },
+          {
+            "growth_per_s": -19811.596616742863,
+            "frequency_hz": 1019.3534190217075,
+            "first_native_mode_fraction": 0.9303237721732371
+          },
+          {
+            "growth_per_s": -18433.477425985864,
+            "frequency_hz": 490.1228369286617,
+            "first_native_mode_fraction": 0.9703379535021119
+          },
+          {
+            "growth_per_s": -14955.995997292664,
+            "frequency_hz": 61.505474530651256,
+            "first_native_mode_fraction": 0.9773328099820017
+          },
+          {
+            "growth_per_s": -30701.846550562535,
+            "frequency_hz": 984.1474163219176,
+            "first_native_mode_fraction": 0.9914678024558449
+          },
+          {
+            "growth_per_s": -41072.016680780696,
+            "frequency_hz": 721.2270511714598,
+            "first_native_mode_fraction": 0.9382791063948399
+          },
+          {
+            "growth_per_s": -15399.86640490805,
+            "frequency_hz": 8.80434957282338,
+            "first_native_mode_fraction": 0.9009788740723133
+          }
+        ]
+      },
+      "history": {
+        "equilibrium_q": [
+          -0.008634097790756976,
+          0.00015891587869648735,
+          -1.076916085308761e-06,
+          -1.2282099688332364e-05,
+          -5.466440005848729e-06,
+          2.741191249465488e-06,
+          3.6413200688459745e-08,
+          -1.0458419146861268e-06,
+          4.512103482657885e-07,
+          2.1325662567246232e-07,
+          -3.7814055483085697e-07,
+          1.7696470405860452e-07,
+          -2.3008677871483864e-07,
+          6.008036456543158e-08,
+          4.306429574186833e-08,
+          -1.8451284048287467e-07,
+          3.67362469713414e-08,
+          -2.2511468955787927e-07,
+          -2.911778964300413e-07,
+          -5.3807836228687026e-08
+        ],
+        "initial_physical_state_error": 2.168404344971009e-19,
+        "peak_node_component_m": 0.013638599192533764,
+        "stopped_at_50mm_guard": false,
+        "recorded_seconds": 1.000125
+      },
+      "history_metrics": {
+        "initial_delta_tip_z_m": 0.0009999999999999996,
+        "peak_abs_delta_tip_z_m": 0.0009999999999999996,
+        "final_delta_tip_z_m": 2.047668731493956e-06,
+        "first_modal_tip_peak_fit": {
+          "growth_per_s": -5.64906914065332,
+          "frequency_hz": 8.858267716535433,
+          "positive_peaks": 7,
+          "fit_start_s": 0.22542500000000001,
+          "fit_end_s": 0.9027583333333333
+        }
+      },
+      "pole_transient_growth_difference_per_s": 0.0016259843692179032,
+      "pole_transient_frequency_relative_difference": -0.0008142927785108611,
+      "elapsed_seconds": 8.351957828737795
+    },
+    {
+      "modes": 20,
+      "speed_m_s": 40.0,
+      "status": "executed_exploratory",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "cfl": 0.5,
+      "rho_kg_m3": 1.225,
+      "assumed_structural_damping": 0.0,
+      "guard_native_node_component_m": 0.05,
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "dt_seconds": 0.00015874999999999998,
+      "native_frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331,
+        500.0461000000001,
+        534.4911,
+        563.3481,
+        589.2068,
+        593.679,
+        619.9817,
+        629.1384,
+        646.2279,
+        652.4830999999999,
+        657.9004
+      ],
+      "discrete_uncoupled_frequencies_hz": [
+        8.810618294070661,
+        53.76276229483301,
+        56.41946534597244,
+        142.88882719212785,
+        169.07602678964543,
+        255.735626350318,
+        338.0250428446145,
+        362.30470556462006,
+        439.78448404342583,
+        446.40818436957034,
+        490.04995480381945,
+        522.3450630278153,
+        549.1898378628501,
+        573.0753197205876,
+        577.1895526018204,
+        601.2850468924033,
+        609.6318991615351,
+        625.1516236629766,
+        630.8130508988153,
+        635.7077267107857
+      ],
+      "equilibrium_solver_success": true,
+      "equilibrium_solver_message": "The solution converged.",
+      "equilibrium_residual_history": [
+        0.00011728419178674843,
+        0.00011728419178674843,
+        0.00011728419178674843,
+        0.00011728396083310853,
+        0.00011728419247186705,
+        0.00011728419178845713,
+        0.00011728419159770173,
+        0.00011728419085807983,
+        0.00011728419176435141,
+        0.0001172841917869618,
+        0.00011728419179284945,
+        0.00011728419178455053,
+        0.00011728419178934357,
+        0.00011728419178840682,
+        0.0001172841917875412,
+        0.00011728419178847448,
+        0.00011728419178697394,
+        0.00011728419178707629,
+        0.00011728419178939041,
+        0.0001172841917867519,
+        0.00011728419180051866,
+        0.00011728419179887067,
+        0.00011728419178696874,
+        1.8353934344572664e-10,
+        4.2674197509029455e-16,
+        8.673617379884035e-18,
+        8.673617379884035e-18
+      ],
+      "equilibrium_q": [
+        -0.015231235998617865,
+        0.0002815734151230464,
+        -1.866347961251616e-06,
+        -2.192663514895766e-05,
+        -1.0069101336168613e-05,
+        4.865390765669597e-06,
+        6.833393585944661e-08,
+        -1.8634457301150647e-06,
+        8.053677120595742e-07,
+        3.733082895401157e-07,
+        -6.72791097714944e-07,
+        3.1493630993480355e-07,
+        -4.0938247967450655e-07,
+        1.0675360919501494e-07,
+        7.691321373769218e-08,
+        -3.28608742160442e-07,
+        6.478553956433887e-08,
+        -4.0296422108015067e-07,
+        -5.217345165387661e-07,
+        -9.598445697582724e-08
+      ],
+      "equilibrium_tip_z_m": 0.022212217705571927,
+      "equilibrium_tip_twist_deg": -0.09202591778172797,
+      "equilibrium_max_node_component_m": 0.022290783681740096,
+      "initial_max_node_component_m": 0.02329303862818563,
+      "equilibrium_force_relative_residual": 1.0508204857878444e-15,
+      "aero": {
+        "full_states": 2816,
+        "reduced_states": 120,
+        "aero_rom_radius": 0.9760833219887824,
+        "transfer_checks": [
+          {
+            "frequency_rad_s": 0.0,
+            "relative_frobenius_error": 9.154562143185615e-13
+          },
+          {
+            "frequency_rad_s": 55.3591037063345,
+            "relative_frobenius_error": 8.816889458688204e-10
+          },
+          {
+            "frequency_rad_s": 2852.145784362482,
+            "relative_frobenius_error": 0.001727171532176479
+          },
+          {
+            "frequency_rad_s": 4133.710126867572,
+            "relative_frobenius_error": 0.0031050516124147406
+          }
+        ]
+      },
+      "poles": {
+        "tracked_bending": {
+          "growth_per_s": -7.766526690715595,
+          "frequency_hz": 8.862383312503072,
+          "first_native_mode_fraction": 0.9999990336211846
+        },
+        "tracked_adjacent_mac": 0.9996444305594603,
+        "dominant_resolved_oscillatory": {
+          "growth_per_s": -0.01673075992951755,
+          "frequency_hz": 56.41842539441302,
+          "first_native_mode_fraction": 0.0006549273593016803
+        },
+        "largest_nonoscillatory_growth_per_s": -148.89066378152765,
+        "largest_all_pole_growth_per_s": -0.01673075992951755,
+        "unresolved_high_phase_growing_poles": 0,
+        "resolved_oscillatory_growing_poles": 0,
+        "all_resolved_oscillatory": [
+          {
+            "growth_per_s": -0.41496634006433647,
+            "frequency_hz": 635.2657767487915,
+            "first_native_mode_fraction": 8.010407033813269e-05
+          },
+          {
+            "growth_per_s": -0.25286482315796116,
+            "frequency_hz": 630.5136364327149,
+            "first_native_mode_fraction": 0.000732436525204908
+          },
+          {
+            "growth_per_s": -0.2328812945107697,
+            "frequency_hz": 624.8276030340139,
+            "first_native_mode_fraction": 0.0043948993523002244
+          },
+          {
+            "growth_per_s": -0.6801701627797765,
+            "frequency_hz": 609.052965983945,
+            "first_native_mode_fraction": 5.857989294721677e-06
+          },
+          {
+            "growth_per_s": -0.4471587825948323,
+            "frequency_hz": 600.7099362264224,
+            "first_native_mode_fraction": 0.001085851404262905
+          },
+          {
+            "growth_per_s": -0.9086162947081885,
+            "frequency_hz": 576.20576830961,
+            "first_native_mode_fraction": 0.000287339919650146
+          },
+          {
+            "growth_per_s": -0.9012781253935994,
+            "frequency_hz": 572.1532357818811,
+            "first_native_mode_fraction": 0.0002744567474601478
+          },
+          {
+            "growth_per_s": -0.7459966547102574,
+            "frequency_hz": 548.2139447745645,
+            "first_native_mode_fraction": 0.00040784290476677393
+          },
+          {
+            "growth_per_s": -1.0326005520244956,
+            "frequency_hz": 521.1119493762748,
+            "first_native_mode_fraction": 0.0002036680684829724
+          },
+          {
+            "growth_per_s": -1.4752283243904671,
+            "frequency_hz": 488.5044647272194,
+            "first_native_mode_fraction": 0.00015619575228649168
+          },
+          {
+            "growth_per_s": -1.9019435702263094,
+            "frequency_hz": 444.8133315569343,
+            "first_native_mode_fraction": 0.003855729580324415
+          },
+          {
+            "growth_per_s": -2.1757863668855655,
+            "frequency_hz": 437.9960462641928,
+            "first_native_mode_fraction": 0.0009142512017575788
+          },
+          {
+            "growth_per_s": -2.930091872899231,
+            "frequency_hz": 360.4896764673013,
+            "first_native_mode_fraction": 0.00015065842497178275
+          },
+          {
+            "growth_per_s": -0.058304424663392036,
+            "frequency_hz": 337.9926632568057,
+            "first_native_mode_fraction": 0.00017182186838894211
+          },
+          {
+            "growth_per_s": -3.567971387961192,
+            "frequency_hz": 254.34765303622873,
+            "first_native_mode_fraction": 0.00021938890596015834
+          },
+          {
+            "growth_per_s": -12837.164786555626,
+            "frequency_hz": 2276.4212647583013,
+            "first_native_mode_fraction": 0.9841697773895423
+          },
+          {
+            "growth_per_s": -2.6606061870519357,
+            "frequency_hz": 167.59567343149644,
+            "first_native_mode_fraction": 0.09279678121294914
+          },
+          {
+            "growth_per_s": -4.3391520304587825,
+            "frequency_hz": 142.15968349544085,
+            "first_native_mode_fraction": 0.0007992458447097897
+          },
+          {
+            "growth_per_s": -3003.7690581090333,
+            "frequency_hz": 6.462165293647458,
+            "first_native_mode_fraction": 0.6406519713432864
+          },
+          {
+            "growth_per_s": -15099.369950942568,
+            "frequency_hz": 2603.575780346251,
+            "first_native_mode_fraction": 0.992939900745221
+          },
+          {
+            "growth_per_s": -5.4877619919240335,
+            "frequency_hz": 53.66931107789635,
+            "first_native_mode_fraction": 0.0007076822466170412
+          },
+          {
+            "growth_per_s": -0.01673075992951755,
+            "frequency_hz": 56.41842539441302,
+            "first_native_mode_fraction": 0.0006549273593016803
+          },
+          {
+            "growth_per_s": -7.766526690715595,
+            "frequency_hz": 8.862383312503072,
+            "first_native_mode_fraction": 0.9999990336211846
+          },
+          {
+            "growth_per_s": -287.37802084637616,
+            "frequency_hz": 68.71023105351348,
+            "first_native_mode_fraction": 0.9690109045188302
+          },
+          {
+            "growth_per_s": -278.62648405016074,
+            "frequency_hz": 59.06960377648775,
+            "first_native_mode_fraction": 0.830683330959746
+          },
+          {
+            "growth_per_s": -300.08632837060554,
+            "frequency_hz": 48.161811852379365,
+            "first_native_mode_fraction": 0.9858809500051242
+          },
+          {
+            "growth_per_s": -19192.24167789735,
+            "frequency_hz": 2965.169342717606,
+            "first_native_mode_fraction": 0.9735012875032374
+          },
+          {
+            "growth_per_s": -20181.08979619004,
+            "frequency_hz": 2150.3084983306653,
+            "first_native_mode_fraction": 0.9955842762569561
+          },
+          {
+            "growth_per_s": -327.05638412935826,
+            "frequency_hz": 49.280992962122696,
+            "first_native_mode_fraction": 0.9958755980645949
+          },
+          {
+            "growth_per_s": -18117.35359622602,
+            "frequency_hz": 777.3306849313918,
+            "first_native_mode_fraction": 0.9973060085721103
+          },
+          {
+            "growth_per_s": -18659.7954969865,
+            "frequency_hz": 905.2154847389079,
+            "first_native_mode_fraction": 0.9890267397938811
+          },
+          {
+            "growth_per_s": -21189.0509700692,
+            "frequency_hz": 2229.2481029631103,
+            "first_native_mode_fraction": 0.9878020600378484
+          },
+          {
+            "growth_per_s": -21865.70270038676,
+            "frequency_hz": 2387.509346912313,
+            "first_native_mode_fraction": 0.9900354163729475
+          },
+          {
+            "growth_per_s": -1193.024123693634,
+            "frequency_hz": 44.76683566582654,
+            "first_native_mode_fraction": 0.9728530957809132
+          },
+          {
+            "growth_per_s": -22746.299248051924,
+            "frequency_hz": 2539.8982469486928,
+            "first_native_mode_fraction": 0.9772038827988403
+          },
+          {
+            "growth_per_s": -19188.356362985218,
+            "frequency_hz": 677.5488533987026,
+            "first_native_mode_fraction": 0.8499652573467233
+          },
+          {
+            "growth_per_s": -19747.04550715515,
+            "frequency_hz": 860.4766644798425,
+            "first_native_mode_fraction": 0.9887831174795326
+          },
+          {
+            "growth_per_s": -340.8631468065844,
+            "frequency_hz": 39.94616843947608,
+            "first_native_mode_fraction": 0.9817429819049484
+          },
+          {
+            "growth_per_s": -24213.54706006814,
+            "frequency_hz": 2462.862631015057,
+            "first_native_mode_fraction": 0.9958121508372928
+          },
+          {
+            "growth_per_s": -387.40065988923016,
+            "frequency_hz": 38.78411847800889,
+            "first_native_mode_fraction": 0.9676056450488796
+          },
+          {
+            "growth_per_s": -393.8724169832016,
+            "frequency_hz": 34.15134064741987,
+            "first_native_mode_fraction": 0.9772348448338903
+          },
+          {
+            "growth_per_s": -18497.53248915675,
+            "frequency_hz": 76.4093771447049,
+            "first_native_mode_fraction": 0.9353373622694203
+          },
+          {
+            "growth_per_s": -21934.028170289756,
+            "frequency_hz": 656.6795126868391,
+            "first_native_mode_fraction": 0.9917649093667815
+          },
+          {
+            "growth_per_s": -25802.23983850585,
+            "frequency_hz": 1497.4806668830224,
+            "first_native_mode_fraction": 0.7555256487089214
+          },
+          {
+            "growth_per_s": -1092.8399262450807,
+            "frequency_hz": 23.08868425075621,
+            "first_native_mode_fraction": 0.9788626722480722
+          },
+          {
+            "growth_per_s": -1148.4850678946411,
+            "frequency_hz": 7.472121212387217,
+            "first_native_mode_fraction": 0.9866138405489532
+          },
+          {
+            "growth_per_s": -24521.44149112693,
+            "frequency_hz": 603.3334003040118,
+            "first_native_mode_fraction": 0.885596157521579
+          },
+          {
+            "growth_per_s": -601.1834555340037,
+            "frequency_hz": 25.835171513793867,
+            "first_native_mode_fraction": 0.8002770681937453
+          },
+          {
+            "growth_per_s": -896.2707388649543,
+            "frequency_hz": 25.05288347771112,
+            "first_native_mode_fraction": 0.9729790730810375
+          },
+          {
+            "growth_per_s": -19871.576395471264,
+            "frequency_hz": 94.91246195197054,
+            "first_native_mode_fraction": 0.9884343358166219
+          },
+          {
+            "growth_per_s": -461.5777362190716,
+            "frequency_hz": 12.102484714133519,
+            "first_native_mode_fraction": 0.9267164610868263
+          },
+          {
+            "growth_per_s": -40803.28555531446,
+            "frequency_hz": 1362.9910680144592,
+            "first_native_mode_fraction": 0.9905512203143864
+          },
+          {
+            "growth_per_s": -54427.64883205011,
+            "frequency_hz": 622.8232384831621,
+            "first_native_mode_fraction": 0.9350815451330037
+          }
+        ]
+      },
+      "history": {
+        "equilibrium_q": [
+          -0.015231235998617865,
+          0.0002815734151230464,
+          -1.866347961251616e-06,
+          -2.192663514895766e-05,
+          -1.0069101336168613e-05,
+          4.865390765669597e-06,
+          6.833393585944661e-08,
+          -1.8634457301150647e-06,
+          8.053677120595742e-07,
+          3.733082895401157e-07,
+          -6.72791097714944e-07,
+          3.1493630993480355e-07,
+          -4.0938247967450655e-07,
+          1.0675360919501494e-07,
+          7.691321373769218e-08,
+          -3.28608742160442e-07,
+          6.478553956433887e-08,
+          -4.0296422108015067e-07,
+          -5.217345165387661e-07,
+          -9.598445697582724e-08
+        ],
+        "initial_physical_state_error": 2.168404344971009e-19,
+        "peak_node_component_m": 0.02329303862818563,
+        "stopped_at_50mm_guard": false,
+        "recorded_seconds": 1.000125
+      },
+      "history_metrics": {
+        "initial_delta_tip_z_m": 0.0010000000000000022,
+        "peak_abs_delta_tip_z_m": 0.0010000000000000022,
+        "final_delta_tip_z_m": 2.2805255392948496e-07,
+        "first_modal_tip_peak_fit": {
+          "growth_per_s": -7.76967670038034,
+          "frequency_hz": 8.865886838036872,
+          "positive_peaks": 7,
+          "fit_start_s": 0.22558374999999997,
+          "fit_end_s": 0.9023349999999999
+        }
+      },
+      "pole_transient_growth_difference_per_s": -0.0031500096647452125,
+      "pole_transient_frequency_relative_difference": 0.00039532543450881974,
+      "elapsed_seconds": 8.483938943594694
+    },
+    {
+      "modes": 20,
+      "speed_m_s": 50.0,
+      "status": "executed_exploratory",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "cfl": 0.5,
+      "rho_kg_m3": 1.225,
+      "assumed_structural_damping": 0.0,
+      "guard_native_node_component_m": 0.05,
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "dt_seconds": 0.000127,
+      "native_frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331,
+        500.0461000000001,
+        534.4911,
+        563.3481,
+        589.2068,
+        593.679,
+        619.9817,
+        629.1384,
+        646.2279,
+        652.4830999999999,
+        657.9004
+      ],
+      "discrete_uncoupled_frequencies_hz": [
+        8.810638708053865,
+        53.76740058775128,
+        56.424825791067924,
+        142.97591116704902,
+        169.2203058627846,
+        256.23496125350107,
+        339.17834358041125,
+        363.7248876991003,
+        442.3250689021473,
+        449.0653511154382,
+        493.5655607528137,
+        526.6029599517058,
+        554.1389471812488,
+        578.6990943177498,
+        582.9353977999723,
+        607.7814577922512,
+        616.4028089309415,
+        632.4532870010728,
+        638.3150263975328,
+        643.3858121243825
+      ],
+      "equilibrium_solver_success": true,
+      "equilibrium_solver_message": "The solution converged.",
+      "equilibrium_residual_history": [
+        0.0002332709955554825,
+        0.0002332709955554825,
+        0.0002332709955554825,
+        0.0002332706356838847,
+        0.0002332709972295427,
+        0.0002332709955598332,
+        0.00023327099509261665,
+        0.00023327099320703815,
+        0.00023327099550103647,
+        0.00023327099555604802,
+        0.00023327099557046704,
+        0.00023327099555007363,
+        0.00023327099556170322,
+        0.0002332709955595591,
+        0.00023327099555741845,
+        0.00023327099555968053,
+        0.0002332709955560272,
+        0.00023327099555631864,
+        0.00023327099556190792,
+        0.00023327099555550332,
+        0.00023327099558933043,
+        0.0002332709955853475,
+        0.0002332709955559925,
+        1.2818709600737055e-09,
+        8.382183835919932e-15,
+        2.0816681711721685e-17,
+        2.0816681711721685e-17
+      ],
+      "equilibrium_q": [
+        -0.023562258703873202,
+        0.0004380529164545531,
+        -2.8112398570357362e-06,
+        -3.444341191861811e-05,
+        -1.6444659903204384e-05,
+        7.585822052031265e-06,
+        1.1431752277130425e-07,
+        -2.9198327346764273e-06,
+        1.2647993544386198e-06,
+        5.714850768339778e-07,
+        -1.0522765952462007e-06,
+        4.927038665715836e-07,
+        -6.40335501391027e-07,
+        1.6665003292459968e-07,
+        1.2087571172272563e-07,
+        -5.146505728276332e-07,
+        1.0015784663785124e-07,
+        -6.353255310369938e-07,
+        -8.235179896577684e-07,
+        -1.5063858166370446e-07
+      ],
+      "equilibrium_tip_z_m": 0.03435858577816803,
+      "equilibrium_tip_twist_deg": -0.1442202322953738,
+      "equilibrium_max_node_component_m": 0.034481726304729794,
+      "initial_max_node_component_m": 0.03548398125117533,
+      "equilibrium_force_relative_residual": 1.271143922184269e-15,
+      "aero": {
+        "full_states": 2816,
+        "reduced_states": 120,
+        "aero_rom_radius": 0.9760868933806349,
+        "transfer_checks": [
+          {
+            "frequency_rad_s": 0.0,
+            "relative_frobenius_error": 2.118303729529554e-12
+          },
+          {
+            "frequency_rad_s": 55.3591037063345,
+            "relative_frobenius_error": 2.585510912966371e-10
+          },
+          {
+            "frequency_rad_s": 2852.145784362482,
+            "relative_frobenius_error": 0.0013144956883008139
+          },
+          {
+            "frequency_rad_s": 4133.710126867572,
+            "relative_frobenius_error": 0.002255930193996266
+          }
+        ]
+      },
+      "poles": {
+        "tracked_bending": {
+          "growth_per_s": -9.910754642465196,
+          "frequency_hz": 8.849620402064755,
+          "first_native_mode_fraction": 0.9999983561819638
+        },
+        "tracked_adjacent_mac": 0.9996375562067258,
+        "dominant_resolved_oscillatory": {
+          "growth_per_s": -0.020141604160342337,
+          "frequency_hz": 56.42414283222655,
+          "first_native_mode_fraction": 0.0010773699125052607
+        },
+        "largest_nonoscillatory_growth_per_s": -185.26615512735037,
+        "largest_all_pole_growth_per_s": -0.020141604160342337,
+        "unresolved_high_phase_growing_poles": 0,
+        "resolved_oscillatory_growing_poles": 0,
+        "all_resolved_oscillatory": [
+          {
+            "growth_per_s": -0.43916967523121647,
+            "frequency_hz": 642.9186222019623,
+            "first_native_mode_fraction": 6.602945501661282e-05
+          },
+          {
+            "growth_per_s": -0.26216046105586976,
+            "frequency_hz": 637.9804493063519,
+            "first_native_mode_fraction": 0.0009742900072414162
+          },
+          {
+            "growth_per_s": -0.22936531664811766,
+            "frequency_hz": 632.0911437683783,
+            "first_native_mode_fraction": 0.005132047394644999
+          },
+          {
+            "growth_per_s": -0.7746139606903475,
+            "frequency_hz": 615.7833027863634,
+            "first_native_mode_fraction": 9.783260172112315e-06
+          },
+          {
+            "growth_per_s": -0.4634153947122498,
+            "frequency_hz": 607.174291856969,
+            "first_native_mode_fraction": 0.0011551544131292405
+          },
+          {
+            "growth_per_s": -1.0182815108613275,
+            "frequency_hz": 581.8788691374145,
+            "first_native_mode_fraction": 0.0003172657973436899
+          },
+          {
+            "growth_per_s": -1.0268205742863579,
+            "frequency_hz": 577.7090793319461,
+            "first_native_mode_fraction": 0.00028408604316776956
+          },
+          {
+            "growth_per_s": -0.8127124674763467,
+            "frequency_hz": 553.1170309229017,
+            "first_native_mode_fraction": 0.00042976406711030463
+          },
+          {
+            "growth_per_s": -1.1702240128890211,
+            "frequency_hz": 525.3161623656727,
+            "first_native_mode_fraction": 0.0002172854416563703
+          },
+          {
+            "growth_per_s": -1.741483080910936,
+            "frequency_hz": 491.9603073076162,
+            "first_native_mode_fraction": 0.0001784987326702625
+          },
+          {
+            "growth_per_s": -2.383442067456854,
+            "frequency_hz": 447.2768386321774,
+            "first_native_mode_fraction": 0.005872106325093564
+          },
+          {
+            "growth_per_s": -2.6930247290619302,
+            "frequency_hz": 440.4578602494063,
+            "first_native_mode_fraction": 0.0014475948945569816
+          },
+          {
+            "growth_per_s": -16024.902778782385,
+            "frequency_hz": 2855.48235956064,
+            "first_native_mode_fraction": 0.9842923278417052
+          },
+          {
+            "growth_per_s": -3.7416372629672785,
+            "frequency_hz": 361.88838431938854,
+            "first_native_mode_fraction": 0.00023829537452672164
+          },
+          {
+            "growth_per_s": -0.0756215151308295,
+            "frequency_hz": 339.14378490544743,
+            "first_native_mode_fraction": 0.00029016769886257483
+          },
+          {
+            "growth_per_s": -18771.48028249342,
+            "frequency_hz": 3260.7779902459333,
+            "first_native_mode_fraction": 0.9928848219320653
+          },
+          {
+            "growth_per_s": -4.638972513873782,
+            "frequency_hz": 254.86050284560247,
+            "first_native_mode_fraction": 0.00033687114289087733
+          },
+          {
+            "growth_per_s": -3751.6798287205183,
+            "frequency_hz": 8.272910650455888,
+            "first_native_mode_fraction": 0.5743281617515932
+          },
+          {
+            "growth_per_s": -3529.2676264886622,
+            "frequency_hz": 8.141894157927599,
+            "first_native_mode_fraction": 0.8939122754749007
+          },
+          {
+            "growth_per_s": -3.550782726030039,
+            "frequency_hz": 167.14149889699635,
+            "first_native_mode_fraction": 0.15045920062200013
+          },
+          {
+            "growth_per_s": -5.652647752899625,
+            "frequency_hz": 142.29010909732222,
+            "first_native_mode_fraction": 0.001503323717491136
+          },
+          {
+            "growth_per_s": -23913.7152924263,
+            "frequency_hz": 3686.5716529075135,
+            "first_native_mode_fraction": 0.9796348644860434
+          },
+          {
+            "growth_per_s": -25117.02934190569,
+            "frequency_hz": 2693.986977061911,
+            "first_native_mode_fraction": 0.9954826634436873
+          },
+          {
+            "growth_per_s": -22734.576977747187,
+            "frequency_hz": 986.523295394694,
+            "first_native_mode_fraction": 0.9960900173105424
+          },
+          {
+            "growth_per_s": -26398.597536229838,
+            "frequency_hz": 2789.901880372647,
+            "first_native_mode_fraction": 0.9909456173330328
+          },
+          {
+            "growth_per_s": -23449.411336083896,
+            "frequency_hz": 1127.1782844442941,
+            "first_native_mode_fraction": 0.9875483530631181
+          },
+          {
+            "growth_per_s": -27491.499072138333,
+            "frequency_hz": 2977.6080388157397,
+            "first_native_mode_fraction": 0.9917120706104048
+          },
+          {
+            "growth_per_s": -28423.194920576807,
+            "frequency_hz": 3211.736113464904,
+            "first_native_mode_fraction": 0.9696795943672782
+          },
+          {
+            "growth_per_s": -7.149223145744807,
+            "frequency_hz": 53.752657197655765,
+            "first_native_mode_fraction": 0.001608628531173602
+          },
+          {
+            "growth_per_s": -0.020141604160342337,
+            "frequency_hz": 56.42414283222655,
+            "first_native_mode_fraction": 0.0010773699125052607
+          },
+          {
+            "growth_per_s": -24684.695085970765,
+            "frequency_hz": 1075.8475210761383,
+            "first_native_mode_fraction": 0.9872629403068148
+          },
+          {
+            "growth_per_s": -9.910754642465196,
+            "frequency_hz": 8.849620402064755,
+            "first_native_mode_fraction": 0.9999983561819638
+          },
+          {
+            "growth_per_s": -23919.93698236856,
+            "frequency_hz": 802.19666129854,
+            "first_native_mode_fraction": 0.9036355553691381
+          },
+          {
+            "growth_per_s": -30296.696537528405,
+            "frequency_hz": 3082.783046128401,
+            "first_native_mode_fraction": 0.9960285526992557
+          },
+          {
+            "growth_per_s": -22588.26305822836,
+            "frequency_hz": 77.69204640749886,
+            "first_native_mode_fraction": 0.9182449321206528
+          },
+          {
+            "growth_per_s": -363.04762238493083,
+            "frequency_hz": 86.27474184109498,
+            "first_native_mode_fraction": 0.9714460781599162
+          },
+          {
+            "growth_per_s": -349.4072571120663,
+            "frequency_hz": 73.98284749340839,
+            "first_native_mode_fraction": 0.8649629625190305
+          },
+          {
+            "growth_per_s": -31704.911305939975,
+            "frequency_hz": 1969.4816945007303,
+            "first_native_mode_fraction": 0.2676193790287707
+          },
+          {
+            "growth_per_s": -27404.99004947594,
+            "frequency_hz": 813.0758390353567,
+            "first_native_mode_fraction": 0.9907293496826372
+          },
+          {
+            "growth_per_s": -30614.806790284678,
+            "frequency_hz": 729.1463562343297,
+            "first_native_mode_fraction": 0.878495646585418
+          },
+          {
+            "growth_per_s": -373.1929213591855,
+            "frequency_hz": 60.94082254001521,
+            "first_native_mode_fraction": 0.9820681978854433
+          },
+          {
+            "growth_per_s": -1455.8819252034548,
+            "frequency_hz": 54.95105998813478,
+            "first_native_mode_fraction": 0.9743173215154163
+          },
+          {
+            "growth_per_s": -414.79603978322183,
+            "frequency_hz": 59.015353777063275,
+            "first_native_mode_fraction": 0.9972431982329706
+          },
+          {
+            "growth_per_s": -429.6196400162557,
+            "frequency_hz": 50.56493026541216,
+            "first_native_mode_fraction": 0.978968158646354
+          },
+          {
+            "growth_per_s": -24739.922717730355,
+            "frequency_hz": 126.20483509128937,
+            "first_native_mode_fraction": 0.9921314870007266
+          },
+          {
+            "growth_per_s": -487.56979002057795,
+            "frequency_hz": 48.960096139469734,
+            "first_native_mode_fraction": 0.9597954148555414
+          },
+          {
+            "growth_per_s": -490.65539985883623,
+            "frequency_hz": 43.899580497365584,
+            "first_native_mode_fraction": 0.9801383211022229
+          },
+          {
+            "growth_per_s": -1370.9631839846252,
+            "frequency_hz": 30.3518672768332,
+            "first_native_mode_fraction": 0.9727620510053865
+          },
+          {
+            "growth_per_s": -1131.230968491671,
+            "frequency_hz": 34.78104696213178,
+            "first_native_mode_fraction": 0.9728348500506596
+          },
+          {
+            "growth_per_s": -1427.4833911043909,
+            "frequency_hz": 9.803878839045584,
+            "first_native_mode_fraction": 0.9876408533830096
+          },
+          {
+            "growth_per_s": -773.5177458432188,
+            "frequency_hz": 32.068017312456575,
+            "first_native_mode_fraction": 0.8037447129134636
+          },
+          {
+            "growth_per_s": -51039.29239029797,
+            "frequency_hz": 1753.859154820186,
+            "first_native_mode_fraction": 0.9883601741341437
+          },
+          {
+            "growth_per_s": -563.3415956174906,
+            "frequency_hz": 13.083192988701192,
+            "first_native_mode_fraction": 0.9113027904052974
+          },
+          {
+            "growth_per_s": -1221.6064332822868,
+            "frequency_hz": 2.2006837910184998,
+            "first_native_mode_fraction": 0.9205527408654515
+          }
+        ]
+      },
+      "history": {
+        "equilibrium_q": [
+          -0.023562258703873202,
+          0.0004380529164545531,
+          -2.8112398570357362e-06,
+          -3.444341191861811e-05,
+          -1.6444659903204384e-05,
+          7.585822052031265e-06,
+          1.1431752277130425e-07,
+          -2.9198327346764273e-06,
+          1.2647993544386198e-06,
+          5.714850768339778e-07,
+          -1.0522765952462007e-06,
+          4.927038665715836e-07,
+          -6.40335501391027e-07,
+          1.6665003292459968e-07,
+          1.2087571172272563e-07,
+          -5.146505728276332e-07,
+          1.0015784663785124e-07,
+          -6.353255310369938e-07,
+          -8.235179896577684e-07,
+          -1.5063858166370446e-07
+        ],
+        "initial_physical_state_error": 3.2526065174565133e-19,
+        "peak_node_component_m": 0.03548398125117533,
+        "stopped_at_50mm_guard": false,
+        "recorded_seconds": 1.000125
+      },
+      "history_metrics": {
+        "initial_delta_tip_z_m": 0.0010000000000000022,
+        "peak_abs_delta_tip_z_m": 0.0010000000000000022,
+        "final_delta_tip_z_m": 2.1705404796777895e-08,
+        "first_modal_tip_peak_fit": {
+          "growth_per_s": -9.91505462630375,
+          "frequency_hz": 8.85218184151939,
+          "positive_peaks": 7,
+          "fit_start_s": 0.226314,
+          "fit_end_s": 0.9041129999999999
+        }
+      },
+      "pole_transient_growth_difference_per_s": -0.004299983838553345,
+      "pole_transient_frequency_relative_difference": 0.00028944060177282793,
+      "elapsed_seconds": 8.501275324262679
+    },
+    {
+      "modes": 20,
+      "speed_m_s": 55.0,
+      "status": "executed_exploratory",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "cfl": 0.5,
+      "rho_kg_m3": 1.225,
+      "assumed_structural_damping": 0.0,
+      "guard_native_node_component_m": 0.05,
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "dt_seconds": 0.00011545454545454545,
+      "native_frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331,
+        500.0461000000001,
+        534.4911,
+        563.3481,
+        589.2068,
+        593.679,
+        619.9817,
+        629.1384,
+        646.2279,
+        652.4830999999999,
+        657.9004
+      ],
+      "discrete_uncoupled_frequencies_hz": [
+        8.810645006617492,
+        53.76883197721813,
+        56.426480072648275,
+        143.0028186385523,
+        169.26491124810937,
+        256.3897355388572,
+        339.53704946344106,
+        364.1671274868948,
+        443.11965037711593,
+        449.8967357834336,
+        494.6686872966175,
+        527.9420599414755,
+        555.6985630962064,
+        580.4746376461509,
+        584.7500806045351,
+        609.8372564304568,
+        618.5469836925823,
+        634.7686284358115,
+        640.6950652542072,
+        645.8227749403788
+      ],
+      "equilibrium_solver_success": true,
+      "equilibrium_solver_message": "The solution converged.",
+      "equilibrium_residual_history": [
+        0.00016349412619908257,
+        0.00016349412619908257,
+        0.00016349412619908257,
+        0.00016349369389214233,
+        0.00016349412864492818,
+        0.0001634941262054386,
+        0.00016349412551826606,
+        0.00016349412260592555,
+        0.0001634941261196808,
+        0.00016349412620002973,
+        0.00016349412622105805,
+        0.00016349412619114795,
+        0.00016349412620803722,
+        0.00016349412620502574,
+        0.000163494126201931,
+        0.00016349412620522003,
+        0.0001634941261998528,
+        0.00016349412620026565,
+        0.00016349412620854029,
+        0.00016349412619905135,
+        0.0001634941262491016,
+        0.00016349412624323476,
+        0.00016349412619980075,
+        8.648928552512647e-10,
+        4.385380947269368e-15,
+        1.0408340855860843e-17,
+        1.0408340855860843e-17
+      ],
+      "equilibrium_q": [
+        -0.028343935595183934,
+        0.0005286921341471057,
+        -3.3225077862721305e-06,
+        -4.180481798038224e-05,
+        -2.04044125831291e-05,
+        9.166914404059341e-06,
+        1.4384431511023287e-07,
+        -3.5386734302735002e-06,
+        1.5349025813433912e-06,
+        6.830792339821184e-07,
+        -1.2739573287215177e-06,
+        5.965760058620257e-07,
+        -7.752770376938257e-07,
+        2.0151486642247264e-07,
+        1.467439007203047e-07,
+        -6.235871023895927e-07,
+        1.2042464377396346e-07,
+        -7.728523899541881e-07,
+        -1.0023817925916345e-06,
+        -1.8274499971275653e-07
+      ],
+      "equilibrium_tip_z_m": 0.04132910372258207,
+      "equilibrium_tip_twist_deg": -0.17481979496232294,
+      "equilibrium_max_node_component_m": 0.04147838128238019,
+      "initial_max_node_component_m": 0.042480636228825724,
+      "equilibrium_force_relative_residual": 1.6433171023624544e-15,
+      "aero": {
+        "full_states": 2816,
+        "reduced_states": 120,
+        "aero_rom_radius": 0.9760891122363067,
+        "transfer_checks": [
+          {
+            "frequency_rad_s": 0.0,
+            "relative_frobenius_error": 1.0424614893731469e-12
+          },
+          {
+            "frequency_rad_s": 55.3591037063345,
+            "relative_frobenius_error": 1.5250466560760062e-10
+          },
+          {
+            "frequency_rad_s": 2852.145784362482,
+            "relative_frobenius_error": 0.0011845866040948122
+          },
+          {
+            "frequency_rad_s": 4133.710126867572,
+            "relative_frobenius_error": 0.0019685480736034
+          }
+        ]
+      },
+      "poles": {
+        "tracked_bending": {
+          "growth_per_s": -10.998522927004018,
+          "frequency_hz": 8.840225127734398,
+          "first_native_mode_fraction": 0.99999793559686
+        },
+        "tracked_adjacent_mac": 0.9999072504374344,
+        "dominant_resolved_oscillatory": {
+          "growth_per_s": -0.021684913222470025,
+          "frequency_hz": 56.42600692753463,
+          "first_native_mode_fraction": 0.001344228420818435
+        },
+        "largest_nonoscillatory_growth_per_s": -203.30911829988815,
+        "largest_all_pole_growth_per_s": -0.021684913222470025,
+        "unresolved_high_phase_growing_poles": 0,
+        "resolved_oscillatory_growing_poles": 0,
+        "all_resolved_oscillatory": [
+          {
+            "growth_per_s": -0.46481724162114935,
+            "frequency_hz": 645.3428436406277,
+            "first_native_mode_fraction": 5.953701517308202e-05
+          },
+          {
+            "growth_per_s": -0.27332830860774354,
+            "frequency_hz": 640.3412453625806,
+            "first_native_mode_fraction": 0.001136123631275529
+          },
+          {
+            "growth_per_s": -0.23452182707227065,
+            "frequency_hz": 634.3856351967913,
+            "first_native_mode_fraction": 0.005638980425658264
+          },
+          {
+            "growth_per_s": -0.8389805197733017,
+            "frequency_hz": 617.9056814273926,
+            "first_native_mode_fraction": 1.2401688939603862e-05
+          },
+          {
+            "growth_per_s": -0.4866153943223024,
+            "frequency_hz": 609.2135906825226,
+            "first_native_mode_fraction": 0.0012087457409616913
+          },
+          {
+            "growth_per_s": -1.0959555198558093,
+            "frequency_hz": 583.6539317261692,
+            "first_native_mode_fraction": 0.00034023075189611873
+          },
+          {
+            "growth_per_s": -1.1144812567477582,
+            "frequency_hz": 579.4471822148226,
+            "first_native_mode_fraction": 0.00029186917338489156
+          },
+          {
+            "growth_per_s": -0.8685521288920509,
+            "frequency_hz": 554.6523673269081,
+            "first_native_mode_fraction": 0.0004478568371976335
+          },
+          {
+            "growth_per_s": -1.265679445685711,
+            "frequency_hz": 526.6264280169836,
+            "first_native_mode_fraction": 0.00022775999472402514
+          },
+          {
+            "growth_per_s": -1.905911353338876,
+            "frequency_hz": 493.0305749668696,
+            "first_native_mode_fraction": 0.0001935239362506643
+          },
+          {
+            "growth_per_s": -2.983453745688089,
+            "frequency_hz": 441.2061809503281,
+            "first_native_mode_fraction": 0.0017817987576837862
+          },
+          {
+            "growth_per_s": -2.648565263776611,
+            "frequency_hz": 447.9957052593769,
+            "first_native_mode_fraction": 0.00704292093430771
+          },
+          {
+            "growth_per_s": -4.175058379307042,
+            "frequency_hz": 362.3162760634725,
+            "first_native_mode_fraction": 0.00029158356751552377
+          },
+          {
+            "growth_per_s": -0.08473123048077225,
+            "frequency_hz": 339.50110534830196,
+            "first_native_mode_fraction": 0.0003681876084741135
+          },
+          {
+            "growth_per_s": -17627.177239552737,
+            "frequency_hz": 3149.8185896390755,
+            "first_native_mode_fraction": 0.9842901892322342
+          },
+          {
+            "growth_per_s": -5.194550667996969,
+            "frequency_hz": 255.0197839689135,
+            "first_native_mode_fraction": 0.00040564769885061987
+          },
+          {
+            "growth_per_s": -20633.06629451265,
+            "frequency_hz": 3589.7358936881533,
+            "first_native_mode_fraction": 0.9929177573636113
+          },
+          {
+            "growth_per_s": -4.03302340582386,
+            "frequency_hz": 166.83285255362762,
+            "first_native_mode_fraction": 0.18561875835847008
+          },
+          {
+            "growth_per_s": -4126.170040042885,
+            "frequency_hz": 8.693715567275193,
+            "first_native_mode_fraction": 0.6573372862364801
+          },
+          {
+            "growth_per_s": -3848.413765512454,
+            "frequency_hz": 10.188281225027952,
+            "first_native_mode_fraction": 0.8895271605055872
+          },
+          {
+            "growth_per_s": -6.329034609054183,
+            "frequency_hz": 142.33790313229662,
+            "first_native_mode_fraction": 0.002033203982584395
+          },
+          {
+            "growth_per_s": -26267.814579849317,
+            "frequency_hz": 4042.661363854401,
+            "first_native_mode_fraction": 0.9810961261426178
+          },
+          {
+            "growth_per_s": -27585.442922246195,
+            "frequency_hz": 2965.6019852062777,
+            "first_native_mode_fraction": 0.9954150923315479
+          },
+          {
+            "growth_per_s": -7.998845354235741,
+            "frequency_hz": 53.79524269746468,
+            "first_native_mode_fraction": 0.002312040432937258
+          },
+          {
+            "growth_per_s": -0.021684913222470025,
+            "frequency_hz": 56.42600692753463,
+            "first_native_mode_fraction": 0.001344228420818435
+          },
+          {
+            "growth_per_s": -10.998522927004018,
+            "frequency_hz": 8.840225127734398,
+            "first_native_mode_fraction": 0.99999793559686
+          },
+          {
+            "growth_per_s": -25019.562145209,
+            "frequency_hz": 1097.6143740464718,
+            "first_native_mode_fraction": 0.9954965823756715
+          },
+          {
+            "growth_per_s": -25904.602689667863,
+            "frequency_hz": 1235.5564455303186,
+            "first_native_mode_fraction": 0.9859564766570241
+          },
+          {
+            "growth_per_s": -28991.004089280283,
+            "frequency_hz": 3069.2653910542394,
+            "first_native_mode_fraction": 0.9929349659806019
+          },
+          {
+            "growth_per_s": -30275.337765418895,
+            "frequency_hz": 3269.8760633957445,
+            "first_native_mode_fraction": 0.9923200984132694
+          },
+          {
+            "growth_per_s": -31286.327512890522,
+            "frequency_hz": 3549.1263056285675,
+            "first_native_mode_fraction": 0.9657879870145694
+          },
+          {
+            "growth_per_s": -27164.39062396617,
+            "frequency_hz": 1183.8103317438502,
+            "first_native_mode_fraction": 0.9862206738499323
+          },
+          {
+            "growth_per_s": -26277.467173848632,
+            "frequency_hz": 856.112955794009,
+            "first_native_mode_fraction": 0.8960606703245947
+          },
+          {
+            "growth_per_s": -402.68301857304124,
+            "frequency_hz": 95.10683018721038,
+            "first_native_mode_fraction": 0.9717589235463807
+          },
+          {
+            "growth_per_s": -24636.942036627563,
+            "frequency_hz": 99.16412377428968,
+            "first_native_mode_fraction": 0.9066357354928712
+          },
+          {
+            "growth_per_s": -33315.30737438763,
+            "frequency_hz": 3393.813009178731,
+            "first_native_mode_fraction": 0.9959882824065944
+          },
+          {
+            "growth_per_s": -34597.39280654807,
+            "frequency_hz": 2213.0620856728488,
+            "first_native_mode_fraction": 0.024340576672662678
+          },
+          {
+            "growth_per_s": -384.7199394922829,
+            "frequency_hz": 81.55553277279058,
+            "first_native_mode_fraction": 0.8848198340588772
+          },
+          {
+            "growth_per_s": -409.0319177655269,
+            "frequency_hz": 67.31805626920287,
+            "first_native_mode_fraction": 0.9805369160842575
+          },
+          {
+            "growth_per_s": -30126.265567463874,
+            "frequency_hz": 891.7885616672334,
+            "first_native_mode_fraction": 0.9901223356209807
+          },
+          {
+            "growth_per_s": -33624.94623040149,
+            "frequency_hz": 790.5596813075848,
+            "first_native_mode_fraction": 0.8972840574817629
+          },
+          {
+            "growth_per_s": -457.1352672695817,
+            "frequency_hz": 63.633777799879795,
+            "first_native_mode_fraction": 0.996531307132562
+          },
+          {
+            "growth_per_s": -1575.577888911811,
+            "frequency_hz": 59.329319818936376,
+            "first_native_mode_fraction": 0.9747327039601204
+          },
+          {
+            "growth_per_s": -27197.37957261838,
+            "frequency_hz": 144.4889166018262,
+            "first_native_mode_fraction": 0.993328547842507
+          },
+          {
+            "growth_per_s": -475.957421851239,
+            "frequency_hz": 55.896469737729376,
+            "first_native_mode_fraction": 0.9771186568349667
+          },
+          {
+            "growth_per_s": -538.6579792290244,
+            "frequency_hz": 54.257683684023114,
+            "first_native_mode_fraction": 0.9550395657767639
+          },
+          {
+            "growth_per_s": -539.9422357465738,
+            "frequency_hz": 48.68430976893641,
+            "first_native_mode_fraction": 0.9851303875816441
+          },
+          {
+            "growth_per_s": -55972.129626854396,
+            "frequency_hz": 1981.0978175428713,
+            "first_native_mode_fraction": 0.985717654154037
+          },
+          {
+            "growth_per_s": -1513.0692550322628,
+            "frequency_hz": 35.57858118250458,
+            "first_native_mode_fraction": 0.9694190373344264
+          },
+          {
+            "growth_per_s": -1571.4802415370707,
+            "frequency_hz": 10.559496092147025,
+            "first_native_mode_fraction": 0.9880666516927933
+          },
+          {
+            "growth_per_s": -1250.046930862778,
+            "frequency_hz": 39.56660128362803,
+            "first_native_mode_fraction": 0.9712356596072023
+          },
+          {
+            "growth_per_s": -867.6269288832548,
+            "frequency_hz": 34.470933158265275,
+            "first_native_mode_fraction": 0.788756933496197
+          },
+          {
+            "growth_per_s": -613.4772860521334,
+            "frequency_hz": 13.97925380348736,
+            "first_native_mode_fraction": 0.9120473200124933
+          },
+          {
+            "growth_per_s": -1346.610236628318,
+            "frequency_hz": 3.28369253802901,
+            "first_native_mode_fraction": 0.9367642428190787
+          }
+        ]
+      },
+      "history": {
+        "equilibrium_q": [
+          -0.028343935595183934,
+          0.0005286921341471057,
+          -3.3225077862721305e-06,
+          -4.180481798038224e-05,
+          -2.04044125831291e-05,
+          9.166914404059341e-06,
+          1.4384431511023287e-07,
+          -3.5386734302735002e-06,
+          1.5349025813433912e-06,
+          6.830792339821184e-07,
+          -1.2739573287215177e-06,
+          5.965760058620257e-07,
+          -7.752770376938257e-07,
+          2.0151486642247264e-07,
+          1.467439007203047e-07,
+          -6.235871023895927e-07,
+          1.2042464377396346e-07,
+          -7.728523899541881e-07,
+          -1.0023817925916345e-06,
+          -1.8274499971275653e-07
+        ],
+        "initial_physical_state_error": 1.0842021724855044e-19,
+        "peak_node_component_m": 0.042480636228825724,
+        "stopped_at_50mm_guard": false,
+        "recorded_seconds": 1.0000672727272726
+      },
+      "history_metrics": {
+        "initial_delta_tip_z_m": 0.0010000000000000022,
+        "peak_abs_delta_tip_z_m": 0.0010000000000000022,
+        "final_delta_tip_z_m": 5.9406376681404476e-09,
+        "first_modal_tip_peak_fit": {
+          "growth_per_s": -10.998500735095446,
+          "frequency_hz": 8.838180941668007,
+          "positive_peaks": 6,
+          "fit_start_s": 0.22629090909090907,
+          "fit_end_s": 0.7920181818181817
+        }
+      },
+      "pole_transient_growth_difference_per_s": 2.2191908572111174e-05,
+      "pole_transient_frequency_relative_difference": -0.00023123687879589294,
+      "elapsed_seconds": 8.603521289303899
+    },
+    {
+      "modes": 20,
+      "speed_m_s": 60.0,
+      "status": "outside_displacement_experiment_guard",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "cfl": 0.5,
+      "rho_kg_m3": 1.225,
+      "assumed_structural_damping": 0.0,
+      "guard_native_node_component_m": 0.05,
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "dt_seconds": 0.00010583333333333334,
+      "native_frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331,
+        500.0461000000001,
+        534.4911,
+        563.3481,
+        589.2068,
+        593.679,
+        619.9817,
+        629.1384,
+        646.2279,
+        652.4830999999999,
+        657.9004
+      ],
+      "discrete_uncoupled_frequencies_hz": [
+        8.81064979720253,
+        53.76992075814755,
+        56.42773840636457,
+        143.02329618518,
+        169.29886564902282,
+        256.5076795493539,
+        339.8107900399857,
+        364.50478471612615,
+        443.72744128535055,
+        450.53278876949236,
+        495.51366129092986,
+        528.96878353832,
+        556.8953884126702,
+        581.8382542460347,
+        586.143953644082,
+        611.4176762174001,
+        620.195843482819,
+        636.550139336691,
+        642.5267481748139,
+        647.6986162788806
+      ],
+      "equilibrium_solver_success": true,
+      "equilibrium_solver_message": "The solution converged.",
+      "equilibrium_residual_history": [
+        0.00021175074688108142,
+        0.00021175074688108142,
+        0.00021175074688108142,
+        0.0002117502339253341,
+        0.0002117507503450744,
+        0.0002117507468903379,
+        0.0002117507459146739,
+        0.00021175074166426833,
+        0.00021175074676894196,
+        0.0002117507468825247,
+        0.00021175074691221624,
+        0.00021175074686983347,
+        0.00021175074689362,
+        0.00021175074688956075,
+        0.00021175074688500883,
+        0.00021175074688983136,
+        0.00021175074688219858,
+        0.0002117507468827745,
+        0.00021175074689447348,
+        0.0002117507468810606,
+        0.00021175074695225365,
+        0.00021175074694406576,
+        0.0002117507468820945,
+        1.8373148696904096e-09,
+        1.5105972028806036e-14,
+        4.163336342344337e-17,
+        4.163336342344337e-17
+      ],
+      "equilibrium_q": [
+        -0.03351522509606996,
+        0.0006274174800925301,
+        -3.8460014445144445e-06,
+        -4.991743253204694e-05,
+        -2.4946928342908854e-05,
+        1.0893443549330869e-05,
+        1.7857313679642105e-07,
+        -4.218597874720752e-06,
+        1.8324900626627465e-06,
+        8.018639198345538e-07,
+        -1.5169978009267996e-06,
+        7.104713048261431e-07,
+        -9.232512681546434e-07,
+        2.39624884028321e-07,
+        1.7525928574773509e-07,
+        -7.432531331085572e-07,
+        1.4230486959149526e-07,
+        -9.251997518457684e-07,
+        -1.2006990406887919e-06,
+        -2.181015638987206e-07
+      ],
+      "equilibrium_tip_z_m": 0.04886672079323989,
+      "equilibrium_tip_twist_deg": -0.20846787786959545,
+      "equilibrium_max_node_component_m": 0.049044743203411637,
+      "initial_max_node_component_m": 0.05004699814985717,
+      "equilibrium_force_relative_residual": 2.0892302624447424e-15,
+      "elapsed_seconds": 0.29131940845400095
+    },
+    {
+      "modes": 20,
+      "speed_m_s": 80.0,
+      "status": "outside_displacement_experiment_guard",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "cfl": 0.5,
+      "rho_kg_m3": 1.225,
+      "assumed_structural_damping": 0.0,
+      "guard_native_node_component_m": 0.05,
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "dt_seconds": 7.937499999999999e-05,
+      "native_frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331,
+        500.0461000000001,
+        534.4911,
+        563.3481,
+        589.2068,
+        593.679,
+        619.9817,
+        629.1384,
+        646.2279,
+        652.4830999999999,
+        657.9004
+      ],
+      "discrete_uncoupled_frequencies_hz": [
+        8.810660823394489,
+        53.77242703106628,
+        56.43063500941455,
+        143.07046806333625,
+        169.3771093767781,
+        256.7798866479822,
+        340.4438686500471,
+        365.2862459477385,
+        445.13782021225455,
+        452.00912093621537,
+        497.4783638590026,
+        531.3594577154483,
+        559.6856160191943,
+        585.0210461554507,
+        589.3980387838835,
+        615.1118541382881,
+        624.0517073206622,
+        640.7197201510818,
+        646.8150983784883,
+        652.0915511408417
+      ],
+      "equilibrium_solver_success": true,
+      "equilibrium_solver_message": "The solution converged.",
+      "equilibrium_residual_history": [
+        0.001784283925118986,
+        0.001784283925118986,
+        0.001784283925118986,
+        0.0017842830081384042,
+        0.001784283936167412,
+        0.0017842839251527576,
+        0.00178428392207014,
+        0.0017842839082172698,
+        0.0017842839247682665,
+        0.0017842839251243983,
+        0.001784283925217539,
+        0.001784283925084361,
+        0.0017842839251574136,
+        0.0017842839251461864,
+        0.0017842839251317813,
+        0.0017842839251468179,
+        0.001784283925122497,
+        0.0017842839251245302,
+        0.0017842839251614312,
+        0.0017842839251190762,
+        0.001784283925344625,
+        0.0017842839253192425,
+        0.0017842839251224346,
+        2.2736284456537081e-07,
+        3.0310053078519417e-11,
+        8.534839501805891e-16,
+        8.534839501805891e-16
+      ],
+      "equilibrium_q": [
+        -0.05771783229680028,
+        0.0010998405811403127,
+        -5.775013628082483e-06,
+        -9.015291051172687e-05,
+        -5.01988418925571e-05,
+        1.921757409073231e-05,
+        3.8628072571307296e-07,
+        -7.559654685174577e-06,
+        3.30746328207386e-06,
+        1.32748227399373e-06,
+        -2.7036056383154602e-06,
+        1.2665757180844976e-06,
+        -1.6463733852506516e-06,
+        4.237719006614488e-07,
+        3.166925779234307e-07,
+        -1.3314098036260424e-06,
+        2.4393094314616884e-07,
+        -1.6940157157542193e-06,
+        -2.2033848359007756e-06,
+        -3.932040583149132e-07
+      ],
+      "equilibrium_tip_z_m": 0.08413146731647048,
+      "equilibrium_tip_twist_deg": -0.3744504075562039,
+      "equilibrium_max_node_component_m": 0.08445134225994443,
+      "initial_max_node_component_m": 0.08545359720638995,
+      "equilibrium_force_relative_residual": 1.211561203564296e-14,
+      "elapsed_seconds": 0.2890041060745716
+    },
+    {
+      "modes": 20,
+      "speed_m_s": 100.0,
+      "status": "outside_displacement_experiment_guard",
+      "M": 8,
+      "N_per_half": 16,
+      "wake_chords": 8,
+      "cfl": 0.5,
+      "rho_kg_m3": 1.225,
+      "assumed_structural_damping": 0.0,
+      "guard_native_node_component_m": 0.05,
+      "input_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+      "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "dt_seconds": 6.35e-05,
+      "native_frequencies_hz": [
+        8.810675,
+        53.77565,
+        56.43436,
+        143.1312,
+        169.4779,
+        257.1314,
+        341.2641,
+        366.2999,
+        446.97510000000005,
+        453.9331,
+        500.0461000000001,
+        534.4911,
+        563.3481,
+        589.2068,
+        593.679,
+        619.9817,
+        629.1384,
+        646.2279,
+        652.4830999999999,
+        657.9004
+      ],
+      "discrete_uncoupled_frequencies_hz": [
+        8.810665926963013,
+        53.77358721977296,
+        56.431975904057246,
+        143.0923208731687,
+        169.41336914095805,
+        256.9062321423603,
+        340.7383341758571,
+        365.64999781678904,
+        445.7961078417109,
+        452.69837026159064,
+        498.3972782813331,
+        532.4792356330762,
+        560.9942300216038,
+        586.515578151313,
+        590.9263748337679,
+        616.8491244316947,
+        625.8658490350132,
+        642.6831801401116,
+        648.8351446086928,
+        654.1614506702433
+      ],
+      "equilibrium_solver_success": true,
+      "equilibrium_solver_message": "The solution converged.",
+      "equilibrium_residual_history": [
+        0.0034515808231699446,
+        0.0034515808231699446,
+        0.0034515808231699446,
+        0.0034515794201617767,
+        0.003451580850124439,
+        0.003451580823251685,
+        0.003451580815664171,
+        0.0034515807766511697,
+        0.003451580822328562,
+        0.003451580823187292,
+        0.003451580823412126,
+        0.003451580823086567,
+        0.0034515808232555845,
+        0.0034515808232362943,
+        0.0034515808232010725,
+        0.0034515808232371964,
+        0.0034515808231779105,
+        0.0034515808231836698,
+        0.003451580823273445,
+        0.003451580823169556,
+        0.003451580823734382,
+        0.003451580823672862,
+        0.003451580823178202,
+        1.391552982829558e-06,
+        6.10314188076444e-10,
+        2.821354261328679e-14,
+        2.7755575615628914e-16,
+        2.7755575615628914e-16
+      ],
+      "equilibrium_q": [
+        -0.08644288431249927,
+        0.0016860258743481493,
+        -6.442473806222317e-06,
+        -0.0001435737744461323,
+        -9.05346154019559e-05,
+        2.968774637990015e-05,
+        7.587198385901472e-07,
+        -1.1919760009827213e-05,
+        5.265023239592946e-06,
+        1.8678812941697215e-06,
+        -4.233958147618094e-06,
+        1.983269425927732e-06,
+        -2.5813926412389275e-06,
+        6.559832786871342e-07,
+        5.040359631767575e-07,
+        -2.1011697027465493e-06,
+        3.6174883868156515e-07,
+        -2.7525777886254445e-06,
+        -3.5856512313829136e-06,
+        -6.256754954615084e-07
+      ],
+      "equilibrium_tip_z_m": 0.12595451683724707,
+      "equilibrium_tip_twist_deg": -0.5934552507572565,
+      "equilibrium_max_node_component_m": 0.12646169474919353,
+      "initial_max_node_component_m": 0.12746394969563907,
+      "equilibrium_force_relative_residual": 4.465428294988528e-15,
+      "elapsed_seconds": 0.29964028019458055
+    }
+  ],
+  "checks": {
+    "prior_30m_s_replay_max_q_error": 1.9949319973733282e-16,
+    "mode_count_comparison": [
+      {
+        "speed_m_s": 10.0,
+        "tip_difference_m": 5.685710055157098e-08,
+        "tip_relative_difference": 4.027923476090933e-05,
+        "max_delta_tip_history_difference_m": 5.840056612472209e-09,
+        "growth_per_s_difference": -4.629184167548317e-06,
+        "frequency_hz_difference": -4.1358478028996615e-06
+      },
+      {
+        "speed_m_s": 20.0,
+        "tip_difference_m": 3.678311354567143e-07,
+        "tip_relative_difference": 6.536450106775504e-05,
+        "max_delta_tip_history_difference_m": 7.165747009977262e-09,
+        "growth_per_s_difference": 6.390025917735187e-05,
+        "frequency_hz_difference": -4.469008732854718e-06
+      },
+      {
+        "speed_m_s": 30.0,
+        "tip_difference_m": 1.3534523536345294e-06,
+        "tip_relative_difference": 0.0001074944869683403,
+        "max_delta_tip_history_difference_m": 1.627618004430972e-08,
+        "growth_per_s_difference": 0.0002472335101915135,
+        "frequency_hz_difference": -1.0264676971516451e-05
+      },
+      {
+        "speed_m_s": 40.0,
+        "tip_difference_m": 3.7124181530880096e-06,
+        "tip_relative_difference": 0.0001671619996501672,
+        "max_delta_tip_history_difference_m": 2.9776411630485795e-08,
+        "growth_per_s_difference": 0.0006303379351164651,
+        "frequency_hz_difference": -1.4235616456304001e-05
+      },
+      {
+        "speed_m_s": 50.0,
+        "tip_difference_m": 8.418376206915934e-06,
+        "tip_relative_difference": 0.00024507525999517554,
+        "max_delta_tip_history_difference_m": 4.719644853146826e-08,
+        "growth_per_s_difference": 0.0012845524491442717,
+        "frequency_hz_difference": -1.0490398025808645e-05
+      },
+      {
+        "speed_m_s": 55.0,
+        "tip_difference_m": 1.203026302308563e-05,
+        "tip_relative_difference": 0.00029116929191164154,
+        "max_delta_tip_history_difference_m": 5.707628421150815e-08,
+        "growth_per_s_difference": 0.0017367555115637145,
+        "frequency_hz_difference": -3.332957245305579e-06
+      },
+      {
+        "speed_m_s": 60.0,
+        "tip_difference_m": 1.6717566058775668e-05,
+        "tip_relative_difference": 0.00034222241462367187
+      },
+      {
+        "speed_m_s": 80.0,
+        "tip_difference_m": 5.040536699103815e-05,
+        "tip_relative_difference": 0.0005994853754502927
+      },
+      {
+        "speed_m_s": 100.0,
+        "tip_difference_m": 0.00011994259823877584,
+        "tip_relative_difference": 0.0009531768114139361
+      }
+    ],
+    "max_pole_transient_growth_discrepancy_per_s": 0.004299983838553345,
+    "max_pole_transient_frequency_relative_discrepancy": 0.0008154496587651217,
+    "max_equilibrium_relative_force_residual": 1.211561203564296e-14,
+    "minimum_adjacent_tracked_mac": 0.9996373380634239,
+    "all_resolved_growing_poles": 0,
+    "all_unresolved_high_phase_growing_poles": 0,
+    "max_all_pole_growth_per_s": -0.0041062966678152395
+  },
+  "verification": {
+    "repository_tests_passed": 193,
+    "browser": {
+      "status": "passed",
+      "actual_histories": 12,
+      "checked_case_mode_time_combinations": 96,
+      "checked_both_panels": true,
+      "physical_q_tip_z_twist": true,
+      "shared_projection": true,
+      "magnification_invariance": true,
+      "unequal_speed_history_endpoint": true,
+      "mobile_no_horizontal_overflow": true,
+      "external_network_requests": [],
+      "errors": []
+    },
+    "artifact_sha256": {
+      "check_results.py": "061efe34f1b583f86e1bf393b14f56394442280ef59e96f812055c7b155dd7c4",
+      "browser_expected.py": "9566cbd9d863398abd110c9f34756032b988b5d33bb4cc2c348ea4eae2af8bb5",
+      "browser-expected.json": "f838ccef2701d737f6cb35d600c51620fc94748f3fdafd320470dd6c248acf56",
+      "check-viewer.cjs": "31676b93f5637fc16760cfa163bd87aa932324941d678bf1fc8d12a5ef9d810b",
+      "browser-check.json": "83c310d299cb30a31384091101fdb81afae7ee8a4a05abf6c7ed91ac732925d5",
+      "initial-export.log": "ae8b9d27a9ae227e782c5d3aa9a6095307c80eb48ea7b33736d98931c0bda02b"
+    }
+  }
+}

@@ -1,0 +1,1150 @@
+{
+  "scope": "Analytic prescribed parabolic wall-motion control on deliberately coarse no-layer CFD mesh. No native structural feedback, periodic-convergence, damping-validation or flutter claim. Actual native wall power; shared saved0.004s initialization. Timestep comparison includes the mesh-motion discretization.",
+  "coarse": {
+    "scope": "One full observed prescribed-motion cycle plus end margin, analytic parabolic wall shape on no-layer mesh. NOT native modal feedback, physical damping validation or flutter.",
+    "samples": 1160,
+    "first_time_s": 0.0041,
+    "last_time_s": 0.12000000000000086,
+    "observed_dt_s": 0.00010000000000000286,
+    "native_force_max_error_N": 5.17985654369113e-12,
+    "wing_faces": [
+      40780.0
+    ],
+    "restart_overlap": [
+      {
+        "time_s": 0.0901,
+        "max_force_difference_N": 3.200426590410643e-10,
+        "power_difference_W": 6.611064126693655e-11
+      },
+      {
+        "time_s": 0.0902,
+        "max_force_difference_N": 1.57371005116147e-10,
+        "power_difference_W": 7.03152813752439e-14
+      },
+      {
+        "time_s": 0.0903,
+        "max_force_difference_N": 4.149569576838985e-12,
+        "power_difference_W": 1.867256349541435e-14
+      },
+      {
+        "time_s": 0.0904,
+        "max_force_difference_N": 9.237055564881302e-13,
+        "power_difference_W": 2.3203661214665772e-14
+      },
+      {
+        "time_s": 0.0905,
+        "max_force_difference_N": 7.460698725481052e-13,
+        "power_difference_W": 1.9366452885805074e-14
+      },
+      {
+        "time_s": 0.0906,
+        "max_force_difference_N": 4.547473508864641e-13,
+        "power_difference_W": 9.242606680004428e-15
+      },
+      {
+        "time_s": 0.0907,
+        "max_force_difference_N": 4.121147867408581e-13,
+        "power_difference_W": 1.194183640862434e-14
+      },
+      {
+        "time_s": 0.0908,
+        "max_force_difference_N": 1.4210854715202004e-13,
+        "power_difference_W": 1.309369279667294e-14
+      },
+      {
+        "time_s": 0.0909,
+        "max_force_difference_N": 2.984279490192421e-13,
+        "power_difference_W": 1.5595164049031496e-14
+      },
+      {
+        "time_s": 0.091,
+        "max_force_difference_N": 9.237055564881302e-14,
+        "power_difference_W": 1.8235413179468196e-14
+      },
+      {
+        "time_s": 0.0911,
+        "max_force_difference_N": 7.314981953499e-14,
+        "power_difference_W": 9.828943214884589e-15
+      },
+      {
+        "time_s": 0.0912,
+        "max_force_difference_N": 1.4210854715202004e-13,
+        "power_difference_W": 1.8006429680639258e-15
+      },
+      {
+        "time_s": 0.0913,
+        "max_force_difference_N": 7.255307465925398e-14,
+        "power_difference_W": 6.58501031480796e-15
+      },
+      {
+        "time_s": 0.0914,
+        "max_force_difference_N": 5.880018694170985e-14,
+        "power_difference_W": 1.1796119636642288e-16
+      },
+      {
+        "time_s": 0.0915,
+        "max_force_difference_N": 5.938305402963806e-14,
+        "power_difference_W": 2.096586793065569e-14
+      },
+      {
+        "time_s": 0.0916,
+        "max_force_difference_N": 5.613287612504791e-13,
+        "power_difference_W": 8.017891905964802e-15
+      },
+      {
+        "time_s": 0.0917,
+        "max_force_difference_N": 3.481659405224491e-13,
+        "power_difference_W": 8.527900607901984e-15
+      },
+      {
+        "time_s": 0.0918,
+        "max_force_difference_N": 9.166001291305292e-13,
+        "power_difference_W": 7.993605777301127e-15
+      },
+      {
+        "time_s": 0.0919,
+        "max_force_difference_N": 6.536993168992922e-13,
+        "power_difference_W": 2.886579864025407e-14
+      }
+    ],
+    "source_sha256": {
+      "processor0/wall-work-cycle.csv": "44debba2d719782b3ec1287e9986bf2b26915e32fffda47a3e99f49c8d62216a",
+      "processor0/wall-work-cycle-resume1.csv": "3cca9cc8eb23ee22b9d82a1a873c41e28dfd2dc841aaa6b15f2638e928a42350"
+    },
+    "max_reported_Courant": 10.6039263495,
+    "execution": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-cycle-complete-coarse",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-analytic-motion-control-20261030:/case",
+        "-v",
+        "/mnt/g/projects/openfoam/build/check_analytic_cycle_positions.py:/analysis/positions.py:ro",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "-c",
+        "source /usr/lib/openfoam/openfoam2412/etc/bashrc && mpirun -np 4 pimpleFoam -parallel > log.pimpleFoam 2>&1"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 941.3368281160001,
+      "status": "process_completed"
+    },
+    "all_observed_lift_N": {
+      "min": 53.29329499752869,
+      "max": 53.37634024935016,
+      "peak_to_peak": 0.08304525182146705,
+      "standard_deviation": 0.025084046538400313
+    },
+    "terminal_verification": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-cycle-complete-coarse",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-analytic-motion-control-20261030:/case",
+        "-v",
+        "/mnt/g/projects/openfoam/build/check_analytic_cycle_positions.py:/analysis/positions.py:ro",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "-c",
+        "source /usr/lib/openfoam/openfoam2412/etc/bashrc && reconstructPar -time '0.004:0.12' > log.reconstructAll 2>&1 && checkMesh -allTopology -meshQuality -time '0.004:0.12' > log.allMovedQuality 2>&1 && /opt/precice-python/bin/python /analysis/positions.py > log.allPositions 2>&1"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 179.125954827,
+      "status": "process_completed",
+      "mesh_ok_count": 19,
+      "failed_check_lines": [
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks."
+      ],
+      "strict_sampled_quality_passed": false
+    },
+    "saved_position_verification": {
+      "scope": "Independent saved-point verification against native patch indices and imposed mode; analytic prescribed parabolic wall shape only, not a native structural mode or coupled FSI.",
+      "checked_phases": [
+        {
+          "time_s": 0.002,
+          "phase_cycles": 0.01762135,
+          "factor": 0.11049213910019957,
+          "max_position_error_m": 4.9747246185188713e-14,
+          "rms_error_m": 3.3139655576549328e-15,
+          "max_actual_displacement_m": 1.1049213910030001e-05,
+          "points_sha256": "4dab456fbad9af6f44919be2ab2d2f12432ed38c39b0414fb9c4c99216805b3a"
+        },
+        {
+          "time_s": 0.004,
+          "phase_cycles": 0.0352427,
+          "factor": 0.21963119102785336,
+          "max_position_error_m": 4.9890052856366465e-14,
+          "rms_error_m": 3.2866702573121073e-15,
+          "max_actual_displacement_m": 2.1963119103000093e-05,
+          "points_sha256": "5bc4c8043466e06171edd6c56e42c9828292b5172a56a645615147f836278a66"
+        },
+        {
+          "time_s": 0.005,
+          "phase_cycles": 0.044053375,
+          "factor": 0.2732745505871207,
+          "max_position_error_m": 4.980670959215186e-14,
+          "rms_error_m": 3.325950081338236e-15,
+          "max_actual_displacement_m": 2.7327455063000036e-05,
+          "points_sha256": "82b91609d30e11cd2ab1a84754c8fe8cdf771a0a58a4bc7d0ab32a1729b7b8f1"
+        },
+        {
+          "time_s": 0.01,
+          "phase_cycles": 0.08810675,
+          "factor": 0.5257452993416587,
+          "max_position_error_m": 4.997636690335511e-14,
+          "rms_error_m": 3.700353908232353e-15,
+          "max_actual_displacement_m": 5.257452993900013e-05,
+          "points_sha256": "ae569cccb47a1633fcf0e406d189f0cd22dc59d7b2b592d8be291efec59cd0c2"
+        },
+        {
+          "time_s": 0.015,
+          "phase_cycles": 0.132160125,
+          "factor": 0.738192192971682,
+          "max_position_error_m": 4.998684300684675e-14,
+          "rms_error_m": 3.732553353164071e-15,
+          "max_actual_displacement_m": 7.38192193020001e-05,
+          "points_sha256": "8d61497757c0128a2528e9282430ba07ec371254aec7e9b41cc14bc7792cc95a"
+        },
+        {
+          "time_s": 0.02,
+          "phase_cycles": 0.1762135,
+          "factor": 0.8944421079077577,
+          "max_position_error_m": 4.979766158620929e-14,
+          "rms_error_m": 3.815619526531723e-15,
+          "max_actual_displacement_m": 8.944421079400014e-05,
+          "points_sha256": "42b53c4bbd07ad0179d6652d7a0181f0d8373286d96d89ef82dcea35c586d115"
+        },
+        {
+          "time_s": 0.025,
+          "phase_cycles": 0.220266875,
+          "factor": 0.982600075300045,
+          "max_position_error_m": 4.9828823928338775e-14,
+          "rms_error_m": 3.819559640297459e-15,
+          "max_actual_displacement_m": 9.826000753400009e-05,
+          "points_sha256": "8090e9952c0ec6e1e177bd3b42d438525a2a205fcca8045343c9b30e470ce9fa"
+        },
+        {
+          "time_s": 0.03,
+          "phase_cycles": 0.26432025,
+          "factor": 0.9959548193284863,
+          "max_position_error_m": 4.939374376091571e-14,
+          "rms_error_m": 3.922054183387875e-15,
+          "max_actual_displacement_m": 9.959548193700003e-05,
+          "points_sha256": "7d7ac77178bcb2edff86f5c9f40f03fb7f6902d3482d600bb8950c70d413456e"
+        },
+        {
+          "time_s": 0.035,
+          "phase_cycles": 0.30837362500000004,
+          "factor": 0.9334896721486166,
+          "max_position_error_m": 4.9938148776774993e-14,
+          "rms_error_m": 3.92425073020795e-15,
+          "max_actual_displacement_m": 9.334896721900003e-05,
+          "points_sha256": "d8d7e540e5fd13ae6c0038b64b169808adc0301f47f0a1d1eb20d77f526a7f94"
+        },
+        {
+          "time_s": 0.04,
+          "phase_cycles": 0.352427,
+          "factor": 0.7999599706206784,
+          "max_position_error_m": 4.9948136989289016e-14,
+          "rms_error_m": 3.784483221747606e-15,
+          "max_actual_displacement_m": 7.999599706700006e-05,
+          "points_sha256": "5b2223e763441e3dca60c9e53449735934267e485ba9805a8b69a1e512cf5483"
+        },
+        {
+          "time_s": 0.045,
+          "phase_cycles": 0.396480375,
+          "factor": 0.6055310427760703,
+          "max_position_error_m": 4.890633389801127e-14,
+          "rms_error_m": 3.63048331014847e-15,
+          "max_actual_displacement_m": 6.0553104282e-05,
+          "points_sha256": "c28a90ad879d2fe7fc826def6704e49ca44fc9dfb9ca48a77c0035c6d4588487"
+        },
+        {
+          "time_s": 0.05,
+          "phase_cycles": 0.44053375,
+          "factor": 0.36500434333024423,
+          "max_position_error_m": 4.9850443597284494e-14,
+          "rms_error_m": 3.562180175220934e-15,
+          "max_actual_displacement_m": 3.6500434337999993e-05,
+          "points_sha256": "2ed0bf4bd5d62a551ade955f23b8b3acd130f5154ab2658ab4f5787c3e99074b"
+        },
+        {
+          "time_s": 0.055,
+          "phase_cycles": 0.484587125,
+          "factor": 0.09669065087551944,
+          "max_position_error_m": 4.952481279214089e-14,
+          "rms_error_m": 3.0669198210226787e-15,
+          "max_actual_displacement_m": 9.669065090001441e-06,
+          "points_sha256": "da4ef0e503cd6c3121ae12ba49279f7f5de250109c433809f01fc4fdf767516d"
+        },
+        {
+          "time_s": 0.06,
+          "phase_cycles": 0.5286405,
+          "factor": -0.17898389218002478,
+          "max_position_error_m": 4.969377426577797e-14,
+          "rms_error_m": 3.1195877461521482e-15,
+          "max_actual_displacement_m": 1.7898389222999883e-05,
+          "points_sha256": "4ceac4822f5a5b7e49bcf9744deec53cfd1618f128ce4da839dd16905d295194"
+        },
+        {
+          "time_s": 0.065,
+          "phase_cycles": 0.572693875,
+          "factor": -0.4410327777561671,
+          "max_position_error_m": 4.9405516671849597e-14,
+          "rms_error_m": 2.962090789628986e-15,
+          "max_actual_displacement_m": 4.410327778000059e-05,
+          "points_sha256": "c26e9bfcfdb92f9390b98bc155a23b2fd7dad6c1fa68a75ddec5869743c45953"
+        },
+        {
+          "time_s": 0.07,
+          "phase_cycles": 0.6167472500000001,
+          "factor": -0.6695067896735647,
+          "max_position_error_m": 4.9551098765593035e-14,
+          "rms_error_m": 2.8942247774667466e-15,
+          "max_actual_displacement_m": 6.695067897200012e-05,
+          "points_sha256": "853db31a53a8286cc469d2843edb20ef6022f7ce5f527b9889976a0b29fa9cbe"
+        },
+        {
+          "time_s": 0.075,
+          "phase_cycles": 0.6608006249999999,
+          "factor": -0.8470126944327468,
+          "max_position_error_m": 4.924953788395332e-14,
+          "rms_error_m": 2.80441645330968e-15,
+          "max_actual_displacement_m": 8.47012694479999e-05,
+          "points_sha256": "31b98f08cd5cd68230d4b0693003935a6df093df8cb76bc96b70e6f5f5c76d98"
+        },
+        {
+          "time_s": 0.08,
+          "phase_cycles": 0.704854,
+          "factor": -0.9600373505472876,
+          "max_position_error_m": 4.9575099444153486e-14,
+          "rms_error_m": 2.8090591626293725e-15,
+          "max_actual_displacement_m": 9.60037350590001e-05,
+          "points_sha256": "d5acf850e00ed4a4ec4ae8c71644d192b61877861a7378904292938431329881"
+        },
+        {
+          "time_s": 0.085,
+          "phase_cycles": 0.748907375,
+          "factor": -0.9999764348449376,
+          "max_position_error_m": 4.992843193244145e-14,
+          "rms_error_m": 2.6871907249772154e-15,
+          "max_actual_displacement_m": 9.999764348900015e-05,
+          "points_sha256": "bf5a0f4f025664692d5579ef32f790600adf014bb8b2a5c285a8d61dce9ef645"
+        },
+        {
+          "time_s": 0.09,
+          "phase_cycles": 0.79296075,
+          "factor": -0.9637894710233189,
+          "max_position_error_m": 4.870084370500738e-14,
+          "rms_error_m": 2.870166004901772e-15,
+          "max_actual_displacement_m": 9.637894710600001e-05,
+          "points_sha256": "f8bfc29a08bf02b6ba01f09fbbbd9c28378efcd51d38de94ff09ba048c425187"
+        },
+        {
+          "time_s": 0.095,
+          "phase_cycles": 0.8370141249999999,
+          "factor": -0.8542312945497312,
+          "max_position_error_m": 4.965608574654813e-14,
+          "rms_error_m": 2.937699087160046e-15,
+          "max_actual_displacement_m": 8.54231294590001e-05,
+          "points_sha256": "0f6bbb2a8a15cb806708d2c1ccaaf97e4e49b225c6ff0e63f96a345f40dd7809"
+        },
+        {
+          "time_s": 0.1,
+          "phase_cycles": 0.8810675,
+          "factor": -0.679642332981731,
+          "max_position_error_m": 4.99159304672938e-14,
+          "rms_error_m": 2.783691710341991e-15,
+          "max_actual_displacement_m": 6.796423330299997e-05,
+          "points_sha256": "7443acc665a8d3c5eb0d096158389a24ecb4d27421f3cacf45c628ec911c7e55"
+        },
+        {
+          "time_s": 0.105,
+          "phase_cycles": 0.925120875,
+          "factor": -0.4533136672151199,
+          "max_position_error_m": 4.9797412558522797e-14,
+          "rms_error_m": 3.079325535198462e-15,
+          "max_actual_displacement_m": 4.533136672600006e-05,
+          "points_sha256": "2189d3b9071d93fae9a14f2175a2f547007d9666deeab4590668e5d4fece11a0"
+        },
+        {
+          "time_s": 0.11,
+          "phase_cycles": 0.96917425,
+          "factor": -0.19247521017638528,
+          "max_position_error_m": 4.9414651922185734e-14,
+          "rms_error_m": 3.074197907424865e-15,
+          "max_actual_displacement_m": 1.9247521021000013e-05,
+          "points_sha256": "94d97c147e845c33a707f8ccbadd59e03c5ee21b1086acf35fea2d899418237e"
+        },
+        {
+          "time_s": 0.115,
+          "phase_cycles": 1.013227625,
+          "factor": 0.08301596926767967,
+          "max_position_error_m": 4.9828467750984455e-14,
+          "rms_error_m": 3.147910709842574e-15,
+          "max_actual_displacement_m": 8.30159693000071e-06,
+          "points_sha256": "bd7a17f116c6bf396b4d059a31fb5599290b4d08b38ec5a7cc8ad86a2fc04dca"
+        },
+        {
+          "time_s": 0.12,
+          "phase_cycles": 1.057281,
+          "factor": 0.35218732211291004,
+          "max_position_error_m": 4.9613457331169897e-14,
+          "rms_error_m": 3.4804040814974276e-15,
+          "max_actual_displacement_m": 3.521873221600013e-05,
+          "points_sha256": "504c2cfe49708795b5f7e9017595d18263e0d4648726097cce0330a001b11813"
+        }
+      ],
+      "all_observed_pass": true,
+      "complete_cycle": true
+    },
+    "retained_original_execution": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-analytic-cycle-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-analytic-motion-control-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "-c",
+        "source /usr/lib/openfoam/openfoam2412/etc/bashrc && mpirun -np 4 pimpleFoam -parallel > log.pimpleFoam 2>&1 && reconstructPar -latestTime > log.reconstructPar 2>&1 && checkMesh -allTopology -meshQuality -latestTime > log.movedQuality 2>&1"
+      ],
+      "status": "timeout",
+      "exit_code": 124,
+      "strict_moved_quality_passed": true,
+      "elapsed_seconds": 2405.628025331
+    },
+    "verification_note": "Original timeout manifest may reflect a prior pilot mesh check; only cycle-verification-execution and cycle-position-verification qualify the completed cycle. Lift variation includes startup and restart; common-time differences omit half-step-only extrema.",
+    "full_observed_cycle_available": true,
+    "full_cycle_work": {
+      "start_s": 0.004,
+      "end_s": 0.11749868199655532,
+      "trapezoidal_work_J": -5.859931709300626e-06,
+      "right_endpoint_work_J": -5.865196554104453e-06,
+      "quadrature_difference_J": -5.264844803986446e-09
+    }
+  },
+  "half": {
+    "scope": "Half-timestep analytic prescribed-motion control from the identical saved0.004s fluid/mesh state. Compare force and wall-work histories; coarse no-layer model remains unvalidated, no native structural feedback.",
+    "samples": 2320,
+    "first_time_s": 0.00405,
+    "last_time_s": 0.11999999999999493,
+    "observed_dt_s": 4.99999999999997e-05,
+    "native_force_max_error_N": 5.158540261618327e-12,
+    "wing_faces": [
+      40780.0
+    ],
+    "restart_overlap": [],
+    "source_sha256": {
+      "processor0/wall-work-cycle.csv": "2c5aace0410a6a5b6014a5f58d78c487482318fbaaf1be3269f1a7d625b00448"
+    },
+    "max_reported_Courant": 5.30158334293,
+    "execution": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-analytic-halfstep-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-analytic-halfstep-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "-c",
+        "source /usr/lib/openfoam/openfoam2412/etc/bashrc && mpirun -np 4 pimpleFoam -parallel > log.pimpleFoam 2>&1 && reconstructPar -latestTime > log.reconstructPar 2>&1 && checkMesh -allTopology -meshQuality -latestTime > log.movedQuality 2>&1"
+      ],
+      "status": "process_completed",
+      "exit_code": 0,
+      "strict_moved_quality_passed": true,
+      "elapsed_seconds": 5255.430899950999
+    },
+    "all_observed_lift_N": {
+      "min": 53.36868360829461,
+      "max": 53.67530180749972,
+      "peak_to_peak": 0.30661819920511135,
+      "standard_deviation": 0.026668041158566285
+    },
+    "terminal_verification": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-cycle-complete-half",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-analytic-halfstep-20261030:/case",
+        "-v",
+        "/mnt/g/projects/openfoam/build/check_analytic_cycle_positions.py:/analysis/positions.py:ro",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "-c",
+        "source /usr/lib/openfoam/openfoam2412/etc/bashrc && reconstructPar -time '0.004:0.12' > log.reconstructAll 2>&1 && checkMesh -allTopology -meshQuality -time '0.004:0.12' > log.allMovedQuality 2>&1 && /opt/precice-python/bin/python /analysis/positions.py > log.allPositions 2>&1"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 356.3906341669999,
+      "status": "process_completed",
+      "mesh_ok_count": 44,
+      "failed_check_lines": [
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks."
+      ],
+      "strict_sampled_quality_passed": false
+    },
+    "saved_position_verification": {
+      "scope": "Independent saved-point verification against native patch indices and imposed mode; analytic prescribed parabolic wall shape only, not a native structural mode or coupled FSI.",
+      "checked_phases": [
+        {
+          "time_s": 0.004,
+          "phase_cycles": 0.0352427,
+          "factor": 0.21963119102785336,
+          "max_position_error_m": 4.9890052856366465e-14,
+          "rms_error_m": 3.2866702573121073e-15,
+          "max_actual_displacement_m": 2.1963119103000093e-05,
+          "points_sha256": "5bc4c8043466e06171edd6c56e42c9828292b5172a56a645615147f836278a66"
+        },
+        {
+          "time_s": 0.006,
+          "phase_cycles": 0.05286405,
+          "factor": 0.3260806385212836,
+          "max_position_error_m": 4.979695854886307e-14,
+          "rms_error_m": 3.476616839897727e-15,
+          "max_actual_displacement_m": 3.2608063857000034e-05,
+          "points_sha256": "b85e70411e2f2cec5a3b3c5b3a2534025e348088d6633176d21a049ba28106d2"
+        },
+        {
+          "time_s": 0.008,
+          "phase_cycles": 0.0704854,
+          "factor": 0.4285369012253546,
+          "max_position_error_m": 4.968492488906153e-14,
+          "rms_error_m": 3.4745827467505163e-15,
+          "max_actual_displacement_m": 4.2853690127000067e-05,
+          "points_sha256": "0e1896d01707a347182b4a48ce8552aa9123b6bb93e5925f625b086e4a88d286"
+        },
+        {
+          "time_s": 0.01,
+          "phase_cycles": 0.08810675,
+          "factor": 0.5257452993416587,
+          "max_position_error_m": 4.997636690335511e-14,
+          "rms_error_m": 3.700353908372556e-15,
+          "max_actual_displacement_m": 5.257452993900013e-05,
+          "points_sha256": "4bf06994e46b07b921e5966eb79881a54a34fc047c9f1f13603b518fa00d6b3b"
+        },
+        {
+          "time_s": 0.012,
+          "phase_cycles": 0.1057281,
+          "factor": 0.6165154184422915,
+          "max_position_error_m": 4.9809823285265967e-14,
+          "rms_error_m": 3.720102669425796e-15,
+          "max_actual_displacement_m": 6.165154184900005e-05,
+          "points_sha256": "ed83e28e9919bed9faceee0dc26fb7d8cefc3671cbfbb2ac1971f6445c61d974"
+        },
+        {
+          "time_s": 0.014,
+          "phase_cycles": 0.12334945,
+          "factor": 0.6997356872896456,
+          "max_position_error_m": 4.9919080371066404e-14,
+          "rms_error_m": 3.780041192724886e-15,
+          "max_actual_displacement_m": 6.997356873300001e-05,
+          "points_sha256": "9cd4d56d2138441a13c8742230ee38a58ad8acec4f3e172bd3bb3a948f80c779"
+        },
+        {
+          "time_s": 0.016,
+          "phase_cycles": 0.1409708,
+          "factor": 0.7743869901421834,
+          "max_position_error_m": 4.986592566549441e-14,
+          "rms_error_m": 3.793069578633204e-15,
+          "max_actual_displacement_m": 7.743869901900011e-05,
+          "points_sha256": "416b30e112013b01ee9b2e5b4410292d6b676ffc8c236ed08ec94638b3b04d25"
+        },
+        {
+          "time_s": 0.018,
+          "phase_cycles": 0.15859215,
+          "factor": 0.8395551468498399,
+          "max_position_error_m": 4.9953558000151443e-14,
+          "rms_error_m": 3.759577498081459e-15,
+          "max_actual_displacement_m": 8.395551468900011e-05,
+          "points_sha256": "1bae35d940e7b5e59347d1be6e074ad6545e44ce640dcd79e77807682fa03b88"
+        },
+        {
+          "time_s": 0.02,
+          "phase_cycles": 0.1762135,
+          "factor": 0.8944421079077577,
+          "max_position_error_m": 4.979766158620929e-14,
+          "rms_error_m": 3.8156195265709955e-15,
+          "max_actual_displacement_m": 8.944421079400014e-05,
+          "points_sha256": "69c68c85a9bb9d8635961c4cb515b7ad96113e21b18d4427e9224cea553e83fb"
+        },
+        {
+          "time_s": 0.022,
+          "phase_cycles": 0.19383484999999998,
+          "factor": 0.9383757273736797,
+          "max_position_error_m": 4.996773394355669e-14,
+          "rms_error_m": 3.922322021016108e-15,
+          "max_actual_displacement_m": 9.383757274200014e-05,
+          "points_sha256": "6805509bf0728675cd1a16b0f070c2bbf679a188edde0bca94b9d33c8754c3f6"
+        },
+        {
+          "time_s": 0.024,
+          "phase_cycles": 0.2114562,
+          "factor": 0.9708179939698177,
+          "max_position_error_m": 4.9782972340838005e-14,
+          "rms_error_m": 3.9193146609360514e-15,
+          "max_actual_displacement_m": 9.708179940099999e-05,
+          "points_sha256": "b4556bb01eee5bcc06bdbe0e4d9aee23615f0d9753d76e9469bd67baf9594792"
+        },
+        {
+          "time_s": 0.026,
+          "phase_cycles": 0.22907755,
+          "factor": 0.9913716195710888,
+          "max_position_error_m": 4.985232062229561e-14,
+          "rms_error_m": 3.911089547447964e-15,
+          "max_actual_displacement_m": 9.913716196200003e-05,
+          "points_sha256": "b7f3cf35d7e059e9356d86b9fb91248ceb85abf55a101d27476bc53e8dcedf4d"
+        },
+        {
+          "time_s": 0.028,
+          "phase_cycles": 0.2466989,
+          "factor": 0.999784904397066,
+          "max_position_error_m": 4.999294842033056e-14,
+          "rms_error_m": 3.797089087572442e-15,
+          "max_actual_displacement_m": 9.99784904440001e-05,
+          "points_sha256": "ef25a8f14c3a3cfedf6ce494fa560ba9249914947c3095ca815009b2537430fa"
+        },
+        {
+          "time_s": 0.03,
+          "phase_cycles": 0.26432025,
+          "factor": 0.9959548193284863,
+          "max_position_error_m": 4.939374376091571e-14,
+          "rms_error_m": 3.92205418331192e-15,
+          "max_actual_displacement_m": 9.959548193700003e-05,
+          "points_sha256": "d3ecd6f07086cf0f0393e62c9945c6420de1cf5196315e48b13b7d1f4874dc92"
+        },
+        {
+          "time_s": 0.032,
+          "phase_cycles": 0.2819416,
+          "factor": 0.9799282676022519,
+          "max_position_error_m": 4.9938419827318115e-14,
+          "rms_error_m": 3.8891309859494706e-15,
+          "max_actual_displacement_m": 9.799282676400012e-05,
+          "points_sha256": "8e26038ffbc4bd42616a080cf18d90a77c852420d1ed357fb57b4223269ee0fa"
+        },
+        {
+          "time_s": 0.034,
+          "phase_cycles": 0.29956295,
+          "factor": 0.9519015104342059,
+          "max_position_error_m": 4.99301866670708e-14,
+          "rms_error_m": 3.930601569485561e-15,
+          "max_actual_displacement_m": 9.519015104800005e-05,
+          "points_sha256": "e6166615aa262fe2f4754182929f20824e3669ce0fee3ed9652c76f0fd4f8824"
+        },
+        {
+          "time_s": 0.036,
+          "phase_cycles": 0.3171843,
+          "factor": 0.9122177636035067,
+          "max_position_error_m": 4.9828731601747524e-14,
+          "rms_error_m": 3.707146455222067e-15,
+          "max_actual_displacement_m": 9.122177636400005e-05,
+          "points_sha256": "baf80245ff73e6f3b590c8b6f74846456bcf08aa0e70e475b33e4ef6ac798aa7"
+        },
+        {
+          "time_s": 0.038,
+          "phase_cycles": 0.33480565,
+          "factor": 0.8613629944308382,
+          "max_position_error_m": 4.991285976110177e-14,
+          "rms_error_m": 3.912841555929592e-15,
+          "max_actual_displacement_m": 8.613629944800004e-05,
+          "points_sha256": "31eed60d4cb58fdb4f8df225ac9081c736cbb9cf5b8b5b56b27399554da682cd"
+        },
+        {
+          "time_s": 0.04,
+          "phase_cycles": 0.352427,
+          "factor": 0.7999599706206784,
+          "max_position_error_m": 4.9948136989289016e-14,
+          "rms_error_m": 3.784483299087869e-15,
+          "max_actual_displacement_m": 7.999599706700006e-05,
+          "points_sha256": "a8f2963d15b340356f1619c8258b15af1a11f2d444240e10c499fd9dc565d952"
+        },
+        {
+          "time_s": 0.042,
+          "phase_cycles": 0.37004835,
+          "factor": 0.728760633845527,
+          "max_position_error_m": 4.946369174169997e-14,
+          "rms_error_m": 3.817323975385569e-15,
+          "max_actual_displacement_m": 7.287606338900003e-05,
+          "points_sha256": "b443aac858080eb49af06f6a97a48181f39f2d8231ad03ae83695dfb8a53aa0f"
+        },
+        {
+          "time_s": 0.044,
+          "phase_cycles": 0.38766969999999995,
+          "factor": 0.648636891465209,
+          "max_position_error_m": 4.973735453443068e-14,
+          "rms_error_m": 3.904511064788326e-15,
+          "max_actual_displacement_m": 6.486368915100001e-05,
+          "points_sha256": "e0ddb2f46bc738fd0b40b8ff233e36608b38cd34d46368b691da654c570905a3"
+        },
+        {
+          "time_s": 0.046,
+          "phase_cycles": 0.40529105,
+          "factor": 0.5605699391458954,
+          "max_position_error_m": 4.999196077991406e-14,
+          "rms_error_m": 3.730753788567887e-15,
+          "max_actual_displacement_m": 5.605699391900013e-05,
+          "points_sha256": "6c479768ddf3b29f87d015577e5807543ac160012ce22cdb6d7f7fb98fdae26d"
+        },
+        {
+          "time_s": 0.048,
+          "phase_cycles": 0.4229124,
+          "factor": 0.4656382451340959,
+          "max_position_error_m": 4.9740165095628786e-14,
+          "rms_error_m": 3.578763452400876e-15,
+          "max_actual_displacement_m": 4.656382451800011e-05,
+          "points_sha256": "5ca47ffe010937b9768454492eb14ddbd4a29c7f1573d1db5ea20cebe16b90af"
+        },
+        {
+          "time_s": 0.05,
+          "phase_cycles": 0.44053375,
+          "factor": 0.36500434333024423,
+          "max_position_error_m": 4.9850443597284494e-14,
+          "rms_error_m": 3.56218074479093e-15,
+          "max_actual_displacement_m": 3.6500434337999993e-05,
+          "points_sha256": "3fac07732e9244ad5175155f05d85d4e1fe3141d506f5520372d5a9802e7e3f0"
+        },
+        {
+          "time_s": 0.052,
+          "phase_cycles": 0.4581551,
+          "factor": 0.2599005968939547,
+          "max_position_error_m": 4.859015343946019e-14,
+          "rms_error_m": 3.248789360052964e-15,
+          "max_actual_displacement_m": 2.5990059692999933e-05,
+          "points_sha256": "02feca3c0dccf89a476283f7da232407df458ea6bcf62364333cd591af86a7ca"
+        },
+        {
+          "time_s": 0.054,
+          "phase_cycles": 0.47577644999999996,
+          "factor": 0.15161410671989273,
+          "max_position_error_m": 4.9890600314274355e-14,
+          "rms_error_m": 3.2452580196282925e-15,
+          "max_actual_displacement_m": 1.5161410672030002e-05,
+          "points_sha256": "00e009db26e105bbe81aace092e8478d17e4edc3dd08cb4b8dac381ce04b1be8"
+        },
+        {
+          "time_s": 0.056,
+          "phase_cycles": 0.4933978,
+          "factor": 0.041470949595129,
+          "max_position_error_m": 4.958977259589877e-14,
+          "rms_error_m": 3.1910167678091145e-15,
+          "max_actual_displacement_m": 4.147094960001152e-06,
+          "points_sha256": "751866bd8330553d46dd2807bb73ae2c1db6b9739a81416c51965549d2a6575e"
+        },
+        {
+          "time_s": 0.058,
+          "phase_cycles": 0.51101915,
+          "factor": -0.06918006094244243,
+          "max_position_error_m": 4.9691784850082666e-14,
+          "rms_error_m": 3.26925171144625e-15,
+          "max_actual_displacement_m": 6.9180060960000785e-06,
+          "points_sha256": "0f5d742eb1647f3531ae325e17d0feb8cee5b91d09be946f8cac4458fab95292"
+        },
+        {
+          "time_s": 0.06,
+          "phase_cycles": 0.5286405,
+          "factor": -0.17898389218002478,
+          "max_position_error_m": 4.969377426577797e-14,
+          "rms_error_m": 3.1195887449476473e-15,
+          "max_actual_displacement_m": 1.7898389222999883e-05,
+          "points_sha256": "964a2e6fbc76d42b73513cb21ad95a10fbc308b325fbbb9a5908f3ff9aa92231"
+        },
+        {
+          "time_s": 0.062,
+          "phase_cycles": 0.5462618499999999,
+          "factor": -0.2865958859658818,
+          "max_position_error_m": 5.0005166023561753e-14,
+          "rms_error_m": 3.0104690329211247e-15,
+          "max_actual_displacement_m": 2.8659588601000078e-05,
+          "points_sha256": "893f2e6cb17868b1d139256d8fced7e4e4c50dc7ef7ed29cedb7fc7afb412502"
+        },
+        {
+          "time_s": 0.064,
+          "phase_cycles": 0.5638832,
+          "factor": -0.39069822539838106,
+          "max_position_error_m": 4.725799423012725e-14,
+          "rms_error_m": 3.0019988038178013e-15,
+          "max_actual_displacement_m": 3.906982254299994e-05,
+          "points_sha256": "c310a0eb6f6ff3d4ac03ccb50ba833a20719db1cabdd340d29aa740e69ff8c1b"
+        },
+        {
+          "time_s": 0.066,
+          "phase_cycles": 0.58150455,
+          "factor": -0.4900160728169865,
+          "max_position_error_m": 4.9480283423070787e-14,
+          "rms_error_m": 2.887962681432228e-15,
+          "max_actual_displacement_m": 4.900160728600004e-05,
+          "points_sha256": "4ef2ac6bddd61ed72fa605df1e93be90bad0b64fa2e8251f4dd8ff684ed3bc03"
+        },
+        {
+          "time_s": 0.068,
+          "phase_cycles": 0.5991259,
+          "factor": -0.5833331814692924,
+          "max_position_error_m": 4.898021549980258e-14,
+          "rms_error_m": 2.881032517176776e-15,
+          "max_actual_displacement_m": 5.833331815100016e-05,
+          "points_sha256": "ce37891559e68f769d8e800052af3bcba40d65139863c1bf214fa16493586d5f"
+        },
+        {
+          "time_s": 0.07,
+          "phase_cycles": 0.6167472500000001,
+          "factor": -0.6695067896735647,
+          "max_position_error_m": 4.9551098765593035e-14,
+          "rms_error_m": 2.8942246107618068e-15,
+          "max_actual_displacement_m": 6.695067897200012e-05,
+          "points_sha256": "ac34c3ff85bbba9524a8ad353089c8db0009e82223a5508620ff885793716b82"
+        },
+        {
+          "time_s": 0.072,
+          "phase_cycles": 0.6343686,
+          "factor": -0.7474816150828177,
+          "max_position_error_m": 4.9607189287360215e-14,
+          "rms_error_m": 2.9214175263540167e-15,
+          "max_actual_displacement_m": 7.474816151299994e-05,
+          "points_sha256": "330ee53161e02b660603abf91490fb9541afee3c83dd7d4215f0332133ebb060"
+        },
+        {
+          "time_s": 0.074,
+          "phase_cycles": 0.6519899499999999,
+          "factor": -0.816302777676609,
+          "max_position_error_m": 4.980913210638101e-14,
+          "rms_error_m": 2.8074070533829548e-15,
+          "max_actual_displacement_m": 8.163027777200013e-05,
+          "points_sha256": "a91e94b510c5e0d0cf5ecd22e1eac4545e2e89ca14841b39baae5f3e594936cb"
+        },
+        {
+          "time_s": 0.076,
+          "phase_cycles": 0.6696113,
+          "factor": -0.8751274932255465,
+          "max_position_error_m": 4.97280597242631e-14,
+          "rms_error_m": 2.795197059415083e-15,
+          "max_actual_displacement_m": 8.7512749326e-05,
+          "points_sha256": "c56b6ff6e634530667c2a5d55d95ef81a862dac968c2ca44c2dffca7de31b3d3"
+        },
+        {
+          "time_s": 0.078,
+          "phase_cycles": 0.68723265,
+          "factor": -0.9232353940302989,
+          "max_position_error_m": 4.9326956060057655e-14,
+          "rms_error_m": 2.7747503308033463e-15,
+          "max_actual_displacement_m": 9.23235394080001e-05,
+          "points_sha256": "97187f3f584baf288b4d500bd1f8fe673fd075da62e7b467b297a236407df16e"
+        },
+        {
+          "time_s": 0.08,
+          "phase_cycles": 0.704854,
+          "factor": -0.9600373505472876,
+          "max_position_error_m": 4.9575099444153486e-14,
+          "rms_error_m": 2.8090591369367554e-15,
+          "max_actual_displacement_m": 9.60037350590001e-05,
+          "points_sha256": "3d74284dbbde353c1c5330fadd386774635daa7c38baa4d6579eaefbb56583d4"
+        },
+        {
+          "time_s": 0.082,
+          "phase_cycles": 0.72247535,
+          "factor": -0.9850826858714117,
+          "max_position_error_m": 4.931707287962909e-14,
+          "rms_error_m": 2.8042981977126254e-15,
+          "max_actual_displacement_m": 9.850826859200007e-05,
+          "points_sha256": "8009dd48a4433953c53c2666f0b2dda4f40881a9e86d0e70ec989c4ae5318778"
+        },
+        {
+          "time_s": 0.084,
+          "phase_cycles": 0.7400967,
+          "factor": -0.9980646947272082,
+          "max_position_error_m": 4.6231905294086967e-14,
+          "rms_error_m": 2.8545024461390277e-15,
+          "max_actual_displacement_m": 9.980646947599999e-05,
+          "points_sha256": "86781547734aefc96fe9795cbcff75d3ffdf2d007734aae9cef5ca4aa829f627"
+        },
+        {
+          "time_s": 0.086,
+          "phase_cycles": 0.7577180499999999,
+          "factor": -0.9988243993828703,
+          "max_position_error_m": 4.929539222431117e-14,
+          "rms_error_m": 2.8299884924829925e-15,
+          "max_actual_displacement_m": 9.988243994299992e-05,
+          "points_sha256": "36d5b9639b50a00961d21a63be996d22c12d120bf9336d8ad8b10722be7bd9c6"
+        },
+        {
+          "time_s": 0.088,
+          "phase_cycles": 0.7753393999999999,
+          "factor": -0.9873524964921793,
+          "max_position_error_m": 4.9706734293387435e-14,
+          "rms_error_m": 2.7529479588657015e-15,
+          "max_actual_displacement_m": 9.873524965299985e-05,
+          "points_sha256": "1d2b2f0ea01270852ccf4cc728d38528ed108914d7a93986dbda1ae626950b6a"
+        },
+        {
+          "time_s": 0.09,
+          "phase_cycles": 0.79296075,
+          "factor": -0.9637894710233189,
+          "max_position_error_m": 4.870084370500738e-14,
+          "rms_error_m": 2.8701666456132353e-15,
+          "max_actual_displacement_m": 9.637894710600001e-05,
+          "points_sha256": "2fcf14116107032829da73661928f73e7f3224708d7a27755ee2cd5d5f839c01"
+        },
+        {
+          "time_s": 0.092,
+          "phase_cycles": 0.8105821,
+          "factor": -0.9284238758794006,
+          "max_position_error_m": 4.9966314316337093e-14,
+          "rms_error_m": 2.819609130327745e-15,
+          "max_actual_displacement_m": 9.284238759200015e-05,
+          "points_sha256": "738b432d9a1ba51c85b13334c3ca267083a92ef43d950c1ecee6a5a33574526b"
+        },
+        {
+          "time_s": 0.094,
+          "phase_cycles": 0.82820345,
+          "factor": -0.8816887982784679,
+          "max_position_error_m": 4.999466027391696e-14,
+          "rms_error_m": 2.756677384081007e-15,
+          "max_actual_displacement_m": 8.816887983200013e-05,
+          "points_sha256": "f96449814ecd94ef3b0fbdfee87ae83c3d7f78ca4cbf5a6318d1b90d956bfb64"
+        },
+        {
+          "time_s": 0.096,
+          "phase_cycles": 0.8458248,
+          "factor": -0.8241565561657144,
+          "max_position_error_m": 4.997321085859364e-14,
+          "rms_error_m": 2.8968834470022008e-15,
+          "max_actual_displacement_m": 8.241565562100016e-05,
+          "points_sha256": "18ecea7e5b5839e8ccf2189b489cab256c8f5064416f59f7e38724ad3acfc4b2"
+        },
+        {
+          "time_s": 0.098,
+          "phase_cycles": 0.86344615,
+          "factor": -0.7565316896056592,
+          "max_position_error_m": 4.926159899784751e-14,
+          "rms_error_m": 2.7016577917036534e-15,
+          "max_actual_displacement_m": 7.565316896500005e-05,
+          "points_sha256": "ec9008b620bb1be618c8acd0012e18bad89ec0a23d4d3c9c3e19105c9c62b53d"
+        },
+        {
+          "time_s": 0.1,
+          "phase_cycles": 0.8810675,
+          "factor": -0.679642332981731,
+          "max_position_error_m": 4.99159304672938e-14,
+          "rms_error_m": 2.783709955645543e-15,
+          "max_actual_displacement_m": 6.796423330299997e-05,
+          "points_sha256": "a32f7010287b4afd4c6de82ffbd624f050ca56c36cb6d027330c47971e99b12e"
+        },
+        {
+          "time_s": 0.102,
+          "phase_cycles": 0.8986888499999999,
+          "factor": -0.5944300736593344,
+          "max_position_error_m": 4.974911135173857e-14,
+          "rms_error_m": 2.9489440552768947e-15,
+          "max_actual_displacement_m": 5.944300737000148e-05,
+          "points_sha256": "210f309782dd84761f1ff7aea827fabb22644faefe94d224e4a0aa9421d09d09"
+        },
+        {
+          "time_s": 0.104,
+          "phase_cycles": 0.9163102,
+          "factor": -0.5019384213032443,
+          "max_position_error_m": 4.927951967391257e-14,
+          "rms_error_m": 2.927117887467261e-15,
+          "max_actual_displacement_m": 5.019384213499989e-05,
+          "points_sha256": "00da2df243408fef028f35ff7475bf8f764e25d056c8be1ee9f74f4ba4e82b1b"
+        },
+        {
+          "time_s": 0.106,
+          "phase_cycles": 0.9339315499999999,
+          "factor": -0.4033000290541252,
+          "max_position_error_m": 4.9195025596325114e-14,
+          "rms_error_m": 3.077221964889816e-15,
+          "max_actual_displacement_m": 4.033000291000111e-05,
+          "points_sha256": "3313db4007e7d7efacdc6b8189389a63f9343b1088c4979ce29b4c2772a2597e"
+        },
+        {
+          "time_s": 0.108,
+          "phase_cycles": 0.9515528999999999,
+          "factor": -0.29972282305368847,
+          "max_position_error_m": 4.951268518616034e-14,
+          "rms_error_m": 3.1066891641777917e-15,
+          "max_actual_displacement_m": 2.9972282310001402e-05,
+          "points_sha256": "2fdd68e96d079f25d232be7d6772ca3010e4da73df3934a22679c4ca4b326d77"
+        },
+        {
+          "time_s": 0.11,
+          "phase_cycles": 0.96917425,
+          "factor": -0.19247521017638528,
+          "max_position_error_m": 4.9414651922185734e-14,
+          "rms_error_m": 3.0742116346583254e-15,
+          "max_actual_displacement_m": 1.9247521021000013e-05,
+          "points_sha256": "da562e2ce8e9e0175959c84abf6301efc84f59aa2108374e2a2d66eadd9dca7f"
+        },
+        {
+          "time_s": 0.112,
+          "phase_cycles": 0.9867956,
+          "factor": -0.08287054511379818,
+          "max_position_error_m": 4.861689723422032e-14,
+          "rms_error_m": 3.0790300726565406e-15,
+          "max_actual_displacement_m": 8.287054516000055e-06,
+          "points_sha256": "0828f013bcd7a2e66fda5a0b86dd01f2777b79bdd1518e2c5bb93833887afa28"
+        },
+        {
+          "time_s": 0.114,
+          "phase_cycles": 1.00441695,
+          "factor": 0.02774895297210087,
+          "max_position_error_m": 4.950617976136719e-14,
+          "rms_error_m": 3.1967859057663937e-15,
+          "max_actual_displacement_m": 2.7748953000013288e-06,
+          "points_sha256": "fb537ddbafd93cdce6f49cf8582f4f250ab99c39ae2b12c1877623fbe87af6fb"
+        },
+        {
+          "time_s": 0.116,
+          "phase_cycles": 1.0220383,
+          "factor": 0.13802863727012513,
+          "max_position_error_m": 4.9942583841286817e-14,
+          "rms_error_m": 3.1248432464631685e-15,
+          "max_actual_displacement_m": 1.3802863730000975e-05,
+          "points_sha256": "d6460cedc7531710de34cdbfa3db60c2937bda2b16bead16884501040052badf"
+        },
+        {
+          "time_s": 0.118,
+          "phase_cycles": 1.03965965,
+          "factor": 0.2466180223300741,
+          "max_position_error_m": 4.972656333468266e-14,
+          "rms_error_m": 3.303500095432055e-15,
+          "max_actual_displacement_m": 2.466180223303e-05,
+          "points_sha256": "62465e99ab875aa3a582a304088e06f22bacf1e4629c6013cbee22b12c538089"
+        },
+        {
+          "time_s": 0.12,
+          "phase_cycles": 1.057281,
+          "factor": 0.35218732211291004,
+          "max_position_error_m": 4.9613457331169897e-14,
+          "rms_error_m": 3.480434843316321e-15,
+          "max_actual_displacement_m": 3.521873221600013e-05,
+          "points_sha256": "92ee9ccfd56844e78d479ec477e91dccf9a9dd12e63542db9b175130a7286b95"
+        }
+      ],
+      "all_observed_pass": true,
+      "complete_cycle": true
+    },
+    "retained_original_execution": null,
+    "verification_note": "Original timeout manifest may reflect a prior pilot mesh check; only cycle-verification-execution and cycle-position-verification qualify the completed cycle. Lift variation includes startup and restart; common-time differences omit half-step-only extrema.",
+    "full_observed_cycle_available": true,
+    "full_cycle_work": {
+      "start_s": 0.004,
+      "end_s": 0.11749868199655532,
+      "trapezoidal_work_J": -6.351578091912157e-06,
+      "right_endpoint_work_J": -6.351766637644569e-06,
+      "quadrature_difference_J": -1.8854573191340725e-10
+    }
+  },
+  "comparison": {
+    "common_samples": 1161,
+    "start_s": 0.003999999999999997,
+    "end_s": 0.12000000000000086,
+    "max_force_vector_difference_N": 0.08509503528213672,
+    "rms_force_vector_difference_N": 0.07382299112169666,
+    "max_lift_difference_N": 0.08450571317516875,
+    "rms_lift_difference_N": 0.07284346013240298,
+    "half_lift_standard_deviation_N": 0.026122819508410836,
+    "rms_power_difference_W": 0.00012379331288116,
+    "common_window_coarse_work": {
+      "start_s": 0.003999999999999997,
+      "end_s": 0.12000000000000086,
+      "trapezoidal_work_J": 0.0002076079015476055,
+      "right_endpoint_work_J": 0.0002074277930350307,
+      "quadrature_difference_J": -1.8010851257562214e-07
+    },
+    "common_window_half_work": {
+      "start_s": 0.003999999999999997,
+      "end_s": 0.12000000000000086,
+      "trapezoidal_work_J": 0.00020733406420974125,
+      "right_endpoint_work_J": 0.00020724590807338948,
+      "quadrature_difference_J": -8.815613635211623e-08
+    }
+  },
+  "analysis_sha256": "959351fc6471b549ca7d79bfba4b990072ff9661d19d66d47b55e1343bd33ead"
+}
