@@ -89,7 +89,7 @@ def validate(data):
 
             # description: optional nonempty string to explain benchmark/hypothetical model
             description = model.get('description')
-            if description is not None:
+            if 'description' in model:
                 if not isinstance(description, str) or not description.strip():
                     raise ValueError(f'models.{tag}.description: must be nonempty string if supplied')
 

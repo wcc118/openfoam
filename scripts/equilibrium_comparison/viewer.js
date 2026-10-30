@@ -63,7 +63,8 @@ function draw(){
  const physicalParts=[];
  if('description' in model && model.description){
   physicalParts.push(model.description);
- }else if('mass_kg' in model && 'thickness_m' in model){
+ }
+ if('mass_kg' in model && 'thickness_m' in model){
   physicalParts.push(`${(model.thickness_m*1000).toFixed(3)} mm skin · ${model.mass_kg.toFixed(6)} kg half-wing`);
  }
  physicalParts.push(`${model.modes.length} modes`);

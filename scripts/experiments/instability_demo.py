@@ -36,6 +36,25 @@ def spectrum(mats, omega, dt, speed):
         high_phase_growing_poles=int(np.count_nonzero((abs(np.angle(values))>=.95*np.pi)&(lam.real>1e-7))))
 
 
+def tracked_branch(mats, omega, dt):
+    """Follow the unstable 25 m/s mode backwards using modal state correlation."""
+    n=len(omega);previous=None;rows=[]
+    for speed in np.arange(25.,19.99,-.25):
+        cp,_,_=coupled_system(*mats,omega,dt,speed)
+        ev,vec=linalg.eig(cp.A)
+        keep=(abs(ev)>1e-12)&(np.angle(ev)>1e-8)&(np.angle(ev)<.95*np.pi)
+        ev,vec=ev[keep],vec[:,keep];lam=np.log(ev)/(dt/speed)
+        u=cp.C[n:]@vec;shape=np.vstack([u[:n],u[n:]/omega[:,None]])
+        shape/=np.maximum(linalg.norm(shape,axis=0),1e-300)
+        macs=None if previous is None else abs(previous.conj()@shape)**2
+        i=np.argmax(lam.real) if previous is None else np.argmax(macs)
+        previous=shape[:,i]
+        rows.append(dict(speed_m_s=float(speed),growth_per_s=float(lam[i].real),
+            frequency_hz=float(lam[i].imag/(2*np.pi)),adjacent_mac=None if macs is None else float(macs[i]),
+            modal_fraction=(abs(shape[:n,i])**2+abs(shape[n:,i])**2).tolist()))
+    return rows[::-1]
+
+
 def history(mats, omega, dt, speed, h, kick, seconds=2., guard=.05):
     n=len(omega)
     cp,(bs,cs,ds),(ad,bd,cd,dd)=coupled_system(*mats,omega,dt,speed)
@@ -52,8 +71,13 @@ def history(mats, omega, dt, speed, h, kick, seconds=2., guard=.05):
     F=np.block([[mats[0],np.zeros((na,2*n))],[bd@yx,ad+bd@ys]])
     lu=linalg.lu_factor(E)
     rows=[];error=0.;stopped=False;step=dt/speed
+    initial_energy=float(.5*np.sum((omega*kick)**2));work=0.;last_power=None;energy_defect=0.
     for k in range(int(np.ceil(seconds/step))+1):
         u=(cp.C@x)[n:];q=u[:n]
+        force=(cp.C@x)[:n];power=float(force@u[n:])
+        energy=float(.5*(u[n:]@u[n:]+np.sum((omega*q)**2)))
+        if last_power is not None:work+=.5*step*(last_power+power)
+        last_power=power;energy_defect=max(energy_defect,abs(energy-initial_energy-work))
         uraw=ux@raw[:na]+us@raw[na:]
         error=max(error,float(np.max(abs(u-uraw))))
         assert np.all(np.isfinite(u))
@@ -71,7 +95,9 @@ def history(mats, omega, dt, speed, h, kick, seconds=2., guard=.05):
     return dict(frames_time_and_q=rows,reference_q=np.zeros(n).tolist(),
         initial_physical_state_error=float(np.max(abs((cp.C@np.r_[-bs@u0,s])[n:]-u0))),
         descriptor_causal_max_error=error,stopped_at_50mm_guard=stopped,
-        physical_guard_m=guard,fit=fit,speed_m_s=speed,dt_seconds=step)
+        physical_guard_m=guard,fit=fit,speed_m_s=speed,dt_seconds=step,
+        initial_structural_energy_J=initial_energy,final_structural_energy_J=energy,
+        integrated_aero_work_J=work,max_energy_work_defect_J=energy_defect)
 
 
 def benchmark(base,out):
@@ -102,9 +128,12 @@ def benchmark(base,out):
 
 def diagnostic(base,out):
     n=int(os.environ.get('MODES','10'));cfl=float(os.environ.get('CFL','.125'))
-    zeta,H,omega,chord,source=geometry(base,'shell',8,16,n)
+    M=int(os.environ.get('PANELS_M','8'));N=int(os.environ.get('PANELS_N','16'))
+    wake=int(os.environ.get('WAKE_FACTOR','8'))
+    eq.M,eq.N,eq.WAKE=M,N,wake
+    zeta,H,omega,chord,source=geometry(base,'shell',M,N,n)
     # Explicit diagnostic change: flat lifting surface, retaining original modal map.
-    zeta[2]=0.;h=H.reshape(-1,n);dt=cfl*chord/8
+    zeta[2]=0.;h=H.reshape(-1,n);dt=cfl*chord/M
     ts=eq.static_state(zeta,chord,dt)
     assert np.max(abs(ts.forces[0][:3]))<1e-9
     mats,checks=assemble(ts,h,dt,omega,25.,check_frequencies=[0.,omega[0],2*np.pi*11.5,omega[4]*.1,omega[-1]])
@@ -117,7 +146,10 @@ def diagnostic(base,out):
         roots=[float(optimize.brentq(lambda v:spectrum(mats,w,dt,v)['growth_per_s'],a,b)) for a,b in brackets]
         reports.append(dict(torsional_modal_stiffness_factor=factor,frequencies_hz=(w/(2*np.pi)).tolist(),rows=rows,crossings_m_s=roots))
     result=dict(scope='Hypothetical flat-aero reference; unchanged native mode shapes/mass; only fifth generalized stiffness scaled. Not native aluminum redesign.',
-        checks=checks,cfl=cfl,modes=n,reports=reports)
+        checks=checks,cfl=cfl,M=M,N_per_half=N,wake_chords=wake,modes=n,reports=reports,
+        input_sha256=hashlib.sha256(source.read_bytes()).hexdigest())
+    soft=omega.copy();soft[4]*=.1
+    result['tracked_soft_branch']=tracked_branch(mats,soft,dt)
     (out/'diagnostic.json').write_text(json.dumps(result,indent=2,allow_nan=False))
     native=np.load(base/'native-modal.npz')
     phi=native['phi'][:n];xyz=native['xyz'];tip=np.isclose(xyz[:,1],xyz[:,1].max())

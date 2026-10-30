@@ -512,13 +512,13 @@ class EquilibriumComparisonTests(unittest.TestCase):
         self.assertIn('\\u003c', html)  # escaped <
         self.assertIn('\\u003e', html)  # escaped >
 
-    def test_description_null_accepted(self):
-        """Null description should be accepted (optional field)."""
-        data = make_valid_data()
-        data['models']['baseline']['description'] = None
-        html = build_eq.build_html(data)
-        self.assertIn('<!doctype html>', html)
-        self.assertIn('mm skin', html)
+    def test_supplied_description_must_be_string(self):
+        for value in (None, 3, False, [], {}):
+            with self.subTest(value=value):
+                data = make_valid_data()
+                data['models']['baseline']['description'] = value
+                with self.assertRaises(ValueError):
+                    build_eq.validate(data)
 
 
 class TestComparisonBoundaries(unittest.TestCase):
