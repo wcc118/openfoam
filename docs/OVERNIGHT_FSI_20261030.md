@@ -12,6 +12,9 @@ In the same directory:
 - `goland-instability-comparison.html`: independently checked benchmark,
   stable at 150 m/s and growing at 175 m/s.
 - `instability-comparison.png`: time histories and numerical sensitivity.
+- `cfd-force-work-comparison.png`: completed CFD timestep comparison, explicitly
+  labeled unqualified because sampled mesh quality fails.
+- `OVERNIGHT_FSI_20261030.md`: this report.
 - `extended-wing-fine-mesh-slices.png`: the matching extended-wing CFD mesh.
 - `extended-wing-fine-layer-coverage.png`: achieved boundary-layer coverage.
 - The earlier equilibrium and airspeed comparison viewers remain available.
@@ -61,7 +64,7 @@ independently stepped descriptor and causal formulations to 6.34e-13; its energy
 and aerodynamic-work balance was also checked. An earlier resource-interrupted
 M16 attempt remains recorded separately from the successful run.
 
-The [detailed instability report](INSTABILITY_DEMONSTRATION.md) contains growth
+The [detailed instability report](https://github.com/wcc118/openfoam/blob/issue-36-uvlm-verification/docs/INSTABILITY_DEMONSTRATION.md) contains growth
 rates, frequencies, initialization, branch tracking, mode/wake/grid/timestep
 sensitivity and replay checks. **203 repository tests and 32 new browser
 combinations passed**, in addition to 96 earlier speed-viewer combinations.
@@ -74,7 +77,8 @@ span and 0.1016 m chord. Its closed-TE NACA 4412 surface is a provisional shell
 midsurface, not a verified outer skin. Native checks found a closed, connected
 surface without self-intersections. The old shorter-wing flow field was not
 stretched onto this geometry. The root is rigid, motion is mirrored, and no
-finite fuselage or antisymmetric structural motion is represented.
+finite fuselage or antisymmetric structural motion is represented. These cambered
+CFD controls do not duplicate the flat soft-torsion instability configuration.
 
 | Component | Observed result | Interpretation |
 | --- | --- | --- |
@@ -83,7 +87,7 @@ finite fuselage or antisymmetric structural motion is represented.
 | Native first-bending boundary motion | All 167,665 wing points mapped; saved positions agree within 5.02e-14 m | Boundary ordering and imposed motion verified |
 | Revised native mesh extension | All 13 sampled checks pass over three geometry-only cycles | Improved robustness; does not establish fluid temporal accuracy |
 | Layered moving-flow pilots | Serial: one completed microsecond step; parallel: four | Both timed out before their five-step targets |
-| Cheap analytic moving-flow control | Short pilots to 0.004 s completed; native force/work observer checked | Prescribed analytic motion, no native structural feedback |
+| Cheap analytic moving-flow control | Both full-cycle runs completed; strict moving-mesh quality fails | Wall-force observer checked; prescribed motion, no native structural feedback |
 
 The fine mesh initially exhausted available memory during `checkMesh`; the saved
 mesh was checked successfully after memory became available. WSL exposes 32 GiB,
@@ -148,11 +152,37 @@ the face-twist threshold near the positive displacement peak, from 0.015 through
 tips. This mesh-quality metric is not structural torsional instability. The final mesh passes, which would have hidden these intermediate
 failures if checked alone. Solver completion is therefore not case acceptance.
 
-The first observed cycle has about -5.86 microjoules of net fluid-to-wall work
-with the 100-microsecond step. This is an unqualified first-cycle diagnostic,
-not a damping estimate: mesh quality fails, startup is not periodic, and the
-smaller-step comparison remains pending. The early common interval already
-shows timestep sensitivity in lift variation.
+Both fluid runs reached 0.12 s. The smaller-step run completed within its original
+walltime limit. All 59 saved boundary-position checks pass within 5.01e-14 m,
+but 15 of 59 sampled meshes fail the same face-twist criterion from 0.014 to
+0.042 s, involving two to four faces. Its output cadence is 2 ms rather than
+5 ms, so the larger failed-sample count does not demonstrate worse mesh behavior.
+Halving the timestep did not eliminate the mesh-quality failure.
+The common one-cycle work window is **0.004 to 0.117498682 s**, not the later
+0.12 s solver endpoint. The dotted line in the plot marks this closed-cycle window.
+
+| Timestep | Samples after the shared start | First-cycle fluid-to-wall work |
+| --- | ---: | ---: |
+| 100 microseconds | 1,160 | -5.860 microjoules |
+| 50 microseconds | 2,320 | -6.352 microjoules |
+
+The magnitude changes by 8.4% relative to the larger step. Trapezoidal versus
+right-endpoint integration differs by only 0.0053 and 0.00019 microjoules,
+respectively; that quadrature difference is much smaller than the timestep effect.
+At common physical times, maximum lift difference is 0.0845 N and RMS difference
+is 0.0728 N, versus a 0.0261 N standard deviation of the smaller-step lift samples.
+The smaller-step startup spike is also retained: full-sample lift range is
+0.3066 N, compared with 0.0830 N in the larger-step run. Comparing only common
+timestamps would miss the largest half-step-only spike.
+
+The summed wall-force observer agrees with native `force.dat` within 5.2e-12 N
+throughout both histories. Both first-cycle work values are negative, but neither
+is a validated damping estimate: mesh quality fails, the startup response has not
+settled to a periodic state, and timestep sensitivity remains. Maximum reported
+Courant numbers reach about 10.6 and 5.3. Implicit-solver survival does not
+establish temporal accuracy. These findings support a concrete follow-up, not a
+CFD flutter or stability verdict. The [complete comparison evidence](https://github.com/wcc118/openfoam/blob/issue-36-uvlm-verification/docs/evidence/analytic-cfd-cycle-comparison-20261030.json)
+and [plot](https://github.com/wcc118/openfoam/blob/issue-36-uvlm-verification/docs/evidence/analytic-cfd-force-work-20261030.png) retain these outcomes.
 
 ## Review, evidence and next steps
 
@@ -163,9 +193,9 @@ repeated a query until cancelled. Run `20261030T044521Z-918253` exited 143;
 its log/checkpoint and acknowledged outcome are retained. Passing tests do not
 substitute for independent review.
 
-[Frozen experiment sources](evidence/extended-cfd-sources-20261030/README.md),
-[component evidence](evidence/extended-cfd-components-20261030.json), and the
-[mesh report](evidence/extended-wing-fine-mesh-20261030.json) preserve provenance
+[Frozen experiment sources](https://github.com/wcc118/openfoam/blob/issue-36-uvlm-verification/docs/evidence/extended-cfd-sources-20261030/README.md),
+[component evidence](https://github.com/wcc118/openfoam/blob/issue-36-uvlm-verification/docs/evidence/extended-cfd-components-20261030.json), and the
+[mesh report](https://github.com/wcc118/openfoam/blob/issue-36-uvlm-verification/docs/evidence/extended-wing-fine-mesh-20261030.json) preserve provenance
 and failed attempts. Large solver artifacts remain in
 `runs/instability-20261030/` on the Spark and timestamped directories under
 `/home/foam/projects/openfoam/runs/` in the PC's `OpenFOAM-24.04` WSL distribution.
@@ -188,5 +218,6 @@ They remain labeled as experiments. No reported speed is a flight limit.
 Shared reference records: `memory:337f2d45cfc1ebb42dc6f19be8631c53` informed
 the causal replay checks; new results are recorded in
 `memory:5408eb34bfbad68577e1c9a5edf135b2` (UVLM instability) and
-`memory:0668118c9746502907aa878d212ef8f9` (CFD component checks). GitHub and
+`memory:0668118c9746502907aa878d212ef8f9` (CFD component checks), and
+`memory:8b637894c5c3d90a18ffacc16af87132` (completed CFD cycles). GitHub and
 the retained native evidence remain authoritative for work state and results.

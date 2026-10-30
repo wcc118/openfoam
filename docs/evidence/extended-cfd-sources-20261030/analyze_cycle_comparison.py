@@ -76,6 +76,7 @@ def main():
     for ax in axes:ax.grid(alpha=.25);ax.axhline(0,color='#999999',linewidth=.6)
     if max(a[-1,0],b[-1,0])>=target:
         for ax in axes:ax.axvline(target,color='#888888',linestyle=':',linewidth=1)
+        axes[0].annotate('One cycle from 0.004 s',xy=(target,.9),xycoords=('data','axes fraction'),xytext=(-6,0),textcoords='offset points',ha='right',fontsize=9)
     notes=[]
     for label,r in [('100 µs',ra),('50 µs',rb)]:
         w=r['full_cycle_work'];notes.append(label+(': first-cycle work %.3f µJ' % (w['trapezoidal_work_J']*1e6) if w else ': full cycle pending'))
