@@ -899,5 +899,673 @@
       "failed_extended_checks": 2
     },
     "first_check_failure": "[ 2973.575936] Out of memory: Killed process 6798 (checkMesh) total-vm:14186520kB, anon-rss:14137516kB, file-rss:0kB, shmem-rss:0kB, UID:1000 pgtables:27812kB oom_score_adj:0"
+  },
+  "analytic_control_pilots/wall-work-verification.json": {
+    "sha256": "1d73d539c69f636cfe9cc62324770188fcb635fc36a578364dfea06d7ec13d4b",
+    "report": {
+      "scope": "Native per-face force reduction equals native forces function output; applied wall-velocity power is recorded, not physical damping validation.",
+      "rows": 20,
+      "start_s": 0.0021,
+      "end_s": 0.003999999999999997,
+      "max_force_difference_N": 4.952482868247898e-12,
+      "force_gate_passed": true,
+      "power_min_W": 0.08706051350257668,
+      "power_max_W": 0.08866848651064183,
+      "sampled_trapezoid_work_J": 0.00016709155368435405,
+      "face_counts": [
+        40780.0
+      ],
+      "native_field_lines": [
+        "wallWork nativeField=force force=(1.87009014764 2.16667637401e-07 53.4254444901) power=0.0886684865106",
+        "wallWork nativeField=force force=(1.87010928139 -3.6323874246e-07 53.423666631) power=0.0886091214807"
+      ]
+    }
+  },
+  "analytic_control_pilots/work-observer-manifest.json": {
+    "sha256": "cdf50900eb5934f688b0902f37a7f5d243b4ea1c5212a624210a45a36a613b34",
+    "report": {
+      "scope": "Native per-face forces field dotted with actual movingWallVelocity boundary U, globally reduced. Compare summed force to native force.dat before interpreting work. Analytic prescribed motion only, no structural feedback.",
+      "columns": [
+        "time_s",
+        "Fx_N",
+        "Fy_N",
+        "Fz_N",
+        "power_W",
+        "wing_faces"
+      ],
+      "source": "Pinned OpenCFD2412 forces.C force()/reset()/addToPatchFields()/execute(); force field includes pressure and viscous forces and is computed even when writeFields=false.",
+      "dt_s": 0.0001,
+      "start_s": 0.002,
+      "end_s": 0.004,
+      "quadrature": "Raw endpoint power; cycle integration must document its quadrature and temporal limits."
+    }
+  },
+  "analytic_control_pilots/position-verification.json": {
+    "sha256": "da1af1d81599a3429ff747df3e9b9b5a95a19833de6770a0d1cd9bf74faeadf5",
+    "report": {
+      "scope": "Independent saved-point verification against native patch indices and imposed mode; geometry only, not fluid or coupled FSI.",
+      "checked_phases": [
+        {
+          "time_s": 0.002,
+          "phase_cycles": 0.01762135,
+          "factor": 0.11049213910019957,
+          "max_position_error_m": 4.9747246185188713e-14,
+          "rms_error_m": 3.3139655576549328e-15,
+          "max_actual_displacement_m": 1.1049213910030001e-05,
+          "points_sha256": "4dab456fbad9af6f44919be2ab2d2f12432ed38c39b0414fb9c4c99216805b3a"
+        }
+      ],
+      "all_observed_pass": true,
+      "complete_cycle": false
+    }
+  },
+  "analytic_control_pilots/parallel-map-check.json": {
+    "sha256": "d7ab9d08d3d5ea04cdb42d8093bc1a4e4b111508bade0babe794e0ebc1839ef4",
+    "report": {
+      "scope": "Native pointProcAddressing cross-check of every parallel prescribed wing-mode value against serial mapping, including duplicate shared points.",
+      "ranks": [
+        {
+          "rank": 0,
+          "patch_points": 11387,
+          "maximum_mode_error_m": 0.0,
+          "maximum_reference_position_error_m": 0.0
+        },
+        {
+          "rank": 1,
+          "patch_points": 11288,
+          "maximum_mode_error_m": 0.0,
+          "maximum_reference_position_error_m": 0.0
+        },
+        {
+          "rank": 2,
+          "patch_points": 8800,
+          "maximum_mode_error_m": 0.0,
+          "maximum_reference_position_error_m": 0.0
+        },
+        {
+          "rank": 3,
+          "patch_points": 11070,
+          "maximum_mode_error_m": 0.0,
+          "maximum_reference_position_error_m": 0.0
+        }
+      ],
+      "unique_wing_points": 42147,
+      "passed": true
+    }
+  },
+  "analytic_control_pilots/analytic-map-report.json": {
+    "sha256": "9e4ab23e7511083c13e1dd38f15338a13282179baa3a4b6c3f5f9cd27359a8b8",
+    "report": {
+      "scope": "Analytic prescribed-wall control, not a native structural mode or FSI: u_z=0.1mm*min(abs(y)/1.2192m,1)^2*sin(2pi*8.810675Hz*t); u_x=u_y=0.",
+      "points": 42147,
+      "max_amplitude_m": 0.0001,
+      "point_map_sha256": "bebf371fbba4f112955b2a88674043d8d8ce767efb077d6969efb051374167ef"
+    }
+  },
+  "analytic_control_pilots/execution.json": {
+    "sha256": "f58fde825f0c181d3564436c6a4dc52bdc3be4f2f93e3c1f1fdcf593da36e525",
+    "report": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-analytic-control-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-analytic-motion-control-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "-c",
+        "source /usr/lib/openfoam/openfoam2412/etc/bashrc && mpirun -np 4 pimpleFoam -parallel > log.pimpleFoam 2>&1 && reconstructPar -latestTime > log.reconstructPar 2>&1 && checkMesh -allTopology -meshQuality -latestTime > log.movedQuality 2>&1"
+      ],
+      "status": "process_completed",
+      "exit_code": 0,
+      "strict_moved_quality_passed": true,
+      "elapsed_seconds": 53.46265238500001
+    }
+  },
+  "analytic_control_pilots/manifest.json": {
+    "sha256": "011a5b1d2b1c7d450e416b7dc61adfb3ab0b515814d02d388d5ca0923247c783",
+    "report": {
+      "scope": "Analytic parabolic prescribed-wall CFD control on a coarse no-layer mesh. Not native structural modes, two-way FSI, viscous accuracy, damping or flutter. Native projection failed and remains failed.",
+      "source_flow": "/home/foam/projects/openfoam/runs/extended-wing-plumbing-flow-v3-20261030",
+      "source_iteration": 500,
+      "dt_s": 0.0001,
+      "steps": 20,
+      "end_time_s": 0.002,
+      "frequency_hz": 8.810675,
+      "nominal_tip_amplitude_m": 0.0001,
+      "mpi_ranks": 4,
+      "mesh_layer_gate_passed": false,
+      "pressure": "kinematic gauge m2/s2",
+      "rho_kg_m3": 1.2250532683653954,
+      "area_m2": 0.24774144,
+      "axes": "x downstream,y span,z up",
+      "source_revision": "476330b"
+    }
+  },
+  "extended-wing-flow-diagnostic-20261030/execution.json": {
+    "sha256": "b818651bdf981e1c3cac2c5555da738ff39c87660a0389013d16c7852444ee11",
+    "report": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-extended-flow-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "16g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-flow-diagnostic-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b",
+        "/case/run-flow.sh"
+      ],
+      "status": "process_failed",
+      "started_utc": "2026-10-30T04:55:19Z",
+      "exit_code": 137,
+      "elapsed_seconds": 2654.960443963
+    }
+  },
+  "extended-wing-flow-diagnostic-20261030/manifest.json": {
+    "sha256": "4304ab8dcdc6cb9c1566777c62917909d2fa193f7b541b88a1f1deeecebf109a",
+    "report": {
+      "schema_version": 1,
+      "status": "unqualified_setup",
+      "created_utc": "2026-10-30T04:55:18.743389+00:00",
+      "source": {
+        "generator_sha256": "d29e5cde114f96695fe2551c1a5a2a92ba359a2117f73c3b56bd985633fd8caf",
+        "revision": null,
+        "dirty": null
+      },
+      "mesh": {
+        "source_path": "/home/foam/projects/openfoam/runs/extended-wing-cfd-coarse-20261030/constant/polyMesh",
+        "source_sha256": {
+          "points": "4eaf49083155edf8168c3193b091ddbb2cff7d129c566bf86ed88273889b5101",
+          "faces": "981737cefc58e8dfa36f947456eaa7c6d0c02cc43f2369924ebc8e8c5e445abb",
+          "owner": "83fe2ea793ccdeb873699b0043c1b9bcada657b7246911ab771e10cc0eb389d7",
+          "neighbour": "13b2c3d0a66560c318c03a0f8664eba3cce4bd05b8f74566e231e2a44fcdacb1",
+          "boundary": "2c448ad2e3d4985ce6751f6c6fd4021ff7e09de086b8eaa8d6d10988fd80361e",
+          "cellZones": "75e6033b3f55338da36dc6c36ebb7f40ed04ee607b9af1e4b519c5f7c42e7ac7",
+          "faceZones": "90978336308dc119ba9cce45e9b6d03ff2dc69c955937aabc3b965e01ef16f2a",
+          "pointZones": "e420395d550123e862c6a5a59639f0950946b097e14e8ec597ba8ffb78f40b19"
+        },
+        "copied_sha256": {
+          "points": "4eaf49083155edf8168c3193b091ddbb2cff7d129c566bf86ed88273889b5101",
+          "faces": "981737cefc58e8dfa36f947456eaa7c6d0c02cc43f2369924ebc8e8c5e445abb",
+          "owner": "83fe2ea793ccdeb873699b0043c1b9bcada657b7246911ab771e10cc0eb389d7",
+          "neighbour": "13b2c3d0a66560c318c03a0f8664eba3cce4bd05b8f74566e231e2a44fcdacb1",
+          "boundary": "2c448ad2e3d4985ce6751f6c6fd4021ff7e09de086b8eaa8d6d10988fd80361e",
+          "cellZones": "75e6033b3f55338da36dc6c36ebb7f40ed04ee607b9af1e4b519c5f7c42e7ac7",
+          "faceZones": "90978336308dc119ba9cce45e9b6d03ff2dc69c955937aabc3b965e01ef16f2a",
+          "pointZones": "e420395d550123e862c6a5a59639f0950946b097e14e8ec597ba8ffb78f40b19"
+        },
+        "boundary_patches": [
+          "inlet",
+          "outlet",
+          "farfield",
+          "wing"
+        ]
+      },
+      "flow": {
+        "alpha_deg": 0.0,
+        "velocity_m_s": [
+          30.0,
+          0.0,
+          0.0
+        ],
+        "drag_direction": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "lift_direction": [
+          -0.0,
+          0.0,
+          1.0
+        ],
+        "pitch_axis": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "dynamic_pressure_Pa": 551.273970764428,
+        "k_m2_s2": 0.00135,
+        "omega_per_s": 9.432232750983365,
+        "speed_m_s": 30.0,
+        "density_kg_m3": 1.2250532683653954,
+        "kinematic_viscosity_m2_s": 1.4605775310347254e-05,
+        "chord_Re": 208684.57409725367,
+        "mach": 0.08816091132962695,
+        "turbulence_intensity": 0.001,
+        "turbulence_length_scale_m": 0.007112
+      },
+      "geometry": {
+        "span_m": 2.4384,
+        "chord_m": 0.1016,
+        "reference_area_m2": 0.24774144,
+        "moment_origin_m": [
+          0.0254,
+          0.0,
+          0.0
+        ]
+      },
+      "axes": {
+        "x": "downstream",
+        "y": "span",
+        "z": "up",
+        "moment": "positive y"
+      },
+      "atmosphere_source": {
+        "repository": "wcc118/flight-loads",
+        "revision": "7fe19f0761e00dd54238100461effa2533fc62c8",
+        "file": "src/flightloads/atmosphere.py",
+        "sha256": "a7ce6a74f152a713f5d02360580a1f94f9f91dd4e23f48ec07c629d00be0f5ca"
+      },
+      "model": {
+        "solver": "simpleFoam",
+        "turbulence": "kOmegaSST",
+        "assumption": "fully turbulent; transition uncertainty unresolved",
+        "wall_k": "fixedValue 0",
+        "wall_omega": "omegaWallFunction binomial n2",
+        "wall_nut": "nutLowReWallFunction",
+        "pressure": "kinematic m2/s2"
+      },
+      "iterations": 500,
+      "time_meaning": "SIMPLE iteration, not physical seconds",
+      "generated_sha256": {
+        "0/U": "094cc0576129939772db0dc4f45951c2e95d3fa35bd0e3e74289b8ad54df3d33",
+        "0/p": "3110a8f5f78677ce663d7f48788a54a1900cf2bb9f9329bac447f07273f6a357",
+        "0/k": "47601b6728aa70673aee1d70fd72db38f103c377e6a33854f3717960e5d6bec2",
+        "0/omega": "cb7640c2223279d791bf8d18058a8245f21b152b0d3e7787b6e9f2d2e494835d",
+        "0/nut": "47d3588b117bc3a0114835b8a79e25f3a72e847c69ca8a72849c544e24ff8fd4",
+        "constant/transportProperties": "b889f13a02dfd74ac3aec504c3b8a619794d644f41cfdbcd2e99044db8a85a78",
+        "constant/turbulenceProperties": "6df384d904139243910d0b7d485ad2168c0166ffe09c511cc0f2f9cc4c12098c",
+        "system/controlDict": "643c5425c4037aa4139e122db605fa19fc6de162f5671083ccf1e23a36b6a723",
+        "system/fvSchemes": "ef1f321e154233d959ff716936895c9099a7b0563fab48ed2e59a1709646884c",
+        "system/fvSolution": "f49dc16848ae1b4687f75f793d0183a7c341be9cdf0f7207961b63876e244e38"
+      },
+      "scope": "Pipeline-only rigid-flow diagnostic on numerical-quality-passing mesh with FAILED70.69% boundary-layer coverage. Owner permits imperfect exploratory models. Not accepted viscous CFD, not dynamic damping, not flutter.",
+      "source_revision": "8338650e529330c6570964b070fd7a94222619f7",
+      "generator_sha256": "d29e5cde114f96695fe2551c1a5a2a92ba359a2117f73c3b56bd985633fd8caf",
+      "explicit_overrides": {
+        "SPAN_m": 2.4384,
+        "AREA_m2": 0.24774144
+      },
+      "surface": "Same closed-TE NACA4412 provisional midsurface as shell, no outer-skin offset",
+      "mesh_layer_gate_passed": false
+    }
+  },
+  "extended-wing-flow-diagnostic-20261030/stop-decision.json": {
+    "sha256": "da415c64319dd76faf6068cc9c3ca00fc383fc3871dfb56dfc383cd1a48296e8",
+    "report": {
+      "reason": "Primary ended the unqualified layered-mesh steady diagnostic after its saved iteration300 checkpoint to prioritize moving-flow plumbing and finish fine-mesh quality checks. Requested500 iterations were not completed; no convergence or viscous validation claim. The separate inexpensive no-layer case retains its500-iteration target.",
+      "completed_checkpoint": 300,
+      "original_target": 500,
+      "termination": "intentional docker stop; original execution exit137 retained"
+    }
+  },
+  "extended-wing-flow-diagnostic-20261030/checkpoint-reconstruction.json": {
+    "sha256": "2368b28ec95bb71f9ea08f56646cb67e1348549e03ffea8d9df1544c47dfd552",
+    "report": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-flow-diagnostic-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b",
+        "-c",
+        "source /usr/lib/openfoam/openfoam2412/etc/bashrc && reconstructPar -time 300 > log.reconstruct300 2>&1"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 29.142521836000014
+    }
+  },
+  "extended-wing-plumbing-mesh-20261030/execution.json": {
+    "sha256": "a9b8dafe22fdd27e93dac849f548463184672148aa54eadce3a007d64ad71868",
+    "report": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-plumbing-mesh-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-plumbing-mesh-20261030:/work",
+        "-w",
+        "/work",
+        "--entrypoint",
+        "/bin/bash",
+        "opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b",
+        "/work/run.sh"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 103.04487986000004
+    }
+  },
+  "extended-wing-plumbing-mesh-20261030/manifest.json": {
+    "sha256": "88ee0e6f05fc6b02f3e48a175e238364fddcd6845ed2f15e30b840b7360305d3",
+    "report": {
+      "scope": "Deliberately coarse no-layer moving-flow plumbing experiment. NO viscous aerodynamic accuracy, damping validation, flutter or flight claim. Same extended closed-TE wing surface, coarsened span grid and refinement.",
+      "source_mesh_inputs": "/home/foam/projects/openfoam/runs/extended-wing-cfd-coarse-20261030",
+      "boundary_layers": false,
+      "base_grid": [
+        40,
+        16,
+        20
+      ],
+      "surface_levels": [
+        3,
+        4
+      ],
+      "max_cell_target": 750000,
+      "quality_thresholds": "Unchanged canonical/scaled numerical checks",
+      "span_m": 2.4384,
+      "chord_m": 0.1016
+    }
+  },
+  "extended-wing-plumbing-mesh-v2-20261030/execution.json": {
+    "sha256": "481b086b3fdd0c10da2631f35ccb6ee5957b5adb73f7fa9eff54d77e583f1d39",
+    "report": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-plumbing-mesh-v2-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-plumbing-mesh-v2-20261030:/work",
+        "-w",
+        "/work",
+        "--entrypoint",
+        "/bin/bash",
+        "opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b",
+        "/work/run.sh"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 131.44323558299993
+    }
+  },
+  "extended-wing-plumbing-mesh-v2-20261030/manifest.json": {
+    "sha256": "04bf64d995582eca2d592a65f22e123cdae9391df05ad4762a6948ad98cdb928",
+    "report": {
+      "scope": "Deliberately coarse no-layer moving-flow plumbing experiment. NO viscous aerodynamic accuracy, damping validation, flutter or flight claim. Same extended closed-TE wing surface, coarsened span grid and refinement.",
+      "source_mesh_inputs": "/home/foam/projects/openfoam/runs/extended-wing-cfd-coarse-20261030",
+      "boundary_layers": false,
+      "base_grid": [
+        40,
+        16,
+        20
+      ],
+      "surface_levels": [
+        3,
+        4
+      ],
+      "max_cell_target": 750000,
+      "quality_thresholds": "Unchanged acceptance checks; tighter generation: boundary skew4, internal skew3, nonorth60. First attempt failed basic check on two boundary skew faces.",
+      "span_m": 2.4384,
+      "chord_m": 0.1016
+    }
+  },
+  "extended-wing-plumbing-mesh-v3-20261030/execution.json": {
+    "sha256": "7df5bc10f36878f1941d0dd14415b633c2305b19a3e42e8b6bb3a32a1ed2e145",
+    "report": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-plumbing-mesh-v3-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-plumbing-mesh-v3-20261030:/work",
+        "-w",
+        "/work",
+        "--entrypoint",
+        "/bin/bash",
+        "opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b",
+        "/work/run.sh"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 97.46984956699998
+    }
+  },
+  "extended-wing-plumbing-mesh-v3-20261030/manifest.json": {
+    "sha256": "e7b5a617993c69fd5f5aea90261cd90edcaf2c86ab9605334487b61b8bacd355",
+    "report": {
+      "scope": "Deliberately coarse no-layer moving-flow plumbing experiment. NO viscous aerodynamic accuracy, damping validation, flutter or flight claim. Same extended closed-TE wing surface, coarsened span grid and refinement.",
+      "source_mesh_inputs": "/home/foam/projects/openfoam/runs/extended-wing-cfd-coarse-20261030",
+      "boundary_layers": false,
+      "base_grid": [
+        40,
+        16,
+        20
+      ],
+      "surface_levels": [
+        4,
+        5
+      ],
+      "max_cell_target": 750000,
+      "quality_thresholds": "Unchanged acceptance checks; tighter generation: boundary skew4, internal skew3, nonorth60. First attempt failed basic skew check; v2 passed numerical quality but exceeded1mm surface-map distance, so v3 refines the surface and feature levels.",
+      "span_m": 2.4384,
+      "chord_m": 0.1016
+    }
+  },
+  "extended-wing-plumbing-flow-20261030/execution.json": {
+    "sha256": "f2cee5fb1e235d5502e188a5626d32c3f5d7326d3191f74dc569703674b4a6aa",
+    "report": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-plumbing-flow-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-plumbing-flow-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b",
+        "/case/run-flow.sh"
+      ],
+      "status": "process_completed",
+      "started_utc": "2026-10-30T05:34:07Z",
+      "exit_code": 0,
+      "elapsed_seconds": 310.22650589800014
+    }
+  },
+  "extended-wing-plumbing-flow-20261030/manifest.json": {
+    "sha256": "c63df9627b153c6dea7bb7a804f2d9ef2f20e5657afa71211bfa1b651a7beaf1",
+    "report": {
+      "schema_version": 1,
+      "status": "unqualified_setup",
+      "created_utc": "2026-10-30T05:34:07.407425+00:00",
+      "source": {
+        "generator_sha256": "d29e5cde114f96695fe2551c1a5a2a92ba359a2117f73c3b56bd985633fd8caf",
+        "revision": null,
+        "dirty": null
+      },
+      "mesh": {
+        "source_path": "/home/foam/projects/openfoam/runs/extended-wing-plumbing-mesh-v2-20261030/constant/polyMesh",
+        "source_sha256": {
+          "points": "b391e6782616895fa49331c256b9e9b4e04151ed5447cae37f96ab1ff7cad82f",
+          "faces": "a752cfe0803203d528b8bb76b3bd0773e21f775b90118f9d188dd706775bb2d0",
+          "owner": "4cdc6d1016de92d712f98f4347fa3ab217aa883a43633336c29fa04bb346d1cd",
+          "neighbour": "792c92abe0649931628d4a04ee270b0b945a89e847bf1b23a9b4b3f803e7df8c",
+          "boundary": "23d1208b5e61cb4d1c1fd46de65c711d927ce5c210050e3a7c2a23a143af5a32",
+          "cellZones": "75e6033b3f55338da36dc6c36ebb7f40ed04ee607b9af1e4b519c5f7c42e7ac7",
+          "faceZones": "90978336308dc119ba9cce45e9b6d03ff2dc69c955937aabc3b965e01ef16f2a",
+          "pointZones": "e420395d550123e862c6a5a59639f0950946b097e14e8ec597ba8ffb78f40b19"
+        },
+        "copied_sha256": {
+          "points": "b391e6782616895fa49331c256b9e9b4e04151ed5447cae37f96ab1ff7cad82f",
+          "faces": "a752cfe0803203d528b8bb76b3bd0773e21f775b90118f9d188dd706775bb2d0",
+          "owner": "4cdc6d1016de92d712f98f4347fa3ab217aa883a43633336c29fa04bb346d1cd",
+          "neighbour": "792c92abe0649931628d4a04ee270b0b945a89e847bf1b23a9b4b3f803e7df8c",
+          "boundary": "23d1208b5e61cb4d1c1fd46de65c711d927ce5c210050e3a7c2a23a143af5a32",
+          "cellZones": "75e6033b3f55338da36dc6c36ebb7f40ed04ee607b9af1e4b519c5f7c42e7ac7",
+          "faceZones": "90978336308dc119ba9cce45e9b6d03ff2dc69c955937aabc3b965e01ef16f2a",
+          "pointZones": "e420395d550123e862c6a5a59639f0950946b097e14e8ec597ba8ffb78f40b19"
+        },
+        "boundary_patches": [
+          "inlet",
+          "outlet",
+          "farfield",
+          "wing"
+        ]
+      },
+      "flow": {
+        "alpha_deg": 0.0,
+        "velocity_m_s": [
+          30.0,
+          0.0,
+          0.0
+        ],
+        "drag_direction": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "lift_direction": [
+          -0.0,
+          0.0,
+          1.0
+        ],
+        "pitch_axis": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "dynamic_pressure_Pa": 551.273970764428,
+        "k_m2_s2": 0.00135,
+        "omega_per_s": 9.432232750983365,
+        "speed_m_s": 30.0,
+        "density_kg_m3": 1.2250532683653954,
+        "kinematic_viscosity_m2_s": 1.4605775310347254e-05,
+        "chord_Re": 208684.57409725367,
+        "mach": 0.08816091132962695,
+        "turbulence_intensity": 0.001,
+        "turbulence_length_scale_m": 0.007112
+      },
+      "geometry": {
+        "span_m": 2.4384,
+        "chord_m": 0.1016,
+        "reference_area_m2": 0.24774144,
+        "moment_origin_m": [
+          0.0254,
+          0.0,
+          0.0
+        ]
+      },
+      "axes": {
+        "x": "downstream",
+        "y": "span",
+        "z": "up",
+        "moment": "positive y"
+      },
+      "atmosphere_source": {
+        "repository": "wcc118/flight-loads",
+        "revision": "7fe19f0761e00dd54238100461effa2533fc62c8",
+        "file": "src/flightloads/atmosphere.py",
+        "sha256": "a7ce6a74f152a713f5d02360580a1f94f9f91dd4e23f48ec07c629d00be0f5ca"
+      },
+      "model": {
+        "solver": "simpleFoam",
+        "turbulence": "kOmegaSST",
+        "assumption": "fully turbulent; transition uncertainty unresolved",
+        "wall_k": "fixedValue 0",
+        "wall_omega": "omegaWallFunction binomial n2",
+        "wall_nut": "nutLowReWallFunction",
+        "pressure": "kinematic m2/s2"
+      },
+      "iterations": 500,
+      "time_meaning": "SIMPLE iteration, not physical seconds",
+      "generated_sha256": {
+        "0/U": "094cc0576129939772db0dc4f45951c2e95d3fa35bd0e3e74289b8ad54df3d33",
+        "0/p": "3110a8f5f78677ce663d7f48788a54a1900cf2bb9f9329bac447f07273f6a357",
+        "0/k": "47601b6728aa70673aee1d70fd72db38f103c377e6a33854f3717960e5d6bec2",
+        "0/omega": "cb7640c2223279d791bf8d18058a8245f21b152b0d3e7787b6e9f2d2e494835d",
+        "0/nut": "47d3588b117bc3a0114835b8a79e25f3a72e847c69ca8a72849c544e24ff8fd4",
+        "constant/transportProperties": "b889f13a02dfd74ac3aec504c3b8a619794d644f41cfdbcd2e99044db8a85a78",
+        "constant/turbulenceProperties": "6df384d904139243910d0b7d485ad2168c0166ffe09c511cc0f2f9cc4c12098c",
+        "system/controlDict": "643c5425c4037aa4139e122db605fa19fc6de162f5671083ccf1e23a36b6a723",
+        "system/fvSchemes": "ef1f321e154233d959ff716936895c9099a7b0563fab48ed2e59a1709646884c",
+        "system/fvSolution": "f49dc16848ae1b4687f75f793d0183a7c341be9cdf0f7207961b63876e244e38"
+      },
+      "scope": "Pipeline-only rigid-flow diagnostic on numerical-quality-passing mesh with NO boundary layers and deliberately coarse resolution. Owner permits imperfect exploratory models. Not accepted viscous CFD, not dynamic damping, not flutter.",
+      "source_revision": "8338650e529330c6570964b070fd7a94222619f7",
+      "generator_sha256": "d29e5cde114f96695fe2551c1a5a2a92ba359a2117f73c3b56bd985633fd8caf",
+      "explicit_overrides": {
+        "SPAN_m": 2.4384,
+        "AREA_m2": 0.24774144
+      },
+      "surface": "Same closed-TE NACA4412 provisional midsurface as shell, no outer-skin offset",
+      "mesh_layer_gate_passed": false
+    }
   }
 }

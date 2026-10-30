@@ -121,6 +121,30 @@
     {
       "path": "run_analytic_cycle_pc.py",
       "sha256": "172523b6c6d51addc3c7e981064d51b5d8d6f258f68a05bc86c268283d378885"
+    },
+    {
+      "path": "prepare_analytic_halfstep_pc.py",
+      "sha256": "654bb1a1ee17270efefff661377bcd275b4260e65fbc9975fcbf17b3a761ce93"
+    },
+    {
+      "path": "run_analytic_halfstep_pc.py",
+      "sha256": "1156c052cf5af59ee7d6dd64a8912652d4e389abe8f5f9740400f097e7c0ce82"
+    },
+    {
+      "path": "finalize_halfstep_inputs_pc.py",
+      "sha256": "f3dfc85030170fbfdca1ebee61492d5f5ad8b54e22b3c02c656cfd4e10fd15db"
+    },
+    {
+      "path": "fine-wall-spacing-summary.py",
+      "sha256": "3af8bf4b08652398ec4bd500237386d245debf92beeb340bbd4ff6a26e3474c1"
+    },
+    {
+      "path": "run_fine_wall_spacing_pc.py",
+      "sha256": "f0b7e677134287f01346d2b9fada5a40c8ee48c8fcd85e7ddad07baf924f14d6"
+    },
+    {
+      "path": "fix_wall_distance_config_pc.py",
+      "sha256": "a520721bffbd81ac84a36d827d9b8006b9d211d8c2a4341bcab11881d64c0340"
     }
   ]
 }
