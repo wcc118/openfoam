@@ -1,0 +1,903 @@
+{
+  "initial_motion/position-verification.json": {
+    "sha256": "06118a787f8b94a03995512cdfeafb36688b3b5c0ba00ef899498224442723cc",
+    "report": {
+      "scope": "Independent saved-point verification against native patch indices and imposed mode; geometry only, not fluid or coupled FSI.",
+      "checked_phases": [
+        {
+          "time_s": 0.028374670499139,
+          "phase_cycles": 0.2500000000000015,
+          "factor": 1.0,
+          "max_position_error_m": 5.006773900062482e-14,
+          "rms_error_m": 1.3108331059463592e-14,
+          "max_actual_displacement_m": 0.0001002154550083731,
+          "points_sha256": "ce05d9fca45ac235fc98502361977ae1cd610f720179287f6c91cdd58cd10f26"
+        },
+        {
+          "time_s": 0.056749340998278,
+          "phase_cycles": 0.500000000000003,
+          "factor": -1.8529282133787895e-14,
+          "max_position_error_m": 1.1103306603104198e-16,
+          "rms_error_m": 1.0983386919529754e-18,
+          "max_actual_displacement_m": 1.1102230246251565e-16,
+          "points_sha256": "8042621e9bdc19557527b9954b91d503cacda45e187a0647edca860fb9ab1052"
+        },
+        {
+          "time_s": 0.085124011497417,
+          "phase_cycles": 0.7500000000000044,
+          "factor": -1.0,
+          "max_position_error_m": 5.0142761443331343e-14,
+          "rms_error_m": 1.3108279843517978e-14,
+          "max_actual_displacement_m": 0.00010021545500837449,
+          "points_sha256": "5a7c77433e480e5e4cea03fd23331ad084aa44f92f64ea4acffab27e61948400"
+        },
+        {
+          "time_s": 0.11349868199656,
+          "phase_cycles": 1.0000000000000413,
+          "factor": 2.591031691926071e-13,
+          "max_position_error_m": 1.1209200762578513e-16,
+          "rms_error_m": 1.332821084295588e-17,
+          "max_actual_displacement_m": 1.1102230246251565e-16,
+          "points_sha256": "e650a65a47efed78c22d4f7aad6f492cce35c4a1f5aae5e73ed2895f66faccab"
+        }
+      ],
+      "all_observed_pass": true,
+      "complete_cycle": true
+    }
+  },
+  "initial_motion/interior-displacement-check.json": {
+    "sha256": "5363b8b01ee92f2ca0e74e58d321d80e820301b99cb952199c3c9a3eaa3ce255",
+    "report": [
+      {
+        "time_s": 0.028374670499139,
+        "max_all_mesh_displacement_m": 0.00010053614332744067,
+        "rms_all_mesh_displacement_m": 5.0247420077452595e-05
+      },
+      {
+        "time_s": 0.056749340998278,
+        "max_all_mesh_displacement_m": 0.00018388657535077835,
+        "rms_all_mesh_displacement_m": 2.699816821800163e-06
+      },
+      {
+        "time_s": 0.085124011497417,
+        "max_all_mesh_displacement_m": 0.00031617640832437143,
+        "rms_all_mesh_displacement_m": 5.190949222718298e-05
+      },
+      {
+        "time_s": 0.11349868199656,
+        "max_all_mesh_displacement_m": 0.00021503506659616587,
+        "rms_all_mesh_displacement_m": 1.8196858177188733e-06
+      }
+    ]
+  },
+  "initial_motion/log-summary.json": {
+    "sha256": "53fdf596be350a2f967c069b768e4e2745326081903eac44256e3bf84c1473e1",
+    "report": {
+      "log.moveDynamicMesh": {
+        "foam_fatal": false,
+        "failed_mesh_checks": [],
+        "mesh_ok_count": 3,
+        "last_times": [
+          "0.056749340998278",
+          "0.085124011497417",
+          "0.11349868199656"
+        ],
+        "courant_max": [],
+        "clock_seconds": [
+          "159"
+        ]
+      },
+      "log.movedQuality": {
+        "foam_fatal": false,
+        "failed_mesh_checks": [
+          "1",
+          "1",
+          "1"
+        ],
+        "mesh_ok_count": 2,
+        "last_times": [
+          "0",
+          "0.028374670499139",
+          "0.056749340998278",
+          "0.085124011497417",
+          "0.11349868199656"
+        ],
+        "courant_max": [],
+        "clock_seconds": []
+      }
+    }
+  },
+  "initial_motion/motion-phases-execution.json": {
+    "sha256": "7b907d1251521b0496da37e8fea85f63b54e634a21a5b279d64d93e92b25b4c1",
+    "report": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-extended-motion-phases-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "12g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-prescribed-motion-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "/case/run-motion.sh"
+      ],
+      "status": "completed",
+      "exit_code": 0,
+      "elapsed_seconds": 259.0712479040003
+    }
+  },
+  "initial_motion/phase-restart-decision.json": {
+    "sha256": "460ea0b98614317e9e5e81f3608c681823cf99ba758aa71f54717de691d9c0a8",
+    "report": {
+      "reason": "The initial 25 small steps reached and independently verified the positive displacement peak (position error <5.1e-14 m). Continue the remaining three quarter-cycle phases with larger geometry-only steps to check return, negative peak and final return. This elliptic mesh-motion component check is not fluid temporal-resolution evidence.",
+      "prior_attempt": "Interrupted intentionally after saved quarter-period; retain attempt2 logs and exit137.",
+      "remaining_steps": 3
+    }
+  },
+  "initial_motion/manifest.json": {
+    "sha256": "4ded76f8aaea0346a7300d5fd5e67b299600c6b0bd5c381ee45decc4590093a0",
+    "report": {
+      "scope": "Prescribed native first-bending mesh-motion component test, not CFD flow or coupled FSI. Coarse mesh fails viscous layer coverage (70.69%) despite passing numerical quality; no aerodynamic interpretation.",
+      "source_mesh": "/home/foam/projects/openfoam/runs/extended-wing-cfd-coarse-20261030",
+      "frequency_hz": 8.810675,
+      "tip_amplitude_m": 0.0001,
+      "period_s": 0.11349868199655531,
+      "steps": 100,
+      "flow_solver_executed": false,
+      "initial_velocity_note": "Sine starts at zero displacement with nonzero prescribed velocity; only mesh-motion plumbing is tested.",
+      "input_hashes": {
+        "constant/dynamicMeshDict": "f8d3f88c23f659c299d3cab9951604849b5a6cfd50c42e893921d6b0003e055f",
+        "0/pointDisplacement": "6e6eede5aa84b569d53183f7678924392cef48e3ae7f863eda2549b7cd4e8cf4",
+        "system/fvSolution": "d647ef2ac82cb0b9e34c63a95907f760d1235a29bd728d736a12eb2578500889",
+        "system/meshQualityDict.canonical": "6c86f42464aa21fe49ae9962d8fb6f8137054feb4cff6308deb664575a9cd2a1",
+        "system/controlDict": "c02d2563ffde9af51532a64a05c45d9fec29b5d84ada0f319b0acfa1256b6dd6",
+        "system/meshQualityDict": "7529b4a21db7f2c24d74f7337e101b2c2d3ac05ecf918acc7ffd224c093dd6bd",
+        "system/fvSchemes": "cc915dc906dd62685da3f3c048165b2a14be1303a9c863b0e915df41967a96ca"
+      }
+    }
+  },
+  "extension_cycle1/position-verification.json": {
+    "sha256": "6141842eca0f8d613550e6316ecd08034b824f1105c8f8a87e1a3da25c38496a",
+    "report": {
+      "scope": "Independent saved-point verification against native patch indices and imposed mode; geometry only, not fluid or coupled FSI.",
+      "checked_phases": [
+        {
+          "time_s": 0.028374670499139,
+          "phase_cycles": 0.2500000000000015,
+          "factor": 1.0,
+          "max_position_error_m": 5.006773900062482e-14,
+          "rms_error_m": 1.3108331059463592e-14,
+          "max_actual_displacement_m": 0.0001002154550083731,
+          "points_sha256": "41097be8a1734a72ffda3b0dfd4046114ad97f839ab9fd3229f68c401c3827d1"
+        },
+        {
+          "time_s": 0.056749340998278,
+          "phase_cycles": 0.500000000000003,
+          "factor": -1.8529282133787895e-14,
+          "max_position_error_m": 1.1103306603104198e-16,
+          "rms_error_m": 1.1203142227480993e-18,
+          "max_actual_displacement_m": 1.1102230246251565e-16,
+          "points_sha256": "7961db0a0d27f37bfd54c2357f805b3e5b0334274dcd1e6055cff187afe5f3cc"
+        },
+        {
+          "time_s": 0.085124011497416,
+          "phase_cycles": 0.7499999999999957,
+          "factor": -1.0,
+          "max_position_error_m": 5.0142761443331343e-14,
+          "rms_error_m": 1.3108279843517978e-14,
+          "max_actual_displacement_m": 0.00010021545500837449,
+          "points_sha256": "68ff6532fb5d621a81ca5b799a1083b6511e2738d172eb54ddfa6553a172e317"
+        },
+        {
+          "time_s": 0.11349868199656,
+          "phase_cycles": 1.0000000000000413,
+          "factor": 2.591031691926071e-13,
+          "max_position_error_m": 1.1209200762578513e-16,
+          "rms_error_m": 1.3364201404347221e-17,
+          "max_actual_displacement_m": 1.1102230246251565e-16,
+          "points_sha256": "ecd22d955c0e905fee7e17afc698e55e790ac5385f9238268a1121a9c91b0933"
+        }
+      ],
+      "all_observed_pass": true,
+      "complete_cycle": true
+    }
+  },
+  "extension_cycle1/interior-displacement-check.json": {
+    "sha256": "0a939c7a59fff3c6df4887ec134f4d14255e7f576039ff6e03b2b0c2ccccd379",
+    "report": [
+      {
+        "time_s": 0.028374670499139,
+        "max_all_mesh_displacement_m": 0.0001002154550083731,
+        "rms_all_mesh_displacement_m": 5.0614832600105844e-05
+      },
+      {
+        "time_s": 0.056749340998278,
+        "max_all_mesh_displacement_m": 1.0930122686618154e-05,
+        "rms_all_mesh_displacement_m": 7.579477337431218e-07
+      },
+      {
+        "time_s": 0.085124011497416,
+        "max_all_mesh_displacement_m": 0.00010021545500837449,
+        "rms_all_mesh_displacement_m": 5.0496624993277935e-05
+      },
+      {
+        "time_s": 0.11349868199656,
+        "max_all_mesh_displacement_m": 6.887397709256971e-06,
+        "rms_all_mesh_displacement_m": 7.191938276701316e-07
+      }
+    ]
+  },
+  "extension_cycle1/log-summary.json": {
+    "sha256": "19ae3a791f5c7dd438cd99fe9b9a23e8515990cc3861ef725f13fd01d04bb7c6",
+    "report": {
+      "log.moveDynamicMesh": {
+        "foam_fatal": false,
+        "failed_mesh_checks": [],
+        "mesh_ok_count": 4,
+        "last_times": [
+          "0.028374670499139",
+          "0.056749340998278",
+          "0.085124011497416",
+          "0.11349868199656"
+        ],
+        "courant_max": [],
+        "clock_seconds": [
+          "208"
+        ]
+      },
+      "log.movedQuality": {
+        "foam_fatal": false,
+        "failed_mesh_checks": [],
+        "mesh_ok_count": 5,
+        "last_times": [
+          "0",
+          "0.028374670499139",
+          "0.056749340998278",
+          "0.085124011497416",
+          "0.11349868199656"
+        ],
+        "courant_max": [],
+        "clock_seconds": []
+      }
+    }
+  },
+  "extension_cycle1/execution.json": {
+    "sha256": "f78e4ca31a46e162a130c2021c621f90f24c31c195790acf41355948e4c2e95c",
+    "report": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-motion-extension-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "12g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-motion-extension-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "/case/run.sh"
+      ],
+      "status": "process_completed",
+      "exit_code": 0,
+      "strict_quality_passed": true,
+      "elapsed_seconds": 311.42826543699994
+    }
+  },
+  "extension_cycle1/manifest.json": {
+    "sha256": "8a8f7adf0a704acbc907ea30cae316d9e4940e271e0d58694b9e52e5677ec746",
+    "report": {
+      "scope": "Geometry-only diagnostic: fresh four-phase native mode motion, dedicated uncorrected mesh-displacement Laplacian. Fluid schemes and quality thresholds unchanged. Tests whether deferred nonorthogonal correction causes retained interior distortion.",
+      "source": "/home/foam/projects/openfoam/runs/extended-wing-prescribed-motion-20261030",
+      "mean_tip_amplitude_m": 0.0001,
+      "frequency_hz": 8.810675,
+      "steps": 4,
+      "fluid_solver": false,
+      "mesh_layer_gate_passed": false
+    }
+  },
+  "coarse_mesh": {
+    "report": {
+      "schema_version": 1,
+      "evidence_scope": "Limited mesh log/layer gate; not yPlus, flow or physical qualification",
+      "input": {
+        "wall_surface": "/home/foam/projects/openfoam/runs/extended-wing-cfd-coarse-20261030/postProcessing/slices/0/wingSurface.vtk",
+        "wall_surface_hash": "7a52d42cac9498ed3a624a7d3136b332f7b4cbbe7cc309c253e944dd064a72dc",
+        "mesh_log": "/home/foam/projects/openfoam/runs/extended-wing-cfd-coarse-20261030/log.scaledQuality",
+        "mesh_log_hash": "a75f85d613b0d82daf2ef2e07d6ff943956f10408fe97054d08252a1021b36ea"
+      },
+      "parameters": {
+        "requested_layers": 12,
+        "minimum_coverage": 0.9
+      },
+      "metrics": {
+        "total_faces": 162746,
+        "total_area": 0.5087821945310165,
+        "faces_with_layers": 143572,
+        "area_with_layers": 0.3596800501505888,
+        "face_coverage": 0.8821845083750138,
+        "area_coverage": 0.7069430770511406,
+        "weighted_layer_count": 3.9273364843114362,
+        "min_layer": 0,
+        "max_layer": 12,
+        "full_area": 0.045653440879440364,
+        "full_area_coverage": 0.08973081481658893,
+        "requested_layers": 12,
+        "min_coverage": 0.9
+      },
+      "mesh_check": {
+        "result": {
+          "mesh_ok": true,
+          "failed_checks": 0,
+          "raw_status": "ok"
+        }
+      },
+      "coverage": {
+        "gate_passed": false,
+        "actual_coverage": 0.7069430770511406
+      },
+      "overall": {
+        "status": "gate_failure",
+        "gate_passed": false
+      }
+    }
+  },
+  "extension_three_cycles/position-verification.json": {
+    "sha256": "0465e97b39692c186de5d2c83adf08a3d03e842c8950be0270109b055b118b51",
+    "report": {
+      "scope": "Independent saved-point verification against native patch indices and imposed mode; geometry only, not fluid or coupled FSI.",
+      "checked_phases": [
+        {
+          "time_s": 0.028374670499139,
+          "phase_cycles": 0.2500000000000015,
+          "factor": 1.0,
+          "max_position_error_m": 5.006773900062482e-14,
+          "rms_error_m": 1.3108331059463592e-14,
+          "max_actual_displacement_m": 0.0001002154550083731,
+          "points_sha256": "41097be8a1734a72ffda3b0dfd4046114ad97f839ab9fd3229f68c401c3827d1"
+        },
+        {
+          "time_s": 0.056749340998278,
+          "phase_cycles": 0.500000000000003,
+          "factor": -1.8529282133787895e-14,
+          "max_position_error_m": 1.1103306603104198e-16,
+          "rms_error_m": 1.1203142227480993e-18,
+          "max_actual_displacement_m": 1.1102230246251565e-16,
+          "points_sha256": "7961db0a0d27f37bfd54c2357f805b3e5b0334274dcd1e6055cff187afe5f3cc"
+        },
+        {
+          "time_s": 0.085124011497416,
+          "phase_cycles": 0.7499999999999957,
+          "factor": -1.0,
+          "max_position_error_m": 5.0142761443331343e-14,
+          "rms_error_m": 1.3108279843517978e-14,
+          "max_actual_displacement_m": 0.00010021545500837449,
+          "points_sha256": "68ff6532fb5d621a81ca5b799a1083b6511e2738d172eb54ddfa6553a172e317"
+        },
+        {
+          "time_s": 0.11349868199656,
+          "phase_cycles": 1.0000000000000413,
+          "factor": 2.591031691926071e-13,
+          "max_position_error_m": 1.1209200762578513e-16,
+          "rms_error_m": 1.3364201404347221e-17,
+          "max_actual_displacement_m": 1.1102230246251565e-16,
+          "points_sha256": "ecd22d955c0e905fee7e17afc698e55e790ac5385f9238268a1121a9c91b0933"
+        },
+        {
+          "time_s": 0.1418733524957,
+          "phase_cycles": 1.2500000000000515,
+          "factor": 1.0,
+          "max_position_error_m": 5.006773900062482e-14,
+          "rms_error_m": 1.3108331059463592e-14,
+          "max_actual_displacement_m": 0.0001002154550083731,
+          "points_sha256": "1c0787f67af64b971a2da27d79aad6fb8831fc43731f8f982ae728adec87f115"
+        },
+        {
+          "time_s": 0.17024802299484,
+          "phase_cycles": 1.5000000000000617,
+          "factor": -3.886547537889106e-13,
+          "max_position_error_m": 1.117309972219516e-16,
+          "rms_error_m": 1.7172729627829417e-17,
+          "max_actual_displacement_m": 1.1281961082031456e-16,
+          "points_sha256": "ceb02ed3205dfb7cf54a5cf0fef4b29db5dd357f4cffdc551b08f55d57ad95b2"
+        },
+        {
+          "time_s": 0.19862269349398,
+          "phase_cycles": 1.7500000000000724,
+          "factor": -1.0,
+          "max_position_error_m": 5.0142761443331343e-14,
+          "rms_error_m": 1.3108279843517978e-14,
+          "max_actual_displacement_m": 0.00010021545500837449,
+          "points_sha256": "93e9023a643d7e8dca3ee768816558b456ccc24376944d50cfd4a6fdfbfbcdcb"
+        },
+        {
+          "time_s": 0.22699736399312,
+          "phase_cycles": 2.0000000000000826,
+          "factor": 5.182063383852142e-13,
+          "max_position_error_m": 1.127699057855842e-16,
+          "rms_error_m": 2.3517659754620998e-17,
+          "max_actual_displacement_m": 1.1280038568858133e-16,
+          "points_sha256": "95204f3531263f25198ed58cd5597b8e8092326ec5df176b1ca27830b59995a8"
+        },
+        {
+          "time_s": 0.25537203449225,
+          "phase_cycles": 2.2500000000000044,
+          "factor": 1.0,
+          "max_position_error_m": 5.006773900062482e-14,
+          "rms_error_m": 1.3108331059463592e-14,
+          "max_actual_displacement_m": 0.0001002154550083731,
+          "points_sha256": "22525ad568bc4ae444b45a6ce27520b682ef0f006319d088b884366af293f1fe"
+        },
+        {
+          "time_s": 0.28374670499139,
+          "phase_cycles": 2.500000000000015,
+          "factor": -9.35345890886396e-14,
+          "max_position_error_m": 1.1196477655792288e-16,
+          "rms_error_m": 6.309517994043556e-18,
+          "max_actual_displacement_m": 1.1281961082031456e-16,
+          "points_sha256": "086b2ff81eff931eaeaf9726b56632ed5717e9ec2a51b0e2b3b831b384352ef9"
+        },
+        {
+          "time_s": 0.31212137549053,
+          "phase_cycles": 2.7500000000000253,
+          "factor": -1.0,
+          "max_position_error_m": 5.0142761443331343e-14,
+          "rms_error_m": 1.3108279843517978e-14,
+          "max_actual_displacement_m": 0.00010021545500837449,
+          "points_sha256": "9702066b88df1d490a388a13da00da6ad10787aadf5191e8d9bc06891e53f125"
+        },
+        {
+          "time_s": 0.34049604598967,
+          "phase_cycles": 3.0000000000000355,
+          "factor": 2.2308617368494315e-13,
+          "max_position_error_m": 1.1140035359553826e-16,
+          "rms_error_m": 9.74280869260874e-18,
+          "max_actual_displacement_m": 1.1280038568858133e-16,
+          "points_sha256": "0db21f5f7775f2f6672e1ff5c1c80baeeb46ed8e3eb82bedb8a6ffb9327fd374"
+        }
+      ],
+      "all_observed_pass": true,
+      "complete_cycle": true
+    }
+  },
+  "extension_three_cycles/interior-displacement-check.json": {
+    "sha256": "60cc4cb0a0cc0fbdff4e1faac86853caca4ef113e126c69a17a13a9d28ba3077",
+    "report": [
+      {
+        "time_s": 0.028374670499139,
+        "max_all_mesh_displacement_m": 0.0001002154550083731,
+        "rms_all_mesh_displacement_m": 5.0614832600105844e-05
+      },
+      {
+        "time_s": 0.056749340998278,
+        "max_all_mesh_displacement_m": 1.0930122686618154e-05,
+        "rms_all_mesh_displacement_m": 7.579477337431218e-07
+      },
+      {
+        "time_s": 0.085124011497416,
+        "max_all_mesh_displacement_m": 0.00010021545500837449,
+        "rms_all_mesh_displacement_m": 5.0496624993277935e-05
+      },
+      {
+        "time_s": 0.11349868199656,
+        "max_all_mesh_displacement_m": 6.887397709256971e-06,
+        "rms_all_mesh_displacement_m": 7.191938276701316e-07
+      },
+      {
+        "time_s": 0.1418733524957,
+        "max_all_mesh_displacement_m": 0.0001002154550083731,
+        "rms_all_mesh_displacement_m": 5.057247755392432e-05
+      },
+      {
+        "time_s": 0.17024802299484,
+        "max_all_mesh_displacement_m": 8.907082288628066e-06,
+        "rms_all_mesh_displacement_m": 5.537043560520067e-07
+      },
+      {
+        "time_s": 0.19862269349398,
+        "max_all_mesh_displacement_m": 0.00010021545500837449,
+        "rms_all_mesh_displacement_m": 5.05214964893549e-05
+      },
+      {
+        "time_s": 0.22699736399312,
+        "max_all_mesh_displacement_m": 7.285934424046577e-06,
+        "rms_all_mesh_displacement_m": 4.651569823852307e-07
+      },
+      {
+        "time_s": 0.25537203449225,
+        "max_all_mesh_displacement_m": 0.0001002154550083731,
+        "rms_all_mesh_displacement_m": 5.0584372261763525e-05
+      },
+      {
+        "time_s": 0.28374670499139,
+        "max_all_mesh_displacement_m": 8.937653580571284e-06,
+        "rms_all_mesh_displacement_m": 5.659076366553964e-07
+      },
+      {
+        "time_s": 0.31212137549053,
+        "max_all_mesh_displacement_m": 0.00010021545500837449,
+        "rms_all_mesh_displacement_m": 5.053638632340291e-05
+      },
+      {
+        "time_s": 0.34049604598967,
+        "max_all_mesh_displacement_m": 7.626710828279028e-06,
+        "rms_all_mesh_displacement_m": 5.931827541702573e-07
+      }
+    ]
+  },
+  "extension_three_cycles/log-summary.json": {
+    "sha256": "a9032cd445d8c9b3fa942f29f3fae7220584edb35166ee5f25e18bf1f594dc42",
+    "report": {
+      "log.moveDynamicMesh": {
+        "foam_fatal": false,
+        "failed_mesh_checks": [],
+        "mesh_ok_count": 8,
+        "last_times": [
+          "0.22699736399312",
+          "0.25537203449225",
+          "0.28374670499139",
+          "0.31212137549053",
+          "0.34049604598967"
+        ],
+        "courant_max": [],
+        "clock_seconds": [
+          "459"
+        ]
+      },
+      "log.movedQuality": {
+        "foam_fatal": false,
+        "failed_mesh_checks": [],
+        "mesh_ok_count": 13,
+        "last_times": [
+          "0.22699736399312",
+          "0.25537203449225",
+          "0.28374670499139",
+          "0.31212137549053",
+          "0.34049604598967"
+        ],
+        "courant_max": [],
+        "clock_seconds": []
+      }
+    }
+  },
+  "extension_three_cycles/execution.json": {
+    "sha256": "f78e4ca31a46e162a130c2021c621f90f24c31c195790acf41355948e4c2e95c",
+    "report": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-motion-extension-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "12g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-motion-extension-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "/case/run.sh"
+      ],
+      "status": "process_completed",
+      "exit_code": 0,
+      "strict_quality_passed": true,
+      "elapsed_seconds": 311.42826543699994
+    }
+  },
+  "extension_three_cycles/repeat-execution.json": {
+    "sha256": "9be94a91a6f23c81456836afb002802b0795316be49ff95e9a2a1fa5ff19b979",
+    "report": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-motion-repeat-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "12g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-motion-extension-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "/case/run.sh"
+      ],
+      "scope": "Extend successful geometry-only experiment to three cycles; check drift and all saved mesh phases, not fluid temporal convergence.",
+      "exit_code": 0,
+      "strict_quality_passed": true,
+      "mesh_ok_count": 13,
+      "elapsed_seconds": 704.326792332
+    }
+  },
+  "extension_three_cycles/manifest.json": {
+    "sha256": "8a8f7adf0a704acbc907ea30cae316d9e4940e271e0d58694b9e52e5677ec746",
+    "report": {
+      "scope": "Geometry-only diagnostic: fresh four-phase native mode motion, dedicated uncorrected mesh-displacement Laplacian. Fluid schemes and quality thresholds unchanged. Tests whether deferred nonorthogonal correction causes retained interior distortion.",
+      "source": "/home/foam/projects/openfoam/runs/extended-wing-prescribed-motion-20261030",
+      "mean_tip_amplitude_m": 0.0001,
+      "frequency_hz": 8.810675,
+      "steps": 4,
+      "fluid_solver": false,
+      "mesh_layer_gate_passed": false
+    }
+  },
+  "serial_transient/log-summary.json": {
+    "sha256": "0dd9393b8eee8c70cd9e4125588136f4efa38ac49be148ca6f8044eaa630988b",
+    "report": {
+      "log.pimpleFoam": {
+        "foam_fatal": false,
+        "failed_mesh_checks": [],
+        "mesh_ok_count": 0,
+        "last_times": [
+          "1e-06",
+          "2e-06"
+        ],
+        "courant_max": [
+          "0.113713624929",
+          "0.113713624929",
+          "0.113713624929",
+          "0.111889291463"
+        ],
+        "clock_seconds": [
+          "652"
+        ]
+      }
+    }
+  },
+  "serial_transient/execution.json": {
+    "sha256": "8b9a60ed9d54c01182a7d0d900e1ff0acca3dc95085f5e681eb5875d9a8c26ed",
+    "report": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-extended-transient-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "20g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-transient-pilot-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "-c",
+        "source /usr/lib/openfoam/openfoam2412/etc/bashrc && pimpleFoam > log.pimpleFoam 2>&1"
+      ],
+      "status": "timeout",
+      "exit_code": 124,
+      "elapsed_seconds": 905.8003381550002
+    }
+  },
+  "serial_transient/manifest.json": {
+    "sha256": "f92a7b2c18a4342958cfbdfa334e74a6f60c0ca4ce7464d18a256095655fdd7f",
+    "report": {
+      "scope": "Five-step prescribed-motion CFD plumbing and throughput pilot, NOT a damping estimate or coupled FSI.",
+      "mesh_layer_gate_passed": false,
+      "steady_initialization_iteration": 100,
+      "steady_convergence_claim": false,
+      "steps": 5,
+      "dt_s": 1e-06,
+      "frequency_hz": 8.810675,
+      "mean_tip_amplitude_m": 0.0001,
+      "source_revision": "8338650",
+      "image": "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+      "pressure": "kinematic gauge m2/s2",
+      "axes": "x downstream, y span, z up",
+      "rho_kg_m3": 1.2250532683653954,
+      "area_m2": 0.24774144
+    }
+  },
+  "parallel_transient/log-summary.json": {
+    "sha256": "570d1d8171b889bf8899672166ec1038104aa128c226ad5aca5ea1b368a335fd",
+    "report": {
+      "log.pimpleFoam": {
+        "foam_fatal": false,
+        "failed_mesh_checks": [],
+        "mesh_ok_count": 0,
+        "last_times": [
+          "1e-06",
+          "2e-06",
+          "3e-06",
+          "4e-06",
+          "5e-06"
+        ],
+        "courant_max": [
+          "0.113635524258",
+          "0.111889291284",
+          "0.112078397549",
+          "0.112226236077",
+          "0.112347256424"
+        ],
+        "clock_seconds": [
+          "893"
+        ]
+      }
+    }
+  },
+  "parallel_transient/execution.json": {
+    "sha256": "a8555425f3ef8cde7729930c78c9cfcc28146511d5a997759c06a83f824ec35a",
+    "report": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-extended-transient-parallel-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "20g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-transient-parallel-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "-c",
+        "source /usr/lib/openfoam/openfoam2412/etc/bashrc && mpirun -np 4 pimpleFoam -parallel > log.pimpleFoam 2>&1 && reconstructPar -latestTime > log.reconstructPar 2>&1"
+      ],
+      "status": "timeout",
+      "exit_code": 124,
+      "elapsed_seconds": 905.7849849599997
+    }
+  },
+  "parallel_transient/parallel-map-check.json": {
+    "sha256": "504045211d09f14185f3dbad77fdf2071c4c77d08d25d109512d1f7d0419467e",
+    "report": {
+      "scope": "Native pointProcAddressing cross-check of every parallel prescribed wing-mode value against serial mapping, including duplicate shared points.",
+      "ranks": [
+        {
+          "rank": 0,
+          "patch_points": 32891,
+          "maximum_mode_error_m": 0.0,
+          "maximum_reference_position_error_m": 0.0
+        },
+        {
+          "rank": 1,
+          "patch_points": 49541,
+          "maximum_mode_error_m": 0.0,
+          "maximum_reference_position_error_m": 0.0
+        },
+        {
+          "rank": 2,
+          "patch_points": 35450,
+          "maximum_mode_error_m": 0.0,
+          "maximum_reference_position_error_m": 0.0
+        },
+        {
+          "rank": 3,
+          "patch_points": 50212,
+          "maximum_mode_error_m": 0.0,
+          "maximum_reference_position_error_m": 0.0
+        }
+      ],
+      "unique_wing_points": 167665,
+      "passed": true
+    }
+  },
+  "parallel_transient/manifest.json": {
+    "sha256": "431242d18a2a63d3b297b4bce30b7bb2e86a6e65d764e82a2ff6c3b0559ecf0b",
+    "report": {
+      "scope": "Five-step parallel prescribed-motion CFD diagnostic, not coupled FSI or damping estimate. Wall-layer gate still failed.",
+      "mesh_layer_gate_passed": false,
+      "steady_initialization_iteration": 100,
+      "steady_convergence_claim": false,
+      "steps": 5,
+      "dt_s": 1e-06,
+      "frequency_hz": 8.810675,
+      "mean_tip_amplitude_m": 0.0001,
+      "source_revision": "8338650",
+      "image": "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+      "pressure": "kinematic gauge m2/s2",
+      "axes": "x downstream, y span, z up",
+      "rho_kg_m3": 1.2250532683653954,
+      "area_m2": 0.24774144,
+      "mpi_ranks": 4,
+      "preserved_initial_phi": true,
+      "mesh_motion_scheme": "Dedicated uncorrected Laplacian, passed all five full-cycle saved mesh-quality checks in geometry-only experiment. Residual interior drift retained in report."
+    }
+  },
+  "fine_mesh": {
+    "report": {
+      "schema_version": 1,
+      "evidence_scope": "Limited mesh log/layer gate; not yPlus, flow or physical qualification",
+      "input": {
+        "wall_surface": "/home/connellwc83/projects/openfoam/runs/instability-20261030/cfd-fine-pc/postProcessing/slices/0/wingSurface.vtk",
+        "wall_surface_hash": "92444544358f4033ee385b7e11965548981dba3a0bcd717f6d82b1304bc151dc",
+        "mesh_log": "/home/connellwc83/projects/openfoam/runs/instability-20261030/cfd-fine-pc/log.scaledQuality",
+        "mesh_log_hash": "0d0d3f4f217960d498bf566a18a43b70129469055d526b0af9827a1cd4ad60f3"
+      },
+      "parameters": {
+        "requested_layers": 12,
+        "minimum_coverage": 0.9
+      },
+      "metrics": {
+        "total_faces": 411589,
+        "total_area": 0.5088805131292822,
+        "faces_with_layers": 406712,
+        "area_with_layers": 0.5028945795991392,
+        "face_coverage": 0.9881508009203356,
+        "area_coverage": 0.988237054916225,
+        "weighted_layer_count": 10.066703643789536,
+        "min_layer": 0,
+        "max_layer": 12,
+        "full_area": 0.35289908648603857,
+        "full_area_coverage": 0.6934812345553185,
+        "requested_layers": 12,
+        "min_coverage": 0.9
+      },
+      "mesh_check": {
+        "result": {
+          "mesh_ok": true,
+          "failed_checks": 0,
+          "raw_status": "ok"
+        }
+      },
+      "coverage": {
+        "gate_passed": true,
+        "actual_coverage": 0.988237054916225
+      },
+      "overall": {
+        "status": "pass",
+        "gate_passed": true
+      }
+    },
+    "extended_flags": {
+      "small_connectivity_determinant_cells": 851982,
+      "concave_cells": 470779,
+      "concave_faces": 9825,
+      "failed_extended_checks": 2
+    },
+    "first_check_failure": "[ 2973.575936] Out of memory: Killed process 6798 (checkMesh) total-vm:14186520kB, anon-rss:14137516kB, file-rss:0kB, shmem-rss:0kB, UID:1000 pgtables:27812kB oom_score_adj:0"
+  }
+}

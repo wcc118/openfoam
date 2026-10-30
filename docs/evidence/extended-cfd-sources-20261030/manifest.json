@@ -1,0 +1,126 @@
+{
+  "scope": "Frozen primary-owned experiment sources, not a portable production pipeline. See overnight report for failures, altered controls and completed outcomes. Absolute machine paths describe the observed environment.",
+  "repository_source_revision": "8338650e529330c6570964b070fd7a94222619f7",
+  "openfoam": "OpenCFD2412",
+  "pc_base_image": "opencfd/openfoam-default@sha256:adbf625ac47ed81b34018602a6caeb4076bfacc2046b2f8cd36f82adb376946b",
+  "pc_precice_image": "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+  "native_modal_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+  "files": [
+    {
+      "path": "prepare_extended_mesh.py",
+      "sha256": "cb1506c606c75adfde14892eca5e44e9510346565bceb2279bf720dbd790496b"
+    },
+    {
+      "path": "run_extended_flow_pc.py",
+      "sha256": "244bda30b7689f9540dadba9ca091d5ee1d28b9b55b5e12b416d54b55d588154"
+    },
+    {
+      "path": "prepare_motion_case_pc.py",
+      "sha256": "f3ecd0c220dcb54c5e9f5b08bb6219d3f8d39a65a1d503b21f1ba6b9699304eb"
+    },
+    {
+      "path": "fix_motion_final_pc.py",
+      "sha256": "14a7a9a8b7c0c3078b30d04422b4a3ddd79101c3c8f0e595fb66c14574a1367f"
+    },
+    {
+      "path": "resume_motion_phases_pc.py",
+      "sha256": "bb7b11a644510d1b80134655fec8c530ea620c31233a3edb29d15d31f34df40d"
+    },
+    {
+      "path": "run_motion_uncorrected_pc.py",
+      "sha256": "1693688f1365311e9d09555d3af2ca32b57f74fec6bb20eb44cfee797cbb0cb1"
+    },
+    {
+      "path": "repeat_motion_cycles_pc.py",
+      "sha256": "e4116578f243710bfb3bb8834ccebfc3e2fe4ac62ad49823b8c5e3a141065a46"
+    },
+    {
+      "path": "prepare_transient_pilot_pc.py",
+      "sha256": "6f70824d9ee27bb1efdee46e05968eb30cc8c255a2b50fc1ce0f8f1e3d081200"
+    },
+    {
+      "path": "prepare_parallel_pilot_pc.py",
+      "sha256": "99017d9d7b6f42fce955bfdf9ef29d41e2a36c518f5a9a5d0b6ed74bc016dfa4"
+    },
+    {
+      "path": "prepare_analytic_control_pc.py",
+      "sha256": "89233b5e4107029c11827f810d591bbc67284d71a1405e52595059ce02ed0332"
+    },
+    {
+      "path": "run_analytic_control_pc.py",
+      "sha256": "9fbea5d54e63529a1ff5f32c3150301139936d1d126d8fb363c1cc0b1c4124f2"
+    },
+    {
+      "path": "run_plumbing_mesh_pc.py",
+      "sha256": "ddbbfd78c246efe2a9eb109b1cab487c8925f32b0807ee42355c9356ec405b61"
+    },
+    {
+      "path": "run_plumbing_mesh_v2_pc.py",
+      "sha256": "ccfe4e9b10d5483ce625c7cc093b2760ea91987725847c20426fd0f4f9aa86b6"
+    },
+    {
+      "path": "run_plumbing_mesh_v3_pc.py",
+      "sha256": "40c96d053814a5c99f25c31ab33b24c063c8a46a3555a9c5a7a7c0ce405d079c"
+    },
+    {
+      "path": "run_plumbing_flow_v3_pc.py",
+      "sha256": "0bae1c17429e6b94547ba2471a01ac32bad9387c025ab2471a6e3ad5c4569e9b"
+    },
+    {
+      "path": "check_motion_positions_pc.py",
+      "sha256": "9a998cbee75418e08fb392a483c9a2fe426345cac782f2102754dd0f95aa40f6"
+    },
+    {
+      "path": "check_motion_interior_pc.py",
+      "sha256": "a14348f0a7184bb3ad807ea794f6a954c7c4d30f61649c7795a72637f4ef8d49"
+    },
+    {
+      "path": "check_parallel_map_pc.py",
+      "sha256": "432f351f6d7da1c1fce5b100d7b74b3e8a86eb3d6e74d030a1b5b1d7aad418dc"
+    },
+    {
+      "path": "map_analytic_control.py",
+      "sha256": "8939ff235efd0a645985bb3d29f200fdb7de5344103f7b3498a527f2b8e6abb7"
+    },
+    {
+      "path": "motion-assets/map_motion_caps.py",
+      "sha256": "22100e28317aac3cf76289134908f8f005f5436cefc2355e5275bea69eb614d6"
+    },
+    {
+      "path": "motion-assets/map_motion_nearest_caps.py",
+      "sha256": "c84ea5efb30d3e7ccf43c474f3d81c1e0093a34dd4af2dd5be75c03eb3f5ce4a"
+    },
+    {
+      "path": "motion-assets/point-map/point-map.C",
+      "sha256": "5146c5b7b27ea4c64d77b2c27c0fb71e7f6eacdc7445c604e2030260b901be8b"
+    },
+    {
+      "path": "motion-assets/point-map/Make/files",
+      "sha256": "ebee05f0b5fd6ae0d994d4c94d2a809f7f9f38930259bf6bbfdfdb93e51f1763"
+    },
+    {
+      "path": "motion-assets/point-map/Make/options",
+      "sha256": "271fd8811640102072ef68abfb0df28f90d2f6653b0989224a4424e76050943a"
+    },
+    {
+      "path": "wall-work-function.dict",
+      "sha256": "a33ca73954aed056d6255265381a1a21ebf8a160a0412da615f568edda1d3c6a"
+    },
+    {
+      "path": "prepare_wall_work_pilot_pc.py",
+      "sha256": "0160f44fda1ad013771a3522c6c5bc75be7eb4cc478be13e41a72860a7351426"
+    },
+    {
+      "path": "check_wall_work_pc.py",
+      "sha256": "f10f2a3e415cbd4408e9fece2101c2e45d9586e6bf37b85296e22a9609fdaac6"
+    },
+    {
+      "path": "prepare_analytic_cycle_pc.py",
+      "sha256": "7434e11d109c0a9ad02453f84e662b9880c1b065498c795a128170758b5807b7"
+    },
+    {
+      "path": "run_analytic_cycle_pc.py",
+      "sha256": "172523b6c6d51addc3c7e981064d51b5d8d6f258f68a05bc86c268283d378885"
+    }
+  ]
+}

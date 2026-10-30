@@ -1,0 +1,40 @@
+wallWork
+{
+ type coded;
+ libs (utilityFunctionObjects);
+ name analyticWallWork;
+ executeControl timeStep;
+ executeInterval 1;
+ writeControl none;
+ codeInclude
+ #{
+ #include "fvCFD.H"
+ #include <fstream>
+ #include <iomanip>
+ #};
+ codeExecute
+ #{
+  const Foam::fvMesh& m = mesh();
+  Foam::word forceName("forces:force");
+  if (!m.foundObject<Foam::volVectorField>(forceName)) forceName="force";
+  const auto& load = m.lookupObject<Foam::volVectorField>(forceName);
+  const Foam::label patchi=m.boundaryMesh().findPatchID("wing");
+  if (patchi<0) FatalErrorInFunction << "wing patch absent" << exit(FatalError);
+  const Foam::vectorField& f=load.boundaryField()[patchi];
+  const Foam::vectorField& u=m.lookupObject<Foam::volVectorField>("U").boundaryField()[patchi];
+  Foam::vector total=Foam::sum(f);
+  Foam::scalar power=Foam::sum(f & u);
+  Foam::label faces=f.size();
+  Foam::reduce(total,Foam::sumOp<Foam::vector>());
+  Foam::reduce(power,Foam::sumOp<Foam::scalar>());
+  Foam::reduce(faces,Foam::sumOp<Foam::label>());
+  if (Foam::Pstream::master())
+  {
+   const Foam::fileName path=m.time().path()/"wall-work-pilot.csv";
+   std::ofstream out(path.c_str(),std::ios::app);
+   if (!out.good()) FatalErrorInFunction << "Cannot write wall work" << exit(FatalError);
+   out << std::setprecision(17) << m.time().value() << ',' << total.x() << ',' << total.y() << ',' << total.z() << ',' << power << ',' << faces << '\n';
+   Info << "wallWork nativeField=" << forceName << " force=" << total << " power=" << power << endl;
+  }
+ #};
+}
