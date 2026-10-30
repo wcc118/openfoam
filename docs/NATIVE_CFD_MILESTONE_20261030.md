@@ -1,5 +1,10 @@
 # Native CFD transfer and motion milestone — 2026-10-30
 
+> Historical checkpoint. The owner subsequently accepted the small shell-offset
+> defect as an estimating approximation for bounded feedback experiments. See
+> [the updated coupling contract](COUPLED_BASELINE_CONTRACT.md). The measurements
+> below remain valid; the original no-go sequencing decision has been superseded.
+
 Issue #38 advanced through native prescribed-motion CFD and checked face/point/modal
 load transfer. **Implicit structural feedback remains no-go.** The existing native
 shell projection needs explicit geometric-offset treatment, and periodic fluid
