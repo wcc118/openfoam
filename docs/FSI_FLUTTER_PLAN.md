@@ -16,7 +16,8 @@ The shell follows a closed-TE midsurface, not a verified aerodynamic outer surfa
 
 The previous four-foot full-span CFD is the owner's stubby configuration. Never
 stretch those pressures onto this extended structure. Its saved steady diagnostic
-results do not determine aerodynamic damping. New CFD runs remain ON HOLD.
+results do not determine aerodynamic damping. On 2026-10-30 the owner lifted the
+CFD hold for the overnight instability/CFD continuation (issue36 comment6514848417).
 Lower-order unsteady lifting-surface calculations and structural runs are authorized.
 No merge authorization is implied by proceeding with engineering work.
 
@@ -99,15 +100,15 @@ test/configuration evidence where possible and don't tune a separate baseline fo
 each redesign. Compute paired baseline/redesign speed changes and sensitivity to
 uncertain properties. Report a delta as unresolved if its uncertainty overlaps zero.
 
-## 5. Selected transient OpenFOAM FSI (requires lifting CFD hold)
+## 5. Selected transient OpenFOAM FSI (authorized 2026-10-30)
 
 Only after the reduced model is useful, choose a small number of conditions that
 answer an aerodynamic-fidelity question. Build the matching extended moving mesh;
 use transient flow, conservative loads, displacement/velocity transfer, implicit
 preCICE iterations and checkpoint rollback. Check moving-mesh quality, coupling
 convergence and time-step sensitivity before interpreting growth/decay.
-No full -10..10 degree steady sweep is required for flutter. No automatic CFD
-launch follows approval of this plan; the owner's explicit hold remains in force.
+No full -10..10 degree steady sweep is required for flutter. The owner's overnight
+authorization includes expensive CFD runs; numerical readiness checks still apply.
 
 ## Cost and stopping rules
 
@@ -138,3 +139,9 @@ compares 10/20 modes at 10–100 m/s with the baseline skin. Twelve histories at
 m/s initial/reference shapes exceed the experiment guard and carry no dynamic
 verdict. Higher-mode temporal phase error remains material at low speed; next
 vary timestep independently at fixed speed/wake before broader stability claims.
+
+2026-10-30 overnight objective: make stable and unstable oscillatory responses
+visible in a benchmark and a clearly labeled hypothetical wing diagnostic; check
+growth, modal participation and time/mode sensitivity, then advance a matching
+extended-wing CFD case. A modal stiffness diagnostic is not a native physical
+redesign. Preserve failed trials and distinguish divergence from flutter.

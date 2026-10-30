@@ -18,7 +18,7 @@ SPEEDS = [10., 20., 30., 40., 50., 55., 60., 80., 100.]
 GUARD = .05
 
 
-def assemble(ts, h, dt, omega, speed):
+def assemble(ts, h, dt, omega, speed, check_frequencies=None):
     aero = eq.linuvlm.Dynamic(ts, dynamic_settings=dict(dt=dt, integr_order=2,
         density=ts.rho, remove_predictor=False, use_sparse=False, cfl1=False))
     aero.assemble_ss(wake_prop_settings=dict(cfl1=False, dt=dt))
@@ -34,7 +34,9 @@ def assemble(ts, h, dt, omega, speed):
     assert all(np.isrealobj(x) for x in mats)
     ar,br,cr,dr = mats
     checks = []
-    for w in sorted(set([0., float(omega[0]), float(omega[9]), float(omega[-1])])):
+    frequencies = ([0., float(omega[0]), float(omega[9]), float(omega[-1])]
+                   if check_frequencies is None else check_frequencies)
+    for w in sorted(set(frequencies)):
         z = np.exp(1j*w*dt/speed)
         full = z*c@splu(z*sparse.eye(len(a),format='csc')-sparse.csc_matrix(a)).solve(b)+d
         reduced = z*cr@linalg.solve(z*np.eye(len(ar))-ar,br)+dr
