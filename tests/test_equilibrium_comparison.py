@@ -192,7 +192,7 @@ class EquilibriumComparisonTests(unittest.TestCase):
             build_eq.build_html(data)
 
     def test_missing_model_keys_rejected(self):
-        """Missing baseline/thicker model keys should be rejected."""
+        """A case referencing a missing model must be rejected."""
         data = make_valid_data()
         del data['models']['baseline']
         with self.assertRaises(ValueError):
@@ -384,8 +384,8 @@ class EquilibriumComparisonTests(unittest.TestCase):
             html = output_path.read_text()
             self.assertIn('<!doctype html>', html)
 
-    def test_both_models_required(self):
-        """Both baseline and thicker models must be present."""
+    def test_referenced_models_required(self):
+        """Both models referenced by these cases must be present."""
         data = make_valid_data()
         data['models'] = {'baseline': data['models']['baseline']}
         with self.assertRaises(ValueError):
@@ -427,6 +427,21 @@ class EquilibriumComparisonTests(unittest.TestCase):
 
 
 class TestComparisonBoundaries(unittest.TestCase):
+    def test_named_modal_bases_and_single_model(self):
+        data = make_valid_data()
+        data['models'] = {'modes10': data['models']['baseline']}
+        data['cases'] = data['cases'][:2]
+        for case in data['cases']:
+            case['model'] = 'modes10'
+        build_eq.validate(data)
+        self.assertIn('modes10', build_eq.build_html(data))
+
+    def test_empty_model_key_rejected(self):
+        data = make_valid_data()
+        data['models'][''] = data['models'].pop('baseline')
+        with self.assertRaises(ValueError):
+            build_eq.validate(data)
+
     def test_nonfinite_material_metadata(self):
         for field in ('mass_kg', 'thickness_m'):
             for value in (float('nan'), float('inf')):

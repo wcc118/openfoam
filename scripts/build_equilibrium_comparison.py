@@ -74,13 +74,9 @@ def validate(data):
         models = data.get('models')
         if not isinstance(models, dict) or not models:
             raise ValueError('models must be nonempty object')
-        model_names = list(models.keys())
-        if 'baseline' not in model_names or 'thicker' not in model_names:
-            raise ValueError("models must contain 'baseline' and 'thicker' keys")
-
-        n_modes_baseline = None
-        n_modes_thicker = None
         for tag, model in models.items():
+            if not isinstance(tag, str) or not tag.strip():
+                raise ValueError("model keys must be nonempty strings")
             if not isinstance(model, dict):
                 raise ValueError(f'models.{tag}: must be object')
             modes = model.get('modes')
@@ -99,21 +95,10 @@ def validate(data):
             if isinstance(thickness_m, bool) or not isinstance(thickness_m, (int, float)) or thickness_m <= 0:
                 raise ValueError(f'models.{tag}.thickness_m must be positive number')
 
-            # Track mode counts
-            if tag == 'baseline':
-                n_modes_baseline = len(modes)
-            else:
-                n_modes_thicker = len(modes)
-
         # Cases array
         cases = data.get('cases')
         if not isinstance(cases, list) or len(cases) == 0:
             raise ValueError('cases must be nonempty array')
-
-        # Track which models are used
-        used_models = set()
-        has_baseline_frozen = False
-        has_baseline_perturbation = False
 
         for i, c in enumerate(cases):
             if not isinstance(c, dict):
@@ -122,9 +107,8 @@ def validate(data):
                 raise ValueError(f'cases[{i}].name must be nonempty string')
 
             model_ref = c.get('model')
-            if model_ref not in ('baseline', 'thicker'):
-                raise ValueError(f'cases[{i}].model must be "baseline" or "thicker"')
-            used_models.add(model_ref)
+            if not isinstance(model_ref, str) or model_ref not in models:
+                raise ValueError(f'cases[{i}].model must reference a supplied model')
 
             reference_q = c.get('reference_q')
             if not isinstance(reference_q, list):
@@ -163,23 +147,8 @@ def validate(data):
             if not isinstance(stopped, bool):
                 raise ValueError(f'cases[{i}].stopped_at_50mm_guard must be boolean')
 
-            # Track specific case types for ordering check
-            if model_ref == 'baseline':
-                if note and 'frozen' in note.lower():
-                    has_baseline_frozen = True
-                if note and 'loaded' in note.lower():
-                    has_baseline_perturbation = True
-
         if max(c['frames'][0][0] for c in cases) >= min(c['frames'][-1][0] for c in cases):
             raise ValueError('case histories must have a common positive time interval')
-
-        # Verify at least one baseline case exists
-        if 'baseline' not in used_models:
-            raise ValueError('At least one baseline model case is required')
-
-        # Verify at least one thicker model case exists
-        if 'thicker' not in used_models:
-            raise ValueError('At least one thicker model case is required')
 
     except (KeyError, TypeError) as exc:
         raise ValueError(f'malformed equilibrium comparison data: {exc}') from exc
