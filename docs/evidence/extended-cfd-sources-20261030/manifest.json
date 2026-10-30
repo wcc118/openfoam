@@ -156,7 +156,7 @@
     },
     {
       "path": "analyze_cycle_comparison.py",
-      "sha256": "06b93babf7dbd6074a8f768b050888505469d17341890c1bf31eebeb43e9e7e7"
+      "sha256": "4e125cfd1ac5c6efb7af5af10af790bb078e258feb704ff644c82e2f02a804f3"
     },
     {
       "path": "export_wall_spacing_pc.py",
@@ -165,6 +165,14 @@
     {
       "path": "export_cycle_evidence_pc.py",
       "sha256": "4923cfee944f7ce3e5f46a8d2b8b85c311137fc3843cd7e6f12a04dddf699468"
+    },
+    {
+      "path": "locate_cycle_mesh_failures_pc.py",
+      "sha256": "ec67283a7d0958f50ec0b90e41780e2e59f4bf556ee176e89e561c228921ff4a"
+    },
+    {
+      "path": "run_locate_cycle_failures_pc.py",
+      "sha256": "c49e96da6e8d3b9baeb16b5f4a9e249aff67f9696fb922d406631facd58bc639"
     }
   ]
 }

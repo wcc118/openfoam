@@ -21,6 +21,24 @@ changing aerodynamic forces. It is not an animation with an assumed growing
 envelope. **We have demonstrated instability in diagnostic models; we have not
 established flutter of the original aluminum wing.**
 
+## Which loop is closed?
+
+```mermaid
+flowchart LR
+  Q[Modal displacement and velocity] --> G[Deformed aerodynamic geometry]
+  G --> A[UVLM forces and wake]
+  A --> P[Modal force projection]
+  P --> S[Structural time integration]
+  S --> Q
+  M[Prescribed motion] --> C[Moving OpenFOAM mesh and flow]
+  C --> W[Measured wall force and work]
+  W -. Native modal transfer and feedback still pending .-> S
+```
+
+The UVLM path above produced the growing histories. The CFD controls currently
+impose motion and measure fluid response; they do not let those loads determine
+the wing's next displacement.
+
 ## What the instability experiment establishes
 
 The hypothetical example retains native mass and mode shapes, but reduces the
@@ -115,14 +133,26 @@ y spanwise and z upward; full-span reference area is 0.24774144 m² and the mome
 origin is (0.0254, 0, 0) m. OpenFOAM pressure is kinematic gauge pressure.
 
 The observer sums actual native pressure-plus-viscous wall force and its dot
-product with actual moving-wall boundary velocity. Its pilot summed force agrees
+product with actual moving-wall boundary velocity. Positive power means work
+from the fluid to the prescribed wall. Its pilot summed force agrees
 with native `force.dat` within 4.96e-12 N over 20 samples. Positive work over an
 upward segment is expected even under constant lift; only a closed-cycle balance
 can remove that contribution, and periodic/timestep convergence is still needed.
 
-**Completion and full-cycle comparison pending.** The early common interval
-already shows timestep sensitivity in lift variation, so finite solver output
-will not be described as a converged force-phase or damping prediction.
+The 100-microsecond run completed to 0.12 s after a retained walltime timeout and
+restart from 0.09 s. Nineteen replayed overlap samples agree within 3.21e-10 N in
+force. All 26 saved boundary-position checks pass within 5.00e-14 m. However,
+**six of 25 sampled moving meshes fail strict quality**: two to four faces fail
+the face-twist threshold near the positive displacement peak, from 0.015 through
+0.040 s. The four faces at 0.025 s lie on the upper wing surface near the two
+tips. This mesh-quality metric is not structural torsional instability. The final mesh passes, which would have hidden these intermediate
+failures if checked alone. Solver completion is therefore not case acceptance.
+
+The first observed cycle has about -5.86 microjoules of net fluid-to-wall work
+with the 100-microsecond step. This is an unqualified first-cycle diagnostic,
+not a damping estimate: mesh quality fails, startup is not periodic, and the
+smaller-step comparison remains pending. The early common interval already
+shows timestep sensitivity in lift variation.
 
 ## Review, evidence and next steps
 
@@ -141,7 +171,7 @@ and failed attempts. Large solver artifacts remain in
 `/home/foam/projects/openfoam/runs/` in the PC's `OpenFOAM-24.04` WSL distribution.
 PC preview transfers were SHA256-checked against their sources.
 
-The next engineering steps are:
+The next engineering steps are tracked in [issue #38](https://github.com/wcc118/openfoam/issues/38):
 
 1. Resolve native CFD surface mapping and verify work-consistent load transfer.
 2. Establish repeatable prescribed-flow force phase and cycle work with timestep,
@@ -154,3 +184,9 @@ The next engineering steps are:
 
 The owner-authorized imperfect models have exposed useful integration failures.
 They remain labeled as experiments. No reported speed is a flight limit.
+
+Shared reference records: `memory:337f2d45cfc1ebb42dc6f19be8631c53` informed
+the causal replay checks; new results are recorded in
+`memory:5408eb34bfbad68577e1c9a5edf135b2` (UVLM instability) and
+`memory:0668118c9746502907aa878d212ef8f9` (CFD component checks). GitHub and
+the retained native evidence remain authoritative for work state and results.

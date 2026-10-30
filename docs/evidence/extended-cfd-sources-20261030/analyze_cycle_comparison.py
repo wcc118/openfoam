@@ -66,15 +66,20 @@ def main():
     result=dict(scope='Analytic prescribed parabolic wall-motion control on deliberately coarse no-layer CFD mesh. No native structural feedback, periodic-convergence, damping-validation or flutter claim. Actual native wall power; shared saved0.004s initialization. Timestep comparison includes the mesh-motion discretization.',coarse=ra,half=rb,comparison=comparison,analysis_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
     (out/'comparison.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
     fig,axes=plt.subplots(4,1,figsize=(12,11),sharex=True,layout='constrained')
-    fig.suptitle('Prescribed CFD control · timestep comparison\nAnalytic wall motion; no boundary layers; no structural feedback',fontsize=16)
+    quality_failed=any(r.get('terminal_verification') and not r['terminal_verification'].get('strict_sampled_quality_passed',False) for r in [ra,rb])
+    fig.suptitle('Prescribed CFD control · timestep comparison\nAnalytic wall motion; no boundary layers; no structural feedback' + ('\nUNQUALIFIED: sampled moving-mesh quality fails' if quality_failed else ''),fontsize=14)
     t=np.linspace(.004,max(a[-1,0],b[-1,0]),1500);axes[0].plot(t,100*np.sin(2*np.pi*8.810675*t),color='#333333');axes[0].set_ylabel('Nominal tip z (µm)')
     for data,label,color in [(a,'100 µs step','#2266aa'),(b,'50 µs step','#dd7722')]:
         axes[1].plot(data[:,0],data[:,3]-seed[3],label=label,color=color);axes[2].plot(data[:,0],data[:,4],color=color)
         work=np.r_[0,np.cumsum(.5*(data[1:,4]+data[:-1,4])*np.diff(data[:,0]))];axes[3].plot(data[:,0],work*1000,color=color)
-    axes[1].set_ylabel('Lift change from\nshared start (N)');axes[1].legend();axes[2].set_ylabel('Applied wall power (W)');axes[3].set_ylabel('Accumulated work (mJ)');axes[3].set_xlabel('Physical time (s)')
+    axes[1].set_ylabel('Lift change from\nshared start (N)');axes[1].legend();axes[2].set_ylabel('Fluid-to-wall power (W)');axes[3].set_ylabel('Accumulated work (mJ)');axes[3].set_xlabel('Physical time (s)')
     for ax in axes:ax.grid(alpha=.25);ax.axhline(0,color='#999999',linewidth=.6)
     if max(a[-1,0],b[-1,0])>=target:
         for ax in axes:ax.axvline(target,color='#888888',linestyle=':',linewidth=1)
+    notes=[]
+    for label,r in [('100 µs',ra),('50 µs',rb)]:
+        w=r['full_cycle_work'];notes.append(label+(': first-cycle work %.3f µJ' % (w['trapezoidal_work_J']*1e6) if w else ': full cycle pending'))
+    axes[3].text(.02,.03,'; '.join(notes)+'\nFirst-cycle diagnostic, not validated damping',transform=axes[3].transAxes,fontsize=9,bbox=dict(facecolor='white',alpha=.85,edgecolor='none'))
     fig.savefig(out/'force-work-comparison.png',dpi=150)
     print(json.dumps(dict(coarse_samples=ra['samples'],half_samples=rb['samples'],coarse_cycle=ra['full_observed_cycle_available'],half_cycle=rb['full_observed_cycle_available'],comparison=comparison),indent=2))
 
