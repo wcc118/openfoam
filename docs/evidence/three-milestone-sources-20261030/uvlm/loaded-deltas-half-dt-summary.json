@@ -1,0 +1,347 @@
+[
+  {
+    "tag": "n10-V30-K1",
+    "speed_m_s": 30.0,
+    "modes": 10,
+    "torsional_stiffness_factor": 1.0,
+    "scope": "Clamped cambered loaded reference, linear native stiffness; fifth modal stiffness varied only. Not a physical redesign or flight flutter limit.",
+    "assumed_damping_ratio": 0.0,
+    "cfl": 0.0625,
+    "M": 8,
+    "N_per_half": 16,
+    "wake_chords": 8,
+    "frequencies_hz": [
+      8.810675,
+      53.77565,
+      56.43436,
+      143.1312,
+      169.4779,
+      257.1314,
+      341.2641,
+      366.2999,
+      446.97510000000005,
+      453.9331
+    ],
+    "source_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+    "equilibrium_q": [
+      -0.008633450127580223,
+      0.00015890621442675513,
+      -1.0770346059965526e-06,
+      -1.2281553767835491e-05,
+      -5.465970987111326e-06,
+      2.7411294082239367e-06,
+      3.6398819723416005e-08,
+      -1.0458098845609415e-06,
+      4.51215713661043e-07,
+      2.1319731206140784e-07
+    ],
+    "equilibrium_tip_z_m": 0.01259090016433908,
+    "equilibrium_max_displacement_m": 0.012635359269783621,
+    "static_residual_max": 1.734723475976807e-18,
+    "static_iterations": 18,
+    "aero_checks": {
+      "full_states": 2816,
+      "reduced_states": 60,
+      "aero_rom_radius": 0.9970100076374997,
+      "transfer_checks": [
+        {
+          "frequency_rad_s": 0.0,
+          "relative_frobenius_error": 4.163338010570487e-11
+        },
+        {
+          "frequency_rad_s": 55.3591037063345,
+          "relative_frobenius_error": 5.3829281430762786e-08
+        },
+        {
+          "frequency_rad_s": 1064.8610511716513,
+          "relative_frobenius_error": 0.0053571503088749445
+        },
+        {
+          "frequency_rad_s": 2852.145784362482,
+          "relative_frobenius_error": 0.016815881579979045
+        }
+      ]
+    },
+    "poles": {
+      "speed_m_s": 30.0,
+      "growth_per_s": -0.012772626525189132,
+      "frequency_hz": 56.4326403855709,
+      "modal_fraction": [
+        0.0003489717751006232,
+        1.0471560125944506e-05,
+        0.9996405128398265,
+        2.6277657677615756e-10,
+        4.352358693352926e-08,
+        1.4028350064018343e-11,
+        2.7078703760010574e-12,
+        1.3516968016757726e-12,
+        7.200863528175951e-12,
+        1.3294667744929701e-11
+      ],
+      "max_real_growth_per_s": -111.01011219245368,
+      "max_all_growth_per_s": -0.012772626525189132,
+      "high_phase_growing_poles": 0
+    },
+    "history": {
+      "reference_q": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "initial_physical_state_error": 2.168404344971009e-19,
+      "descriptor_causal_max_error": 5.155598170603071e-15,
+      "stopped_at_50mm_guard": false,
+      "physical_guard_m": 0.03736464073021638,
+      "fit": {
+        "growth_per_s": -5.645044664668901,
+        "frequency_hz": 8.865193649073772,
+        "peaks": 7
+      },
+      "speed_m_s": 30.0,
+      "dt_seconds": 2.6458333333333334e-05,
+      "initial_structural_energy_J": 0.000174007139942736,
+      "final_structural_energy_J": 2.6470694370035646e-10,
+      "integrated_aero_work_J": -0.00017400696869597122,
+      "max_energy_work_defect_J": 9.709936769010558e-11
+    },
+    "status": "completed",
+    "elapsed_s": 7.328964124433696
+  },
+  {
+    "tag": "n10-V20-K0.01",
+    "speed_m_s": 20.0,
+    "modes": 10,
+    "torsional_stiffness_factor": 0.01,
+    "scope": "Clamped cambered loaded reference, linear native stiffness; fifth modal stiffness varied only. Not a physical redesign or flight flutter limit.",
+    "assumed_damping_ratio": 0.0,
+    "cfl": 0.0625,
+    "M": 8,
+    "N_per_half": 16,
+    "wake_chords": 8,
+    "frequencies_hz": [
+      8.810675,
+      53.77565,
+      56.43436,
+      143.1312,
+      16.94779,
+      257.1314,
+      341.2641,
+      366.2999,
+      446.97510000000005,
+      453.9331
+    ],
+    "source_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+    "equilibrium_q": [
+      -0.0032207752071837905,
+      6.402749924939713e-05,
+      -4.6423224699124186e-07,
+      -5.557401841579959e-06,
+      -0.0004011541621057708,
+      1.1167852523967857e-06,
+      2.1870781378652706e-08,
+      -4.5240246972235204e-07,
+      2.0006497150038285e-07,
+      7.231704684471523e-08
+    ],
+    "equilibrium_tip_z_m": 0.004629995304814035,
+    "equilibrium_max_displacement_m": 0.0053344241001123515,
+    "static_residual_max": 6.5052130349130266e-18,
+    "static_iterations": 18,
+    "aero_checks": {
+      "full_states": 2816,
+      "reduced_states": 60,
+      "aero_rom_radius": 0.99700971456312,
+      "transfer_checks": [
+        {
+          "frequency_rad_s": 0.0,
+          "relative_frobenius_error": 1.407298053362643e-11
+        },
+        {
+          "frequency_rad_s": 55.3591037063345,
+          "relative_frobenius_error": 7.20484896061234e-07
+        },
+        {
+          "frequency_rad_s": 106.48610511716514,
+          "relative_frobenius_error": 2.6199135822924462e-05
+        },
+        {
+          "frequency_rad_s": 2852.145784362482,
+          "relative_frobenius_error": 0.02493459531964155
+        }
+      ]
+    },
+    "poles": {
+      "speed_m_s": 20.0,
+      "growth_per_s": -0.005765963474750093,
+      "frequency_hz": 56.43180034435624,
+      "modal_fraction": [
+        0.00010647236124740953,
+        4.245556531604638e-06,
+        0.9998665250745138,
+        3.4122483926516225e-10,
+        2.2756635563086962e-05,
+        8.115074483220176e-12,
+        1.9661109673108442e-12,
+        6.619950421608273e-13,
+        6.1087831323412885e-12,
+        1.4067393978721567e-11
+      ],
+      "max_real_growth_per_s": -67.12060049051283,
+      "max_all_growth_per_s": -0.005765963474750093,
+      "high_phase_growing_poles": 0
+    },
+    "history": {
+      "reference_q": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "initial_physical_state_error": 1.0842021724855044e-19,
+      "descriptor_causal_max_error": 2.7929047963226594e-16,
+      "stopped_at_50mm_guard": false,
+      "physical_guard_m": 0.04466557589988765,
+      "fit": {
+        "growth_per_s": -2.2460419967307144,
+        "frequency_hz": 13.414472259290573,
+        "peaks": 10
+      },
+      "speed_m_s": 20.0,
+      "dt_seconds": 3.9687499999999996e-05,
+      "initial_structural_energy_J": 0.000174007139942736,
+      "final_structural_energy_J": 3.225183206511001e-08,
+      "integrated_aero_work_J": -0.00017397509809074545,
+      "max_energy_work_defect_J": 2.099800745607172e-10
+    },
+    "status": "completed",
+    "elapsed_s": 6.473124647513032
+  },
+  {
+    "tag": "n10-V25-K0.01",
+    "speed_m_s": 25.0,
+    "modes": 10,
+    "torsional_stiffness_factor": 0.01,
+    "scope": "Clamped cambered loaded reference, linear native stiffness; fifth modal stiffness varied only. Not a physical redesign or flight flutter limit.",
+    "assumed_damping_ratio": 0.0,
+    "cfl": 0.0625,
+    "M": 8,
+    "N_per_half": 16,
+    "wake_chords": 8,
+    "frequencies_hz": [
+      8.810675,
+      53.77565,
+      56.43436,
+      143.1312,
+      16.94779,
+      257.1314,
+      341.2641,
+      366.2999,
+      446.97510000000005,
+      453.9331
+    ],
+    "source_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+    "equilibrium_q": [
+      -0.0034305938775286,
+      8.306926925011481e-05,
+      -4.5741541538981903e-07,
+      -8.975484113765255e-06,
+      -0.0010393197475034826,
+      1.4879987856032369e-06,
+      5.0559669879345925e-08,
+      -6.779731073408673e-07,
+      3.132858431939874e-07,
+      5.388669793455951e-08
+    ],
+    "equilibrium_tip_z_m": 0.004819645644596932,
+    "equilibrium_max_displacement_m": 0.006625125775307147,
+    "static_residual_max": 1.5395670849294163e-17,
+    "static_iterations": 18,
+    "aero_checks": {
+      "full_states": 2816,
+      "reduced_states": 60,
+      "aero_rom_radius": 0.9970096578769624,
+      "transfer_checks": [
+        {
+          "frequency_rad_s": 0.0,
+          "relative_frobenius_error": 3.276051003167978e-11
+        },
+        {
+          "frequency_rad_s": 55.3591037063345,
+          "relative_frobenius_error": 2.5748627113109437e-07
+        },
+        {
+          "frequency_rad_s": 106.48610511716514,
+          "relative_frobenius_error": 1.021885588712596e-05
+        },
+        {
+          "frequency_rad_s": 2852.145784362482,
+          "relative_frobenius_error": 0.020411164316022027
+        }
+      ]
+    },
+    "poles": {
+      "speed_m_s": 25.0,
+      "growth_per_s": 3.4312310265926524,
+      "frequency_hz": 11.449006204416676,
+      "modal_fraction": [
+        0.9436971640198009,
+        2.1715407562859893e-05,
+        2.123630023125925e-08,
+        1.1324090935211196e-08,
+        0.05628108361699872,
+        3.916159964690396e-09,
+        3.6706021293755344e-11,
+        3.630794201102384e-11,
+        2.5180713530984895e-11,
+        3.808916738540002e-10
+      ],
+      "max_real_growth_per_s": -76.8006941800227,
+      "max_all_growth_per_s": 3.4312310265926524,
+      "high_phase_growing_poles": 0
+    },
+    "history": {
+      "reference_q": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "initial_physical_state_error": 5.421010862427522e-20,
+      "descriptor_causal_max_error": 2.2082335959794364e-13,
+      "stopped_at_50mm_guard": false,
+      "physical_guard_m": 0.043374874224692855,
+      "fit": {
+        "growth_per_s": 3.431547883488529,
+        "frequency_hz": 11.449470801881578,
+        "peaks": 9
+      },
+      "speed_m_s": 25.0,
+      "dt_seconds": 3.175e-05,
+      "initial_structural_energy_J": 0.000174007139942736,
+      "final_structural_energy_J": 0.09863948479549842,
+      "integrated_aero_work_J": 0.09846558090764365,
+      "max_energy_work_defect_J": 1.2206219032750987e-07
+    },
+    "status": "completed",
+    "elapsed_s": 6.744887692853808
+  }
+]

@@ -21,11 +21,21 @@ def run(participant, assets, settings, output):
         raise ValueError('nonfinite interface')
     mass, stiffness, damping = [settings[k] for k in ('mass_kg', 'stiffness_N_m', 'damping_N_s_m')]
     system = ModalSystem([mass], [damping], [stiffness])
-    state = system.initial_state([0.], [0.], [0.])
+    reference_q = float(settings.get('reference_q_m', 0.))
+    initial_q = float(settings.get('initial_q_m', 0.))
+    initial_v = float(settings.get('initial_v_m_s', 0.))
+    initial_force = float(settings.get('initial_force_N', 0.))
+    if not np.isfinite([reference_q, initial_q, initial_v, initial_force]).all():
+        raise ValueError('nonfinite initial state or mesh reference')
+    if abs(initial_q) > settings['displacement_limit_m']:
+        raise ValueError('initial state exceeds displacement limit')
+    # Structural restoring force uses the undeformed coordinate. The CFD mesh
+    # may already represent a loaded pose, so only its increment is written.
+    state = system.initial_state([initial_q], [initial_v], [initial_force])
     force_ids = participant.set_mesh_vertices('Solid-Forces', centers)
     motion_ids = participant.set_mesh_vertices('Solid-Motion', points)
     if participant.requires_initial_data():
-        participant.write_data('Solid-Motion', 'Displacement', motion_ids, hp*state.q[0])
+        participant.write_data('Solid-Motion', 'Displacement', motion_ids, hp*(state.q[0]-reference_q))
     participant.initialize()
     rows, rollbacks, iteration, checkpoint = [], 0, 0, None
     output = Path(output); output.mkdir(parents=True, exist_ok=True)
@@ -52,11 +62,12 @@ def run(participant, assets, settings, output):
             defect = energy(end)-energy(start)-work+loss
             if abs(defect) > 1e-12+1e-9*(abs(work)+abs(loss)+energy(end)):
                 raise RuntimeError('structural discrete energy check failed')
-            participant.write_data('Solid-Motion', 'Displacement', motion_ids, hp*end.q[0])
+            participant.write_data('Solid-Motion', 'Displacement', motion_ids, hp*(end.q[0]-reference_q))
             participant.advance(dt)
             iteration += 1
             rejected = participant.requires_reading_checkpoint()
             row = dict(time_s=end.time, dt_s=dt, q_m=end.q[0], v_m_s=end.v[0],
+                       mesh_increment_m=end.q[0]-reference_q,
                        Q_N=qforce, force_N=forces.sum(axis=0).tolist(),
                        energy_J=energy(end), structural_load_work_J=work,
                        damping_loss_J=loss, structural_energy_defect_J=defect,

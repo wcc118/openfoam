@@ -336,5 +336,17 @@ class EdgeCaseTests(unittest.TestCase):
             self.assertEqual(result.dtype, float)
 
 
+class CoercionRegressionTests(unittest.TestCase):
+    def test_mixed_nested_and_numpy_nonreal_rejected(self):
+        for value in ([1, True], [[1], ['2']], np.array([True]), np.array([1+2j]), np.complex128(1+2j)):
+            for conversion in (to_si, to_imperial):
+                with self.subTest(value=repr(value), conversion=conversion.__name__):
+                    with self.assertRaises(ValueError): conversion(value, 'in')
+
+    def test_overflow_rejected(self):
+        with self.assertRaises(ValueError): to_imperial(1e308, 'in')
+        with self.assertRaises(ValueError): to_si(10**400, 'in')
+
+
 if __name__ == '__main__':
     unittest.main()

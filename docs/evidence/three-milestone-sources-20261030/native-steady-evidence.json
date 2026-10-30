@@ -1,0 +1,1042 @@
+{
+  "issue38-pose-bound15-20261030": {
+    "execution.json": {
+      "exit_code": 0,
+      "elapsed_s": 33.873100212,
+      "q_m": 0.015,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-pose-bound15-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "6g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-pose-bound15-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/usr/bin/timeout",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "600",
+        "/bin/bash",
+        "/case/run.sh"
+      ],
+      "mesh_ok_count": 9,
+      "failures": [],
+      "passed": true
+    },
+    "manifest.json": {
+      "q_m": 0.015,
+      "scope": "geometry-only ramp to loaded pose; no flow",
+      "inputs": {
+        "constant/wingMode": "bcc4a710b986f473af78fab06abca2d7d44965842ab730259e72bd9b8e492c9f",
+        "constant/dynamicMeshDict": "f8d3f88c23f659c299d3cab9951604849b5a6cfd50c42e893921d6b0003e055f",
+        "0/pointDisplacement": "f6c729004b1dbdbcd95dc6b88feb6b253794902cbc5772f3cd65a544f1168f05",
+        "system/fvSolution": "a25631e54c934639ab6683079734e02166442acaf16a1960517fe8229433e913",
+        "system/meshQualityDict.canonical": "6c86f42464aa21fe49ae9962d8fb6f8137054feb4cff6308deb664575a9cd2a1",
+        "system/fvSolution.attempt1": "d647ef2ac82cb0b9e34c63a95907f760d1235a29bd728d736a12eb2578500889",
+        "system/controlDict": "cd06078d3f8e53d484b3fb3b18721570fd1452ff917ca11e325e04c2736de760",
+        "system/meshQualityDict": "7529b4a21db7f2c24d74f7337e101b2c2d3ac05ecf918acc7ffd224c093dd6bd",
+        "system/controlDict.cycle1": "caf31fded553ddb6c60b4b23297662da41c79617c90d1f739fd05b1777ed2f90",
+        "system/fvSchemes": "5677770da28eddf353593f96504c93d0b53972cea3137d03b35daac05031d06a",
+        "system/controlDict.attempt2": "c02d2563ffde9af51532a64a05c45d9fec29b5d84ada0f319b0acfa1256b6dd6"
+      }
+    },
+    "quality_sha256": "7c7c95a2994f559534517d7b0bdf4d2df03c3a41f530d27df2369fbbb0dd7558",
+    "quality_details": [
+      "Time = 0",
+      "cells:            304186",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.125",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.25",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.375",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.5",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.625",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.75",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.875",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 1",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK."
+    ]
+  },
+  "issue38-pose-bound16-20261030": {
+    "execution.json": {
+      "exit_code": 0,
+      "elapsed_s": 33.474531296,
+      "q_m": 0.016,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-pose-bound16-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "6g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-pose-bound16-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/usr/bin/timeout",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "600",
+        "/bin/bash",
+        "/case/run.sh"
+      ],
+      "mesh_ok_count": 8,
+      "failures": [
+        "Failed 1 mesh checks."
+      ],
+      "passed": false
+    },
+    "manifest.json": {
+      "q_m": 0.016,
+      "scope": "geometry-only ramp to loaded pose; no flow",
+      "inputs": {
+        "constant/wingMode": "bcc4a710b986f473af78fab06abca2d7d44965842ab730259e72bd9b8e492c9f",
+        "constant/dynamicMeshDict": "f8d3f88c23f659c299d3cab9951604849b5a6cfd50c42e893921d6b0003e055f",
+        "0/pointDisplacement": "c0ce07048faf21b9dc313ee782287fa2f474ac09b9797fe771ceff2d83a6585a",
+        "system/fvSolution": "a25631e54c934639ab6683079734e02166442acaf16a1960517fe8229433e913",
+        "system/meshQualityDict.canonical": "6c86f42464aa21fe49ae9962d8fb6f8137054feb4cff6308deb664575a9cd2a1",
+        "system/fvSolution.attempt1": "d647ef2ac82cb0b9e34c63a95907f760d1235a29bd728d736a12eb2578500889",
+        "system/controlDict": "cd06078d3f8e53d484b3fb3b18721570fd1452ff917ca11e325e04c2736de760",
+        "system/meshQualityDict": "7529b4a21db7f2c24d74f7337e101b2c2d3ac05ecf918acc7ffd224c093dd6bd",
+        "system/controlDict.cycle1": "caf31fded553ddb6c60b4b23297662da41c79617c90d1f739fd05b1777ed2f90",
+        "system/fvSchemes": "5677770da28eddf353593f96504c93d0b53972cea3137d03b35daac05031d06a",
+        "system/controlDict.attempt2": "c02d2563ffde9af51532a64a05c45d9fec29b5d84ada0f319b0acfa1256b6dd6"
+      }
+    },
+    "quality_sha256": "f835b9602776f9dcc0fab07feedc7f4e4e81edf60acecf45f87437149ae01ee0",
+    "quality_details": [
+      "Time = 0",
+      "cells:            304186",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.125",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.25",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.375",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.5",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.625",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.75",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.875",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 1",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 2",
+      "Failed 1 mesh checks."
+    ]
+  },
+  "issue38-pose-equilibrium-20261030": {
+    "execution.json": {
+      "exit_code": 0,
+      "elapsed_s": 34.173965852,
+      "q_m": 0.01442455473113748,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-pose-equilibrium-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "6g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-pose-equilibrium-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/usr/bin/timeout",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "600",
+        "/bin/bash",
+        "/case/run.sh"
+      ],
+      "mesh_ok_count": 9,
+      "failures": [],
+      "passed": true
+    },
+    "manifest.json": {
+      "q_m": 0.01442455473113748,
+      "scope": "geometry-only ramp to loaded pose; no flow",
+      "inputs": {
+        "constant/wingMode": "bcc4a710b986f473af78fab06abca2d7d44965842ab730259e72bd9b8e492c9f",
+        "constant/dynamicMeshDict": "f8d3f88c23f659c299d3cab9951604849b5a6cfd50c42e893921d6b0003e055f",
+        "0/pointDisplacement": "7c69c533db51698a36abb25f11dbb299e4d3c8ac290a353a3776cb623f501b1f",
+        "system/fvSolution": "a25631e54c934639ab6683079734e02166442acaf16a1960517fe8229433e913",
+        "system/meshQualityDict.canonical": "6c86f42464aa21fe49ae9962d8fb6f8137054feb4cff6308deb664575a9cd2a1",
+        "system/fvSolution.attempt1": "d647ef2ac82cb0b9e34c63a95907f760d1235a29bd728d736a12eb2578500889",
+        "system/controlDict": "cd06078d3f8e53d484b3fb3b18721570fd1452ff917ca11e325e04c2736de760",
+        "system/meshQualityDict": "7529b4a21db7f2c24d74f7337e101b2c2d3ac05ecf918acc7ffd224c093dd6bd",
+        "system/controlDict.cycle1": "caf31fded553ddb6c60b4b23297662da41c79617c90d1f739fd05b1777ed2f90",
+        "system/fvSchemes": "5677770da28eddf353593f96504c93d0b53972cea3137d03b35daac05031d06a",
+        "system/controlDict.attempt2": "c02d2563ffde9af51532a64a05c45d9fec29b5d84ada0f319b0acfa1256b6dd6"
+      }
+    },
+    "quality_sha256": "eded852577f44ce540e072587ea3da56dc7209b98528cdf7a4cf90a0e4d9ad9f",
+    "quality_details": [
+      "Time = 0",
+      "cells:            304186",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.125",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.25",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.375",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.5",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.625",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.75",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.875",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 1",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK."
+    ]
+  },
+  "issue38-pose-loaded14-20261030": {
+    "execution.json": {
+      "exit_code": 0,
+      "elapsed_s": 40.64332474700001,
+      "q_m": 0.014,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-pose-loaded14-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "6g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-pose-loaded14-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/usr/bin/timeout",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "600",
+        "/bin/bash",
+        "/case/run.sh"
+      ],
+      "mesh_ok_count": 9,
+      "failures": [],
+      "passed": true
+    },
+    "manifest.json": {
+      "q_m": 0.014,
+      "scope": "geometry-only ramp to loaded pose; no flow",
+      "inputs": {
+        "constant/wingMode": "bcc4a710b986f473af78fab06abca2d7d44965842ab730259e72bd9b8e492c9f",
+        "constant/dynamicMeshDict": "f8d3f88c23f659c299d3cab9951604849b5a6cfd50c42e893921d6b0003e055f",
+        "0/pointDisplacement": "81a18c8766aced69988b6abdf68a329444dd625640effb4e21e406fc7d409c52",
+        "system/fvSolution": "a25631e54c934639ab6683079734e02166442acaf16a1960517fe8229433e913",
+        "system/meshQualityDict.canonical": "6c86f42464aa21fe49ae9962d8fb6f8137054feb4cff6308deb664575a9cd2a1",
+        "system/fvSolution.attempt1": "d647ef2ac82cb0b9e34c63a95907f760d1235a29bd728d736a12eb2578500889",
+        "system/controlDict": "cd06078d3f8e53d484b3fb3b18721570fd1452ff917ca11e325e04c2736de760",
+        "system/meshQualityDict": "7529b4a21db7f2c24d74f7337e101b2c2d3ac05ecf918acc7ffd224c093dd6bd",
+        "system/controlDict.cycle1": "caf31fded553ddb6c60b4b23297662da41c79617c90d1f739fd05b1777ed2f90",
+        "system/fvSchemes": "5677770da28eddf353593f96504c93d0b53972cea3137d03b35daac05031d06a",
+        "system/controlDict.attempt2": "c02d2563ffde9af51532a64a05c45d9fec29b5d84ada0f319b0acfa1256b6dd6"
+      }
+    },
+    "quality_sha256": "eebde838459159b75febf098a2bfc3ed5ec8787509ab9e6251cb5a04bb9fef51",
+    "quality_details": [
+      "Time = 0",
+      "cells:            304186",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.125",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.25",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.375",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.5",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.625",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.75",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.875",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 1",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK."
+    ]
+  },
+  "issue38-pose-release-20261030": {
+    "execution.json": {
+      "exit_code": 0,
+      "elapsed_s": 41.87578217000001,
+      "q_m": 0.01492455473113748,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-pose-release-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "6g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-pose-release-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/usr/bin/timeout",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "600",
+        "/bin/bash",
+        "/case/run.sh"
+      ],
+      "mesh_ok_count": 9,
+      "failures": [],
+      "passed": true
+    },
+    "manifest.json": {
+      "q_m": 0.01492455473113748,
+      "scope": "geometry-only ramp to loaded pose; no flow",
+      "inputs": {
+        "constant/wingMode": "bcc4a710b986f473af78fab06abca2d7d44965842ab730259e72bd9b8e492c9f",
+        "constant/dynamicMeshDict": "f8d3f88c23f659c299d3cab9951604849b5a6cfd50c42e893921d6b0003e055f",
+        "0/pointDisplacement": "3e51e63d1117f5a4dbc91f5bab1cf0a0b7b95324cf8f584e7d8cbf3a0c47abb3",
+        "system/fvSolution": "a25631e54c934639ab6683079734e02166442acaf16a1960517fe8229433e913",
+        "system/meshQualityDict.canonical": "6c86f42464aa21fe49ae9962d8fb6f8137054feb4cff6308deb664575a9cd2a1",
+        "system/fvSolution.attempt1": "d647ef2ac82cb0b9e34c63a95907f760d1235a29bd728d736a12eb2578500889",
+        "system/controlDict": "cd06078d3f8e53d484b3fb3b18721570fd1452ff917ca11e325e04c2736de760",
+        "system/meshQualityDict": "7529b4a21db7f2c24d74f7337e101b2c2d3ac05ecf918acc7ffd224c093dd6bd",
+        "system/controlDict.cycle1": "caf31fded553ddb6c60b4b23297662da41c79617c90d1f739fd05b1777ed2f90",
+        "system/fvSchemes": "5677770da28eddf353593f96504c93d0b53972cea3137d03b35daac05031d06a",
+        "system/controlDict.attempt2": "c02d2563ffde9af51532a64a05c45d9fec29b5d84ada0f319b0acfa1256b6dd6"
+      }
+    },
+    "quality_sha256": "abfeb4b11ade181d80bb7defa1fcaf89271b687c459740ff78b364e780001e50",
+    "quality_details": [
+      "Time = 0",
+      "cells:            304186",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.125",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.25",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.375",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.5",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.625",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.75",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.875",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 1",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK."
+    ]
+  },
+  "issue38-pose-upper28-20261030": {
+    "execution.json": {
+      "exit_code": 0,
+      "elapsed_s": 32.13909299699992,
+      "q_m": 0.028,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-pose-upper28-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "6g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-pose-upper28-20261030:/case",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/usr/bin/timeout",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "600",
+        "/bin/bash",
+        "/case/run.sh"
+      ],
+      "mesh_ok_count": 5,
+      "failures": [
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks.",
+        "Failed 1 mesh checks."
+      ],
+      "passed": false
+    },
+    "manifest.json": {
+      "q_m": 0.028,
+      "scope": "geometry-only ramp to loaded pose; no flow",
+      "inputs": {
+        "constant/wingMode": "bcc4a710b986f473af78fab06abca2d7d44965842ab730259e72bd9b8e492c9f",
+        "constant/dynamicMeshDict": "f8d3f88c23f659c299d3cab9951604849b5a6cfd50c42e893921d6b0003e055f",
+        "0/pointDisplacement": "e39aa524bb3f0b0f848b982c75b47c439aff5d44336d7010dd9a190da4bd054d",
+        "system/fvSolution": "a25631e54c934639ab6683079734e02166442acaf16a1960517fe8229433e913",
+        "system/meshQualityDict.canonical": "6c86f42464aa21fe49ae9962d8fb6f8137054feb4cff6308deb664575a9cd2a1",
+        "system/fvSolution.attempt1": "d647ef2ac82cb0b9e34c63a95907f760d1235a29bd728d736a12eb2578500889",
+        "system/controlDict": "cd06078d3f8e53d484b3fb3b18721570fd1452ff917ca11e325e04c2736de760",
+        "system/meshQualityDict": "7529b4a21db7f2c24d74f7337e101b2c2d3ac05ecf918acc7ffd224c093dd6bd",
+        "system/controlDict.cycle1": "caf31fded553ddb6c60b4b23297662da41c79617c90d1f739fd05b1777ed2f90",
+        "system/fvSchemes": "5677770da28eddf353593f96504c93d0b53972cea3137d03b35daac05031d06a",
+        "system/controlDict.attempt2": "c02d2563ffde9af51532a64a05c45d9fec29b5d84ada0f319b0acfa1256b6dd6"
+      }
+    },
+    "quality_sha256": "730569bc237a9dc6acafd4a8ad87aeab5732a960e61ce9543026947aabdba59c",
+    "quality_details": [
+      "Time = 0",
+      "cells:            304186",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.125",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.25",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.375",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.5",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 0",
+      "Mesh OK.",
+      "Time = 0.625",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 2",
+      "Failed 1 mesh checks.",
+      "Time = 0.75",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 4",
+      "Failed 1 mesh checks.",
+      "Time = 0.875",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 6",
+      "Failed 1 mesh checks.",
+      "Time = 1",
+      "faces with face-decomposition tet quality < 1.0000000000000001e-15      : 6",
+      "Failed 1 mesh checks."
+    ]
+  },
+  "issue38-static-equilibrium-20261030": {
+    "execution.json": {
+      "exit_code": 0,
+      "elapsed_s": 335.429771232,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-static-equilibrium-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-static-equilibrium-20261030:/case",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-estimate-mesh-20261030:/mesh:ro",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-interface-v4-20261030/source:/exporter:ro",
+        "-v",
+        "/mnt/g/projects/openfoam/build:/build:ro",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/usr/bin/timeout",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "1200",
+        "/bin/bash",
+        "/case/run.sh"
+      ],
+      "q_m": 0.01442455473113748
+    },
+    "manifest.json": {
+      "q_m": 0.01442455473113748,
+      "scope": "steady clamped pose, native modal force audit; no dynamic damping",
+      "baseline_native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "inputs": {
+        "constant/turbulenceProperties": "6df384d904139243910d0b7d485ad2168c0166ffe09c511cc0f2f9cc4c12098c",
+        "constant/transportProperties": "b889f13a02dfd74ac3aec504c3b8a619794d644f41cfdbcd2e99044db8a85a78",
+        "0/k": "47601b6728aa70673aee1d70fd72db38f103c377e6a33854f3717960e5d6bec2",
+        "0/U": "094cc0576129939772db0dc4f45951c2e95d3fa35bd0e3e74289b8ad54df3d33",
+        "0/nut": "47d3588b117bc3a0114835b8a79e25f3a72e847c69ca8a72849c544e24ff8fd4",
+        "0/p": "3110a8f5f78677ce663d7f48788a54a1900cf2bb9f9329bac447f07273f6a357",
+        "0/omega": "cb7640c2223279d791bf8d18058a8245f21b152b0d3e7787b6e9f2d2e494835d",
+        "system/fvSolution": "f49dc16848ae1b4687f75f793d0183a7c341be9cdf0f7207961b63876e244e38",
+        "system/decomposeParDict": "22c740de4bd3081a02135a2c0f8d83478aeb9e3fa82433fbb676dd3923e722aa",
+        "system/controlDict": "b1aec7979fc414699ba34cf979815ae26d99c2a6fde172d71f0bbc825d0c2db9",
+        "system/meshQualityDict": "7529b4a21db7f2c24d74f7337e101b2c2d3ac05ecf918acc7ffd224c093dd6bd",
+        "system/fvSchemes": "ef1f321e154233d959ff716936895c9099a7b0563fab48ed2e59a1709646884c"
+      }
+    },
+    "mode-preparation.json": [
+      {
+        "folder": "case",
+        "point_error_m": 1.1102230246251565e-16,
+        "points": 24068
+      },
+      {
+        "folder": "processor0",
+        "point_error_m": 4.997974216024333e-13,
+        "points": 5012
+      },
+      {
+        "folder": "processor1",
+        "point_error_m": 4.998750342149506e-12,
+        "points": 6577
+      },
+      {
+        "folder": "processor2",
+        "point_error_m": 4.998750342149506e-12,
+        "points": 5565
+      },
+      {
+        "folder": "processor3",
+        "point_error_m": 4.998825924593456e-13,
+        "points": 7152
+      }
+    ],
+    "load_last50": {
+      "rows": 50,
+      "first_iteration": 451.0,
+      "last": [
+        500.0,
+        2.755885500662712,
+        -2.0229907055080432e-07,
+        54.81340765072166,
+        2.3465452763105077e-06,
+        -1.4233759305463982,
+        2.718830311998488e-06,
+        20.077137510370854,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Q_range_N": 4.526796715254022e-09,
+      "Q_relative_range": 2.2547022517107847e-10
+    }
+  },
+  "issue38-static-loaded14-20261030": {
+    "execution.json": {
+      "exit_code": 0,
+      "elapsed_s": 320.717047817,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-static-loaded14-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-static-loaded14-20261030:/case",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-estimate-mesh-20261030:/mesh:ro",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-interface-v4-20261030/source:/exporter:ro",
+        "-v",
+        "/mnt/g/projects/openfoam/build:/build:ro",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/usr/bin/timeout",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "1200",
+        "/bin/bash",
+        "/case/run.sh"
+      ],
+      "q_m": 0.014
+    },
+    "manifest.json": {
+      "q_m": 0.014,
+      "scope": "steady clamped pose, native modal force audit; no dynamic damping",
+      "baseline_native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "inputs": {
+        "constant/turbulenceProperties": "6df384d904139243910d0b7d485ad2168c0166ffe09c511cc0f2f9cc4c12098c",
+        "constant/transportProperties": "b889f13a02dfd74ac3aec504c3b8a619794d644f41cfdbcd2e99044db8a85a78",
+        "0/k": "47601b6728aa70673aee1d70fd72db38f103c377e6a33854f3717960e5d6bec2",
+        "0/U": "094cc0576129939772db0dc4f45951c2e95d3fa35bd0e3e74289b8ad54df3d33",
+        "0/nut": "47d3588b117bc3a0114835b8a79e25f3a72e847c69ca8a72849c544e24ff8fd4",
+        "0/p": "3110a8f5f78677ce663d7f48788a54a1900cf2bb9f9329bac447f07273f6a357",
+        "0/omega": "cb7640c2223279d791bf8d18058a8245f21b152b0d3e7787b6e9f2d2e494835d",
+        "system/fvSolution": "f49dc16848ae1b4687f75f793d0183a7c341be9cdf0f7207961b63876e244e38",
+        "system/decomposeParDict": "22c740de4bd3081a02135a2c0f8d83478aeb9e3fa82433fbb676dd3923e722aa",
+        "system/controlDict": "b1aec7979fc414699ba34cf979815ae26d99c2a6fde172d71f0bbc825d0c2db9",
+        "system/meshQualityDict": "7529b4a21db7f2c24d74f7337e101b2c2d3ac05ecf918acc7ffd224c093dd6bd",
+        "system/fvSchemes": "ef1f321e154233d959ff716936895c9099a7b0563fab48ed2e59a1709646884c"
+      }
+    },
+    "mode-preparation.json": [
+      {
+        "folder": "case",
+        "point_error_m": 1.1092743477242317e-16,
+        "points": 24068
+      },
+      {
+        "folder": "processor0",
+        "point_error_m": 4.997812156598666e-12,
+        "points": 3538
+      },
+      {
+        "folder": "processor1",
+        "point_error_m": 4.999826236622845e-13,
+        "points": 6941
+      },
+      {
+        "folder": "processor2",
+        "point_error_m": 4.997820381288584e-12,
+        "points": 6489
+      },
+      {
+        "folder": "processor3",
+        "point_error_m": 4.999826236622845e-13,
+        "points": 7332
+      }
+    ],
+    "load_last50": {
+      "rows": 50,
+      "first_iteration": 451.0,
+      "last": [
+        500.0,
+        2.755738163914237,
+        -2.798730044939468e-07,
+        54.81683057632635,
+        8.2619429093711e-06,
+        -1.423691981235863,
+        2.243614184438414e-06,
+        20.07979443361775,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Q_range_N": 7.927617673431087e-09,
+      "Q_relative_range": 3.9480571873577584e-10
+    }
+  },
+  "issue38-static-release-20261030": {
+    "execution.json": {
+      "exit_code": 0,
+      "elapsed_s": 334.790618378,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-static-release-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-static-release-20261030:/case",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-estimate-mesh-20261030:/mesh:ro",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-interface-v4-20261030/source:/exporter:ro",
+        "-v",
+        "/mnt/g/projects/openfoam/build:/build:ro",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/usr/bin/timeout",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "1200",
+        "/bin/bash",
+        "/case/run.sh"
+      ],
+      "q_m": 0.01492455473113748
+    },
+    "manifest.json": {
+      "q_m": 0.01492455473113748,
+      "scope": "steady clamped pose, native modal force audit; no dynamic damping",
+      "baseline_native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "inputs": {
+        "constant/turbulenceProperties": "6df384d904139243910d0b7d485ad2168c0166ffe09c511cc0f2f9cc4c12098c",
+        "constant/transportProperties": "b889f13a02dfd74ac3aec504c3b8a619794d644f41cfdbcd2e99044db8a85a78",
+        "0/k": "47601b6728aa70673aee1d70fd72db38f103c377e6a33854f3717960e5d6bec2",
+        "0/U": "094cc0576129939772db0dc4f45951c2e95d3fa35bd0e3e74289b8ad54df3d33",
+        "0/nut": "47d3588b117bc3a0114835b8a79e25f3a72e847c69ca8a72849c544e24ff8fd4",
+        "0/p": "3110a8f5f78677ce663d7f48788a54a1900cf2bb9f9329bac447f07273f6a357",
+        "0/omega": "cb7640c2223279d791bf8d18058a8245f21b152b0d3e7787b6e9f2d2e494835d",
+        "system/fvSolution": "f49dc16848ae1b4687f75f793d0183a7c341be9cdf0f7207961b63876e244e38",
+        "system/decomposeParDict": "22c740de4bd3081a02135a2c0f8d83478aeb9e3fa82433fbb676dd3923e722aa",
+        "system/controlDict": "b1aec7979fc414699ba34cf979815ae26d99c2a6fde172d71f0bbc825d0c2db9",
+        "system/meshQualityDict": "7529b4a21db7f2c24d74f7337e101b2c2d3ac05ecf918acc7ffd224c093dd6bd",
+        "system/fvSchemes": "ef1f321e154233d959ff716936895c9099a7b0563fab48ed2e59a1709646884c"
+      }
+    },
+    "mode-preparation.json": [
+      {
+        "folder": "case",
+        "point_error_m": 1.110290787260937e-16,
+        "points": 24068
+      },
+      {
+        "folder": "processor0",
+        "point_error_m": 4.999063093818687e-13,
+        "points": 7532
+      },
+      {
+        "folder": "processor1",
+        "point_error_m": 4.995533676934068e-12,
+        "points": 6535
+      },
+      {
+        "folder": "processor2",
+        "point_error_m": 4.995533676934068e-12,
+        "points": 3223
+      },
+      {
+        "folder": "processor3",
+        "point_error_m": 4.999874449738203e-13,
+        "points": 7024
+      }
+    ],
+    "load_last50": {
+      "rows": 50,
+      "first_iteration": 451.0,
+      "last": [
+        500.0,
+        2.75606047445391,
+        -8.829026798551354e-08,
+        54.80939538512038,
+        1.2079414961618795e-06,
+        -1.4230042857858312,
+        2.4558956484010963e-06,
+        20.074024246809802,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Q_range_N": 7.731689066758918e-09,
+      "Q_relative_range": 3.851588984698796e-10
+    }
+  },
+  "issue38-static-rigid-20261030": {
+    "execution.json": {
+      "exit_code": 0,
+      "elapsed_s": 316.274870149,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-static-rigid-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-static-rigid-20261030:/case",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-estimate-mesh-20261030:/mesh:ro",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-interface-v4-20261030/source:/exporter:ro",
+        "-v",
+        "/mnt/g/projects/openfoam/build:/build:ro",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/usr/bin/timeout",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "1200",
+        "/bin/bash",
+        "/case/run.sh"
+      ],
+      "q_m": 0.0
+    },
+    "manifest.json": {
+      "q_m": 0.0,
+      "scope": "steady clamped pose, native modal force audit; no dynamic damping",
+      "baseline_native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+      "inputs": {
+        "constant/turbulenceProperties": "6df384d904139243910d0b7d485ad2168c0166ffe09c511cc0f2f9cc4c12098c",
+        "constant/transportProperties": "b889f13a02dfd74ac3aec504c3b8a619794d644f41cfdbcd2e99044db8a85a78",
+        "0/k": "47601b6728aa70673aee1d70fd72db38f103c377e6a33854f3717960e5d6bec2",
+        "0/U": "094cc0576129939772db0dc4f45951c2e95d3fa35bd0e3e74289b8ad54df3d33",
+        "0/nut": "47d3588b117bc3a0114835b8a79e25f3a72e847c69ca8a72849c544e24ff8fd4",
+        "0/p": "3110a8f5f78677ce663d7f48788a54a1900cf2bb9f9329bac447f07273f6a357",
+        "0/omega": "cb7640c2223279d791bf8d18058a8245f21b152b0d3e7787b6e9f2d2e494835d",
+        "system/fvSolution": "f49dc16848ae1b4687f75f793d0183a7c341be9cdf0f7207961b63876e244e38",
+        "system/decomposeParDict": "22c740de4bd3081a02135a2c0f8d83478aeb9e3fa82433fbb676dd3923e722aa",
+        "system/controlDict": "b1aec7979fc414699ba34cf979815ae26d99c2a6fde172d71f0bbc825d0c2db9",
+        "system/meshQualityDict": "7529b4a21db7f2c24d74f7337e101b2c2d3ac05ecf918acc7ffd224c093dd6bd",
+        "system/fvSchemes": "ef1f321e154233d959ff716936895c9099a7b0563fab48ed2e59a1709646884c"
+      }
+    },
+    "mode-preparation.json": [
+      {
+        "folder": "case",
+        "point_error_m": 0.0,
+        "points": 24068
+      },
+      {
+        "folder": "processor0",
+        "point_error_m": 0.0,
+        "points": 6511
+      },
+      {
+        "folder": "processor1",
+        "point_error_m": 0.0,
+        "points": 7302
+      },
+      {
+        "folder": "processor2",
+        "point_error_m": 0.0,
+        "points": 7485
+      },
+      {
+        "folder": "processor3",
+        "point_error_m": 0.0,
+        "points": 3004
+      }
+    ],
+    "load_last50": {
+      "rows": 50,
+      "first_iteration": 451.0,
+      "last": [
+        500.0,
+        2.7515358775271466,
+        -3.6503237099694275e-09,
+        54.933563650392244,
+        4.4244172769936085e-08,
+        -1.434200572792582,
+        1.1936223232034138e-08,
+        20.169533104429163,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Q_range_N": 1.004454475150851e-08,
+      "Q_relative_range": 4.980058139919343e-10
+    }
+  },
+  "issue38-loaded-pilot-20261030": {
+    "execution.json": {
+      "status": "running",
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-loaded-pilot-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-loaded-pilot-20261030:/case",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-estimate-mesh-20261030:/mesh:ro",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-interface-v4-20261030/source:/exporter:ro",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/usr/bin/timeout",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "7200",
+        "/bin/bash",
+        "/case/run.sh"
+      ]
+    },
+    "manifest.json": {
+      "variant": "pilot",
+      "dt_s": 0.0005,
+      "steps": 20,
+      "source_archive_sha256": "cbfe91e5078667d5e3dda952655b54c63cdbecefc432c97a7e7b006bedde2116",
+      "initial_fields": {
+        "U": "735e2db96316aa6d38dd6c9242d9caefc0d45cea882d13452e37a55134a0faed",
+        "p": "0e67ab70c1d3557f0c64f2c186299f86c0e61d66efe0bcead92c65e7df2b3287",
+        "k": "1dc84da55dde191abb42f76555e374e9030539fa1ffc6b1590b8cb7ec0dbb34c",
+        "omega": "7b68d6091730b3fa222c23d0bcd194ebca6a515e894c03cfc81d36d077fa7192",
+        "nut": "08c500623931fc3d0b303b837e6580d008a7c1c608ca7487eeaddc880132a9e7",
+        "phi": "78f6a2c2811b23c0aace3e8b10c61a3a6cd9fec4c4ad54845c7d0f901e67cf63"
+      },
+      "settings": {
+        "coupling": "explicit",
+        "mass_kg": 0.45423328577302213,
+        "stiffness_N_m": 1392.057119541888,
+        "damping_N_s_m": 0.0,
+        "end_time_s": 0.01,
+        "max_iterations": 30,
+        "displacement_limit_m": 0.015,
+        "reference_q_m": 0.01492455473113748,
+        "initial_q_m": 0.01492455473113748,
+        "initial_v_m_s": 0.0,
+        "initial_force_N": 20.074024246809802,
+        "initial_state": "steady flow at perturbed loaded pose; release from rest; no gravity",
+        "mode_frequency_Hz": 8.810675,
+        "native_modal_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236",
+        "approximation": "one symmetric first-bending mode, fixed reference W and nearest shell projection; off-surface moment defect retained; no layers; no physical damping claim"
+      }
+    }
+  },
+  "issue38-estimate-mesh-20261030": {
+    "execution.json": {
+      "exit_code": 0,
+      "elapsed_s": 41.092736532,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "issue38-estimate-mesh-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "4",
+        "--memory",
+        "8g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/issue38-estimate-mesh-20261030:/case",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-motion-assets-20261030:/assets:ro",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/usr/bin/timeout",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "600",
+        "/bin/bash",
+        "/case/run.sh"
+      ],
+      "quality_passed": true,
+      "map_passed": true
+    },
+    "manifest.json": {
+      "scope": "Cheaper no-layer diagnostic mesh: surface levels3/4, features4; existing geometry, span32 basegrid and quality/projection checks unchanged",
+      "inputs": {
+        "system/surfaceFeatureExtractDict": "7852e57f6c87d52ffd9a3c57b048216ad43b096a38029e1e21680f6bb2e1a82a",
+        "system/fvSolution": "48e61e0402615d31ff14eba640055603421bb51a9f2372bb18cb865a4a5f9f40",
+        "system/meshQualityDict.canonical": "6c86f42464aa21fe49ae9962d8fb6f8137054feb4cff6308deb664575a9cd2a1",
+        "system/controlDict": "b09bdd7d59427acb2656c725b572eed1d68e2d02a1e05ef1ddc78aea8f105d46",
+        "system/meshQualityDict": "7529b4a21db7f2c24d74f7337e101b2c2d3ac05ecf918acc7ffd224c093dd6bd",
+        "system/blockMeshDict": "16eba5f1eec8d55b1069a8e8af251373150241ebeb2cdd14e78c2c8bb975df46",
+        "system/slices": "3b4cfa784e5462512d60cf520c4739ff005f01201c0c43caa11d65494b975e27",
+        "system/fvSchemes": "cc915dc906dd62685da3f3c048165b2a14be1303a9c863b0e915df41967a96ca",
+        "system/snappyHexMeshDict": "768be4295cbfe81fea10595c35c091a4e259aff2ad0392e2ad21ea466d54c07d",
+        "constant/triSurface/wing.stl": "b2fd2ed9415c637f58f20a90a27935e246ef788fba3a142c61c8f3c448abdd35",
+        "constant/triSurface/wing.eMesh": "6583d63b59903f407ee374d6d4b25fe386dc82680f1fef8b57b184a61825f1ee"
+      }
+    },
+    "quality_sha256": "639d8d213e8a407ba797a0b3225e8926d7d8fbadedf09ce52c50ce0bc3d0cfdb",
+    "quality_details": [
+      "Time = 0",
+      "cells:            304186",
+      "faces with face-decomposition tet quality < 1e-15      : 0",
+      "Mesh OK."
+    ]
+  }
+}

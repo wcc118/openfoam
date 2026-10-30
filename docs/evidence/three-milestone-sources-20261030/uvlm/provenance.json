@@ -1,0 +1,9 @@
+{
+  "commit": "28d70e871d57a62c91ea19e268db3909f8997bd0",
+  "sha256": {
+    "shell_loaded_equilibrium.py": "5892336cb32dce2d0190881730f31265602d3c7d300134df3dd13b21c495a0d5",
+    "modal_uvlm_explore.py": "fbd99e356d4c8e9dc0cb0a2885b3f6df0f0dbf2165bc9d65a6e28d611010f4e6",
+    "shell_loaded_speed_sweep.py": "7b6342b20d5238713d0ae60995d4faabc58b83ceba5b8469414e69504dec2e04",
+    "instability_demo.py": "86c274a5915c7e36d581572d1fb20165e1a161f8892b53bdda02df7b82cf743c"
+  }
+}

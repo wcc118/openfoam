@@ -106,5 +106,25 @@ class NativeModalTests(unittest.TestCase):
         self.assertGreater(sum(r['damping_loss_J'] for r in rows),0)
         self.assertLess(max(abs(r['structural_energy_defect_J']) for r in rows),1e-15)
 
+    def test_loaded_equilibrium_has_no_spurious_motion(self):
+        equilibrium=2./18.
+        settings={**self.settings, 'initial_q_m':equilibrium,
+                  'reference_q_m':equilibrium, 'initial_force_N':2.}
+        rows,p,_,_=self.execute([(np.array([[0.,0,2.]]),False)]*2,settings=settings)
+        np.testing.assert_allclose(p.writes,0.,atol=1e-16)
+        for row in rows:
+            self.assertAlmostEqual(row['q_m'],equilibrium)
+            self.assertAlmostEqual(row['v_m_s'],0.)
+
+    def test_loaded_release_matches_analytic_oscillator(self):
+        dt=.001; duration=.4; equilibrium=2./18.; kick=.01
+        settings={**self.settings, 'end_time_s':duration,
+                  'initial_q_m':equilibrium+kick,
+                  'reference_q_m':equilibrium+kick, 'initial_force_N':2.}
+        rows,p,_,_=self.execute([(np.array([[0.,0,2.]]),False)]*400,dt,settings)
+        self.assertAlmostEqual(rows[-1]['q_m'],equilibrium+kick*np.cos(3*duration),places=7)
+        np.testing.assert_allclose(p.writes[0],0.,atol=0.)
+        np.testing.assert_allclose(p.writes[-1],self.assets['point_mode']*(rows[-1]['q_m']-equilibrium-kick),atol=1e-16)
+
 
 if __name__=='__main__':unittest.main()
