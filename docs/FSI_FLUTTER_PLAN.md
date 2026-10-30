@@ -124,3 +124,10 @@ References: https://precice.org/adapter-openfoam-overview.html ;
 https://ic-sharpy.readthedocs.io/en/dev_vortex_rad/content/example_notebooks/linear_goland_flutter.html .
 Local benchmark evidence: runs/wing-fsi-goal-20261026/goland-adapter/decision.md;
 shell evidence: runs/aluminum-shell-20261027/. Large native artifacts stay outside Git.
+
+2026-10-29: [Loaded equilibrium and thickness comparison](SHELL_LOADED_EQUILIBRIUM.md)
+now separates frozen-load structure, untrimmed load-on response, and incremental
+UVLM about a solved clamped loaded shape at 30 m/s. Native .060-inch skin variant
+reduces loaded tip displacement from 12.59 to 10.48 mm for 20% more mass; first
+bending frequency barely changes. This advances the exploratory pipeline, not
+flutter qualification. Next vary one numerical setting on this fixed reference.
