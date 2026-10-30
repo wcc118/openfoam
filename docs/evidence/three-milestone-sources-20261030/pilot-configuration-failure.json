@@ -1,0 +1,12 @@
+{
+  "case": "issue38-loaded-pilot-20261030",
+  "assessment": "invalid_requested_timestep",
+  "process_exit_code": 0,
+  "intended_window_s": 0.0005,
+  "observed_window_s": 0.01,
+  "observed_accepted_windows": 1,
+  "intended_accepted_windows": 20,
+  "cause": "A generic XML value replacement changed both time-window-size and max-time after DT substitution.",
+  "correction": "Replace the exact max-time element; assert both configured times before launch and accepted count/timestep after execution.",
+  "interpretation": "Do not use this run as the requested timestep pilot or as damping evidence. Retained as failed verification despite solver exit zero."
+}
