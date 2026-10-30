@@ -26,7 +26,7 @@ def make_valid_data():
         [0, 3, 2, 1], [4, 5, 6, 7]  # bottom and top quads
     ]
     n_modes = 3
-    
+
     # Create modes (node displacements)
     modes_baseline = []
     for m in range(n_modes):
@@ -35,7 +35,7 @@ def make_valid_data():
             mode.append([0.0, 0.0, 0.0])
             mode[-1][2] = p[0] * m * 0.1  # bending mode
         modes_baseline.append(mode)
-    
+
     modes_thicker = []
     for m in range(n_modes):
         mode = []
@@ -43,7 +43,7 @@ def make_valid_data():
             mode.append([0.0, 0.0, 0.0])
             mode[-1][2] = p[0] * m * 0.08  # slightly less deflection for thicker
         modes_thicker.append(mode)
-    
+
     return {
         'title': 'Test equilibrium comparison',
         'scope': 'aluminum wing equilibrium',
