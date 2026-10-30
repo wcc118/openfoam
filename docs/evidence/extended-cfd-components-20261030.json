@@ -1567,5 +1567,120 @@
       "surface": "Same closed-TE NACA4412 provisional midsurface as shell, no outer-skin offset",
       "mesh_layer_gate_passed": false
     }
+  },
+  "fine_wall_spacing/wall-spacing-summary.json": {
+    "sha256": "a0473d56d4529a01c3b73bdfe61bfbe0a91e529e223edd0bd820000ea7d74806",
+    "report": {
+      "scope": "meshWave nearest-wall distance at each wing-face owner cell, not yPlus or geometric layer thickness",
+      "vtk_native_face_centroid_max_difference_m": 5.438316057601163e-08,
+      "all_wall_faces": {
+        "faces": 411589,
+        "area_m2": 0.5088805122242933,
+        "min_m": 8.35620624684e-06,
+        "area_weighted_mean_m": 2.7122722392173335e-05,
+        "p50_m": 1.00000161427e-05,
+        "p95_m": 8.67970228282e-05,
+        "max_m": 0.00083791213742
+      },
+      "with_layers": {
+        "faces": 406712,
+        "area_m2": 0.5028945790990645,
+        "min_m": 8.35620624684e-06,
+        "area_weighted_mean_m": 2.0878094664880216e-05,
+        "p50_m": 1.00000144409e-05,
+        "p95_m": 8.01748897621e-05,
+        "max_m": 0.000289293470556
+      },
+      "without_layers": {
+        "faces": 4877,
+        "area_m2": 0.0059859331252288695,
+        "min_m": 0.000157081336605,
+        "area_weighted_mean_m": 0.0005517509410589744,
+        "p50_m": 0.000822993567449,
+        "p95_m": 0.000822993860551,
+        "max_m": 0.00083791213742
+      }
+    }
+  },
+  "fine_wall_spacing/wall-spacing-execution.json": {
+    "sha256": "aa76db7e230b631d72d8fd29a12a6c63344ee83433e430b0128c8acd93f77eae",
+    "report": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-fine-wall-spacing-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "22g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-cfd-offset-20261030:/case",
+        "-v",
+        "/mnt/g/projects/openfoam/build/fine-wall-spacing-summary.py:/analysis/wall-spacing-summary.py:ro",
+        "-v",
+        "/mnt/g/projects/openfoam/build/summarize_mesh_reference.py:/analysis/summarize_mesh.py:ro",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "-c",
+        "source /usr/lib/openfoam/openfoam2412/etc/bashrc && checkMesh -writeFields '(wallDistance)' -time 0 > log.wallDistance 2>&1 && /opt/precice-python/bin/python /analysis/wall-spacing-summary.py > log.wallSpacingSummary 2>&1"
+      ],
+      "scope": "Reuse checked meshWave wall-distance/VTK-native identity and area-weighted wall-spacing analysis on new fine mesh. Geometric spacing, not yPlus or flow validation.",
+      "available_memory_kib": 30098028,
+      "exit_code": 0,
+      "elapsed_seconds": 139.04195067799992
+    }
+  },
+  "fine_wall_spacing/wall-distance-config-decision.json": {
+    "sha256": "5ee22bfffdd20f324bd41abb5d5b8a4d3f0b1f8e5084e6a18349ad5bc7636bb6",
+    "report": {
+      "reason": "Initial native checkMesh returned0 but did not produce wallDistance because mesh-only fvSchemes lacked wallDist. Pinned writeFields.C explicitly skips wallDistance unless that subdictionary exists. Added explicit meshWave/correctWalls true, matching prior checked wall-spacing method; first attempt and failed downstream parser retained.",
+      "scope": "Geometric distance configuration only, no flow solve or mesh quality relaxation"
+    }
+  },
+  "fine_wall_spacing/wall-spacing-execution.json.attempt1": {
+    "sha256": "d9248dc4a91eb3e53c526c5b65134e29bcce84eea0a6333068e72d4b53f807d2",
+    "report": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--name",
+        "openfoam-fine-wall-spacing-20261030",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "22g",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/foam/projects/openfoam/runs/extended-wing-cfd-offset-20261030:/case",
+        "-v",
+        "/mnt/g/projects/openfoam/build/fine-wall-spacing-summary.py:/analysis/wall-spacing-summary.py:ro",
+        "-v",
+        "/mnt/g/projects/openfoam/build/summarize_mesh_reference.py:/analysis/summarize_mesh.py:ro",
+        "-w",
+        "/case",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853",
+        "-c",
+        "source /usr/lib/openfoam/openfoam2412/etc/bashrc && checkMesh -writeFields '(wallDistance)' -time 0 > log.wallDistance 2>&1 && /opt/precice-python/bin/python /analysis/wall-spacing-summary.py > log.wallSpacingSummary 2>&1"
+      ],
+      "scope": "Reuse checked meshWave wall-distance/VTK-native identity and area-weighted wall-spacing analysis on new fine mesh. Geometric spacing, not yPlus or flow validation.",
+      "available_memory_kib": 30160908,
+      "exit_code": 1,
+      "elapsed_seconds": 81.58792658200002
+    }
   }
 }
