@@ -50,3 +50,10 @@ energy conservation. Native wall power and exchanged forces are audited separate
 A fixed displacement bound stops runaway pilots. Short runs and force agreement
 establish plumbing only; periodic decay/growth and timestep independence remain
 separate milestones. No actual-wing flutter or flight-limit claim follows.
+
+Initialization is deliberately approximate: the fluid starts from the same rigid
+iteration-500 fields while structural endpoint force starts at zero. Newmark
+therefore ramps the initial structural load over the first timestep. This affects
+startup timestep sensitivity independently of coupling lag. Future loaded trim or
+consistent initial-load evaluation is required before interpreting cycle damping.
+The first controls end at0.5ms (0.44% of a natural period), not a usable flutter sweep.
