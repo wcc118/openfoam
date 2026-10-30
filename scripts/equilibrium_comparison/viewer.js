@@ -80,7 +80,7 @@ function computeTipMetrics(q, modelTag, caseIdx) {
     const c = cases[caseIdx];
     const model = models[modelTag];
     const reference_q = c.reference_q;
-    
+
     // Find tip nodes (max y)
     let maxY = -Infinity;
     for (let i = 0; i < nNodes; i++) {
@@ -91,7 +91,7 @@ function computeTipMetrics(q, modelTag, caseIdx) {
         if (Math.abs(nodes[i][1] - maxY) < 1e-9) tipIndices.push(i);
     }
     const nTip = tipIndices.length;
-    
+
     // Compute centroid of tip nodes
     let xc = 0, zc = 0;
     for (const i of tipIndices) {
@@ -100,22 +100,22 @@ function computeTipMetrics(q, modelTag, caseIdx) {
     }
     xc /= nTip;
     zc /= nTip;
-    
+
     // Compute perturbation q (q - reference_q) if display mode is perturbation
-    const qEffective = displayMode === 'perturbation' 
+    const qEffective = displayMode === 'perturbation'
         ? q.map((v, i) => v - reference_q[i])
         : q;
-    
+
     // Compute displacement at tip nodes
     const u = computeDisplacement(qEffective, modelTag);
-    
+
     // Mean z displacement
     let sumZ = 0;
     for (const i of tipIndices) {
         sumZ += u[i][2];
     }
     const meanTipZ = sumZ / nTip;
-    
+
     // Twist: θ_y = Σ((z−z_c)·u_x − (x−x_c)·u_z) / Σ((z−z_c)²+(x−x_c)²)
     let numerator = 0, denominator = 0;
     for (const i of tipIndices) {
@@ -128,7 +128,7 @@ function computeTipMetrics(q, modelTag, caseIdx) {
     }
     const twistRad = denominator > 1e-15 ? numerator / denominator : 0;
     const twistDeg = twistRad * 180 / Math.PI;
-    
+
     return { meanTipZ, twistDeg };
 }
 
@@ -179,25 +179,25 @@ function drawScene(canvasId, caseIdx) {
     const canvas = $(canvasId);
     const [ctx, w, h] = dimensions(canvas);
     ctx.clearRect(0, 0, w, h);
-    
+
     const c = cases[caseIdx];
     const maxDisp = caseMaxDisplacements[caseIdx];
     const defScaleFactor = Number($('defScale').value);
     const t = modelTime;
-    
+
     // Interpolate q at current time
     const q = interpolateQ(c.frames, t);
     const modelTag = c.model;
     const reference_q = c.reference_q;
-    
+
     // Compute effective q based on display mode
     const qEffective = displayMode === 'perturbation'
         ? q.map((v, i) => v - reference_q[i])
         : q;
-    
+
     // Compute displacement
     const u = computeDisplacement(qEffective, modelTag);
-    
+
     // Build geometry
     const cam = cameraForNodes(nodes, w, h);
     const wp = nodes.map(p => cam.project(p));
@@ -206,7 +206,7 @@ function drawScene(canvasId, caseIdx) {
         p[1] + u[i][1] * defScaleFactor,
         p[2] + u[i][2] * defScaleFactor
     ]));
-    
+
     const items = [];
     for (const quad of data.mesh.quads) {
         if (quad.length !== 4) continue;
@@ -216,7 +216,7 @@ function drawScene(canvasId, caseIdx) {
         items.push({ depth, pts, mag });
     }
     items.sort((a, b) => a.depth - b.depth);
-    
+
     for (const item of items) {
         ctx.beginPath();
         item.pts.forEach((v, j) => j ? ctx.lineTo(v[0], v[1]) : ctx.moveTo(v[0], v[1]));
@@ -224,7 +224,7 @@ function drawScene(canvasId, caseIdx) {
         ctx.fillStyle = color(item.mag, [0, maxDisp]);
         ctx.fill();
     }
-    
+
     // Draw undeformed outline
     ctx.beginPath();
     for (let i = 0; i < nodes.length; i++) {
@@ -237,7 +237,7 @@ function drawScene(canvasId, caseIdx) {
     ctx.setLineDash([5, 4]);
     ctx.stroke();
     ctx.setLineDash([]);
-    
+
     // Axes
     const base = [45, h - 45];
     [['x', [1, 0, 0], '#ff8a80'], ['y', [0, 1, 0], '#8ee5a4'], ['z', [0, 0, 1], '#8acaff']].forEach(([name, v, col]) => {
@@ -255,7 +255,7 @@ function drawScene(canvasId, caseIdx) {
         ctx.font = '13px system-ui';
         ctx.fillText(name, base[0] + r[0] * 39, base[1] + r[1] * 39);
     });
-    
+
     $('legendMin').textContent = '0';
     $('legendMax').textContent = (maxDisp * 1000).toPrecision(4);
     $('legendUnits').textContent = `mm actual · geometry ${defScaleFactor}×`;
@@ -287,10 +287,10 @@ function drawHistory() {
     const canvas = $('history');
     const [ctx, w, h] = dimensions(canvas);
     ctx.clearRect(0, 0, w, h);
-    
+
     const histories = computeTipHistories();
     const c = cases[modelIndex];
-    
+
     // Find global min/max for z and twist
     let minZ = Infinity, maxZ = -Infinity;
     let minTwist = Infinity, maxTwist = -Infinity;
@@ -306,7 +306,7 @@ function drawHistory() {
     const padTwist = Math.max((maxTwist - minTwist) * 0.1, 1e-9);
     const loZ = minZ - padZ, hiZ = maxZ + padZ;
     const loTwist = minTwist - padTwist, hiTwist = maxTwist + padTwist;
-    
+
     // Time range
     let t0 = Infinity, t1 = -Infinity;
     for (const hist of histories) {
@@ -319,7 +319,7 @@ function drawHistory() {
     const x = t => left + (t - t0) / (t1 - t0) * (right - left);
     const yZ = v => bottom - (v - loZ) / (hiZ - loZ) * (bottom - top);
     const yTwist = v => bottom - (v - loTwist) / (hiTwist - loTwist) * (bottom - top);
-    
+
     // Draw axes
     ctx.strokeStyle = '#496078';
     ctx.beginPath();
@@ -327,7 +327,7 @@ function drawHistory() {
     ctx.lineTo(left, bottom);
     ctx.lineTo(right, bottom);
     ctx.stroke();
-    
+
     // Labels
     ctx.fillStyle = '#bacbdb';
     ctx.font = '12px system-ui';
@@ -338,14 +338,14 @@ function drawHistory() {
     ctx.fillText(t0.toPrecision(3), left, bottom + 18);
     ctx.fillText(t1.toPrecision(3), right - 45, bottom + 18);
     ctx.fillText('Physical time (s)', left + 8, h - 4);
-    
+
     // Draw traces for all cases
     const colors = ['#55d9e9', '#7bdcbe', '#e8b4b8', '#f0b44d'];
     for (let i = 0; i < histories.length; i++) {
         const hist = histories[i];
         const c = cases[i];
         const label = c.name;
-        
+
         ctx.strokeStyle = colors[i % colors.length];
         ctx.lineWidth = 1.5;
         ctx.beginPath();
@@ -355,7 +355,7 @@ function drawHistory() {
             else ctx.lineTo(x(pt.t), yZ(pt.z));
         }
         ctx.stroke();
-        
+
         // Current point marker
         const tCurrent = modelTime;
         let currentZ = 0;
@@ -372,18 +372,18 @@ function drawHistory() {
                 }
             }
         }
-        
+
         ctx.fillStyle = colors[i % colors.length];
         ctx.beginPath();
         ctx.arc(x(tCurrent), yZ(currentZ), 4, 0, 2 * Math.PI);
         ctx.fill();
-        
+
         // Legend
         ctx.fillStyle = colors[i % colors.length];
         ctx.font = '11px system-ui';
         ctx.fillText(`${label} (z)`, right + 15, top + 12 + i * 15);
     }
-    
+
     // Draw current time marker
     ctx.strokeStyle = '#fff';
     ctx.setLineDash([4, 4]);
@@ -392,7 +392,7 @@ function drawHistory() {
     ctx.lineTo(x(tCurrent), bottom);
     ctx.stroke();
     ctx.setLineDash([]);
-    
+
     // Time display
     const currentMetrics = computeTipMetrics(
         interpolateQ(c.frames, tCurrent),
@@ -458,7 +458,7 @@ for (const text of (data.scope ? [data.scope] : [])) {
 function draw() {
     const modelTag = modelTags[modelIndex];
     const caseIndices = caseMap[modelTag] || [];
-    
+
     // Update range based on first case for this model
     if (caseIndices.length > 0) {
         const c = cases[caseIndices[0]];
@@ -467,7 +467,7 @@ function draw() {
         $('scrub').value = modelTime;
         updateCaseInfo();
     }
-    
+
     drawScene('canvas1', caseIndices[0] || 0);
     drawScene('canvas2', caseIndices[1] || 0);
     drawHistory();
@@ -487,7 +487,7 @@ function tick(now) {
     const dt = (now - lastTime) / 1000;
     const rate = Number($('rate').value);
     modelTime += dt * rate;
-    
+
     const modelTag = modelTags[modelIndex];
     const caseIndices = caseMap[modelTag] || [];
     if (caseIndices.length > 0) {
@@ -597,7 +597,7 @@ draw = function() {
     const c = caseIndices.length > 0 ? cases[caseIndices[0]] : cases[0];
     const q = interpolateQ(c.frames, modelTime);
     const metrics = computeTipMetrics(q, c.model, caseIndices[0] || 0);
-    
+
     window.comparisonDebug = {
         time: modelTime,
         caseNames: caseIndices.map(i => cases[i].name),
