@@ -55,7 +55,7 @@ def _validate_unit(unit):
 
 def _validate_and_convert_value(value, unit):
     """Validate value and convert to numpy array. Returns (is_scalar, result_array).
-    
+
     Accepts finite real scalar and JSON-style numeric lists/tuples (including nested)
     and numeric NumPy arrays. Rejects bool, complex, nonfinite, nonnumeric values.
     Never mutates caller arrays.
@@ -63,11 +63,11 @@ def _validate_and_convert_value(value, unit):
     # Reject booleans at top level (before int/float check)
     if isinstance(value, bool):
         raise ValueError(f"Value must be numeric, not boolean")
-    
+
     # Reject strings at top level
     if isinstance(value, str):
         raise ValueError(f"Value must be numeric, not string")
-    
+
     # Check if it's a finite numeric scalar
     if isinstance(value, (int, float, np.integer, np.floating)):
         # Check for inf/nan
@@ -75,25 +75,25 @@ def _validate_and_convert_value(value, unit):
             raise ValueError(f"Value must be finite")
         # Scalar path
         return True, float(value)
-    
+
     # Not a scalar - try to convert to numpy array
     try:
         arr = np.array(value, dtype=float, copy=True)
     except (ValueError, TypeError):
         raise ValueError(f"Value contains non-numeric data")
-    
+
     # Check for bool type in numpy array
     if arr.dtype == bool:
         raise ValueError(f"Value contains boolean")
-    
+
     # Check for complex
     if np.issubdtype(arr.dtype, np.complexfloating):
         raise ValueError(f"Value contains complex number")
-    
+
     # Check for inf/nan
     if not np.isfinite(arr).all():
         raise ValueError(f"Value contains non-finite numeric")
-    
+
     is_scalar = arr.shape == ()
     if is_scalar:
         return True, float(arr.item())
@@ -103,18 +103,18 @@ def _validate_and_convert_value(value, unit):
 
 def to_imperial(value, unit):
     """Convert SI value to imperial units for display.
-    
+
     Args:
         value: SI value (scalar or array-like of finite numerics)
         unit: imperial unit name ('in', 'ft', 'lbf', 'lbf_in', 'kn')
-    
+
     Returns:
         Imperial value as float for scalars, numpy ndarray for arrays.
         Arrays are copies, never the original.
-    
+
     Raises:
         ValueError: If value contains invalid data or unit is unsupported.
-    
+
     Examples:
         >>> to_imperial(0.0254, 'in')
         1.0
@@ -131,18 +131,18 @@ def to_imperial(value, unit):
 
 def to_si(value, unit):
     """Convert imperial value to SI for solver input.
-    
+
     Args:
         value: Imperial value (scalar or array-like of finite numerics)
         unit: imperial unit name ('in', 'ft', 'lbf', 'lbf_in', 'kn')
-    
+
     Returns:
         SI value as float for scalars, numpy ndarray for arrays.
         Arrays are copies, never the original.
-    
+
     Raises:
         ValueError: If value contains invalid data or unit is unsupported.
-    
+
     Examples:
         >>> to_si(1.0, 'in')
         0.0254
