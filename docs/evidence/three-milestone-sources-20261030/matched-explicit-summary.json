@@ -1,0 +1,30 @@
+{
+  "scope": "Apply the recorded CFD wall motion to a UVLM model at the same initial pose.\n\nCFD explicit Fluid-first coupling uses the previous accepted structural q.\nReplay that wall path with linear interpolation and interval-constant velocity;\nthis is a prescribed aerodynamic comparison, not another free response.\n",
+  "recorded_end_time_s": 0.6499999999999838,
+  "requested_end_time_s": 0.6,
+  "analysis_source_sha256": "ae36b6248ee94465d4717b8ad5e5803711956ede7c23dc7f99b3142bfb6d254d",
+  "CFD_initial_Q_N": 20.074024246809802,
+  "UVLM_initial_Q_N": 17.89411270141797,
+  "steady_relative_difference": -0.10859364911538683,
+  "CFD_wall_motion_range_m": [
+    0.013924915105165424,
+    0.01492455473113748
+  ],
+  "comparison_start_s": 0.05000000000000004,
+  "comparison_end_s": 0.5999999999999893,
+  "delta_load_rms_difference_N": 0.10293070679515909,
+  "CFD_delta_Q_range_N": [
+    -0.19146617864953086,
+    0.02941087159621958
+  ],
+  "UVLM_delta_Q_range_N": [
+    -0.0997043143893066,
+    0.14692937145115437
+  ],
+  "CFD_incremental_trapezoid_work_J": -0.0001725188112201534,
+  "UVLM_incremental_trapezoid_work_J": -0.0002532521657783045,
+  "model_sha256": "0a3e6fa901dc531c87ae14f11734a737b931a35279485a00c9ed46253f988d31",
+  "history_sha256": "59da012227535cdc88b3dd50c6d1cca77d68b7dab0c77197c2892942f9eeb38a",
+  "model_states": 40,
+  "limitations": "Different viscous/closed-surface versus inviscid/camber-surface physics and spatial discretizations. Both use the CFD initial pose and replayed wall motion. UVLM is linearized, fixed wake, 40-state ROM; see frequency-domain reduction checks. A nonperiodic release work integral is not a periodic damping coefficient."
+}

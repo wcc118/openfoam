@@ -1,12 +1,14 @@
 """Loaded-reference native CFD release, bounded duration and exclusive outputs."""
 from pathlib import Path
-import hashlib,json,re,shutil,subprocess,sys,tarfile,time
+import hashlib,json,math,re,shutil,subprocess,sys,tarfile,time
 root=Path('/home/foam/projects/openfoam/runs');build=Path('/mnt/g/projects/openfoam/build')
 variant=sys.argv[1] if len(sys.argv)>1 else 'explicit'
 assert variant in ('pilot','pilot2','explicit','half','implicit')
 dt=.00025 if variant=='half' else .0005
 end_time=.01 if variant in ('pilot','pilot2','implicit') else .65
 steps=round(end_time/dt)
+assert steps>0 and math.isclose(steps*dt,end_time,rel_tol=0,abs_tol=1e-12)
+write_stride=math.gcd(steps,200)  # Always save complete fields at the terminal step.
 reference_q=.01492455473113748
 out=root/('issue38-loaded-'+variant+'-20261030');out.mkdir(exist_ok=False)
 with tarfile.open(build/'issue38-loaded-source.tar.gz') as archive:archive.extractall(out/'pipeline',filter='data')
@@ -26,7 +28,7 @@ initial_force=float((steady/'processor0/native-interface-work.csv').read_text().
 p=fluid/'0/pointDisplacement';s=p.read_text();s=s[:s.index('wing {')]+'wing {type fixedValue; value uniform (0 0 0);}\n}\n';p.write_text(s)
 p=fluid/'system/controlDict';s=p.read_text()
 for key,value in [('startFrom','startTime'),('startTime','0'),('endTime',str(end_time)),('deltaT',f'{dt:.17g}'),('writeInterval',str(steps))]:
- if key=='writeInterval':s=s.replace('writeControl timeStep; writeInterval 20;','writeControl timeStep; writeInterval '+str(min(steps,200))+';')
+ if key=='writeInterval':s=s.replace('writeControl timeStep; writeInterval 20;','writeControl timeStep; writeInterval '+str(write_stride)+';')
  else:s,n=re.subn(r'\b'+key+r'\s+[^;]+;',key+' '+value+';',s);assert n==1,(key,n)
 # Existing observer retains measured wall power and Q; remove prescribed sine comparison.
 s=s.replace('Foam::scalar actualPower=Foam::sum(f & u), referencePower=Foam::sum(f & faceMode)*rate;', 'Foam::scalar actualPower=Foam::sum(f & u), referencePower=0;')
@@ -111,7 +113,7 @@ checkMesh -allTopology -meshQuality -time "0:" > log.quality 2>&1
 sed -i "s/startFrom startTime/startFrom latestTime/" system/controlDict
 /exporter/bin/wingInterfaceExport > log.export.final 2>&1
 ''')
-(out/'manifest.json').write_text(json.dumps(dict(variant=variant,dt_s=dt,steps=steps,source_archive_sha256=hashlib.sha256((build/'issue38-loaded-source.tar.gz').read_bytes()).hexdigest(),initial_fields={f:hashlib.sha256((fluid/'0'/f).read_bytes()).hexdigest() for f in ('U','p','k','omega','nut','phi')},settings=settings),indent=2))
+(out/'manifest.json').write_text(json.dumps(dict(variant=variant,dt_s=dt,steps=steps,write_stride=write_stride,source_archive_sha256=hashlib.sha256((build/'issue38-loaded-source.tar.gz').read_bytes()).hexdigest(),initial_fields={f:hashlib.sha256((fluid/'0'/f).read_bytes()).hexdigest() for f in ('U','p','k','omega','nut','phi')},settings=settings),indent=2))
 cmd=['docker','run','--rm','--name',out.name,'--network','none','--cpus','4','--memory','8g','--user','1000:1000','-v',str(out)+':/case','-v',str(mesh)+':/mesh:ro','-v',str(exporter)+':/exporter:ro','-w','/case','--entrypoint','/usr/bin/timeout','sha256:0e81e41e58ddd100d133d6bf51a088c49068842ca0108c355c51c94ee883b853','7200','/bin/bash','/case/run.sh']
 start=time.monotonic();(out/'execution.json').write_text(json.dumps(dict(status='running',command=cmd)))
 with (out/'launcher.log').open('w') as log:

@@ -1,9 +1,12 @@
 """Estimate a late single-mode release envelope; keep the fitted centre explicit."""
 import numpy as np
 from scipy import optimize,signal
+RATE_FLOOR_PER_S = .05  # Diagnostic deadband, not a physical uncertainty bound.
 
 def fit(t,q,start):
- t=np.asarray(t);q=np.asarray(q);mask=t>=start;t=t[mask];q=q[mask];tau=t-t[0]
+ t=np.asarray(t);q=np.asarray(q);mask=t>=start;t=t[mask];q=q[mask]
+ if len(t)<20:return dict(status='insufficient_history')
+ tau=t-t[0]
  if len(t)<20 or t[-1]-t[0]<.25:return dict(status='insufficient_history')
  scale=max(float(np.ptp(q)),1e-12)
  def evaluate(x):
@@ -21,14 +24,17 @@ def fit(t,q,start):
 if __name__=='__main__':
  import argparse,json,hashlib
  from pathlib import Path
- p=argparse.ArgumentParser();p.add_argument('input',type=Path);p.add_argument('output',type=Path);p.add_argument('--audit',type=Path,required=True);a=p.parse_args();h=json.loads(a.input.read_text());rows=h['rows'];t=np.r_[0.,[r['time_s'] for r in rows]];q=np.r_[h['settings']['initial_q_m'],[r['q_m'] for r in rows]]
+ p=argparse.ArgumentParser();p.add_argument('input',type=Path);p.add_argument('output',type=Path);p.add_argument('--audit',type=Path,required=True);p.add_argument('--end-time',type=float);a=p.parse_args();h=json.loads(a.input.read_text());rows=h['rows'];t=np.r_[0.,[r['time_s'] for r in rows]];q=np.r_[h['settings']['initial_q_m'],[r['q_m'] for r in rows]]
  audit=json.loads(a.audit.read_text());run_checks=bool(h['completed'] and audit['completed'] and not audit['mesh_failed'] and audit['mesh_ok_count']>=2 and audit['execution']['exit_code']==0 and audit['max_native_force_difference_N']<1e-8)
+ audited_end=float(audit.get('analysis_end_time_s',t[-1]));fit_end=audited_end if a.end_time is None else a.end_time
+ if not np.isfinite(fit_end) or fit_end<=0 or fit_end>audited_end+1e-9:raise ValueError('fit end must be within the audited interval')
+ mask=t<=fit_end+1e-10;t=t[mask];q=q[mask]
  fits=[fit(t,q,start) for start in (.05,.15)]
  rates=[r[key]['growth_per_s'] if key else r['growth_per_s'] for r in fits if r['status']=='fit_available' for key in ('','positive_peak_fit')]
  classification='indeterminate'
  if run_checks and len(rates)==4:
-  if max(rates)<0:classification='observed_decay'
-  elif min(rates)>0:classification='observed_growth'
- result=dict(history_sha256=hashlib.sha256(a.input.read_bytes()).hexdigest(),audit_sha256=hashlib.sha256(a.audit.read_bytes()).hexdigest(),completed=h['completed'],run_checks_passed=run_checks,classification=classification,fits=fits,scope='Single first-bending-mode CFD release. Fitted late-response centre is distinct from the steady SIMPLE loaded pose; no actual-wing flutter conclusion.')
+  if max(rates)<-RATE_FLOOR_PER_S:classification='observed_decay'
+  elif min(rates)>RATE_FLOOR_PER_S:classification='observed_growth'
+ result=dict(recorded_end_time_s=rows[-1]['time_s'],audited_end_time_s=audited_end,requested_fit_end_time_s=fit_end,analysis_source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),classification_rate_floor_per_s=RATE_FLOOR_PER_S,classification_note='Rates within +/-0.05/s remain indeterminate; this diagnostic deadband is not a physical uncertainty bound.',history_sha256=hashlib.sha256(a.input.read_bytes()).hexdigest(),audit_sha256=hashlib.sha256(a.audit.read_bytes()).hexdigest(),completed=h['completed'],run_checks_passed=run_checks,classification=classification,fits=fits,scope='Single first-bending-mode CFD release. Fitted late-response centre is distinct from the steady SIMPLE loaded pose; no actual-wing flutter conclusion.')
  with a.output.open('x') as stream:json.dump(result,stream,indent=2)
  print(json.dumps(result,indent=2))

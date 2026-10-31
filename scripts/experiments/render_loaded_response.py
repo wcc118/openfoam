@@ -82,7 +82,13 @@ def load_cases(manifest_path):
                 if item['status'] == 'fit_available':
                     for key in ('fit_start_s', 'fit_end_s', 'growth_per_s', 'frequency_hz', 'fitted_center_m'):
                         number(item[key])
-                    number(item['positive_peak_fit']['count'])
+                    peaks = number(item['positive_peak_fit']['count'])
+                    if not (0 <= item['fit_start_s'] < item['fit_end_s'] <= data['samples'][-1, 0] + 1e-9):
+                        raise ValueError('Fit interval must lie within the recorded history')
+                    if item['fit_end_s'] > audit.get('analysis_end_time_s', data['samples'][-1, 0]) + 1e-9:
+                        raise ValueError('Fit extends beyond the audited interval')
+                    if item['frequency_hz'] <= 0 or peaks < 4 or int(peaks) != peaks:
+                        raise ValueError('Available fit needs positive frequency and at least four integer peaks')
         cases.append(data)
     return reference, cases
 
@@ -169,6 +175,12 @@ label{display:inline-block;margin:5px 14px 5px 0}.table{overflow-x:auto}
 Generalized force weights the surface loads by the first bending mode.</p>'''
     page += f'<p>Steady starting reference: {to_imperial(reference, "in"):.5f} in. '
     page += 'The fitted oscillation center is reported separately in the table. Curves end at their recorded times.</p>'
+    for case in cases:
+        audit = case['assessment']
+        if audit.get('postprocessing_recovered'):
+            page += '<p>' + html.escape(case['name']) + ': original postprocessing failed after the solvers completed. '
+            page += f"Saved fields were recovered and checked through {number(audit['analysis_end_time_s']):.3f} s. "
+            page += 'The full recorded motion is plotted; fitted comparisons exclude the unsaved tail.</p>'
     page += '<p>Toggle overlapping curves:</p>' + controls + ''.join(svgs)
     page += '<div class="table"><table><tr>' + ''.join('<th>' + x + '</th>' for x in headers)
     page += '</tr>' + metrics(cases) + '</table></div>'
