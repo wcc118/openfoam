@@ -1,0 +1,6 @@
+{
+  "case": "issue38-loaded-pilot-20261030",
+  "max_saved_wall_change_m": 0.0,
+  "point_count": 24068,
+  "scope": "Only audit stationary CFD wall for retrospective startup control; invalid requested coupling window remains invalid."
+}

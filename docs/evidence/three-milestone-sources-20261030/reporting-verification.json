@@ -1,0 +1,17 @@
+{
+  "scope": "Primary observed verification; native cases remain separate from synthetic checks.",
+  "commands": [
+    {
+      "command": "python3 -m unittest discover -s tests",
+      "result": "203 tests passed"
+    },
+    {
+      "command": "Synthetic renderer smoke (five cases; generated under /tmp/issue38-render-primary)",
+      "result": "Standalone inline SVG; both fit intervals; invalid, incomplete, omitted and insufficient fits handled; escaped labels; existing output sentinel preserved"
+    },
+    {
+      "command": "Analytic damped/growing offset histories at growth -5/+3 per s,8.8Hz, starts0.05/0.15s",
+      "result": "Fit growth/frequency errors <1e-6; constant and nonoscillatory drift histories indeterminate"
+    }
+  ]
+}

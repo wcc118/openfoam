@@ -1,0 +1,13 @@
+{
+  "scope": "Retrospective frozen-wall startup control from invalid-coupling-window pilot. That pilot is still invalid as the requested coupled test; its measured stationary-wall flow is useful for isolating initial flow relaxation.",
+  "initial_fields_identical": true,
+  "fluid_steps": 20,
+  "fluid_dt_s": 0.0005,
+  "end_time_s": 0.01,
+  "max_frozen_wall_power_W": 1.2413468530268874e-15,
+  "final_CFD_motion_induced_Q_N": 0.06390899629004565,
+  "final_UVLM_motion_induced_Q_N": 0.06413360172577853,
+  "final_relative_difference": -0.00350214910263813,
+  "rms_force_difference_N": 0.0034549075820127615,
+  "limitations": "Only 0.088 of an 8.81Hz cycle; no damping, phase convergence or flutter claim. The frozen-wall state did not receive structural feedback during the flow interval."
+}

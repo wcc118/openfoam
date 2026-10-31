@@ -1,0 +1,78 @@
+{
+  "recorded_end_time_s": 0.6499999999999562,
+  "audited_end_time_s": 0.6499999999999562,
+  "requested_fit_end_time_s": 0.6,
+  "analysis_source_sha256": "4a2173931e0a70aac6b1a0b200d064e5e4e477f1275314b75376f6f92aae7c92",
+  "classification_rate_floor_per_s": 0.05,
+  "classification_note": "Rates within +/-0.05/s remain indeterminate; this diagnostic deadband is not a physical uncertainty bound.",
+  "history_sha256": "a41f609a635d74625846962274c8d3886ce8396e894891e0cdde5046d90aa88e",
+  "audit_sha256": "7aef0f969a38b3dec5a1398e608927ebb12589ece9c43c8b33741b9e796ae1b1",
+  "completed": true,
+  "run_checks_passed": true,
+  "classification": "observed_decay",
+  "fits": [
+    {
+      "status": "fit_available",
+      "requested_start_s": 0.05,
+      "fit_start_s": 0.05000000000000004,
+      "fit_end_s": 0.5999999999999617,
+      "growth_per_s": -5.050834863023766,
+      "frequency_hz": 8.839590794527972,
+      "fitted_center_m": 0.014362642777554856,
+      "rms_residual_m": 1.1746146615335915e-08,
+      "residual_over_signal_std": 8.688177903729797e-05,
+      "positive_peak_fit": {
+        "count": 5,
+        "times_s": [
+          0.11375000000000009,
+          0.22700000000000017,
+          0.33999999999999025,
+          0.4532499999999778,
+          0.5662499999999654
+        ],
+        "amplitudes_m": [
+          0.00031369726733708816,
+          0.00017714756865024398,
+          0.00010003901552612174,
+          5.652043579219314e-05,
+          3.19265709716951e-05
+        ],
+        "growth_per_s": -5.0495996582405445,
+        "frequency_hz": 8.83977900552554,
+        "log_amplitude_rms": 0.0003321576154805635
+      },
+      "criterion": "At least four positive peaks >0.1 micrometre about the fitted centre; damped-sinusoid RMS residual <10% of signal standard deviation. Estimating criterion, not physical validation."
+    },
+    {
+      "status": "fit_available",
+      "requested_start_s": 0.15,
+      "fit_start_s": 0.1500000000000001,
+      "fit_end_s": 0.5999999999999617,
+      "growth_per_s": -5.0508406880431105,
+      "frequency_hz": 8.839636623146914,
+      "fitted_center_m": 0.014362644159218245,
+      "rms_residual_m": 1.2227474755386106e-08,
+      "residual_over_signal_std": 0.00013848401455999912,
+      "positive_peak_fit": {
+        "count": 4,
+        "times_s": [
+          0.22700000000000017,
+          0.33999999999999025,
+          0.4532499999999778,
+          0.5662499999999654
+        ],
+        "amplitudes_m": [
+          0.00017714618698685437,
+          0.00010003763386273214,
+          5.6519054128803536e-05,
+          3.19251893083055e-05
+        ],
+        "growth_per_s": -5.050138941263968,
+        "frequency_hz": 8.84303610906502,
+        "log_amplitude_rms": 0.0003629400656292539
+      },
+      "criterion": "At least four positive peaks >0.1 micrometre about the fitted centre; damped-sinusoid RMS residual <10% of signal standard deviation. Estimating criterion, not physical validation."
+    }
+  ],
+  "scope": "Single first-bending-mode CFD release. Fitted late-response centre is distinct from the steady SIMPLE loaded pose; no actual-wing flutter conclusion."
+}

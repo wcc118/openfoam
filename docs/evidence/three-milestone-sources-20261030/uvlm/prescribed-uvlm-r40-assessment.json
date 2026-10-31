@@ -1,0 +1,31 @@
+{
+  "scope": "UVLM model at the CFD release pose for a matched imposed-motion comparison.\n\nUses the same native first-mode coordinate (mean tip z in metres), cambered\nsurface and 30m/s speed. CFD is a viscous closed surface; UVLM is an inviscid\ncamber surface, linearized about this prescribed loaded geometry. No claim\nthat this reference is UVLM structural equilibrium.\n",
+  "qref_m": 0.01492455473113748,
+  "Q0_N": 17.89411270141797,
+  "dt_s": 5e-05,
+  "speed_m_s": 30.0,
+  "rho_kg_m3": 1.2250532683653954,
+  "full_states": 2816,
+  "reduced_states": 40,
+  "transfer_checks": [
+    {
+      "frequency_hz": 0.0,
+      "relative_error": 9.05287526626167e-15
+    },
+    {
+      "frequency_hz": 8.810675,
+      "relative_error": 0.006729513093226706
+    },
+    {
+      "frequency_hz": 20.0,
+      "relative_error": 0.013170256722854448
+    },
+    {
+      "frequency_hz": 50.0,
+      "relative_error": 0.07139632565924708
+    }
+  ],
+  "aero_rom_radius": 0.9941878543722485,
+  "camber_sha256": "4eb4f22b600915b18f60ed6bdbf71916d911fab31b581ba95442aea628feb168",
+  "native_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236"
+}

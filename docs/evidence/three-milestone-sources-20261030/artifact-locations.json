@@ -1,0 +1,10 @@
+{
+  "size_bytes": 30855036,
+  "sha256": "6e1722145e0c4bde499234a6b61cd94db9aa998f919a0069adb73f2fce97df19",
+  "files": 137,
+  "archive_windows": "G:\\projects\\openfoam\\build\\three-milestone-results-20261030.tar.gz",
+  "preview_windows": "G:\\projects\\openfoam\\viewers\\three-milestones-20261030\\index.html",
+  "native_fields_wsl": "/home/foam/projects/openfoam/runs/issue38-loaded-{explicit,half,implicit}-20261030",
+  "bundle_manifest": "three-milestone-results-20261030/SHA256.json",
+  "scope": "Curated measured inputs, histories, sources and previews; no synthetic test fixtures. Large CFD volume fields remain in WSL run directories."
+}

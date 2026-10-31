@@ -1,0 +1,42 @@
+{
+  "native": {
+    "initial_fields_identical": true,
+    "max_common_q_difference_m": 2.034902789605636e-05,
+    "common_end_time_s": 0.5999999999999893,
+    "final_q_relative_difference": 0.0009445976689638997,
+    "max_common_Q_difference_N": 0.04489026694302822,
+    "scope": "Loaded release timestep sensitivity; inspect oscillations and fitting before classifying damping"
+  },
+  "fit_interval_comparisons": [
+    {
+      "start_s": 0.05,
+      "end_s": 0.6,
+      "coarse_growth_per_s": -5.065360210101395,
+      "fine_growth_per_s": -5.050834863023766,
+      "growth_relative_change": -0.0028675842339231927,
+      "coarse_frequency_hz": 8.856567038458971,
+      "fine_frequency_hz": 8.839590794527972,
+      "frequency_relative_change": -0.001916797316305674,
+      "coarse_center_m": 0.014350692822234511,
+      "fine_center_m": 0.014362642777554856
+    },
+    {
+      "start_s": 0.15,
+      "end_s": 0.6,
+      "coarse_growth_per_s": -5.067003722245564,
+      "fine_growth_per_s": -5.0508406880431105,
+      "growth_relative_change": -0.003189860337282524,
+      "coarse_frequency_hz": 8.856558745263463,
+      "fine_frequency_hz": 8.839636623146914,
+      "frequency_relative_change": -0.0019106881807336995,
+      "coarse_center_m": 0.014350702145212581,
+      "fine_center_m": 0.014362644159218245
+    }
+  ],
+  "scope": "Practical timestep sensitivity at identical starting fields; not spatial convergence, full implicit-history convergence, or physical validation.",
+  "source_sha256": {
+    "cfd-explicit-fit.json": "cd6a3c8c0f24254fce4b459c159114ae9e5fec925dead8e5e96b59e0856d25be",
+    "cfd-half-fit.json": "5fd53b3265d2c23c2eec28210ee65cf73a76f92450fa76c423d81f82a035f29e",
+    "loaded-assessment.json": "5773964c23447fc2127b69baf7a39f32b5c3003dd618cec9c54f4f4c7c600061"
+  }
+}

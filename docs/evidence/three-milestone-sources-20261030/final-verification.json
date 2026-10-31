@@ -1,0 +1,22 @@
+{
+  "primary_code_review": "2b7711f61438ab1e658542373bd3533e4f3267d6",
+  "tests_passed": 203,
+  "source_audit_history_hashes_verified": true,
+  "analytic_growth_rates_per_s": [
+    -5,
+    0,
+    3
+  ],
+  "analytic_phases_rad": [
+    0.4,
+    0.8
+  ],
+  "analytic_frequency_hz": 8.8,
+  "neutral_deadband_test_passed": true,
+  "constant_drift_empty_tail_indeterminate": true,
+  "renderer_existing_sentinel_preserved": true,
+  "renderer_failure_gates_verified": true,
+  "native_preview_visually_inspected": true,
+  "independent_review_harness_status": "Two tool-scope failures; neither published. Primary final review under AGENTS escalation, documented in PR44 comment6536695471.",
+  "scope": "Estimating experiments; no physical validation or actual-wing flutter limit."
+}
