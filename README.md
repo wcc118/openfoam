@@ -59,8 +59,13 @@ boundary conditions, solver settings, and reference values.
 ## Status
 
 The pinned ARM64 runtime has completed repeatable cavity tutorial runs. Generated 4412/0012 wing surfaces pass the documented geometry checks.
-Volume meshing and flow qualification are next; no flutter prediction or flight capability
-has been demonstrated. See GitHub for independent review and acceptance state.
+Native wing CFD has been coupled live to a single-bending-mode structural model through
+preCICE: CFD forces drive the modal displacement and the displacement moves the CFD wall.
+Short runs (to 0.5 ms) establish the connection and measure startup sensitivities; see the
+[coupled baseline](docs/COUPLED_BASELINE_20261030.md). That baseline does not establish
+damping, flutter, or a full-cycle response, and torsion is not represented. No flutter
+prediction or flight capability has been demonstrated. See GitHub for independent review
+and acceptance state.
 
 GitHub issues are authoritative for work status. Plans describe intended behavior,
 not completed capability. Private aircraft evidence stays private; a later public
