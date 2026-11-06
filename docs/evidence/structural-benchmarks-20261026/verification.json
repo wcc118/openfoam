@@ -1,0 +1,28 @@
+{
+  "generator_sha256": "2bdac8f3b9801e07d444cd6a607fbf638837b15359dda35f52363bb265630492",
+  "commands": [
+    "python3 scripts/generate_structure_benchmarks.py --output-directory OUTPUT",
+    "python3 scripts/generate_structure_benchmarks.py --output-directory OUTPUT --length 2 --density 2500.125 --poisson 0"
+  ],
+  "native_command": "MYSTRAN_BINARY DECK.bdf in each generated directory",
+  "acceptance": "All six native runs normal termination and no *ERROR in F06; static1%,firstbending2%; process exit alone insufficient",
+  "tests": "python3 -m unittest discover -s tests:105passed",
+  "sha256": {
+    "mystran-build-manifest.json": "9d4464acf3eab731ce414dbb810187d42ce52d3d813498f7ef926b2afaa85862",
+    "generated-native-assessment.json": "2a958da9e0115d39cafb7fbce66d58842ad9c836e484c53a0ba489203cdf5d85",
+    "benchmark-primary-length2/bend_static.bdf": "ca71955fd6bf4503ba4cf5f3045c8349c6350631ba9648f7cc957f05cd8f4273",
+    "benchmark-primary-length2/modal_bend.F06": "3220d29858a1545e337625d5704f46e536dd8384b3299d5513bbd49407aa553c",
+    "benchmark-primary-length2/torsion_static.bdf": "31110bb10f7e1437a5e58166a875749e8d300a31db71f02bd88526038f700970",
+    "benchmark-primary-length2/reference.json": "3670c99b563a9776a233f456e388dd523b49a54827fc4a5e82363d76a7bd4c19",
+    "benchmark-primary-length2/torsion_static.F06": "46ea7c0ba3a96402a319545dafaf903651fe79233a6d93b76199c11e6b7ef02c",
+    "benchmark-primary-length2/bend_static.F06": "9c207c2c9c1ac7faea6b889993179cdd5d265746a4c4545d5d678f85453cd216",
+    "benchmark-primary-length2/modal_bend.bdf": "fdcbb3219b02f7d0ef08726b6dcdec2e6137ab5d96949569329fe1f5cfe95113",
+    "benchmark-primary-final/bend_static.bdf": "f78f96c811939eeab8294f418fa57c810ae13edcfb66b70f2b7f93f5bc2eed6a",
+    "benchmark-primary-final/modal_bend.F06": "325e1087567c1efa2a37c83c0e278e9c9d9eacc5ad99055f16b564b239177c50",
+    "benchmark-primary-final/torsion_static.bdf": "d3ced6db0de00d53bb0d1de920ee0ab0735fb8a1b789836d52a3c20cb451c784",
+    "benchmark-primary-final/reference.json": "2ee26dabd4cc464491a29e1974a589763d19f0070f0d40cc364136b18ee9c6dc",
+    "benchmark-primary-final/torsion_static.F06": "0274996748a9c9dbee967a422c8b8905039751c9e66f282a8db9b6b9ea9dec08",
+    "benchmark-primary-final/bend_static.F06": "b5717d01f01434e711be06627edbc263dc3b9e494d55de251b1a2453f8719cee",
+    "benchmark-primary-final/modal_bend.bdf": "2ea315c8b2b5fb9d66c0420b7ad03d54e455cb5c46db1223824780f0947abb24"
+  }
+}

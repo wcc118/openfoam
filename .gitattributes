@@ -5,3 +5,5 @@ docs/evidence/mesh-trials-20261025/**/log.* whitespace=-blank-at-eol,-blank-at-e
 docs/evidence/first-flow-setup-20261025/**/log.* whitespace=-blank-at-eol,-blank-at-eof
 docs/evidence/volume-scale-controls-20261025/**/log.* whitespace=-blank-at-eol,-blank-at-eof
 docs/evidence/normal-spacing-controls-20261025/**/log.* whitespace=-blank-at-eol,-blank-at-eof
+# Preserve fixed-width native MYSTRAN reports used by hashed numerical evidence.
+docs/evidence/structural-benchmarks-20261026/**/*.F06 whitespace=-blank-at-eol,-blank-at-eof

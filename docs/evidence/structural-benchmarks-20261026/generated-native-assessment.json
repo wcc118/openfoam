@@ -1,0 +1,54 @@
+[
+  {
+    "case": "benchmark-primary-final",
+    "results": {
+      "bend_static": {
+        "actual": 0.009700873,
+        "reference": 0.009700872721791716,
+        "relative_error": 2.8678686092575845e-08,
+        "limit": 0.01,
+        "pass": true
+      },
+      "modal_bend": {
+        "actual": 7.115086,
+        "reference": 7.123247438644479,
+        "relative_error": 0.0011457468963106399,
+        "limit": 0.02,
+        "pass": true
+      },
+      "torsion_static": {
+        "actual": 0.0378334,
+        "reference": 0.037833403614987694,
+        "relative_error": 9.555015789697308e-08,
+        "limit": 0.01,
+        "pass": true
+      }
+    }
+  },
+  {
+    "case": "benchmark-primary-length2",
+    "results": {
+      "bend_static": {
+        "actual": 0.07760698,
+        "reference": 0.07760698177433373,
+        "relative_error": 2.2863068216416593e-08,
+        "limit": 0.01,
+        "pass": true
+      },
+      "modal_bend": {
+        "actual": 1.848507,
+        "reference": 1.8506277066782058,
+        "relative_error": 0.0011459391159837073,
+        "limit": 0.02,
+        "pass": true
+      },
+      "torsion_static": {
+        "actual": 0.05820524,
+        "reference": 0.05820523633075029,
+        "relative_error": 6.303985577993387e-08,
+        "limit": 0.01,
+        "pass": true
+      }
+    }
+  }
+]

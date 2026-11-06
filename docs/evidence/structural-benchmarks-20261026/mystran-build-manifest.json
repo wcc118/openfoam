@@ -1,0 +1,17 @@
+{
+  "solver": "MYSTRAN",
+  "version": "19.0.0",
+  "source": "https://github.com/MystranSolver/MYSTRANSolver",
+  "revision": "3a5913a904ee1adbda9fbcaf9c0a6af8e10f0f9f",
+  "submodules": " e2856c2f595b153ca1ce9258c5301dbabc4f39f5 submodules/GKlib (METIS-v5.1.1-DistDGL-0.5-36-ge2856c2)\n 20044bbd951fe895b2030c35fe9e4fc658f22576 submodules/lapack (v3.12.1-261-g20044bbd9)\n dfded64f24664caa8809cacf416d378112e8867f submodules/metis (v5.2.1-13-gdfded64)\n 83a3c82b9e44c966ca2bc26991ffdb2bf63e1e2b submodules/superlu (v7.0.1)\n 473ae8d4fe117699eccf2f96aac4c44fc7b92b17 submodules/superlu_mt (v4.0.1-8-g473ae8d)\n",
+  "binary_sha256": "e2980a1fb40fd3d4a0d48ad54f4829dfe052db631896d2be765429d1f9818c8d",
+  "compiler": "GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "build": "cmake Release MYSTRAN_BLAS_LAPACK=EMBEDDED; -j4",
+  "system_blas_attempt": "failed: system BLAS+LAPACK not found; log preserved",
+  "smoke": "upstream bar_tube.bdf terminates normally; numerical benchmark pending",
+  "license": "MIT (solver); bundled dependencies retain own licenses",
+  "smoke_warnings": [
+    "SOLLIB INTMKL unsupported: fallback SPARSE",
+    "Acceleration requests only programmed in CB model solution"
+  ]
+}
