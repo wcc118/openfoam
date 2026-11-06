@@ -1,0 +1,46 @@
+{
+  "structural_source": "PR31 head2894b079b1863567c39ebc6155d3c8257c1cc4c0; fine mesh native MYSTRAN output; viewer generated 2026-10-27",
+  "cfd_source": "Five saved iteration500 steady diagnostic cases; viewer export 2026-10-26; not converged validation",
+  "files": {
+    "wing-structure.html": {
+      "bytes": 1597891,
+      "sha256": "6d200ad08e94bb65d981f4004f856ec6666565194b43b65132eb42f2927ae688",
+      "location": "Git viewers/wing-structure.html"
+    },
+    "native-flow-0-500.html": {
+      "bytes": 56693942,
+      "sha256": "2f3c50301ba4adecf57960bfa3ceffd494ece93bf562c04693415e98f4911387",
+      "location": "GitHub Release viewer-snapshot-2026-10-27"
+    },
+    "native-flow-10-500.html": {
+      "bytes": 64822975,
+      "sha256": "eed177fb1004abe1336f79f1978d66893bddb09f9cd800bfbceab3488cb13281",
+      "location": "GitHub Release viewer-snapshot-2026-10-27"
+    },
+    "native-flow-5-500.html": {
+      "bytes": 60817704,
+      "sha256": "6eb33db5f02d5d4b0ea9854e0acd977e6a5fded24e75fc6133f7123113583a22",
+      "location": "GitHub Release viewer-snapshot-2026-10-27"
+    },
+    "native-flow-minus10-500.html": {
+      "bytes": 85093743,
+      "sha256": "87890fe40efb5ffe54f9fe96630a35665971587af5fcd8c112901d63ed13ffe3",
+      "location": "GitHub Release viewer-snapshot-2026-10-27"
+    },
+    "native-flow-minus5-500.html": {
+      "bytes": 51541931,
+      "sha256": "9201d73be960410a34f0b6b1d317d106d0c6bda390b936cdd0c37ac00a757f99",
+      "location": "GitHub Release viewer-snapshot-2026-10-27"
+    },
+    "VTK-LICENSE.txt": {
+      "bytes": 1489,
+      "sha256": "975132688e5330fc9bef98cf3260af11d74f7ef2ffe8309b5d10bd73e212a5fc",
+      "location": "GitHub Release viewer-snapshot-2026-10-27"
+    },
+    "VTK-BUNDLE-LICENSES.txt": {
+      "bytes": 487,
+      "sha256": "95f7af6eb678ef02f8ed88021e22153310f1214a1669eb39dc343028f732a245",
+      "location": "GitHub Release viewer-snapshot-2026-10-27"
+    }
+  }
+}
