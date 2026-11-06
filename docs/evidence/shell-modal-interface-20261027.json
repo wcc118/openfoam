@@ -1,0 +1,441 @@
+{
+  "scope": "Verified shell modal/interface preparation; no aeroelastic eigenproblem or flutter boundary solved",
+  "native_solver": "MYSTRAN19.0.0 3a5913a904ee1adbda9fbcaf9c0a6af8e10f0f9f",
+  "mass_source": "Source/EMG/EMG4/QDEL1.f90 lines184-196; rho*t*area/4 translational corner masses",
+  "fine_mass_gram_max_abs_error": 3.002143267316626e-08,
+  "fine30_mass_gram_max_abs_error": 3.002143267316626e-08,
+  "fine_modes": [
+    {
+      "mode": 1,
+      "frequency_Hz": 8.810675,
+      "native_generalized_mass": 1.0,
+      "recomputed_mass_norm": 0.9999999800335724,
+      "section_fit_residual_mass_fraction": 1.1984783658329824e-07,
+      "section_translation_mass_fractions_xyz": [
+        6.193192974024391e-05,
+        2.381439460022049e-11,
+        0.9998683354980087
+      ],
+      "section_rotation_mass_fraction": 6.961270060019843e-05,
+      "max_fitted_twist_per_modal_coordinate": 0.10073107452673691
+    },
+    {
+      "mode": 2,
+      "frequency_Hz": 53.77565,
+      "native_generalized_mass": 1.0,
+      "recomputed_mass_norm": 1.0000000300214327,
+      "section_fit_residual_mass_fraction": 1.8980408470643704e-05,
+      "section_translation_mass_fractions_xyz": [
+        0.0002317962076148079,
+        2.5755733434218117e-09,
+        0.9986724204531703
+      ],
+      "section_rotation_mass_fraction": 0.0010768003551718162,
+      "max_fitted_twist_per_modal_coordinate": 1.2100223060395956
+    },
+    {
+      "mode": 3,
+      "frequency_Hz": 56.43436,
+      "native_generalized_mass": 1.0,
+      "recomputed_mass_norm": 0.9999999985735859,
+      "section_fit_residual_mass_fraction": 3.5904111366687855e-07,
+      "section_translation_mass_fractions_xyz": [
+        0.996982640066926,
+        6.738226872918754e-11,
+        0.00022506646134018651
+      ],
+      "section_rotation_mass_fraction": 0.002791934363237627,
+      "max_fitted_twist_per_modal_coordinate": 0.4116932627079121
+    },
+    {
+      "mode": 4,
+      "frequency_Hz": 143.1312,
+      "native_generalized_mass": 1.0,
+      "recomputed_mass_norm": 1.0000000157559286,
+      "section_fit_residual_mass_fraction": 0.0009766942826236243,
+      "section_translation_mass_fractions_xyz": [
+        0.0001039539650467069,
+        3.3715818226054046e-08,
+        0.9864713100197208
+      ],
+      "section_rotation_mass_fraction": 0.012448008016790768,
+      "max_fitted_twist_per_modal_coordinate": 5.756350262380206
+    },
+    {
+      "mode": 5,
+      "frequency_Hz": 169.4779,
+      "native_generalized_mass": 1.0,
+      "recomputed_mass_norm": 1.00000000833416,
+      "section_fit_residual_mass_fraction": 0.0005867119763121738,
+      "section_translation_mass_fractions_xyz": [
+        0.000636284257608544,
+        2.4910806767770203e-10,
+        0.013353707475243446
+      ],
+      "section_rotation_mass_fraction": 0.985423296041731,
+      "max_fitted_twist_per_modal_coordinate": 49.14045885856792
+    },
+    {
+      "mode": 6,
+      "frequency_Hz": 257.1314,
+      "native_generalized_mass": 1.0,
+      "recomputed_mass_norm": 0.9999999973149154,
+      "section_fit_residual_mass_fraction": 0.012332780994400574,
+      "section_translation_mass_fractions_xyz": [
+        9.415373964697408e-05,
+        1.6048107843745102e-07,
+        0.9758386329742449
+      ],
+      "section_rotation_mass_fraction": 0.011734271810630564,
+      "max_fitted_twist_per_modal_coordinate": 7.073176671982933
+    },
+    {
+      "mode": 7,
+      "frequency_Hz": 341.2641,
+      "native_generalized_mass": 1.0,
+      "recomputed_mass_norm": 0.9999999764171339,
+      "section_fit_residual_mass_fraction": 0.0009103861630162036,
+      "section_translation_mass_fractions_xyz": [
+        0.9732414931922371,
+        1.4957242454889935e-09,
+        0.0006957747923513933
+      ],
+      "section_rotation_mass_fraction": 0.025152344356672747,
+      "max_fitted_twist_per_modal_coordinate": 6.468860876270081
+    },
+    {
+      "mode": 8,
+      "frequency_Hz": 366.2999,
+      "native_generalized_mass": 1.0,
+      "recomputed_mass_norm": 0.9999999899772694,
+      "section_fit_residual_mass_fraction": 0.06530668083148702,
+      "section_translation_mass_fractions_xyz": [
+        0.0011886659374761243,
+        4.020651341252606e-07,
+        0.904233211755905
+      ],
+      "section_rotation_mass_fraction": 0.02927103940999796,
+      "max_fitted_twist_per_modal_coordinate": 10.591702449412946
+    },
+    {
+      "mode": 9,
+      "frequency_Hz": 446.9751,
+      "native_generalized_mass": 1.0,
+      "recomputed_mass_norm": 0.9999999927332321,
+      "section_fit_residual_mass_fraction": 0.1572767390059233,
+      "section_translation_mass_fractions_xyz": [
+        0.0014855713256270667,
+        4.6197651594650206e-07,
+        0.659944772743478
+      ],
+      "section_rotation_mass_fraction": 0.18129245494846025,
+      "max_fitted_twist_per_modal_coordinate": 29.16534346128767
+    },
+    {
+      "mode": 10,
+      "frequency_Hz": 453.9331,
+      "native_generalized_mass": 1.0,
+      "recomputed_mass_norm": 1.0000000009375245,
+      "section_fit_residual_mass_fraction": 0.07484392254008049,
+      "section_translation_mass_fractions_xyz": [
+        0.00682635449254116,
+        7.27729862567023e-08,
+        0.14147672177492027
+      ],
+      "section_rotation_mass_fraction": 0.7768529284194711,
+      "max_fitted_twist_per_modal_coordinate": 46.98843788686942
+    }
+  ],
+  "coarse_fine_mode_matches": [
+    {
+      "coarse_mode": 1,
+      "fine_mode": 1,
+      "MAC": 0.9999997852592015,
+      "frequency_change_percent": 0.3415793898469355
+    },
+    {
+      "coarse_mode": 2,
+      "fine_mode": 2,
+      "MAC": 0.9999842411540983,
+      "frequency_change_percent": 0.35431034981474596
+    },
+    {
+      "coarse_mode": 3,
+      "fine_mode": 3,
+      "MAC": 0.9999992437940692,
+      "frequency_change_percent": -0.02921125191206464
+    },
+    {
+      "coarse_mode": 4,
+      "fine_mode": 4,
+      "MAC": 0.9998517093349422,
+      "frequency_change_percent": 0.3932086980064531
+    },
+    {
+      "coarse_mode": 5,
+      "fine_mode": 5,
+      "MAC": 0.9999817857583644,
+      "frequency_change_percent": 0.8581499548608429
+    },
+    {
+      "coarse_mode": 6,
+      "fine_mode": 6,
+      "MAC": 0.9990719421209342,
+      "frequency_change_percent": 0.8039811730096158
+    },
+    {
+      "coarse_mode": 7,
+      "fine_mode": 7,
+      "MAC": 0.9996755572833692,
+      "frequency_change_percent": 0.012044909047737029
+    },
+    {
+      "coarse_mode": 8,
+      "fine_mode": 8,
+      "MAC": 0.9930688656237789,
+      "frequency_change_percent": 2.2397574603224113
+    },
+    {
+      "coarse_mode": 9,
+      "fine_mode": 9,
+      "MAC": 0.8703681990181842,
+      "frequency_change_percent": 4.782030685732286
+    },
+    {
+      "coarse_mode": 10,
+      "fine_mode": 10,
+      "MAC": 0.8803101476376102,
+      "frequency_change_percent": 1.8569188542953308
+    }
+  ],
+  "tip_load_modal_reconstruction": {
+    "bending": [
+      {
+        "modes": 2,
+        "value": 0.0014742705073399788,
+        "native_value": 0.001483271546875,
+        "relative_error_percent": -0.6068369311057586
+      },
+      {
+        "modes": 4,
+        "value": 0.0014793230928582886,
+        "native_value": 0.001483271546875,
+        "relative_error_percent": -0.26619899943675085
+      },
+      {
+        "modes": 5,
+        "value": 0.0014793649732475977,
+        "native_value": 0.001483271546875,
+        "relative_error_percent": -0.2633754847945924
+      },
+      {
+        "modes": 6,
+        "value": 0.0014808314569197383,
+        "native_value": 0.001483271546875,
+        "relative_error_percent": -0.16450729877496295
+      },
+      {
+        "modes": 8,
+        "value": 0.0014814625159656409,
+        "native_value": 0.001483271546875,
+        "relative_error_percent": -0.12196222014575486
+      },
+      {
+        "modes": 10,
+        "value": 0.0014818236646249316,
+        "native_value": 0.001483271546875,
+        "relative_error_percent": -0.09761410532809212
+      }
+    ],
+    "torsion": [
+      {
+        "modes": 2,
+        "value": 6.3722732098710705e-06,
+        "native_value": 0.0035908516534847684,
+        "relative_error_percent": -99.82254145186735
+      },
+      {
+        "modes": 4,
+        "value": 4.3794504546491996e-05,
+        "native_value": 0.0035908516534847684,
+        "relative_error_percent": -98.78038669450487
+      },
+      {
+        "modes": 5,
+        "value": 0.0021455023023631043,
+        "native_value": 0.0035908516534847684,
+        "relative_error_percent": -40.25087891667744
+      },
+      {
+        "modes": 6,
+        "value": 0.0021589049062112338,
+        "native_value": 0.0035908516534847684,
+        "relative_error_percent": -39.877635877379994
+      },
+      {
+        "modes": 8,
+        "value": 0.00216723669238635,
+        "native_value": 0.0035908516534847684,
+        "relative_error_percent": -39.64560774090627
+      },
+      {
+        "modes": 10,
+        "value": 0.0024602623398285667,
+        "native_value": 0.0035908516534847684,
+        "relative_error_percent": -31.485269310945018
+      }
+    ]
+  },
+  "distributed_torque_modal_reconstruction": {
+    "distributed_torque_force_sum_N": [
+      -1.9057224873685052e-16,
+      0.0,
+      1.6490715043504522e-15
+    ],
+    "distributed_torque_moment_Nm": [
+      9.603862843876598e-16,
+      0.9999999999999998,
+      6.570265165262157e-17
+    ],
+    "native_work_compliance": 0.00098968646162177,
+    "mode_truncation": [
+      {
+        "modes": 5,
+        "work_compliance": 0.0009419579782437505,
+        "work_error_percent": -4.822586266342189,
+        "mass_weighted_displacement_error_percent": 6.772842863034305
+      },
+      {
+        "modes": 6,
+        "work_compliance": 0.0009427535747926681,
+        "work_error_percent": -4.742197519019742,
+        "mass_weighted_displacement_error_percent": 6.590893057957032
+      },
+      {
+        "modes": 8,
+        "work_compliance": 0.0009432364618273563,
+        "work_error_percent": -4.693405598203038,
+        "mass_weighted_displacement_error_percent": 6.5325947126303
+      },
+      {
+        "modes": 10,
+        "work_compliance": 0.00098530817310449,
+        "work_error_percent": -0.44239147316468275,
+        "mass_weighted_displacement_error_percent": 1.1030701491376418
+      },
+      {
+        "modes": 15,
+        "work_compliance": 0.0009863875039002952,
+        "work_error_percent": -0.333333621242915,
+        "mass_weighted_displacement_error_percent": 0.7222767838181886
+      },
+      {
+        "modes": 20,
+        "work_compliance": 0.0009865634379621437,
+        "work_error_percent": -0.31555687389202003,
+        "mass_weighted_displacement_error_percent": 0.660262123680263
+      },
+      {
+        "modes": 30,
+        "work_compliance": 0.0009870079106503566,
+        "work_error_percent": -0.2706464193744873,
+        "mass_weighted_displacement_error_percent": 0.49649179014103034
+      }
+    ],
+    "root_reaction_force_N": [
+      7.000000135093387e-07,
+      5.499999981006809e-07,
+      2.0999999972293182e-07
+    ],
+    "root_reaction_moment_Nm": [
+      -5.3166139657554075e-09,
+      -1.0000000030635865,
+      1.5872093378295494e-08
+    ],
+    "warnings": []
+  },
+  "camber_interface": {
+    "scope": "Kinematic/load map only, not a coupled aeroelastic solve",
+    "method": "spanwise and mean-line-coordinate linear interpolation of paired upper/lower skin translations; weighted reference camber coordinates; transpose force transfer",
+    "limitations": [
+      "thin camber surface omits thickness breathing effects on aerodynamics",
+      "piecewise-linear native NACA camber reference",
+      "no fuselage or wall-image aerodynamic condition yet",
+      "no CFD surface tractions or steady stubby loads used",
+      "no damping assumption added"
+    ],
+    "meshes": [
+      {
+        "M": 4,
+        "N": 8,
+        "aerodynamic_vertices": 45,
+        "modes": 30,
+        "rigid_motion_max_abs_error_m": 1.3877787807814457e-17,
+        "force_max_abs_error_N": 2.6645352591003757e-15,
+        "moment_max_abs_error_Nm": 1.27675647831893e-15,
+        "virtual_work_abs_error_J": 1.2468324983583301e-18,
+        "root_modes_zero": true,
+        "basis_source_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236"
+      },
+      {
+        "M": 8,
+        "N": 16,
+        "aerodynamic_vertices": 153,
+        "modes": 30,
+        "rigid_motion_max_abs_error_m": 1.3877787807814457e-17,
+        "force_max_abs_error_N": 4.440892098500626e-15,
+        "moment_max_abs_error_Nm": 7.105427357601002e-15,
+        "virtual_work_abs_error_J": 7.589415207398531e-19,
+        "root_modes_zero": true,
+        "basis_source_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236"
+      },
+      {
+        "M": 12,
+        "N": 24,
+        "aerodynamic_vertices": 325,
+        "modes": 30,
+        "rigid_motion_max_abs_error_m": 1.3877787807814457e-17,
+        "force_max_abs_error_N": 1.226796442210798e-14,
+        "moment_max_abs_error_Nm": 7.993605777301127e-15,
+        "virtual_work_abs_error_J": 4.336808689942018e-18,
+        "root_modes_zero": true,
+        "basis_source_sha256": "8f5870bafb5f77b48f423102b5ab4451d710054e4f89bb15da76317da6cb0236"
+      }
+    ]
+  },
+  "native_source_hashes": {
+    "fine": {
+      "model.json": "de1660058b95cc4684106b4f5153b06b7667f6687a8192161a1da1581f517ab0",
+      "mesh.json": "93714770590ceddccce48278ee1498d1e97c86f9a06004509a7c1a38350c9868",
+      "modal.F06": "ceb10bd69f1a64d32d19f2f22e0a0d6d4db11730745c91969a5ed6dac80f21fd",
+      "modal.bdf": "7ec18741585ce1fd71e7b812449b7f18bbd3c07e75a43a5ab3c97689c360c966"
+    },
+    "coarse": {
+      "model.json": "7417673851003afd06b09080e086b3b221b193ac9e6657d2d9dd66bb4e25679d",
+      "mesh.json": "ef8435c6baeb439a9baac5c2ae744ca33e1eb035751510d2e441d03c06161948",
+      "modal.F06": "516a2d15bd2c984f406bc919b5a8590215da05b34641e3871c5f1fa01aa263e3",
+      "modal.bdf": "83c7eff18510822e37ced60482000829295a9568beada7725de0a762fc8aa127"
+    },
+    "fine30": {
+      "model.json": "227a3771647a3213f68e7e284d8bcd251c63630f714f7d70c98d0ee6a7f456d2",
+      "mesh.json": "93714770590ceddccce48278ee1498d1e97c86f9a06004509a7c1a38350c9868",
+      "modal.F06": "a2916b61e4d1682dd9be9c0cf65d5ea7cf10e377dbfde8a0ff6c8e22c50815a9",
+      "modal.bdf": "893c21746bed36f9f3e1e60f78cd2c18e70b9eeaba38cf376f2a4e5e4442d9d7"
+    }
+  },
+  "analysis_script_sha256": {
+    "build-camber-interface.py": "e86d1d12ac1a73e3794dcf869218dee6fecf0fa072d1fb9026b12752d6eaf298",
+    "check-reduction.py": "94bb9ff84e2124e893c69fd59bdf3ae03003711ba981077674775ae6d6a32e9d",
+    "summarize.py": "d84a196df7d8ee59dcfd1dd3dead239414537f7406ba88cadc1106fb19e68b4d",
+    "run-extended-modes.py": "093da76503d2f44e4256d12d4248d9a3a3832329616b429bb8bcf4ce794dfc3c",
+    "check-distributed.py": "762fecff2faef73909804a378072069033abba62a5b262808b3673278edf8ebe",
+    "characterize.py": "8238dfde6ace53754bdbacd88e46885dbf0285d05c4336e3eb1f8ceb0842afd6"
+  },
+  "next_gate": "Assemble and verify unsteady aerodynamic state-space coupling including matching root symmetry and equilibrium; no flutter speed inferred from present tests.",
+  "repository_utility_native_checks": {
+    "repository_utility_on_native_30_mode_basis": true,
+    "mass_gram_max_abs_error": 3.0021430674764815e-08,
+    "virtual_work_abs_error_J": 3.469446951953614e-18,
+    "displacements_match_independent_numpy_max_abs_error": 4.336808689942018e-19
+  }
+}
