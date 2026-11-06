@@ -113,3 +113,6 @@ References consulted 2026-10-24:
 For offline inspection of independently simulated steady angles, see
 [the angle-comparison viewer](ANGLE_COMPARISON.md). This viewer does not replace
 the CFD convergence and sensitivity gates.
+
+Dense exported sections can be inspected with the [3D slice viewer](DENSE_FLOW_VIEWER.md).
+Display/export resolution remains distinct from numerical convergence and physical validation.
