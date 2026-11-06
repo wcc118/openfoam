@@ -1,5 +1,8 @@
 # Engineering plan
 
+This is the historical planning baseline. For delivered evidence and current work,
+see [Current project status](CURRENT_STATUS.md) and the linked GitHub issues.
+
 Planning baseline: 2026-10-24. Issue #1. Status: proposed stages; no CFD results yet.
 
 ## Purpose and owner direction

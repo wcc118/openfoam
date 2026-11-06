@@ -7,6 +7,8 @@ individual angle-of-attack cases before building a sweep or optimization loop.
 
 ## Start here
 
+- [Current project status](docs/CURRENT_STATUS.md): delivered evidence, active work and outstanding PRs.
+
 - [Engineering roadmap](docs/ENGINEERING_PLAN.md): stages, decisions, and evidence gates.
 - [Rigid-wing MVP](docs/RIGID_WING_MVP.md): the first detailed analysis contract.
 - [Reuse inventory](docs/REUSE_INVENTORY.md): existing code to inspect and adapt before writing replacements.
@@ -58,14 +60,17 @@ boundary conditions, solver settings, and reference values.
 
 ## Status
 
-The pinned ARM64 runtime has completed repeatable cavity tutorial runs. Generated 4412/0012 wing surfaces pass the documented geometry checks.
-Native wing CFD has been coupled live to a single-bending-mode structural model through
-preCICE: CFD forces drive the modal displacement and the displacement moves the CFD wall.
-Short runs (to 0.5 ms) establish the connection and measure startup sensitivities; see the
-[coupled baseline](docs/COUPLED_BASELINE_20261030.md). That baseline does not establish
-damping, flutter, or a full-cycle response, and torsion is not represented. No flutter
-prediction or flight capability has been demonstrated. See GitHub for independent review
-and acceptance state.
+The structural/CFD pipeline has demonstrated a loaded first-bending reference and
+several-cycle decay with a practical timestep comparison. A separate twenty-mode
+CFD coupling protocol has passed short force, energy and mesh checks; it does not
+establish multimode damping. Original-stiffness UVLM screening covers 60–250 knots,
+with no growing resolved oscillatory pole in the assessed surrogate model.
+
+Issue #45 has resumed for selected-speed CFD baseline qualification and conditional
+dynamics. CFD stability remains unassessed at all twenty requested speeds. The
+actual wing is not test-calibrated, and no flight envelope is established. See
+[current status](docs/CURRENT_STATUS.md) and the
+[three estimating milestones](docs/THREE_MILESTONE_CONTRACT.md).
 
 GitHub issues are authoritative for work status. Plans describe intended behavior,
 not completed capability. Private aircraft evidence stays private; a later public
