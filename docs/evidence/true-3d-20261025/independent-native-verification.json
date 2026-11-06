@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "paths_native_coordinates_and_speeds_equal": true,
+  "all_65_seeds_preserved": true,
+  "minimum_segment_velocity_cosine": 0.9983693162775089,
+  "volume_native_speeds_equal": true,
+  "masked_nodes": 1210,
+  "original_fields_unchanged": true,
+  "no_solver_iterations_in_export_log": true
+}

@@ -1,0 +1,57 @@
+{
+  "paths": {
+    "source_sha256": "c606475fbd98c750fc02ace3607772a534962fc480d86cf17c9aa2c0e1cb87d5",
+    "points": 49240,
+    "lines": 65,
+    "bounds_m": [
+      [
+        -0.035000000149,
+        -0.645202755928,
+        -0.0250000003725
+      ],
+      [
+        1.20000004768,
+        0.645202338696,
+        0.13341999054
+      ]
+    ],
+    "speed_range_m_s": [
+      20.580509556304342,
+      37.89337957926495
+    ],
+    "downstream_ends": 65
+  },
+  "vortex": {
+    "source_sha256": "f99da270f364b18baa16686024aa49cd609ac0eb6b95096a1ae60230a21142ce",
+    "native_points": 2380397,
+    "native_triangles": 4614608,
+    "display_points": 313918,
+    "display_triangles": 692454,
+    "vertex_cluster_m": 0.001,
+    "max_vertex_displacement_m": 0.0012161492609008414,
+    "source_cell_speed_range_m_s": [
+      0.016790693737405667,
+      40.64887810851227
+    ],
+    "display_cell_speed_range_m_s": [
+      0.03885451438142058,
+      40.64887810851227
+    ],
+    "Q_s_minus_2": 8718.767437534876,
+    "Q_star": 0.1,
+    "method": "1mm vertex clustering, collapsed triangles removed and duplicate triangles retain first native cell scalar; topology/detail may change; no use for measurements"
+  },
+  "volume": {
+    "source_sha256": "1f4831ef09c00d651498bb64c7501bfc1721a5b7200dc06d32bdcd016baac728",
+    "samples": 580415,
+    "grid_nodes": 581625,
+    "missing_masked": 1210,
+    "speed_range_m_s": [
+      1.0439054240408754,
+      40.56821412255664
+    ],
+    "coordinate_bijection_verified": true,
+    "method": "10mm native cellPoint sampling; missing coordinates remain -1 transparent; nearest display interpolation, no extrapolation; coarse display grid cannot resolve near-wall structure"
+  },
+  "package_sha256": "91ea6d61a1615b20464de8e6f30e9889298e74695167c5b163ebe15150414b84"
+}
