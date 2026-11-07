@@ -191,7 +191,7 @@ class BehaviorViewerTests(unittest.TestCase):
         page = build_test_html(data)
         self.assertNotIn('__BEHAVIOR_DATA__', page)
         self.assertNotIn('__BEHAVIOR_SCRIPT__', page)
-        required_ids = ['speedSelect', 'cfdSelect', 'deformScale', 'perturbScale', 
+        required_ids = ['speedSelect', 'cfdSelect', 'deformScale', 'perturbScale',
                         'scene', 'chartCanvas', 'view', 'reset', 'speedLabel',
                         'metricTip', 'metricTwist', 'metricLift', 'metricAlpha',
                         'compareList', 'legendMin', 'legendMax']

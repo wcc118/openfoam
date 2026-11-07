@@ -96,11 +96,11 @@ function drawScene() {
     }
     return result;
   });
-  
+
   // Actually we need to compute deformed points for UVLM
   const uvlmDeformed = points.map(i => deformedPoint(uvlmQ, null, i));
   const uvlmWP2 = uvlmDeformed.map(cam.project);
-  
+
   ctx.strokeStyle = '#00bcd4'; ctx.lineWidth = 1; ctx.globalAlpha = 0.7;
   for (const tri of triangles) {
     const p = tri.map(i => uvlmWP2[i]);
@@ -131,7 +131,7 @@ function drawScene() {
     const qDelta = speed.transient.q_delta[0];
     const tipDelta = speed.transient.tip_delta_in[0];
     const twistDelta = speed.transient.twist_delta_deg[0];
-    
+
     // We need to map q_delta to actual deformation
     // q_delta is [K][20] for K samples
     const perturbDeformed = points.map(i => deformedPoint(uvlmQ, qDelta, i));
@@ -181,7 +181,7 @@ function drawTrendChart() {
   ctx.beginPath();
   speedsData.forEach((d, i) => {
     const x = (d.speed_kn - 60) / (250 - 60) * (w - 60) + 40;
-    const y = h - 40 - (d.uvLM_tip - Math.min(...speedsData.map(s => s.uvLM_tip)) * 0.9) / 
+    const y = h - 40 - (d.uvLM_tip - Math.min(...speedsData.map(s => s.uvLM_tip)) * 0.9) /
       ((Math.max(...speedsData.map(s => s.uvLM_tip)) - Math.min(...speedsData.map(s => s.uvLM_tip))) * 1.2) * (h - 100);
     if (i === 0) ctx.moveTo(x, y);
     else ctx.lineTo(x, y);
@@ -193,7 +193,7 @@ function drawTrendChart() {
   ctx.beginPath();
   speedsData.forEach((d, i) => {
     const x = (d.speed_kn - 60) / (250 - 60) * (w - 60) + 40;
-    const y = h - 40 - (d.uvLM_twist - Math.min(...speedsData.map(s => s.uvLM_twist)) * 0.9) / 
+    const y = h - 40 - (d.uvLM_twist - Math.min(...speedsData.map(s => s.uvLM_twist)) * 0.9) /
       ((Math.max(...speedsData.map(s => s.uvLM_twist)) - Math.min(...speedsData.map(s => s.uvLM_twist))) * 1.2) * (h - 100);
     if (i === 0) ctx.moveTo(x, y);
     else ctx.lineTo(x, y);
@@ -205,7 +205,7 @@ function drawTrendChart() {
   ctx.beginPath();
   speedsData.forEach((d, i) => {
     const x = (d.speed_kn - 60) / (250 - 60) * (w - 60) + 40;
-    const y = h - 40 - (d.uvLM_lift - Math.min(...speedsData.map(s => s.uvLM_lift)) * 0.9) / 
+    const y = h - 40 - (d.uvLM_lift - Math.min(...speedsData.map(s => s.uvLM_lift)) * 0.9) /
       ((Math.max(...speedsData.map(s => s.uvLM_lift)) - Math.min(...speedsData.map(s => s.uvLM_lift))) * 1.2) * (h - 100);
     if (i === 0) ctx.moveTo(x, y);
     else ctx.lineTo(x, y);
@@ -237,7 +237,7 @@ function updateUI() {
   // Update CFD selector
   const cfdSelect = $('cfdSelect');
   while (cfdSelect.firstChild) cfdSelect.removeChild(cfdSelect.firstChild);
-  
+
   const uvlmOption = document.createElement('option');
   uvlmOption.value = '-1';
   uvlmOption.textContent = 'UVLM equilibrium';
@@ -263,7 +263,7 @@ function updateUI() {
   // Update compare list
   const compareList = $('compareList');
   compareList.innerHTML = '';
-  
+
   // UVLM reference
   const uvlmItem = document.createElement('div');
   uvlmItem.id = 'compareItem';
@@ -283,7 +283,7 @@ function updateUI() {
       if (!c.stationary) statusText += 'Force history not stationary. ';
       if (!c.loaded_gate) statusText += 'Loaded-reference failed. ';
       if (c.status.length > 2) statusText += c.status[2] || '';
-      
+
       item.innerHTML = `
         <strong style="color:#ffeb3b">${c.label}</strong>
         <span class="muted">Alpha: ${c.alpha_deg.toFixed(3)}° | Lift: ${c.lift_lbf.toFixed(2)} lbf</span>
