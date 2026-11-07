@@ -1,0 +1,77 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wing · behavior across speed</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#0c1421;color:#dce7f2;font:14px/1.5 system-ui}main{max-width:1400px;margin:auto;padding:24px}h1{margin:4px 0;font-size:28px}.muted{color:#9fb2c8}aside{border-left:4px solid#f0b44d;background:#262332;padding:12px 18px;margin:18px 0}aside p{margin:4px 0}details{margin:16px 0}li{margin:6px 0}.stat{padding:5px 10px;border-radius:5px;background:#20324b}
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:12px 0}button,select{font:inherit;padding:6px 12px;background:#20324b;color:#e8f0f8;border:1px solid#536780;border-radius:6px}button{cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid#7dd3fc}
+.panel{background:#111f31;border:1px solid#2c4059;border-radius:10px;padding:12px}
+#scene{width:100%;height:560px;display:block;touch-action:none;cursor:grab}
+.legend{display:flex;gap:12px;align-items:center}.ramp{width:180px;height:12px;background:linear-gradient(90deg,hsl(240,85%,58%),hsl(180,85%,58%),hsl(120,85%,58%),hsl(60,85%,58%),hsl(0,85%,58%))}
+#speedPanel{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+#speedControls{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+#speedSlider{width:200px}
+#speedLabel{min-width:120px;text-align:right;font-weight:bold}
+#chartPanel{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+#metricsPanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:12px}
+.metric{background:#20324b;border-radius:8px;padding:10px} .metric h3{margin:0 0 8px 0;font-size:13px;color:#7dd3fc} .metric .value{font-size:18px;font-weight:bold}
+#methodCompare{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+#compareList{max-height:200px;overflow-y:auto}
+#compareItem{background:#1a283d;border:1px solid#2c4059;border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:4px}
+#chartCanvas{width:100%;height:200px}
+@media(max-width:650px){main{padding:12px}#scene{height:420px}h1{font-size:23px}}
+</style><main>
+<p class="muted">GENERATED WING / OPENFOAM DIAGNOSTIC</p><h1>Wing behavior across speed</h1>
+<p id="meta" class="muted"></p>
+<aside><strong>Engineering viewer · not validated performance or flutter</strong><p id="scope"></p><details><summary>Assumptions and limitations</summary><ul id="limitations"></ul></details></aside>
+
+<div id="speedPanel">
+  <div class="panel" id="speedControls">
+    <label>Speed <select id="speedSelect"></select></label>
+    <label>CFD case <select id="cfdSelect"></select></label>
+    <label>Deformation scale <input id="deformScale" type="range" min="0" max="5" step="0.1" value="1" style="width:120px"></label>
+    <label>Perturbation scale <input id="perturbScale" type="range" min="0" max="5" step="0.1" value="1" style="width:120px"></label>
+    <span id="speedLabel" class="stat"></span>
+  </div>
+
+  <div class="panel" id="methodCompare">
+    <p style="margin:4px 0 8px 0;font-weight:bold">Method comparison</p>
+    <div id="compareList"></div>
+    <canvas id="chartCanvas" aria-label="Trend chart for displacement, twist, and lift"></canvas>
+  </div>
+
+  <div class="panel" id="metricsPanel">
+    <div class="metric"><h3>Tip deflection</h3><div class="value" id="metricTip"></div><p class="muted">UVLM</p></div>
+    <div class="metric"><h3>Tip twist</h3><div class="value" id="metricTwist"></div><p class="muted">UVLM</p></div>
+    <div class="metric"><h3>Lift</h3><div class="value" id="metricLift"></div><p class="muted">UVLM</p></div>
+    <div class="metric"><h3>Alpha</h3><div class="value" id="metricAlpha"></div><p class="muted">UVLM</p></div>
+  </div>
+
+  <div id="chartPanel"></div>
+</div>
+
+<div class="controls">
+  <label>View <select id="view"><option value="iso">Oblique</option><option value="span">Span</option><option value="top">Top</option><option value="tip">Tip</option></select></label>
+  <button id="reset">Reset view</button>
+</div>
+
+<canvas id="scene" aria-label="Interactive 3D wing display with deformation and perturbation"></canvas>
+
+<div class="legend"><span id="legendMin"></span><div class="ramp"></div><span id="legendMax"></span><span id="legendUnits" class="muted"></span></div>
+
+<p class="muted" style="margin-top:12px">
+  Drag to orbit · wheel to zoom · shift-drag to pan.<br>
+  Blue: undeformed wing · Cyan: UVLM deformation · Yellow: CFD-held pose · Purple: transient perturbation (60/150/250 kn only).<br>
+  Amplification labels show scale factor. Default scale = 1.0×.
+</p>
+
+<div class="panel" style="margin-top:12px">
+<p id="caseInfo" class="muted"></p>
+</div>
+
+<p class="muted" style="margin-top:16px">
+  View 20 speeds from 60 to 250 knots. UVLM provides full sweep. CFD provides fixed-pose snapshots at select speeds with stationarity/load-balance diagnostics.<br>
+  Cheap UVLM sweep indicates trends; expensive CFD earns value by resolving decision-relevant uncertainty, not by cost alone.
+</p>
+</main>
+
+<script id="behavior-data" type="application/json">__BEHAVIOR_DATA__</script>
+<script>__BEHAVIOR_SCRIPT__</script></html>
