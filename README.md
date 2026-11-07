@@ -67,6 +67,18 @@ damping, flutter, or a full-cycle response, and torsion is not represented. No f
 prediction or flight capability has been demonstrated. See GitHub for independent review
 and acceptance state.
 
+## Wing behavior viewer
+
+View offline analysis results of wing behavior across speed:
+
+```bash
+python3 scripts/build_behavior_viewer.py --original PATH_TO_ORIGINAL_RUNS --latest PATH_TO_LATEST_RUNS --output runs/behavior-preview
+```
+
+Open `runs/behavior-preview/index.html` in a browser. See the [behavior viewer documentation](docs/BEHAVIOR_VIEWER.md) for usage and interpretation guidance.
+
+This viewer displays UVLM equilibrium solutions across 20 speeds (60–250 kn) with optional CFD fixed-pose snapshots for comparison. It shows structural deformation, tip displacement, twist, lift, and transient perturbation responses.
+
 GitHub issues are authoritative for work status. Plans describe intended behavior,
 not completed capability. Private aircraft evidence stays private; a later public
 demonstration must use separately selected shareable inputs.
