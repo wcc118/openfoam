@@ -1,8 +1,6 @@
 # Wing behavior viewer
 
-This viewer provides an engineering tool to understand wing behavior across the 60–250 kn speed range using UVLM equilibrium solutions and CFD fixed-pose snapshots.
-
-## Quick start
+The offline viewer connects the original-stiffness 60–250 kn UVLM sweep to all eleven retained CFD diagnostic records. It includes unqualified results with their limitations visible.
 
 ```bash
 python3 scripts/build_behavior_viewer.py \
@@ -11,119 +9,29 @@ python3 scripts/build_behavior_viewer.py \
   --output runs/behavior-preview
 ```
 
-Open `runs/behavior-preview/index.html` in a browser.
+Open `runs/behavior-preview/index.html` directly. This single approximately 27 MB file contains all its data and can be copied to a work PC without OpenFOAM, a server or network access. Raw inputs and generated results remain outside Git. The builder also emits `data.json` and `provenance.json` for audit.
 
-## Navigation and controls
+## Reading the viewer
 
-### Speed selection
+Select any of the twenty speeds. The large wing view overlays gray undeformed geometry, blue UVLM equilibrium and orange **held CFD pose**. Toggle the overlays to inspect them separately. Drag to rotate, shift-drag to pan, scroll to zoom, or use the 3D/span/plan/reset buttons. The long, narrow wing has its actual geometric aspect ratio; magnification changes displacement, not wing dimensions. Colors identify methods, not pressure.
 
-- **Speed dropdown**: Select from 20 speeds (60–250 kn in 10-kn steps)
-- **Speed slider**: Interactive slider for quick speed changes
-- **Current speed display**: Shows Mach number alongside knot value
+Both displacement scales default to 1×. Static magnification applies to all three components of modal displacement. The metrics always show actual tip deflection in inches, tip chord rotation in degrees (positive trailing edge up), angle and full-wing lift in lbf. Separate trend charts show bending, twist and angle across all speeds. Selecting speed is not an acceleration simulation.
 
-### Method selection
+CFD exists only at 60, 150 and 250 kn. The 60 kn cases have different pose and/or angle from the UVLM point, so their lift differences are not a matched-method error. The 150/250 kn cases match pose and angle but fail load balance. The displayed CFD shape is held during the force calculation, not a CFD-predicted equilibrium. Residual balance corrections are diagnostics and are never applied as shape deformation. A stationary force history and a passed historical balance gate do not resolve numerical sensitivity or establish physical accuracy.
 
-- **UVLM equilibrium**: Full 20-mode equilibrium solution for the selected speed
-- **CFD fixed-pose**: Available CFD snapshots with held geometry and angle of attack
+Recorded first-bending releases are available only at 60, 150 and 250 kn. Enable the purple overlay, scrub time or play. Playback interpolates recorded modal samples for display, stops at the recorded end and never synthesizes a continuation. Playback rate (physical seconds per wall second) and perturbation magnification are independent. The response chart shows actual tip perturbation in inches versus physical seconds; the CFD force chart uses steady iteration, not time. Neither is an actual-wing experiment.
 
-### Deformation scales
+Runtime details preserve each task's scope: UVLM equilibrium timing is not a complete sweep/dynamics timing, and CFD runs are different workloads. No speedup or accuracy ranking is inferred. Source hashes, axes, normalization, assumptions and every CFD record remain accessible in the evidence section.
 
-- **Deformation scale**: Amplifies structural deformation (modal response) from the UVLM/CFD solution
-- **Perturbation scale**: Amplifies transient perturbation (only available at 60/150/250 kn)
+## Engineering limits
 
-### Camera controls
+This is a clamped original-stiffness, symmetric, linear unprestressed shell with zero assumed structural damping and a constant 30 lbf full-wing lift target. UVLM uses an incompressible aligned fixed-wake surrogate, without viscous boundary-layer or separation modeling. The structural surface is sampled for display and is not a CFD volume mesh. CFD numerical sensitivity remains unresolved; CFD stability is unassessed. No modal-test or wind-tunnel correlation is supplied, so physical accuracy is unknown. Agreement is a consistency check, not validation.
 
-- **Drag**: Orbit the wing
-- **Shift-drag**: Pan the view
-- **Wheel**: Zoom in/out
-- **View dropdown**: Reset (isometric), Top, Side, Tip views
+## Verification
 
-## Display elements
+```bash
+python3 -m unittest discover -s tests -p test_behavior_viewer.py
+node tests/behavior_browser.mjs runs/behavior-preview runs/behavior-browser-audit
+```
 
-### Wing visualization
-
-- **Blue**: Undeformed geometry (reference shape)
-- **Cyan**: UVLM equilibrium deformation (deformation scale applies)
-- **Yellow**: CFD held-pose (if selected, deformation scale applies)
-- **Purple**: Transient perturbation (if available and perturbation scale > 0)
-
-### Metrics panel
-
-- **Tip deflection**: Mean vertical displacement of tip nodes (inches, relative to undeformed)
-- **Tip twist**: Trailing edge rotation relative to undeformed chord (degrees, positive TE-up)
-- **Lift**: Wind-axis lift force (lbf)
-- **Alpha**: Angle of attack (degrees)
-
-### Trend chart
-
-- **Cyan line**: Tip deflection across all speeds
-- **Orange line**: Twist across all speeds
-- **Green line**: Lift across all speeds
-
-## Method comparison
-
-### UVLM
-
-- **Source**: Incompressible VLM with aligned fixed straight wake
-- **Speeds**: Full sweep 60–250 kn
-- **Limitations**: No separation model, no viscous boundary layer
-
-### CFD
-
-- **Source**: OpenFOAM steady solver with fixed-pose assumption
-- **Speeds**: Select snapshots only (not full sweep)
-- **Limitations**: Numerical sensitivity unresolved; qualification pending
-
-## CFD case diagnostics
-
-Each CFD case displays:
-
-- **Stationarity**: Force history stationary gate status
-- **Loaded gate**: Loaded-reference gate status
-- **Numerical sensitivity**: Settings sensitivity unresolved
-- **Lift error**: Deviation from 30 lbf target
-- **Balance correction**: Residual structural balance diagnostic
-- **Pose match**: Whether CFD pose matches UVLM equilibrium
-
-## Transient playback
-
-Available only at 60, 150, and 250 kn:
-
-- **Label**: Recorded UVLM small first-bending release about loaded equilibrium
-- **Playback**: Original sample sequence, no interpolation
-- **Perturbation**: 20-mode UVLM surrogate response
-- **Limitations**: Zero assumed structural damping; no CFD motion or physical validation
-
-## Scale interpretation
-
-- **Deformation scale = 1**: True structural displacement (not exaggerated)
-- **Deformation scale > 1**: Exaggerated for visibility
-- **Perturbation scale = 1**: True transient perturbation
-
-## Known limitations
-
-1. **Clamped linear unprestressed shell**: Not whole-aircraft trim
-2. **UVLM**: Incompressible with aligned fixed straight wake; no separation model
-3. **CFD**: Fixed-pose results remain diagnostic; long coupled dynamics held pending numerical qualification
-4. **No modal-test or wind-tunnel validation linked here**: Agreement is not experimental accuracy
-5. **No pressure-field colors**: Surface colors identify methods, not flow features
-
-## Interpretation guidance
-
-- **Cheap UVLM sweep**: Indicates trends and where to inspect
-- **Expensive CFD**: Earns value by resolving decision-relevant uncertainty, not by cost alone
-- **Disagreement**: Useful evidence—stay visible; don't assume one method is correct
-- **Stationarity**: CFD cases with failed stationarity/load-gates remain visible for diagnostic inspection
-
-## Data provenance
-
-See `runs/behavior-preview/provenance.json` for:
-- Native SHA256 hash
-- Source file hashes
-- Scope/limitations applied
-
-## Browser requirements
-
-- Modern browser with Canvas API
-- No external dependencies or network access required
-- Offline capable after initial load
+Browser verification requires Node with global WebSocket and Google Chrome at `/usr/bin/google-chrome`. It blocks HTTP(S), exercises all speeds/cases, checks rendered modal-coordinate reconstruction and scaled recorded motion against the embedded source arrays, verifies missing-data states, captures desktop/mobile screenshots, and fails on runtime exceptions or external requests. This checks implementation consistency, not physical truth. The separate issue-50 native-NPZ audit checked mirrored normalization, metrics and recorded samples against original inputs.

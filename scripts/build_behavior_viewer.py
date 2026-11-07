@@ -1,6 +1,7 @@
 """Build an offline wing-behavior viewer from retained issue45 evidence."""
 import argparse
 import json
+import re
 from pathlib import Path
 from behavior_viewer.data import load_evidence
 
@@ -13,7 +14,8 @@ def build(original, latest, output):
     payload=json.dumps(data,allow_nan=False,separators=(',',':')).replace('<','\\u003c').replace('>','\\u003e').replace('&','\\u0026')
     template=(assets/'viewer.html').read_text()
     if template.count('__BEHAVIOR_DATA__')!=1 or template.count('__BEHAVIOR_SCRIPT__')!=1:raise ValueError('Invalid template placeholders')
-    document=template.replace('__BEHAVIOR_DATA__',payload).replace('__BEHAVIOR_SCRIPT__',(assets/'viewer.js').read_text())
+    replacements={'__BEHAVIOR_DATA__':payload,'__BEHAVIOR_SCRIPT__':(assets/'viewer.js').read_text()}
+    document=re.sub('__BEHAVIOR_DATA__|__BEHAVIOR_SCRIPT__',lambda match: replacements[match[0]],template)
     (output/'index.html').write_text(document)
     (output/'data.json').write_text(json.dumps(data,allow_nan=False,separators=(',',':')))
     (output/'provenance.json').write_text(json.dumps({'native_sha256':data['native_sha256'],'sources':data['sources'],'scope':data['limits']},indent=2))
